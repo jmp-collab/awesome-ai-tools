@@ -3,6 +3,8 @@
 > A curated list of Artificial Intelligence Top Tools
 >
 > Feel free to contribute and also submit your AI tools on [altern.ai](https://altern.ai/?utm_source=awesomeaitools) for free
+>
+> 🇩🇪 **[Deutsche Version: KI-Tools auf Deutsch](README.de.md)**, mit Praxis-Deep-Dives von [PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de)
 
 Welcome to Awesome AI Tools! Dive into my curated list of AI list, featuring top generative ai tools and LLMs. Eager to contribute or feature your product? Send a PR to this repo—it's free! Join my growing AI list of products and stay on the edge of innovation.
 
