@@ -126,7 +126,8 @@
     var ans = {}, stepIdx = 0;
     var qEl = $(".finder-q", finder), optsEl = $(".opts", finder), dots = $(".dots", finder), back = $(".back", finder), res = $(".finder-result", finder), stepLbl = $(".steplbl", finder);
     function icon(id) { return '<svg class="ico"><use href="#i-' + id + '"/></svg>'; }
-    function fav(url) { try { var h = new URL(url).hostname; return '<img loading="lazy" alt="" src="https://icons.duckduckgo.com/ip3/' + h + '.ico">'; } catch (e) { return ""; } }
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+    function fav(url) { try { var h = new URL(url).hostname; return '<img loading="lazy" alt="" src="https://icons.duckduckgo.com/ip3/' + esc(h) + '.ico">'; } catch (e) { return ""; } }
     function render() {
       var step = F.questions[stepIdx];
       res.classList.add("hidden"); qEl.classList.remove("hidden"); optsEl.classList.remove("hidden");
@@ -151,23 +152,23 @@
       list = list.filter(function (n, i) { return list.indexOf(n) === i; });
       var cards = list.map(function (n) {
         var t = TOOLS[n]; if (!t) return "";
-        return '<a href="' + t.u + '" target="_blank" rel="noopener">' + fav(t.u) + '<span><b>' + n + (t.eu ? ' <span class="badge eu">EU</span>' : "") + '</b><small>' + t.d + '</small></span></a>';
+        return '<a href="' + esc(t.u) + '" target="_blank" rel="noopener">' + fav(t.u) + '<span><b>' + esc(n) + (t.eu ? ' <span class="badge eu">EU</span>' : "") + '</b><small>' + esc(t.d) + '</small></span></a>';
       }).join("");
-      var notes = [F.notes[ans.team], ans.daten === "eu" ? F.notes.eu : ""].filter(Boolean).map(function (n) { return '<p class="note">' + n + "</p>"; }).join("");
+      var notes = [F.notes[ans.team], ans.daten === "eu" ? F.notes.eu : ""].filter(Boolean).map(function (n) { return '<p class="note">' + esc(n) + "</p>"; }).join("");
       var stackText = list.join(", ");
       res.innerHTML = '<p class="eyebrow">Dein Setup</p><h3 class="finder-q">' + list.length + ' Tools, die zu deinem Fall passen</h3>' +
         '<div class="result-tools">' + cards + "</div>" + notes +
-        '<form class="form" action="https://formsubmit.co/' + F.to + '" method="POST" style="margin-top:18px;box-shadow:none;border:1px solid var(--line)">' +
+        '<form class="form" action="https://formsubmit.co/' + esc(F.to) + '" method="POST" style="margin-top:18px;box-shadow:none;border:1px solid var(--line)">' +
         '<input type="hidden" name="_subject" value="Stack-Check (Finder) – KI-Werkstatt"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false">' +
-        '<input type="hidden" name="_next" value="' + F.next + '">' +
+        '<input type="hidden" name="_next" value="' + esc(F.next) + '">' +
         '<input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">' +
-        '<input type="hidden" name="quelle" value="Stack-Finder"><input type="hidden" name="antworten" value="' + [ans.ziel, ans.daten, ans.team].join(" / ") + '"><input type="hidden" name="vorschlag" value="' + stackText.replace(/"/g, "&quot;") + '">' +
+        '<input type="hidden" name="quelle" value="Stack-Finder"><input type="hidden" name="antworten" value="' + esc([ans.ziel, ans.daten, ans.team].join(" / ")) + '"><input type="hidden" name="vorschlag" value="' + esc(stackText) + '">' +
         '<p style="margin:0 0 4px;font:700 18px var(--font-d)">Soll Jean da noch mal drüberschauen?</p><p style="margin:0;color:#5B616B;font-size:14px">Du bekommst das Setup mit Anmerkungen zu deinem Fall per Mail. Kostenlos, ohne Pitch.</p>' +
         '<div class="row"><div><label for="f-name">Name</label><input id="f-name" name="name" required autocomplete="name"></div><div><label for="f-mail">E-Mail</label><input id="f-mail" type="email" name="email" required autocomplete="email"></div></div>' +
         '<label for="f-proj">Was baust du gerade? (optional)</label><textarea id="f-proj" name="projekt" rows="3"></textarea>' +
         '<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>' +
         '<button class="btn" type="submit">' + icon("mail") + 'Setup per Mail bekommen</button>' +
-        '<p class="hint">Oder direkt: <a href="mailto:' + F.to + '?subject=Stack-Check">' + F.to + '</a></p></form>' +
+        '<p class="hint">Oder direkt: <a href="mailto:' + esc(F.to) + '?subject=Stack-Check">' + esc(F.to) + '</a></p></form>' +
         '<p style="margin-top:14px"><button type="button" class="btn btn-sm restart">' + icon("arrow") + 'Noch mal von vorn</button></p>';
       qEl.classList.add("hidden"); optsEl.classList.add("hidden"); res.classList.remove("hidden");
       dots.innerHTML = F.questions.map(function () { return '<i class="on"></i>'; }).join(""); stepLbl.textContent = "Fertig"; back.classList.add("hidden");

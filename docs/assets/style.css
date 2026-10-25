@@ -221,8 +221,8 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent)}
 footer ul{list-style:none;padding:0;margin:0;display:grid;gap:6px}
 
 /* Reveal / Motion */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
-.reveal.in{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+html.js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}.float{transform:none!important}}
 
 /* Danke / Rechtliches */

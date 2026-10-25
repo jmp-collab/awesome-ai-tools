@@ -93,7 +93,9 @@ def plain(text):
 
 def inline(text):
     out = html.escape(text, quote=False)
-    out = re.sub(r"`([^`]+)`", r"<code>\1</code>", out)
+    # Code-Spans erst am Ende einsetzen, damit `[Name](https://url)` wörtlich bleibt
+    codes = []
+    out = re.sub(r"`([^`]+)`", lambda m: codes.append(m.group(1)) or f"\x00{len(codes) - 1}\x00", out)
     out = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", out)
     out = re.sub(r"(?<![\w*])\*([^*]+)\*(?![\w*])", r"<em>\1</em>", out)
 
@@ -107,7 +109,8 @@ def inline(text):
         attrs = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
         return f'<a href="{html.escape(href)}"{attrs}>{label}</a>'
 
-    return re.sub(r"\[([^\]]+)\]\(" + DEST + r"\)", link, out)
+    out = re.sub(r"\[([^\]]+)\]\(" + DEST + r"\)", link, out)
+    return re.sub(r"\x00(\d+)\x00", lambda m: f"<code>{codes[int(m.group(1))]}</code>", out)
 
 
 def icon(name, cls="ico"):
@@ -391,6 +394,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 <meta property="og:url" content="{canonical}"><meta property="og:image" content="{SITE_URL}og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="assets/fonts.css"><link rel="stylesheet" href="assets/style.css">
 {extra_head}
 </head>
