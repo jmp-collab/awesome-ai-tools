@@ -1,0 +1,3732 @@
+{
+ "stand": "25.10.2026",
+ "quelle": "https://github.com/jmp-collab/awesome-ai-tools",
+ "tools": [
+  {
+   "name": "ChatGPT",
+   "url": "https://chatgpt.com",
+   "beschreibung": "Der Allrounder für Text, Analyse, Bilder und Recherche.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Claude",
+   "url": "https://claude.ai/",
+   "beschreibung": "Stark bei langen Dokumenten, sauberem Schreiben und Code.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Le Chat von Mistral",
+   "url": "https://chat.mistral.ai",
+   "beschreibung": "Französischer KI-Assistent, die naheliegende EU-Alternative zu ChatGPT.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "DeepL",
+   "url": "https://www.deepl.com/translator",
+   "beschreibung": "Übersetzer aus Köln, bei Deutsch meist natürlicher als generische Chatbots.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Perplexity",
+   "url": "https://www.perplexity.ai/",
+   "beschreibung": "Antwortmaschine mit Quellenangaben für schnelle Recherche.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "NotebookLM",
+   "url": "https://notebooklm.google.com/",
+   "beschreibung": "Chattet nur mit deinen eigenen Quellen und erzeugt daraus Zusammenfassungen und Audio-Überblicke.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "n8n",
+   "url": "https://n8n.io",
+   "beschreibung": "Workflow-Automatisierung aus Berlin, selbst hostbar, mit KI-Agenten-Bausteinen.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "FLUX von Black Forest Labs",
+   "url": "https://bfl.ai",
+   "beschreibung": "Bildmodelle aus Freiburg, Spitzenklasse bei Fotorealismus und Text im Bild.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "ElevenLabs",
+   "url": "https://elevenlabs.io/",
+   "beschreibung": "Sehr realistische Stimmen, Voice Cloning und Vertonung auf Deutsch.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Cursor",
+   "url": "https://cursor.com",
+   "beschreibung": "Code-Editor mit KI-Agent, der ganze Projekte versteht und ändert.",
+   "kategorie": "Empfehlungen der Redaktion",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "OpenAI API",
+   "url": "https://platform.openai.com",
+   "beschreibung": "Zugriff auf die GPT-Modelle für eigene Anwendungen, Automatisierungen und Agenten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Anthropic API",
+   "url": "https://docs.anthropic.com",
+   "beschreibung": "Die Claude-Modelle per API, stark bei langen Kontexten, Werkzeugnutzung und Code.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Google Gemini API",
+   "url": "https://ai.google.dev",
+   "beschreibung": "Gemini-Modelle über Google AI Studio und die Gemini API, multimodal (Text, Bild, Audio, Video).",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Mistral AI",
+   "url": "https://mistral.ai",
+   "beschreibung": "Offene und kommerzielle Modelle aus Paris, per API oder selbst gehostet.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Llama",
+   "url": "https://www.llama.com",
+   "beschreibung": "Metas Familie offener Sprachmodelle zum Selbsthosten und Feintunen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "DeepSeek",
+   "url": "https://www.deepseek.com",
+   "beschreibung": "Chinesische Modellreihe mit offenen Gewichten, besonders günstig im Reasoning.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Qwen",
+   "url": "https://qwenlm.github.io",
+   "beschreibung": "Offene Modellfamilie von Alibaba, von klein bis sehr groß, stark mehrsprachig.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Bloom",
+   "url": "https://huggingface.co/docs/transformers/model_doc/bloom",
+   "beschreibung": "Offenes, mehrsprachiges Modell aus dem BigScience-Projekt von Hugging Face (46 Sprachen).",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Hugging Face",
+   "url": "https://huggingface.co",
+   "beschreibung": "Die zentrale Plattform für offene Modelle, Datensätze und Demo-Apps (Spaces).",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Aleph Alpha",
+   "url": "https://aleph-alpha.com",
+   "beschreibung": "Modelle und KI-Plattform aus Heidelberg, ausgelegt auf Behörden und Unternehmen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Jina AI",
+   "url": "https://jina.ai",
+   "beschreibung": "Embeddings, Reranker und Reader-APIs für Suche und RAG, aus Berlin.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Nebius",
+   "url": "https://nebius.com",
+   "beschreibung": "KI-Cloud mit GPU-Instanzen und Inferenz-Diensten, Sitz in Amsterdam.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Scaleway",
+   "url": "https://www.scaleway.com",
+   "beschreibung": "Französische Cloud mit GPU-Servern und Inferenz für offene Modelle.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "STACKIT",
+   "url": "https://www.stackit.de",
+   "beschreibung": "Souveräne Cloud der Schwarz-Gruppe aus Deutschland mit KI-Modell-Hosting.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Gemini",
+   "url": "https://gemini.google.com",
+   "beschreibung": "Googles Assistent, eng verzahnt mit Gmail, Docs und Drive.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Microsoft Copilot",
+   "url": "https://copilot.microsoft.com",
+   "beschreibung": "Microsofts Assistent (früher Bing Chat), integriert in Windows, Edge und Microsoft 365.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Langdock",
+   "url": "https://langdock.com",
+   "beschreibung": "KI-Plattform aus Deutschland, die Unternehmen mehrere Modelle in einer DSGVO-orientierten Oberfläche bereitstellt.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Character.AI",
+   "url": "https://character.ai/",
+   "beschreibung": "Eigene Figuren erstellen und mit ihnen chatten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatPDF",
+   "url": "https://www.chatpdf.com/",
+   "beschreibung": "PDF hochladen und Fragen dazu stellen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatSonic",
+   "url": "https://writesonic.com/chat",
+   "beschreibung": "Assistent von Writesonic für Text- und Bilderstellung.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Phind",
+   "url": "https://www.phind.com/",
+   "beschreibung": "Suchmaschine und Assistent speziell für Programmierer, auch als VS-Code-Erweiterung.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Tiledesk",
+   "url": "https://tiledesk.com/",
+   "beschreibung": "No-Code-Framework für Chatbots mit LLM-Anbindung, Open Source.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "AICamp",
+   "url": "https://aicamp.so/",
+   "beschreibung": "ChatGPT-Arbeitsbereich für Teams.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Gali Chat",
+   "url": "https://www.galichat.com/",
+   "beschreibung": "KI-Support-Assistent für Websites, rund um die Uhr.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "dmwithme",
+   "url": "https://dmwithme.com",
+   "beschreibung": "KI-Begleiter mit Emotionen, der auch widerspricht.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Kimi",
+   "url": "https://www.kimi.com",
+   "beschreibung": "Chat-Assistent von Moonshot AI mit sehr langem Kontext.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Grok",
+   "url": "https://grok.com",
+   "beschreibung": "Chat-Assistent von xAI mit Zugriff auf aktuelle Beiträge von X.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Chatbots und Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Exa",
+   "url": "https://exa.ai",
+   "beschreibung": "Semantische Suche per API (früher Metaphor), gebaut für KI-Anwendungen und Agenten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Phind",
+   "url": "https://phind.com/",
+   "beschreibung": "KI-Suche für Entwickler-Fragen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "You.com",
+   "url": "https://you.com/",
+   "beschreibung": "KI-Suchmaschine mit Fokus auf Privatsphäre und Anpassbarkeit.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Komo AI",
+   "url": "https://komo.ai/",
+   "beschreibung": "KI-Suche mit kurzen, schnellen Antworten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Telborg",
+   "url": "https://telborg.com/",
+   "beschreibung": "KI-Recherche zum Klimawandel, ausschließlich mit Daten von Regierungen, Institutionen und Unternehmen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MemFree",
+   "url": "https://github.com/memfreeme/memfree",
+   "beschreibung": "Hybride KI-Suche über Web, Lesezeichen, Notizen und Dokumente.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Refinder AI",
+   "url": "https://refinder.ai/",
+   "beschreibung": "Universelle KI-Suche über alle Arbeitswerkzeuge.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Agentset.ai",
+   "url": "https://agentset.ai/",
+   "beschreibung": "Semantische Suche und RAG für eigene Daten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "KI-Suchmaschinen",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Ollama",
+   "url": "https://ollama.com/",
+   "beschreibung": "Sprachmodelle mit einem Befehl lokal auf dem eigenen Rechner ausführen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Lokal und privat mit Dokumenten chatten",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "LM Studio",
+   "url": "https://lmstudio.ai",
+   "beschreibung": "Desktop-App, um offene Modelle lokal herunterzuladen und offline zu nutzen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Lokal und privat mit Dokumenten chatten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Open WebUI",
+   "url": "https://openwebui.com",
+   "beschreibung": "Selbst gehostete ChatGPT-ähnliche Oberfläche für lokale und API-Modelle.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Lokal und privat mit Dokumenten chatten",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "privateGPT",
+   "url": "https://github.com/imartinez/privateGPT",
+   "beschreibung": "Fragen an eigene Dokumente stellen, komplett ohne Internetverbindung.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Lokal und privat mit Dokumenten chatten",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "quivr",
+   "url": "https://github.com/StanGirard/quivr",
+   "beschreibung": "\"Zweites Gehirn\": Dateien ablegen und per LLM mit ihnen chatten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Lokal und privat mit Dokumenten chatten",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "gpt4all",
+   "url": "https://github.com/nomic-ai/gpt4all",
+   "beschreibung": "Lokaler Chat-Client für offene Modelle, läuft auch ohne GPU.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Lokal und privat mit Dokumenten chatten",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "DeepL Write",
+   "url": "https://www.deepl.com/write",
+   "beschreibung": "Verbessert Stil, Grammatik und Tonalität deutscher und englischer Texte.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "neuroflash",
+   "url": "https://neuroflash.com",
+   "beschreibung": "KI-Texter aus Hamburg, spezialisiert auf deutschsprachige Marketing-Texte.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Jasper",
+   "url": "https://www.jasper.ai/",
+   "beschreibung": "Content-Plattform für Marketing-Teams mit Markenstimme und Vorlagen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Compose AI",
+   "url": "https://www.compose.ai/",
+   "beschreibung": "Chrome-Erweiterung mit KI-Autovervollständigung beim Schreiben.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Rytr",
+   "url": "https://rytr.me/",
+   "beschreibung": "Günstiger KI-Schreibassistent für kurze und mittellange Texte.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Wordtune",
+   "url": "https://www.wordtune.com/",
+   "beschreibung": "Formuliert Sätze um, kürzt oder erweitert sie.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "HyperWrite",
+   "url": "https://hyperwriteai.com/",
+   "beschreibung": "Schreibassistent von der Idee bis zum fertigen Entwurf.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Nexus AI",
+   "url": "https://mynexusai.com/",
+   "beschreibung": "Plattform für Texte, Code, Voiceover, Recherche und Bilder.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Moonbeam",
+   "url": "https://www.gomoonbeam.com/",
+   "beschreibung": "Längere Blogartikel in einem Bruchteil der Zeit.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Copy.ai",
+   "url": "https://www.copy.ai/",
+   "beschreibung": "Marketing-Texte und GTM-Workflows mit KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Anyword",
+   "url": "https://anyword.com/",
+   "beschreibung": "Werbetexte mit Performance-Vorhersage.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Contenda",
+   "url": "https://contenda.co/",
+   "beschreibung": "Macht aus vorhandenem Content (Videos, Talks) neue Formate.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Hypotenuse AI",
+   "url": "https://www.hypotenuse.ai/",
+   "beschreibung": "Aus wenigen Keywords Artikel, Produktbeschreibungen und Social-Posts; stark im E-Commerce.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Lavender",
+   "url": "https://www.lavender.ai/",
+   "beschreibung": "E-Mail-Coach für mehr Antworten auf Vertriebsmails.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Lex",
+   "url": "https://lex.page/",
+   "beschreibung": "Textverarbeitung mit eingebauter KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Jenni",
+   "url": "https://jenni.ai/",
+   "beschreibung": "Schreibassistent für wissenschaftliche Texte mit Zitaten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "LAIKA",
+   "url": "https://www.writewithlaika.com/",
+   "beschreibung": "Trainiert eine KI auf deinen eigenen Schreibstil, für kreatives Schreiben.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "QuillBot",
+   "url": "https://quillbot.com",
+   "beschreibung": "Paraphrasieren, Zusammenfassen und Grammatikprüfung.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Postwise",
+   "url": "https://postwise.ai/",
+   "beschreibung": "Posts für X/Twitter schreiben und planen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "RapidTextAI",
+   "url": "https://app.rapidtextai.com/",
+   "beschreibung": "Artikel mit mehreren Modellen (GPT, Gemini, DeepSeek, Grok) erstellen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Copysmith",
+   "url": "https://copysmith.ai/",
+   "beschreibung": "Content-Erstellung für Unternehmen und E-Commerce.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Yomu",
+   "url": "https://www.yomu.ai",
+   "beschreibung": "Schreibassistent für Studierende und Forschende.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Quick Creator",
+   "url": "https://quickcreator.io",
+   "beschreibung": "SEO-optimierte Blog-Plattform mit KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Trolly.ai",
+   "url": "https://trolly.ai/",
+   "beschreibung": "SEO-Artikel schneller erstellen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PulsePost",
+   "url": "https://pulsepost.io/",
+   "beschreibung": "KI-Autor, der direkt auf die eigene Website veröffentlicht.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Shy Editor",
+   "url": "https://www.shyeditor.com",
+   "beschreibung": "Moderne KI-Schreibumgebung für Prosa aller Art.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Headlinesai.pro",
+   "url": "https://www.headlinesai.pro/",
+   "beschreibung": "Klickstarke Überschriften für YouTube, Medium, Reddit und mehr.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GPTLocalhost",
+   "url": "https://gptlocalhost.com/demo/",
+   "beschreibung": "Word-Add-in, das lokale LLMs in Microsoft Word nutzt, Alternative zu Copilot in Word.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Schreibassistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "X-doc AI",
+   "url": "https://x-doc.ai/",
+   "beschreibung": "KI-Übersetzer für Dokumente mit Erhalt des Layouts.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Übersetzung und Lokalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "HeyGen",
+   "url": "https://www.heygen.com",
+   "beschreibung": "Übersetzt Videos mit Lippensynchronisation.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Übersetzung und Lokalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Lengoo",
+   "url": "https://www.lengoo.com",
+   "beschreibung": "KI-Übersetzung mit menschlicher Nachbearbeitung für Unternehmen, aus Berlin.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Übersetzung und Lokalisierung",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Unbabel",
+   "url": "https://www.unbabel.com",
+   "beschreibung": "Übersetzungsplattform aus Lissabon, KI plus Community-Lektorat.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Übersetzung und Lokalisierung",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Merlin",
+   "url": "https://merlin.foyer.work/",
+   "beschreibung": "KI-Assistent auf jeder Website, per Tastenkürzel.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Gist AI",
+   "url": "https://www.gistai.tech",
+   "beschreibung": "Kostenlose Zusammenfassungen für Websites, YouTube und PDFs.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "WebChatGPT",
+   "url": "https://chrome.google.com/webstore/detail/webchatgpt-chatgpt-with-i/lpfemeioodjbpieminkklglpmhlngfcn",
+   "beschreibung": "Ergänzt ChatGPT-Prompts um aktuelle Web-Ergebnisse.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GPT for Sheets and Docs",
+   "url": "https://workspace.google.com/marketplace/app/gpt_for_sheets_and_docs/677318054654",
+   "beschreibung": "KI-Funktionen direkt in Google Sheets und Docs, ideal für Massen-Texte in Tabellen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "YouTube Summary with ChatGPT",
+   "url": "https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli",
+   "beschreibung": "Fasst YouTube-Videos zusammen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatGPT Prompt Genius",
+   "url": "https://chrome.google.com/webstore/detail/chatgpt-prompt-genius/jjdnakkfjnnbbckhifcfchagnpofjffo",
+   "beschreibung": "Prompts entdecken, teilen und Chat-Verlauf lokal speichern.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatGPT for Search Engines",
+   "url": "https://chrome.google.com/webstore/detail/chatgpt-for-search-engine/feeonheemodpkdckaljcjogdncpiiban",
+   "beschreibung": "Zeigt KI-Antworten neben Google-, Bing- und DuckDuckGo-Ergebnissen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ShareGPT",
+   "url": "https://sharegpt.com/",
+   "beschreibung": "ChatGPT-Unterhaltungen teilen und entdecken.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatGPT Writer",
+   "url": "https://chatgptwriter.ai/",
+   "beschreibung": "Komplette E-Mails und Nachrichten per KI schreiben.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatGPT for Jupyter",
+   "url": "https://github.com/TiesdeKok/chat-gpt-jupyter-extension",
+   "beschreibung": "KI-Hilfsfunktionen in Jupyter Notebook und Jupyter Lab.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "editGPT",
+   "url": "https://www.editgpt.app/",
+   "beschreibung": "Korrekturlesen mit Änderungsverfolgung in ChatGPT.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Chatbot UI",
+   "url": "https://github.com/mckaywrigley/chatbot-ui",
+   "beschreibung": "Open-Source-Oberfläche für ChatGPT und andere Modelle.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Forefront",
+   "url": "https://www.forefront.ai/",
+   "beschreibung": "Alternative Oberfläche für Chat-Modelle.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Character for GPT",
+   "url": "https://chromewebstore.google.com/detail/ai-character-for-gpt/daoeioifimkjegafelcaljboknjkkohh",
+   "beschreibung": "Rollen für ChatGPT und andere Bots per Klick, für bessere Antworten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Browser-Erweiterungen und Add-ons",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Notion AI",
+   "url": "https://www.notion.so/product/ai",
+   "beschreibung": "Schreiben, Zusammenfassen und Fragen an den eigenen Notion-Workspace.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Napkin",
+   "url": "https://www.napkin.ai/",
+   "beschreibung": "Verwandelt Text in Diagramme und Grafiken.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Gamma",
+   "url": "https://gamma.app/",
+   "beschreibung": "Präsentationen, Dokumente und Webseiten aus einem Prompt.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Mem",
+   "url": "https://mem.ai/",
+   "beschreibung": "Notiz-App, die sich selbst organisiert.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Taskade",
+   "url": "https://www.taskade.com/",
+   "beschreibung": "Aufgaben, Teamarbeit und KI-Agenten in einem Workspace.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Nekton AI",
+   "url": "https://nekton.ai",
+   "beschreibung": "Workflows in Alltagssprache beschreiben und automatisieren.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Elephas",
+   "url": "https://elephas.app/",
+   "beschreibung": "Persönlicher KI-Schreibassistent für den Mac.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Google Sheets Formula Generator",
+   "url": "https://bettersheets.co/google-sheets-formula-generator",
+   "beschreibung": "Formeln für Google Sheets aus Text erzeugen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "CreateEasily",
+   "url": "https://createeasily.com/",
+   "beschreibung": "Kostenlose Transkription von Audio- und Videodateien bis 2 GB.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Cosmos",
+   "url": "https://meetcosmos.com/",
+   "beschreibung": "Lokale, offline KI-Suche in eigenen Fotos und Videos.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "aiPDF",
+   "url": "https://aipdf.ai",
+   "beschreibung": "KI-Dokumentenassistent für PDFs.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Summary With AI",
+   "url": "https://www.summarywithai.com/",
+   "beschreibung": "Fasst lange PDFs über alle Seiten hinweg zusammen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Emilio",
+   "url": "https://getemil.io",
+   "beschreibung": "Priorisiert und automatisiert E-Mails.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Pieces",
+   "url": "https://pieces.app/",
+   "beschreibung": "On-Device-Copilot für Entwickler, der Code-Schnipsel und Kontext speichert.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Huntr AI Resume Builder",
+   "url": "https://huntr.co/product/ai-resume-builder/",
+   "beschreibung": "ATS-freundliche Lebensläufe mit KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Chat With PDF by Copilot.us",
+   "url": "https://copilot.us/apps/chat-with-pdf",
+   "beschreibung": "Mit mehreren PDFs gleichzeitig chatten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Recall",
+   "url": "https://www.getrecall.ai/",
+   "beschreibung": "Fasst Artikel, Videos und Podcasts zusammen und baut eine Wissensbasis.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Talently AI",
+   "url": "https://interview.talently.ai/",
+   "beschreibung": "KI-Interviewer für Bewerbungsgespräche mit Echtzeit-Bewertung.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AnkiDecks AI",
+   "url": "https://anki-decks.com",
+   "beschreibung": "Lernkarten aus Dateien oder Text erzeugen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI for Google Slides",
+   "url": "https://www.aiforgoogleslides.com/",
+   "beschreibung": "Präsentationen für Google Slides mit KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "FARSITE",
+   "url": "https://far.site/",
+   "beschreibung": "Compliance-Software für US-Regierungsauftragnehmer.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "BrainSoup",
+   "url": "https://www.nurgo-software.com/products/brainsoup",
+   "beschreibung": "Multi-Agenten-Client für mehrere LLMs mit Gedächtnis und Werkzeugen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MindPal",
+   "url": "https://mindpal.space/",
+   "beschreibung": "\"Zweites Gehirn\" mit einem Team aus KI-Agenten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "fabric",
+   "url": "https://github.com/danielmiessler/fabric/",
+   "beschreibung": "KI im Terminal mit einer Bibliothek bewährter Prompt-Muster.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "SlidesWizard",
+   "url": "https://slideswizard.io",
+   "beschreibung": "PowerPoint- und Google-Slides-Präsentationen zu jedem Thema.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Transgate",
+   "url": "https://transgate.ai/",
+   "beschreibung": "Sprache-zu-Text mit KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "RabbitHoles AI",
+   "url": "https://www.rabbitholes.ai/",
+   "beschreibung": "Chat mit KI auf einer unendlichen Leinwand.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Rember",
+   "url": "https://www.rember.com/",
+   "beschreibung": "Spaced-Repetition-System zum besseren Merken.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Qurate",
+   "url": "https://qurate.appcradle.net/",
+   "beschreibung": "Findet passende Zitate zum Kontext.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "FirmOS",
+   "url": "https://www.firmos.ai/",
+   "beschreibung": "Automatisierung für Steuer- und Buchhaltungskanzleien.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Whisper API",
+   "url": "https://whisper-api.com",
+   "beschreibung": "Transkriptions-API auf Basis von OpenAI Whisper, 5 kostenlose Transkriptionen pro Tag.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Smmry",
+   "url": "https://smmry.com/",
+   "beschreibung": "Fasst lange Inhalte in klare Kernaussagen zusammen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Nudge AI",
+   "url": "https://getnudgeai.com/",
+   "beschreibung": "KI-Dokumentationsassistent für das Gesundheitswesen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Summara",
+   "url": "https://summara.io/",
+   "beschreibung": "Widget für YouTube-Zusammenfassungen und Transkripte.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Marblism",
+   "url": "https://marblism.com",
+   "beschreibung": "KI-\"Mitarbeiter\" für kleine Unternehmen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Spell",
+   "url": "https://spellapp.com",
+   "beschreibung": "KI-Alternative zu Google Docs.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Kosmik",
+   "url": "https://www.kosmik.app",
+   "beschreibung": "KI-Moodboards und visuelle Recherche.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Magic Potion",
+   "url": "https://www.magicpotion.app",
+   "beschreibung": "Visueller Prompt-Editor.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MinusX",
+   "url": "https://minusx.ai/",
+   "beschreibung": "KI-Analyst, der Datenfragen in Metabase beantwortet.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Excelmatic",
+   "url": "https://excelmatic.ai",
+   "beschreibung": "Excel-Daten per Chat analysieren und visualisieren, ohne Formeln.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Langfa.st",
+   "url": "https://langfa.st/",
+   "beschreibung": "Spielwiese ohne Anmeldung zum Testen und Teilen von Prompt-Vorlagen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "SalesAgent Chat",
+   "url": "https://www.salesagent.chat",
+   "beschreibung": "KI-Vertriebscoach mit Echtzeit-Unterstützung.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Produktivität",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "tl;dv",
+   "url": "https://tldv.io",
+   "beschreibung": "Zeichnet Zoom, Teams und Google Meet auf, transkribiert und fasst zusammen, auch auf Deutsch.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Fireflies.ai",
+   "url": "https://fireflies.ai",
+   "beschreibung": "Meeting-Notizen, Transkripte und Suche über alle Calls.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Otter.ai",
+   "url": "https://otter.ai/",
+   "beschreibung": "Nimmt Meetings auf, schreibt mit und fasst zusammen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MeetGeek",
+   "url": "https://meetgeek.ai/",
+   "beschreibung": "Nimmt Meetings auf, transkribiert und liefert Kernpunkte.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Cogram",
+   "url": "https://www.cogram.com/",
+   "beschreibung": "Automatische Notizen und Aufgaben aus virtuellen Meetings.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Sybill",
+   "url": "https://www.sybill.ai/",
+   "beschreibung": "Fasst Vertriebsgespräche zusammen, inklusive Pain Points und nächsten Schritten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Scribbl",
+   "url": "https://www.scribbl.co",
+   "beschreibung": "KI-Meeting-Notizen für Google Meet.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Meeting-Assistenten",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Elicit",
+   "url": "https://elicit.com",
+   "beschreibung": "Automatisiert Teile der Literaturrecherche.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Consensus",
+   "url": "https://consensus.app/search/",
+   "beschreibung": "Suchmaschine, die Antworten aus wissenschaftlichen Studien liefert.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "SciSpace",
+   "url": "https://scispace.com/",
+   "beschreibung": "Chat mit wissenschaftlichen PDFs.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "genei",
+   "url": "https://www.genei.io/",
+   "beschreibung": "Fasst Fachartikel in Sekunden zusammen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Explainpaper",
+   "url": "https://www.explainpaper.com/",
+   "beschreibung": "Unverständliche Stellen in Papers markieren und erklären lassen.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Sourcely",
+   "url": "https://www.sourcely.net/",
+   "beschreibung": "Findet passende Quellen und Zitate für wissenschaftliche Arbeiten.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Mathos AI",
+   "url": "https://www.mathgptpro.com/",
+   "beschreibung": "KI-Mathe-Löser und Tutor.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Wissenschaft und Recherche",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "SiteGPT",
+   "url": "https://sitegpt.ai/",
+   "beschreibung": "Trainiert einen Support-Bot auf die eigene Website.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GPTHelp.ai",
+   "url": "https://gpthelp.ai/",
+   "beschreibung": "KI-Chatbot für den Website-Support.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "SiteSpeakAI",
+   "url": "https://sitespeak.ai",
+   "beschreibung": "Automatisiert den Kundenservice mit KI.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Dear AI",
+   "url": "https://www.dearai.online",
+   "beschreibung": "Chatbot für Kundenservice und Vertrieb.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Inline Help",
+   "url": "https://inlinehelp.com",
+   "beschreibung": "Beantwortet Kundenfragen, bevor sie gestellt werden.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Aidbase",
+   "url": "https://www.aidbase.ai",
+   "beschreibung": "KI-Support für SaaS-Startups.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Twig",
+   "url": "https://www.twig.so/",
+   "beschreibung": "Löst Kundenanfragen sofort, für Kunden und Support-Teams.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "EmailTriager",
+   "url": "https://www.emailtriager.com/",
+   "beschreibung": "Entwirft E-Mail-Antworten automatisch im Hintergrund.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Parloa",
+   "url": "https://www.parloa.com",
+   "beschreibung": "KI-Agenten für Telefon und Chat im Kundenservice, aus Berlin.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Cognigy",
+   "url": "https://www.cognigy.com",
+   "beschreibung": "Agenten-Plattform für Contact Center, aus Düsseldorf.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Rasa",
+   "url": "https://www.rasa.com",
+   "beschreibung": "Framework für eigene Chat- und Sprachassistenten, aus Berlin.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Kundenservice",
+   "eu": true,
+   "open_source": true
+  },
+  {
+   "name": "Make",
+   "url": "https://www.make.com",
+   "beschreibung": "Visuelle Automatisierungsplattform aus Prag mit Tausenden App-Anbindungen.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Zapier",
+   "url": "https://zapier.com",
+   "beschreibung": "Verbindet Tausende Apps per Automatisierung, inklusive KI-Schritten und Agenten.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MindStudio",
+   "url": "https://mindstudio.ai/",
+   "beschreibung": "KI-Agenten ohne Code bauen, mit über 100 Vorlagen.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI-Flow",
+   "url": "https://ai-flow.net/",
+   "beschreibung": "Mehrere KI-Modelle visuell miteinander verbinden.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Shotstack Workflows",
+   "url": "https://shotstack.io/product/workflows/",
+   "beschreibung": "No-Code-Automatisierung für KI-Medienproduktion.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Hyperbrowser",
+   "url": "https://hyperbrowser.ai/",
+   "beschreibung": "Browser-Infrastruktur für KI-Agenten mit Proxys und Session-Aufzeichnung.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Notte",
+   "url": "https://github.com/nottelabs/notte",
+   "beschreibung": "Framework für Agenten, die den Browser bedienen.",
+   "kategorie": "Automatisierung und KI-Agenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "LangChain",
+   "url": "https://langchain.com/",
+   "beschreibung": "Framework für Anwendungen und Agenten auf Basis von Sprachmodellen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "LlamaIndex",
+   "url": "https://www.llamaindex.ai/",
+   "beschreibung": "Daten-Framework für LLM-Anwendungen mit eigenen Daten (RAG).",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Haystack",
+   "url": "https://haystack.deepset.ai/",
+   "beschreibung": "Framework aus Berlin für Agenten, semantische Suche und Frage-Antwort-Systeme.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": true,
+   "open_source": true
+  },
+  {
+   "name": "Cohere",
+   "url": "https://cohere.com/",
+   "beschreibung": "Sprachmodelle und Embeddings für Unternehmen, stark bei Suche und Reranking.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Langfuse",
+   "url": "https://langfuse.com/",
+   "beschreibung": "LLM-Engineering-Plattform aus Berlin zum Debuggen, Tracen und Bewerten.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": true,
+   "open_source": true
+  },
+  {
+   "name": "Keploy",
+   "url": "https://keploy.io/",
+   "beschreibung": "Wandelt echten Nutzer-Traffic in Testfälle und Datenstubs um.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Portia AI",
+   "url": "https://www.portialabs.ai/",
+   "beschreibung": "Agenten-Framework, bei dem Agenten ihre geplanten Schritte offenlegen und unterbrechbar bleiben.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "LMQL",
+   "url": "https://lmql.ai/",
+   "beschreibung": "Abfragesprache für Sprachmodelle.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Phoenix",
+   "url": "https://phoenix.arize.com/",
+   "beschreibung": "Observability für LLM- und ML-Modelle im Notebook.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Prediction Guard",
+   "url": "https://www.predictionguard.com/",
+   "beschreibung": "Private, kontrollierte und compliance-konforme LLM-Nutzung.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Portkey",
+   "url": "https://portkey.ai/",
+   "beschreibung": "LLMOps-Plattform zum Überwachen, Steuern und Verbessern von LLM-Apps.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "OpenAI Downtime Monitor",
+   "url": "https://status.portkey.ai/",
+   "beschreibung": "Kostenloses Monitoring von Verfügbarkeit und Latenz verschiedener LLM-Anbieter.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatWithCloud",
+   "url": "https://chatwithcloud.ai/",
+   "beschreibung": "AWS per natürlicher Sprache im Terminal steuern.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "SinglebaseCloud",
+   "url": "https://singlebase.cloud",
+   "beschreibung": "Backend mit Vektor-DB, Dokument-DB und Auth für KI-Apps.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Maxim AI",
+   "url": "https://www.getmaxim.ai/",
+   "beschreibung": "Evaluation und Observability für generative KI.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Wordware",
+   "url": "https://www.wordware.ai",
+   "beschreibung": "Web-IDE, in der Fachleute und KI-Entwickler gemeinsam Agenten bauen; Prompting als Programmiersprache.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Hexabot",
+   "url": "https://hexabot.ai",
+   "beschreibung": "No-Code-Baukasten für mehrsprachige Chatbots und Agenten.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "AI/ML API",
+   "url": "https://aimlapi.com/",
+   "beschreibung": "Über 100 KI-Modelle über eine einzige API.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Opik",
+   "url": "https://www.comet.com/site/products/opik/",
+   "beschreibung": "Testen, Bewerten und Überwachen von LLM-Anwendungen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Kiln",
+   "url": "https://getkiln.ai",
+   "beschreibung": "Eigene Modelle bauen: synthetische Daten, Feintuning und Datensatz-Pflege ohne Code.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Calmo",
+   "url": "https://getcalmo.com/",
+   "beschreibung": "Produktionsfehler mit KI schneller debuggen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Cleanlab",
+   "url": "https://help.cleanlab.ai/tlm/",
+   "beschreibung": "Erkennt und behebt Halluzinationen in LLM-Anwendungen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Amazon Q Developer CLI",
+   "url": "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line.html",
+   "beschreibung": "Befehlsvervollständigung, Übersetzung von Absicht in Befehle und Agenten-Chat im Terminal.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Agentic Radar",
+   "url": "https://github.com/splx-ai/agentic-radar",
+   "beschreibung": "Sicherheits-Scanner für agentische Workflows.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "VoltAgent",
+   "url": "https://github.com/voltagent/voltagent",
+   "beschreibung": "TypeScript-Framework für KI-Agenten mit Werkzeugen und Gedächtnis.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "TensorZero",
+   "url": "https://www.tensorzero.com/",
+   "beschreibung": "LLM-Gateway, Observability, Optimierung und Evaluation in einem Framework.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "ToolHive",
+   "url": "https://github.com/stacklok/toolhive",
+   "beschreibung": "Passende MCP-Server finden und per Klick bereitstellen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "AgentDock",
+   "url": "https://agentdock.ai",
+   "beschreibung": "Ein API-Schlüssel für alle Dienste, die ein Agent braucht.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Codeflash",
+   "url": "https://www.codeflash.ai/",
+   "beschreibung": "Optimiert Python-Code automatisch auf Geschwindigkeit.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Agenta",
+   "url": "https://agenta.ai/",
+   "beschreibung": "Prompt-Management, Evaluation und Observability.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Pagerly",
+   "url": "https://www.pagerly.io",
+   "beschreibung": "Operations-Copilot für Slack und Teams, unterstützt die Rufbereitschaft beim Debuggen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Harbor",
+   "url": "https://github.com/av/harbor",
+   "beschreibung": "LLM-Backends, APIs und Oberflächen mit einem Befehl starten.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Petals",
+   "url": "https://github.com/bigscience-workshop/petals",
+   "beschreibung": "Große Modelle verteilt im BitTorrent-Stil ausführen.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Context Data",
+   "url": "https://contextdata.ai/",
+   "beschreibung": "Datenaufbereitung und ETL für generative KI.",
+   "kategorie": "Entwickler-Tools und LLMOps",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Claude Code",
+   "url": "https://www.anthropic.com/claude-code",
+   "beschreibung": "Agentisches Coding-Tool von Anthropic für Terminal, IDE und Web.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GitHub Copilot",
+   "url": "https://github.com/features/copilot",
+   "beschreibung": "Code-Vorschläge, Chat und Coding-Agent direkt im Editor und auf GitHub.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Windsurf",
+   "url": "https://www.windsurf.com",
+   "beschreibung": "KI-Code-Editor mit agentischem Assistenten.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Lovable",
+   "url": "https://lovable.dev",
+   "beschreibung": "Web-Apps per Chat bauen, aus Stockholm.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Bolt.new",
+   "url": "https://bolt.new",
+   "beschreibung": "Full-Stack-Web-Apps im Browser aus einem Prompt.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "v0",
+   "url": "https://v0.app",
+   "beschreibung": "Erzeugt UI und Web-Apps mit React und Next.js aus Text.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Kilo Code",
+   "url": "https://kilocode.ai",
+   "beschreibung": "Open-Source-Coding-Assistent in VS Code zum Planen, Bauen und Fixen.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Amazon Q Developer",
+   "url": "https://aws.amazon.com/q/developer/",
+   "beschreibung": "KI-Coding-Assistent für VS Code und IntelliJ mit Chat und Agenten-Workflows.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Tabnine",
+   "url": "https://www.tabnine.com/",
+   "beschreibung": "Code-Vervollständigung, auch als private On-Premise-Variante.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Replit",
+   "url": "https://replit.com",
+   "beschreibung": "Browser-IDE mit KI-Agent, der Apps baut und bereitstellt.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GoCodeo",
+   "url": "https://www.gocodeo.com/",
+   "beschreibung": "KI-Agent für Code und Tests.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "CodeRabbit",
+   "url": "https://coderabbit.ai/",
+   "beschreibung": "Automatische KI-Code-Reviews für Pull Requests.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PR-Agent",
+   "url": "https://github.com/Codium-ai/pr-agent",
+   "beschreibung": "Automatische PR-Analyse, Feedback und Vorschläge.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Gito",
+   "url": "https://github.com/Nayjest/Gito",
+   "beschreibung": "KI-Code-Reviewer für GitHub Actions oder lokal, mit jedem LLM nutzbar.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "CodiumAI / Qodo",
+   "url": "https://www.codium.ai/",
+   "beschreibung": "Schlägt sinnvolle Tests direkt in der IDE vor.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Mintlify",
+   "url": "https://mintlify.com/",
+   "beschreibung": "KI-gestützte Dokumentation für Entwickler.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Stenography",
+   "url": "https://stenography.dev/",
+   "beschreibung": "Automatische Code-Dokumentation.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI2sql",
+   "url": "https://www.ai2sql.io/",
+   "beschreibung": "SQL-Abfragen aus natürlicher Sprache.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "poorcoder",
+   "url": "https://github.com/vgrichina/poorcoder",
+   "beschreibung": "Bash-Skripte, die das Terminal mit Web-Assistenten wie Claude oder Grok verbinden.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "TurboPilot",
+   "url": "https://github.com/ravenscroftj/turbopilot",
+   "beschreibung": "Selbst gehosteter Copilot-Klon, der mit 4 GB RAM läuft.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "GPT-Code UI",
+   "url": "https://github.com/ricklamers/gpt-code-ui",
+   "beschreibung": "Open-Source-Nachbau des ChatGPT Code Interpreter.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "MetaGPT",
+   "url": "https://github.com/geekan/MetaGPT",
+   "beschreibung": "Multi-Agenten-Framework: aus einer Anforderung werden PRD, Design, Aufgaben und Code.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Plandex",
+   "url": "https://github.com/plandex-ai/plandex",
+   "beschreibung": "Terminal-basierte KI-Programmierumgebung für komplexe Aufgaben.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "MutahunterAI",
+   "url": "https://github.com/codeintegrity-ai/mutahunter",
+   "beschreibung": "Mutationstests mit KI für bessere Testabdeckung.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "AI Kernel Explorer",
+   "url": "https://github.com/mathiscode/ai-kernel-explorer",
+   "beschreibung": "Linux-Kernel-Quellcode mit KI-Zusammenfassungen erkunden.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "WhoDB",
+   "url": "https://github.com/clidey/whodb",
+   "beschreibung": "Datenbank-Explorer für SQL, NoSQL, Graph und Cache mit KI-Chat.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "DataPup",
+   "url": "https://github.com/DataPupOrg/DataPup",
+   "beschreibung": "Datenbank-Client mit KI-Unterstützung für Abfragen.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "FlexApp",
+   "url": "https://flexapp.ai/",
+   "beschreibung": "Mobile Apps mit KI bauen, ohne Code.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Capacity",
+   "url": "https://capacity.so",
+   "beschreibung": "Aus Ideen in Minuten funktionierende Web-Apps.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Runcell",
+   "url": "https://runcell.dev",
+   "beschreibung": "KI-Agent für Jupyter Lab, der Code schreibt, ausführt und Ergebnisse analysiert.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Manifest",
+   "url": "https://github.com/mnfst/manifest",
+   "beschreibung": "Backend-Alternative zu Supabase für KI-Code-Editoren und Vibe Coding.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Code to Flow",
+   "url": "https://codetoflow.com",
+   "beschreibung": "Macht aus Code interaktive Flussdiagramme.",
+   "kategorie": "Programmieren mit KI",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Midjourney",
+   "url": "https://www.midjourney.com/",
+   "beschreibung": "Bildgenerator mit markantem, künstlerischem Stil.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Stable Diffusion",
+   "url": "https://huggingface.co/CompVis/stable-diffusion-v1-4",
+   "beschreibung": "Offenes Text-zu-Bild-Modell von Stability AI, lokal ausführbar.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Imagen",
+   "url": "https://imagen.research.google/",
+   "beschreibung": "Googles Text-zu-Bild-Modell mit hohem Fotorealismus.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Ideogram",
+   "url": "https://ideogram.ai",
+   "beschreibung": "Bildgenerator, der besonders gut lesbare Schrift in Bildern erzeugt.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Adobe Firefly",
+   "url": "https://firefly.adobe.com",
+   "beschreibung": "Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "DALL·E",
+   "url": "https://openai.com/dall-e-2/",
+   "beschreibung": "Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Make-A-Scene",
+   "url": "https://ai.facebook.com/blog/greater-creative-control-for-ai-image-generation/",
+   "beschreibung": "Metas Forschungsansatz, der Text und Skizze kombiniert.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "DragGAN",
+   "url": "https://github.com/XingangPan/DragGAN",
+   "beschreibung": "Bilder per Punkt-Ziehen interaktiv verformen.",
+   "kategorie": "Bilder",
+   "bereich": "Bildmodelle",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Canva",
+   "url": "https://www.canva.com/ai-image-generator/",
+   "beschreibung": "KI-Bilder direkt in der Design-Plattform erzeugen und bearbeiten.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Leonardo.ai",
+   "url": "https://leonardo.ai",
+   "beschreibung": "Bildgenerator mit vielen Stil-Modellen, beliebt für Game-Assets und Marketing.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "KREA",
+   "url": "https://www.krea.ai/",
+   "beschreibung": "Echtzeit-Bildgenerierung, Upscaling und Video in einer Oberfläche.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PhotoRoom",
+   "url": "https://www.photoroom.com/",
+   "beschreibung": "Produktfotos per Smartphone: Hintergrund entfernen und ersetzen, aus Paris.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "ClipDrop",
+   "url": "https://clipdrop.co/",
+   "beschreibung": "Professionelle Visuals ohne Fotostudio: freistellen, retuschieren, erweitern.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Magic Eraser",
+   "url": "https://www.magiceraser.io/",
+   "beschreibung": "Störende Objekte in Sekunden aus Bildern entfernen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Craiyon",
+   "url": "https://www.craiyon.com/",
+   "beschreibung": "Kostenloser Bildgenerator (früher DALL-E mini).",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "DreamStudio",
+   "url": "https://beta.dreamstudio.ai/",
+   "beschreibung": "Einfache Oberfläche für Stable Diffusion.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Artbreeder",
+   "url": "https://www.artbreeder.com/",
+   "beschreibung": "Bilder mischen und gemeinsam weiterentwickeln.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GauGAN2",
+   "url": "http://gaugan.org/gaugan2/",
+   "beschreibung": "Fotorealistische Landschaften aus Wörtern und Skizzen (NVIDIA).",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Magic Studio",
+   "url": "https://magicstudio.com/imagine",
+   "beschreibung": "Bilder aus einer Beschreibung erzeugen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Patience.ai",
+   "url": "https://www.patience.ai/",
+   "beschreibung": "App für Bilder mit Stable Diffusion.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GenShare",
+   "url": "https://www.genshare.io/",
+   "beschreibung": "Kostenlos Kunst generieren und teilen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Playground AI",
+   "url": "https://playgroundai.com/",
+   "beschreibung": "Kostenloser Bildgenerator für Social Posts, Poster und Logos.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Pixelz AI Art Generator",
+   "url": "https://pixelz.ai/",
+   "beschreibung": "Kunst aus Text mit mehreren Algorithmen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PhotoGuruAI",
+   "url": "https://photoguruai.com/",
+   "beschreibung": "Professionelle KI-Bewerbungsfotos in vielen Stilen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Avatar AI",
+   "url": "https://avatarai.me/",
+   "beschreibung": "Eigene KI-Avatare erstellen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "RunDiffusion",
+   "url": "https://rundiffusion.com/",
+   "beschreibung": "Cloud-Arbeitsplatz für KI-Kunst.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Human Generator",
+   "url": "https://generated.photos/human-generator",
+   "beschreibung": "Realistische Fotos von Menschen, die es nicht gibt.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "VectorArt.ai",
+   "url": "https://vectorart.ai",
+   "beschreibung": "Vektorgrafiken mit KI erzeugen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Room Reinvented",
+   "url": "https://roomreinvented.com",
+   "beschreibung": "Raumfoto hochladen und über 30 Einrichtungsstile ausprobieren.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Gensbot",
+   "url": "https://gensbot.com",
+   "beschreibung": "Personalisiertes Merchandise aus einem Prompt.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PlantPhotoAI",
+   "url": "https://www.plantphotoai.com/",
+   "beschreibung": "Kostenlose KI-Pflanzenbilder.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Black Headshots",
+   "url": "https://www.blackheadshots.com",
+   "beschreibung": "KI-Bewerbungsfotos für Schwarze Berufstätige.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "iColoring",
+   "url": "https://icoloring.ai",
+   "beschreibung": "Kostenlose Ausmalbilder mit KI.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Suit me Up",
+   "url": "https://suitmeup.pictures/",
+   "beschreibung": "Fotos von dir im Anzug erzeugen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Photo Forge",
+   "url": "https://aiphotoforge.com/",
+   "beschreibung": "Telegram-Bot für KI-Fotos von dir.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Boost",
+   "url": "https://boost.pictures/",
+   "beschreibung": "All-in-one: Upscaling, Face Swap, Avatare, virtuelle Anprobe, Hintergründe.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PlantTattoosAI",
+   "url": "https://www.planttattoosai.com/",
+   "beschreibung": "Tattoo-Designs mit Pflanzen und Blumen.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Recraft",
+   "url": "https://www.recraft.ai",
+   "beschreibung": "Bildgenerator mit Stil-Kontrolle, erzeugt auch Vektorgrafiken.",
+   "kategorie": "Bilder",
+   "bereich": "Bild-Dienste",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Microsoft Designer",
+   "url": "https://designer.microsoft.com/",
+   "beschreibung": "Designs für Social Media und Einladungen in Sekunden.",
+   "kategorie": "Bilder",
+   "bereich": "Grafikdesign",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Canva",
+   "url": "https://www.canva.com/",
+   "beschreibung": "Design-Plattform mit KI-Funktionen zum Erzeugen und Bearbeiten.",
+   "kategorie": "Bilder",
+   "bereich": "Grafikdesign",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Brandmark",
+   "url": "https://brandmark.io/",
+   "beschreibung": "Logo-Design mit KI.",
+   "kategorie": "Bilder",
+   "bereich": "Grafikdesign",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Text2Infographic",
+   "url": "https://text2infographic.com/",
+   "beschreibung": "Infografiken aus Text generieren und bearbeiten.",
+   "kategorie": "Bilder",
+   "bereich": "Grafikdesign",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Seede.ai",
+   "url": "https://seede.ai/",
+   "beschreibung": "Poster in einer Minute.",
+   "kategorie": "Bilder",
+   "bereich": "Grafikdesign",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Magic Patterns",
+   "url": "https://www.magicpatterns.com/",
+   "beschreibung": "UI-Entwürfe mit Figma-Export und React-Code.",
+   "kategorie": "Bilder",
+   "bereich": "Grafikdesign",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "OpenArt",
+   "url": "https://openart.ai/",
+   "beschreibung": "Über 10 Millionen Prompts durchsuchen und selbst generieren.",
+   "kategorie": "Bilder",
+   "bereich": "Bildarchive und Prompt-Sammlungen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Libraire",
+   "url": "https://libraire.ai/",
+   "beschreibung": "Große Bibliothek KI-generierter Bilder.",
+   "kategorie": "Bilder",
+   "bereich": "Bildarchive und Prompt-Sammlungen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Phygital",
+   "url": "https://app.phygital.plus/",
+   "beschreibung": "Vorlagen zum Erzeugen und Bearbeiten von Bildern.",
+   "kategorie": "Bilder",
+   "bereich": "Bildarchive und Prompt-Sammlungen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PublicPrompts",
+   "url": "https://publicprompts.art/",
+   "beschreibung": "Kostenlose Prompts für Stable Diffusion.",
+   "kategorie": "Bilder",
+   "bereich": "Bildarchive und Prompt-Sammlungen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Civitai",
+   "url": "https://civitai.com/",
+   "beschreibung": "Community-Plattform für Bildmodelle und LoRAs.",
+   "kategorie": "Bilder",
+   "bereich": "Modell-Bibliotheken und Stable-Diffusion-Ressourcen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Stable Diffusion Models",
+   "url": "https://rentry.org/sdmodels",
+   "beschreibung": "Umfangreiche Liste von Stable-Diffusion-Checkpoints.",
+   "kategorie": "Bilder",
+   "bereich": "Modell-Bibliotheken und Stable-Diffusion-Ressourcen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Stable Horde",
+   "url": "https://stablehorde.net/",
+   "beschreibung": "Verteiltes Community-Cluster für Stable Diffusion.",
+   "kategorie": "Bilder",
+   "bereich": "Modell-Bibliotheken und Stable-Diffusion-Ressourcen",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Hugging Face Diffusion Models Course",
+   "url": "https://github.com/huggingface/diffusion-models-class",
+   "beschreibung": "Kostenloser Kurs zu Diffusionsmodellen in Python.",
+   "kategorie": "Bilder",
+   "bereich": "Modell-Bibliotheken und Stable-Diffusion-Ressourcen",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Google Veo",
+   "url": "https://deepmind.google/models/veo/",
+   "beschreibung": "Googles Videomodell für realistische Clips mit Ton.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Sora",
+   "url": "https://openai.com/sora",
+   "beschreibung": "Videomodell von OpenAI für Clips aus Text und Bild.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Kling AI",
+   "url": "https://app.klingai.com/global/",
+   "beschreibung": "Bild- und Videogenerierung mit sehr flüssiger Bewegung.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "RunwayML",
+   "url": "https://runwayml.com/",
+   "beschreibung": "Kreativ-Suite für KI-Video, Bearbeitung und Effekte.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Luma Dream Machine",
+   "url": "https://lumalabs.ai",
+   "beschreibung": "Videos aus Text und Bildern mit realistischer Physik.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Pika",
+   "url": "https://pika.art",
+   "beschreibung": "Kurze, verspielte KI-Videos und Effekte.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Synthesia",
+   "url": "https://www.synthesia.io/",
+   "beschreibung": "Videos mit KI-Sprechern aus reinem Text, über 100 Sprachen inklusive Deutsch.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "D-ID",
+   "url": "https://www.d-id.com/",
+   "beschreibung": "Sprechende, interaktive Avatare per Klick.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Descript",
+   "url": "https://www.descript.com",
+   "beschreibung": "Videos und Podcasts bearbeiten wie ein Textdokument.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Opus Clip",
+   "url": "https://www.opus.pro",
+   "beschreibung": "Schneidet lange Videos automatisch in virale Shorts.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Clipwing",
+   "url": "https://clipwing.pro/",
+   "beschreibung": "Zerlegt lange Videos in Dutzende kurze Clips.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Recast Studio",
+   "url": "https://recast.studio",
+   "beschreibung": "KI-Assistent für Podcast-Marketing.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Based AI",
+   "url": "https://www.basedlabs.ai/",
+   "beschreibung": "Intuitive Oberfläche für KI-Videos.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Sisif",
+   "url": "https://sisif.ai/",
+   "beschreibung": "Aus Text in Sekunden ein Video.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Melies",
+   "url": "https://melies.co",
+   "beschreibung": "Software für KI-Filmproduktion.",
+   "kategorie": "Video",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Murf AI",
+   "url": "https://murf.ai/",
+   "beschreibung": "Einfache Plattform für hochwertige Voiceover, beliebt im Marketing.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Descript Overdub",
+   "url": "https://www.descript.com/overdub",
+   "beschreibung": "Voice Cloning direkt im Schnitt- und Transkriptionswerkzeug von Descript.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Respeecher",
+   "url": "https://www.respeecher.com/",
+   "beschreibung": "Professionelles Voice Cloning für Film und Fernsehen.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Resemble AI",
+   "url": "https://www.resemble.ai/",
+   "beschreibung": "Echtzeit-Sprachsynthese und Voice Cloning mit vielen Anpassungen.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "WellSaid Labs",
+   "url": "https://www.wellsaidlabs.com/",
+   "beschreibung": "Natürliche Sprecherstimmen für E-Learning und Unternehmensvideos.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "iSpeech",
+   "url": "https://www.ispeech.org/",
+   "beschreibung": "Sprachsynthese in vielen Sprachen für Unternehmensanwendungen.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Microsoft Azure Neural TTS",
+   "url": "https://azure.microsoft.com/en-us/services/cognitive-services/text-to-speech/",
+   "beschreibung": "Skalierbare Sprachsynthese für Unternehmensanwendungen.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Zenmic.com",
+   "url": "https://zenmic.com",
+   "beschreibung": "Erzeugt Podcast-Folgen (Skript und Audio) mit KI.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Audify AI",
+   "url": "https://audify-ai.ahmedtokyo.com",
+   "beschreibung": "Sprachsynthese mit anpassbaren Stimmen und Anweisungen.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "TTS WebUI",
+   "url": "https://github.com/rsxdalv/tts-generation-webui",
+   "beschreibung": "Oberfläche für über 15 Sprach- und Musikmodelle.",
+   "kategorie": "Audio",
+   "bereich": "Stimmen und Voice Cloning",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "TorToiSe",
+   "url": "https://github.com/neonbjb/tortoise-tts",
+   "beschreibung": "Text-zu-Sprache mit mehreren Stimmen und Fokus auf Qualität.",
+   "kategorie": "Audio",
+   "bereich": "Sprache zu Text und Text zu Sprache",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "Bark",
+   "url": "https://github.com/suno-ai/bark",
+   "beschreibung": "Transformer-Modell für Text zu Audio.",
+   "kategorie": "Audio",
+   "bereich": "Sprache zu Text und Text zu Sprache",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "CustomPod.io",
+   "url": "https://custompod.io",
+   "beschreibung": "Tägliche News-Podcasts nur zu deinen Themen.",
+   "kategorie": "Audio",
+   "bereich": "Sprache zu Text und Text zu Sprache",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "EKHOS AI",
+   "url": "https://ekhos.ai",
+   "beschreibung": "Transkription mit Korrekturfunktionen und Echtzeit-Aufnahme.",
+   "kategorie": "Audio",
+   "bereich": "Sprache zu Text und Text zu Sprache",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Suno",
+   "url": "https://suno.com",
+   "beschreibung": "Komplette Songs mit Gesang aus einem Prompt, auch auf Deutsch.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Udio",
+   "url": "https://www.udio.com",
+   "beschreibung": "Songs und Instrumentals in hoher Klangqualität generieren.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AIVA",
+   "url": "https://www.aiva.ai",
+   "beschreibung": "KI-Komponist für klassische und cineastische Musik.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Mubert",
+   "url": "https://www.mubert.com",
+   "beschreibung": "Lizenzfreie, generative Musik in Echtzeit für Creator und Marken.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Soundraw",
+   "url": "https://soundraw.io",
+   "beschreibung": "Musik nach Stimmung und Stil anpassen.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Beatoven.ai",
+   "url": "https://www.beatoven.ai",
+   "beschreibung": "Hintergrundmusik, die gezielt Emotionen erzeugt.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Boomy",
+   "url": "https://www.boomy.com",
+   "beschreibung": "Schnell Songs erstellen und veröffentlichen.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Ecrett Music",
+   "url": "https://www.ecrettmusic.com",
+   "beschreibung": "Lizenzfreie Musik für Videos.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Loudly",
+   "url": "https://www.loudly.com",
+   "beschreibung": "KI-Musik mit Community-Funktionen.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Soundful",
+   "url": "https://www.soundful.com",
+   "beschreibung": "Hochwertige, lizenzfreie Musik für Content Creator.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Song Maker",
+   "url": "https://www.aisongmaker.io",
+   "beschreibung": "Songs mit KI erstellen.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Harmonai",
+   "url": "https://www.harmonai.org/",
+   "beschreibung": "Community für Open-Source-Audiowerkzeuge.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MusicLM",
+   "url": "https://google-research.github.io/seanet/musiclm/examples/",
+   "beschreibung": "Googles Forschungsmodell für Musik aus Text.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Remusic",
+   "url": "https://remusic.ai/en",
+   "beschreibung": "Kostenloser Musikgenerator und Lernplattform.",
+   "kategorie": "Audio",
+   "bereich": "Musik",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Semrush",
+   "url": "https://www.semrush.com",
+   "beschreibung": "SEO-Suite für Keywords, Wettbewerber und Site-Audits, mit KI-Funktionen und Sichtbarkeits-Tracking in KI-Suchen.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "SEO und Content-Optimierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Ahrefs",
+   "url": "https://www.ahrefs.com",
+   "beschreibung": "SEO-Suite mit großem Backlink-Index und KI-Content-Werkzeugen.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "SEO und Content-Optimierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Surfer",
+   "url": "https://surferseo.com",
+   "beschreibung": "Optimiert Texte datenbasiert auf Suchintention und Konkurrenz.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "SEO und Content-Optimierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Frase",
+   "url": "https://frase.io",
+   "beschreibung": "SEO-Briefings und Content-Optimierung aus den Top-Suchergebnissen.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "SEO und Content-Optimierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "MarketMuse",
+   "url": "https://www.marketmuse.com/",
+   "beschreibung": "Themen-Planung und Content-Optimierung mit KI.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "SEO und Content-Optimierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Luthor",
+   "url": "https://luthor.ai/",
+   "beschreibung": "Programmatisches Content-Marketing in großem Umfang.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "SEO und Content-Optimierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Mutiny",
+   "url": "https://www.mutinyhq.com/",
+   "beschreibung": "Personalisiert Websites mit KI für mehr Conversions.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Clearbit",
+   "url": "https://clearbit.com/",
+   "beschreibung": "Lead-Anreicherung und Firmendaten (heute Teil von HubSpot).",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Seventh Sense",
+   "url": "https://www.theseventhsense.com/",
+   "beschreibung": "Optimiert den Versandzeitpunkt von E-Mails.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Smartly.io",
+   "url": "https://www.smartly.io/",
+   "beschreibung": "Automatisiert Erstellung und Optimierung von Social Ads, aus Helsinki.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "Adzooma",
+   "url": "https://www.adzooma.com/",
+   "beschreibung": "KI-gestützte Verwaltung von PPC-Kampagnen.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Phrasee",
+   "url": "https://www.phrasee.co/",
+   "beschreibung": "Optimierte Marketing-Texte für E-Mail, Push und Social.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Brandwatch",
+   "url": "https://www.brandwatch.com",
+   "beschreibung": "Social Listening und Sentiment-Analyse (inklusive des früheren Crimson Hexagon).",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Chatfuel",
+   "url": "https://www.chatfuel.com/",
+   "beschreibung": "Chatbots für Messenger, Instagram und WhatsApp.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "LogicBalls",
+   "url": "https://logicballs.com/",
+   "beschreibung": "KI-Schreibwerkzeug für jede Art von Content.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Rupert AI",
+   "url": "https://www.getrupert.com/",
+   "beschreibung": "KI-Werkzeuge für Designer und Marketer.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Publish7",
+   "url": "https://publish7.com/",
+   "beschreibung": "KI-Agenten für digitales Marketing im Handel und E-Commerce.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Keyla.AI",
+   "url": "https://keyla.ai/",
+   "beschreibung": "Video-Anzeigen in Minuten.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Persuva",
+   "url": "https://persuva.ai",
+   "beschreibung": "Überzeugende, konversionsstarke Anzeigentexte in großem Umfang.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Taplio",
+   "url": "https://taplio.com/",
+   "beschreibung": "All-in-one-Tool für LinkedIn mit KI.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Socialsonic",
+   "url": "https://socialsonic.com",
+   "beschreibung": "LinkedIn-Coach: Content, Trends und Planung.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Podify.io",
+   "url": "https://podify.io",
+   "beschreibung": "Wachstum auf LinkedIn mit KI und Community.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PressPulse AI",
+   "url": "https://www.presspulse.ai/",
+   "beschreibung": "Jeden Morgen passende Medien-Anfragen für PR.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GummySearch",
+   "url": "https://gummysearch.com/",
+   "beschreibung": "Kundenrecherche auf Reddit: Probleme, Stimmungen und Kaufinteresse finden.",
+   "kategorie": "Marketing und SEO",
+   "bereich": "Werbung, Social und Personalisierung",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AICaller.io",
+   "url": "https://aicaller.io/",
+   "beschreibung": "Automatisierte Massenanrufe mit generativer KI, etwa für Lead-Qualifizierung, mit API.",
+   "kategorie": "KI-Telefonagenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "DialLink AI Voice Agents",
+   "url": "https://diallink.com/",
+   "beschreibung": "Sprachagenten für Geschäftsanrufe und Routineaufgaben.",
+   "kategorie": "KI-Telefonagenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Cald.ai",
+   "url": "https://cald.ai",
+   "beschreibung": "KI-Anrufagenten für ein- und ausgehende Telefonate.",
+   "kategorie": "KI-Telefonagenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Rosie",
+   "url": "https://heyrosie.com/",
+   "beschreibung": "KI-Telefonservice, der Anrufe entgegennimmt.",
+   "kategorie": "KI-Telefonagenten",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PromptBase",
+   "url": "https://promptbase.com/",
+   "beschreibung": "Marktplatz zum Kaufen und Verkaufen von Prompts.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Promptly",
+   "url": "https://searchpromptly.com/",
+   "beschreibung": "Prompts entdecken, erstellen und teilen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Myriad",
+   "url": "https://www.namepepper.com/free-tools/ai-content-prompt-tool",
+   "beschreibung": "Prompts für alle Content-Arten bauen und verfeinern.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Have I Been Trained?",
+   "url": "https://haveibeentrained.com/",
+   "beschreibung": "Prüfen, ob eigene Bilder zum Training von KI-Modellen verwendet wurden.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "This Image Does Not Exist",
+   "url": "https://thisimagedoesnotexist.com/",
+   "beschreibung": "Teste, ob du KI-Bilder von echten unterscheiden kannst.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Taranify",
+   "url": "https://www.taranify.com",
+   "beschreibung": "Findet Spotify-Playlists, Serien, Bücher und Essen nach deinem Geschmack.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Dungeon",
+   "url": "https://aidungeon.io/",
+   "beschreibung": "Textadventure, das die KI live weitererzählt.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Scale Spellbook",
+   "url": "https://scale.com/spellbook",
+   "beschreibung": "LLM-Apps bauen, vergleichen und bereitstellen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Scenario",
+   "url": "https://www.scenario.com/",
+   "beschreibung": "KI-generierte Assets für Spiele.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Teleprompter",
+   "url": "https://github.com/danielgross/teleprompter",
+   "beschreibung": "Lokale KI, die in Meetings zuhört und Formulierungen vorschlägt.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": true
+  },
+  {
+   "name": "FinChat",
+   "url": "https://finchat.io/",
+   "beschreibung": "Beantwortet Fragen zu börsennotierten Unternehmen und Investoren.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "FairyTailAI",
+   "url": "https://fairytailai.com/",
+   "beschreibung": "Personalisierte Gute-Nacht-Geschichten.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "GradGPT",
+   "url": "https://www.gradgpt.com/",
+   "beschreibung": "Hilfe bei Uni-Bewerbungen: Essays, Anforderungen, Hochschulsuche.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Architecture Helper",
+   "url": "https://architecturehelper.com",
+   "beschreibung": "Architekturstile analysieren und eigene erzeugen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Wedding Toast",
+   "url": "https://aiweddingtoast.com",
+   "beschreibung": "Persönliche Hochzeitsrede mit KI.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Interviews Chat",
+   "url": "https://www.interviews.chat/",
+   "beschreibung": "Vorbereitung und Copilot für Vorstellungsgespräche.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ezJobs",
+   "url": "https://www.getezjobs.com/",
+   "beschreibung": "Automatisierte Jobsuche und Bewerbung.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Compass",
+   "url": "https://www.getwhys.io/compass",
+   "beschreibung": "KI-Antworten auf SaaS-Recherchefragen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Interview Solver",
+   "url": "https://interviewsolver.com",
+   "beschreibung": "KI-Copilot für Live-Coding-Interviews.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI Watermark Remover",
+   "url": "https://aiwatermarkremover.io/",
+   "beschreibung": "Wasserzeichen aus Bildern und Videos entfernen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AISaver",
+   "url": "https://aisaver.io",
+   "beschreibung": "Sammlung von KI-Video- und Fototools.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "LangMagic",
+   "url": "https://easytolearn.io",
+   "beschreibung": "Sprachen mit Inhalten von Muttersprachlern lernen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "fynk",
+   "url": "https://fynk.com/",
+   "beschreibung": "KI-gestütztes Vertragsmanagement aus Österreich.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": true,
+   "open_source": false
+  },
+  {
+   "name": "LooksMax AI",
+   "url": "https://looksmax.ai",
+   "beschreibung": "Bewertet Fotos von dir per KI.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ResumeDive",
+   "url": "https://resumedive.com",
+   "beschreibung": "Lebenslauf-Optimierung mit KI.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Bricks",
+   "url": "https://www.thebricks.com/",
+   "beschreibung": "Tabellenkalkulation mit eingebauter KI.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Daruy",
+   "url": "https://daruy.space/",
+   "beschreibung": "Personalisierte Geschenkideen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "NVIDIA Omniverse AI Animal Explorer",
+   "url": "https://docs.omniverse.nvidia.com/extensions/latest/ext_animal-explorer.html#installation",
+   "beschreibung": "Omniverse-Erweiterung für schnelle 3D-Tier-Prototypen.",
+   "kategorie": "Weitere KI-Tools",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PROMPTGOTT",
+   "url": "https://promptgott.substack.com/?utm_source=github-pages&utm_medium=referral&utm_campaign=awesome-ki-tools-de",
+   "beschreibung": "Deutschsprachiger Substack mit abgefahrenen AI-Use-Cases, Prompt-Engineering-Tricks und AI-SEO-Systemen. Einstieg: Der Greyhat-Eid.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Learn Prompting",
+   "url": "https://learnprompting.org/",
+   "beschreibung": "Kostenloser Open-Source-Kurs zur Kommunikation mit KI.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Prompt Engineering Guide",
+   "url": "https://github.com/dair-ai/Prompt-Engineering-Guide",
+   "beschreibung": "Leitfaden und Ressourcen zum Prompt Engineering.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "ChatGPT Prompt Engineering for Developers",
+   "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+   "beschreibung": "Kurzkurs von Isa Fulford (OpenAI) und Andrew Ng (DeepLearning.AI).",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "OpenAI Cookbook",
+   "url": "https://github.com/openai/openai-cookbook",
+   "beschreibung": "Beispiele und Anleitungen zur OpenAI API.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Robert Miles AI Safety",
+   "url": "https://www.youtube.com/@RobertMilesAI",
+   "beschreibung": "YouTube-Kanal über KI-Sicherheit.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Machine Learning Roadmap",
+   "url": "https://github.com/mrdbourke/machine-learning-roadmap",
+   "beschreibung": "Landkarte der wichtigsten ML-Konzepte, mit Lernwegen und Werkzeugen.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Machine Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Andrew Ngs Machine Learning (Stanford)",
+   "url": "https://www.coursera.org/learn/machine-learning",
+   "beschreibung": "Einsteigerfreundlicher Grundlagenkurs.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Machine Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Sebastian Thruns Intro to Machine Learning",
+   "url": "https://www.udacity.com/course/intro-to-machine-learning--ud120",
+   "beschreibung": "Solide Einführung von einem der Pioniere autonomen Fahrens.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Machine Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI and Machine Learning Roadmaps",
+   "url": "https://www.scaler.com/blog/category/artificial-intelligence-machine-learning/",
+   "beschreibung": "Lernpfade mit Konzepten, Methoden und Werkzeugen.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Machine Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "How To Learn Artificial Intelligence",
+   "url": "https://www.appliedaicourse.com/blog/how-to-learn-artificial-intelligence-ai/",
+   "beschreibung": "Schritt-für-Schritt-Anleitung von Python und Mathe bis Deep Learning.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Machine Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "fast.ai",
+   "url": "https://www.fast.ai/",
+   "beschreibung": "Praxisnahe, kostenlose Deep-Learning-Kurse von Jeremy Howard.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Deep Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Coursera Deep Learning Specialization (Notizen)",
+   "url": "https://github.com/pratham5368/coursera-deep-learning-specialization",
+   "beschreibung": "Notizen, Aufgaben und Quizze zur Spezialisierung von deeplearning.ai.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Deep Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "PyTorch-Notizen",
+   "url": "https://github.com/pratham5368/Tecnologies-I-Learn/tree/main/31-pytorch",
+   "beschreibung": "PyTorch-Grundlagen mit Beispielen in Google Colab.",
+   "kategorie": "Lernen: Prompting und KI-Grundlagen",
+   "bereich": "Deep Learning",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome AI Tools (Original, Englisch)",
+   "url": "https://github.com/mahseema/awesome-ai-tools",
+   "beschreibung": "Die Grundlage dieser Liste.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Altern",
+   "url": "https://altern.ai",
+   "beschreibung": "Verzeichnis für KI-Tools.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI For Developers",
+   "url": "https://aifordevelopers.org",
+   "beschreibung": "Liste von KI-Entwicklerwerkzeugen.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Best of AI",
+   "url": "https://github.com/best-of-ai/best-of-ai",
+   "beschreibung": "Eine Art Michelin-Führer für KI.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome AI Models",
+   "url": "https://github.com/dariubs/awesome-ai-models",
+   "beschreibung": "Kuratierte Liste von KI-Modellen und LLMs.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome AI Coding Tools",
+   "url": "https://github.com/ai-for-developers/awesome-ai-coding-tools",
+   "beschreibung": "KI-Werkzeuge für Entwickler.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome Vibe Coding",
+   "url": "https://github.com/dariubs/awesome-vibe-coding",
+   "beschreibung": "Werkzeuge und Ressourcen für Vibe Coding.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome AI Books",
+   "url": "https://github.com/mahseema/aibooks",
+   "beschreibung": "Bücher zu KI und Machine Learning.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "AI for Productivity",
+   "url": "https://productivity.directory/category/ai",
+   "beschreibung": "KI-Apps für Produktivität.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome Workflow Automation",
+   "url": "https://github.com/dariubs/awesome-workflow-automation",
+   "beschreibung": "Werkzeuge für Workflow-Automatisierung.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Awesome Marketing",
+   "url": "https://github.com/marketingtoolslist/awesome-marketing",
+   "beschreibung": "Marketing-Werkzeuge.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  },
+  {
+   "name": "Top AI Directories",
+   "url": "https://github.com/best-of-ai/ai-directories",
+   "beschreibung": "Verzeichnisse, in die man KI-Tools eintragen kann.",
+   "kategorie": "Verwandte Listen",
+   "bereich": "",
+   "eu": false,
+   "open_source": false
+  }
+ ]
+}
