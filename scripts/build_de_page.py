@@ -13,7 +13,10 @@ README.de.md bleibt die einzige Quelle für die Liste; docs/ nie von Hand bearbe
 import csv
 import html
 import json
+import os
 import re
+import shutil
+import subprocess
 from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
@@ -415,7 +418,7 @@ def footer():
 <button id="totop" type="button" title="Nach oben">{icon("up")}</button>
 <a class="btn btn-lime fab" href="#stack-check">{icon("mail")}Stack-Check</a>
 <div class="stickybar" id="stickybar"><div class="wrap in">
-<div><b>Die Liste als CSV + Setup-Tipps per Mail</b><small>Eine Mail mit dem Download und drei Werkzeugkisten für deinen Fall. Kein Newsletter-Dauerfeuer.</small></div>
+<div><b>Die Liste als CSV per Mail</b><small>Eine Mail mit dem Download und dem Überblick über die sechs Werkzeugkisten. Kein Newsletter-Dauerfeuer.</small></div>
 <form action="https://formsubmit.co/{LEAD_TO}" method="POST"><input type="hidden" name="_subject" value="CSV-Anfrage – KI-Werkstatt"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="{SITE_URL}danke.html"><input type="hidden" name="quelle" value="Sticky-Leiste"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
 <label class="sr" for="sb-mail">E-Mail</label><input id="sb-mail" type="email" name="email" placeholder="deine@mail.de" required><button class="btn btn-lime btn-sm" type="submit">Schicken</button><label class="sb-consent"><input type="checkbox" name="einwilligung" value="ja" required> Einverstanden, dass meine E-Mail über FormSubmit an Jean Maurice Port geht. <a href="datenschutz.html">Datenschutz</a></label></form>
 <button class="close" type="button" title="Schließen">{icon("x")}</button>
@@ -639,6 +642,14 @@ svg.w{{position:absolute;right:-60px;bottom:-80px;width:520px;height:520px;fill:
 <svg class="w" viewBox="0 0 24 24">{icon_body("wrench")}</svg>
 </body></html>"""
     (DOCS / "og.html").write_text(og, encoding="utf-8")
+    # og.png aus og.html rendern, damit Social-Vorschau und Seite dieselben Zahlen zeigen
+    if shutil.which("node"):
+        env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip())
+        r = subprocess.run(["node", str(ROOT / "scripts" / "render_og.js")], env=env, capture_output=True, text=True)
+        if r.returncode:
+            print("WARNUNG: og.png nicht aktualisiert (" + r.stderr.strip().splitlines()[-1] + "). Manuell: node scripts/render_og.js")
+    else:
+        print("WARNUNG: node fehlt, og.png nicht aktualisiert. Manuell: node scripts/render_og.js")
 
 
 def main():

@@ -1,7 +1,7 @@
 {
  "date": "2026-10-25",
- "checked": 420,
- "ok": 420,
+ "checked": 436,
+ "ok": 436,
  "bot_protected": 87,
  "dead": {},
  "method": "HTTP HEAD, bei Bedarf GET; 2xx/3xx und Bot-Schutz (401/403/405/429) gelten als erreichbar"

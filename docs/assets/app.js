@@ -46,9 +46,13 @@
       $$("aside, p, .table, ul.plain, ol.plain, .cat-art", sec).forEach(function (el) { el.classList.toggle("hidden", filtering); });
     });
     if (count) count.textContent = filtering ? uniq(items.filter(function (li) { return !li.classList.contains("hidden"); })) + " von " + uniq(items) + " Tools" : uniq(items) + " Tools";
-    if (filtering && main) {
-      var y = main.getBoundingClientRect().top + window.scrollY - 80;
-      if (window.scrollY < y) window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
+    if (filtering) {
+      // Zum ersten sichtbaren Treffer scrollen, egal in welcher Liste er steht
+      var first = items.filter(function (li) { return !li.classList.contains("hidden"); })[0];
+      if (first) {
+        var r = first.getBoundingClientRect();
+        if (r.top < 120 || r.bottom > window.innerHeight) window.scrollTo({ top: r.top + window.scrollY - 140, behavior: reduce ? "auto" : "smooth" });
+      }
     }
   }
   [q].concat(feu, foss).forEach(function (el) { if (el) el.addEventListener("input", function (e) { if (e.target.type === "checkbox") { (e.target.classList.contains("f-eu") ? feu : foss).forEach(function (c) { c.checked = e.target.checked; }); } run(); }); });

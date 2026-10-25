@@ -45,7 +45,7 @@ def status(url):
 
 def main():
     md = SRC.read_text(encoding="utf-8")
-    urls = sorted({u for u in re.findall(r"\]\(" + DEST + r"\)", md) if u.startswith("http") and "promptgott.substack.com" not in u and u != "https://url"})
+    urls = sorted({u for u in re.findall(r"\]\(" + DEST + r"\)", md) if u.startswith("http") and u != "https://url"})  # "https://url" ist das Format-Beispiel unter Mitmachen
     with ThreadPoolExecutor(max_workers=24) as ex:
         results = dict(zip(urls, ex.map(status, urls)))
     dead = {u: c for u, c in results.items() if not (200 <= c < 400 or c in OK_CODES)}
