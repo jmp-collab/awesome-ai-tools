@@ -597,7 +597,7 @@ def build_subpages():
 <p><b>Verantwortlich für den Inhalt</b> nach § 18 Abs. 2 MStV: [NAME, ANSCHRIFT wie oben]</p>
 <p><b>Umsatzsteuer</b>: [USt-IdNr., falls vorhanden, sonst Zeile löschen]</p>
 <p><b>Haftung für Links:</b> Die Liste enthält Links zu externen Websites, auf deren Inhalte wir keinen Einfluss haben. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Links werden regelmäßig auf Erreichbarkeit geprüft, nicht auf Inhalt.</p>
-<p><b>Quelle:</b> Die Liste basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> (MIT-Lizenz). Tool-Logos werden als Favicons vom jeweiligen Anbieter geladen; Marken und Logos gehören den jeweiligen Inhabern.</p>
+<p><b>Quelle:</b> Die Liste basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> (MIT-Lizenz). Die Schriften IBM Plex (IBM Corp.) und Space Grotesk (Florian Karsten) stehen unter der SIL Open Font License 1.1; die Lizenztexte liegen unter <a href="assets/fonts/LICENSE-IBM-Plex.txt">assets/fonts/LICENSE-IBM-Plex.txt</a> und <a href="assets/fonts/LICENSE-Space-Grotesk.txt">assets/fonts/LICENSE-Space-Grotesk.txt</a>. Tool-Logos werden als Favicons vom jeweiligen Anbieter geladen; Marken und Logos gehören den jeweiligen Inhabern.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "impressum.html").write_text(page_shell("Impressum – KI-Werkstatt", impressum, "Impressum der KI-Werkstatt.", SITE_URL + "impressum.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
@@ -616,6 +616,13 @@ def build_subpages():
     (DOCS / "datenschutz.html").write_text(page_shell("Datenschutz – KI-Werkstatt", ds, "Datenschutzerklärung der KI-Werkstatt.", SITE_URL + "datenschutz.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
 
+def csv_safe(v):
+    """Zellen, die wie eine Tabellenformel beginnen, bekommen ein führendes Hochkomma (CSV-Injection)."""
+    if isinstance(v, str) and v[:1] in ("=", "+", "-", "@", "\t", "\r"):
+        return "'" + v
+    return v
+
+
 def build_data(uniq, sections):
     rows = []
     for s, sub, it in all_items(sections):
@@ -628,7 +635,7 @@ def build_data(uniq, sections):
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";")
         w.writeheader()
         for r in rows:
-            w.writerow({k: ("ja" if v is True else "nein" if v is False else v) for k, v in r.items()})
+            w.writerow({k: ("ja" if v is True else "nein" if v is False else csv_safe(v)) for k, v in r.items()})
     (DOCS / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
                                       f'<url><loc>{SITE_URL}</loc><lastmod>{date.today().isoformat()}</lastmod></url></urlset>\n', encoding="utf-8")
     (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n", encoding="utf-8")

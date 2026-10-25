@@ -5,7 +5,8 @@ Nur dieses Skript darf das Link-Check-Datum setzen; der Seiten-Generator liest e
 Aufruf aus dem Repo-Root:
     python3 scripts/check_links.py
 
-Erreichbar = HTTP 2xx/3xx oder Bot-Schutz (401/403/429/405). Alles andere wird gelistet.
+Erreichbar = HTTP 2xx/3xx oder Bot-Schutz (401/403/429). Ein 405 auf HEAD löst den GET-Versuch aus;
+ein 405 auf GET gilt als nicht erreichbar. Alles andere wird gelistet.
 """
 import hashlib
 import json
@@ -22,7 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "README.de.md"
 OUT = ROOT / "data" / "linkcheck.json"
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36"
-OK_CODES = {401, 403, 405, 429}  # Bot-Schutz: Seite existiert, mag nur keine Skripte
+OK_CODES = {401, 403, 429}  # Bot-Schutz: Seite existiert, mag nur keine Skripte; 405 ist absichtlich nicht dabei
 DEST = r"((?:[^()\s]|\([^()\s]*\))+)"
 
 
@@ -35,7 +36,7 @@ def status(url):
                 return r.status
         except urllib.error.HTTPError as e:
             if method == "HEAD" and not (200 <= e.code < 400 or e.code in OK_CODES):
-                continue  # manche Server beantworten HEAD anders als GET
+                continue  # manche Server beantworten HEAD anders als GET (405 eingeschlossen)
             return e.code
         except Exception:
             if method == "HEAD":
@@ -67,7 +68,7 @@ def main():
         "ok": len(urls) - len(dead),
         "bot_protected": sum(1 for c in results.values() if c in OK_CODES),
         "dead": dead,
-        "method": "HTTP HEAD, bei Bedarf GET; 2xx/3xx und Bot-Schutz (401/403/405/429) gelten als erreichbar",
+        "method": "HTTP HEAD, bei Nicht-OK (auch 405) GET; 2xx/3xx und Bot-Schutz (401/403/429) gelten als erreichbar",
     }
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{report['checked']} Links geprüft, {len(dead)} tot -> {OUT.relative_to(ROOT)}")
