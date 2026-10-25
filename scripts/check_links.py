@@ -7,6 +7,7 @@ Aufruf aus dem Repo-Root:
 
 Erreichbar = HTTP 2xx/3xx oder Bot-Schutz (401/403/429/405). Alles andere wird gelistet.
 """
+import hashlib
 import json
 import re
 import ssl
@@ -43,14 +44,25 @@ def status(url):
     return 0
 
 
+def extract_urls(md):
+    """Alle geprüften Links der README; "https://url" ist das Format-Beispiel unter Mitmachen."""
+    return sorted({u for u in re.findall(r"\]\(" + DEST + r"\)", md) if u.startswith("http") and u != "https://url"})
+
+
+def url_hash(urls):
+    """Fingerabdruck der Linkliste; der Generator vergleicht ihn mit dem Report."""
+    return hashlib.sha256("\n".join(urls).encode("utf-8")).hexdigest()
+
+
 def main():
     md = SRC.read_text(encoding="utf-8")
-    urls = sorted({u for u in re.findall(r"\]\(" + DEST + r"\)", md) if u.startswith("http") and u != "https://url"})  # "https://url" ist das Format-Beispiel unter Mitmachen
+    urls = extract_urls(md)
     with ThreadPoolExecutor(max_workers=24) as ex:
         results = dict(zip(urls, ex.map(status, urls)))
     dead = {u: c for u, c in results.items() if not (200 <= c < 400 or c in OK_CODES)}
     report = {
         "date": date.today().isoformat(),
+        "urls_sha256": url_hash(urls),
         "checked": len(urls),
         "ok": len(urls) - len(dead),
         "bot_protected": sum(1 for c in results.values() if c in OK_CODES),

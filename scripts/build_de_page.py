@@ -17,6 +17,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
@@ -46,6 +47,10 @@ LINK_CHECK = date.fromisoformat(_LC["date"]).strftime("%d.%m.%Y")  # setzt nur s
 LINK_CHECK_N = _LC["checked"]
 if _LC.get("dead"):
     raise SystemExit(f"Abbruch: data/linkcheck.json meldet {len(_LC['dead'])} tote Links. Erst README.de.md bereinigen und scripts/check_links.py erneut laufen lassen.")
+sys.path.insert(0, str(ROOT / "scripts"))
+from check_links import extract_urls, url_hash  # noqa: E402  (gleiche Linkliste wie der Checker)
+if _LC.get("urls_sha256") != url_hash(extract_urls(SRC.read_text(encoding="utf-8"))):
+    raise SystemExit("Abbruch: Die Links in README.de.md haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
 N_STACKS = len(STACKS["stacks"])
 STACK_SIZES = sorted({len(s["tools"]) for s in STACKS["stacks"]})
 STACK_SIZE_TXT = str(STACK_SIZES[0]) if len(STACK_SIZES) == 1 else f"{STACK_SIZES[0]} bis {STACK_SIZES[-1]}"
