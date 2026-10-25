@@ -70,7 +70,11 @@
       var h = document.documentElement, max = h.scrollHeight - h.clientHeight, y = window.scrollY, p = max > 0 ? y / max : 0;
       if (prog) prog.style.width = (p * 100).toFixed(2) + "%";
       if (totop) totop.classList.toggle("show", y > 900);
-      if (bar && !barDone) { var show = p > 0.3; bar.classList.toggle("show", show); document.body.classList.toggle("has-bar", show); }
+      if (bar && !barDone) {
+        var show = p > 0.3;
+        bar.classList.toggle("show", show); document.body.classList.toggle("has-bar", show);
+        if (show) document.documentElement.style.setProperty("--barh", bar.offsetHeight + "px"); // reale Höhe, auf dem Handy höher
+      }
       if (!reduce) floats.forEach(function (f) {
         var d = parseFloat(f.dataset.depth || "0.2");
         f.style.transform = "translate3d(0," + (y * d * -0.4).toFixed(1) + "px,0) rotate(" + (y * d * 0.02).toFixed(2) + "deg)";

@@ -44,6 +44,11 @@ TODAY = date.today().strftime("%d.%m.%Y")  # Build-Datum (Sitemap, Export)
 _LC = json.loads((ROOT / "data" / "linkcheck.json").read_text(encoding="utf-8"))
 LINK_CHECK = date.fromisoformat(_LC["date"]).strftime("%d.%m.%Y")  # setzt nur scripts/check_links.py
 LINK_CHECK_N = _LC["checked"]
+if _LC.get("dead"):
+    raise SystemExit(f"Abbruch: data/linkcheck.json meldet {len(_LC['dead'])} tote Links. Erst README.de.md bereinigen und scripts/check_links.py erneut laufen lassen.")
+N_STACKS = len(STACKS["stacks"])
+STACK_SIZES = sorted({len(s["tools"]) for s in STACKS["stacks"]})
+STACK_SIZE_TXT = str(STACK_SIZES[0]) if len(STACK_SIZES) == 1 else f"{STACK_SIZES[0]} bis {STACK_SIZES[-1]}"
 
 # Icon je Kategorie (Slug der H2-Überschrift)
 CAT_ICON = {
@@ -418,7 +423,7 @@ def footer():
 <button id="totop" type="button" title="Nach oben">{icon("up")}</button>
 <a class="btn btn-lime fab" href="#stack-check">{icon("mail")}Stack-Check</a>
 <div class="stickybar" id="stickybar"><div class="wrap in">
-<div><b>Die Liste als CSV per Mail</b><small>Eine Mail mit dem Download und dem Überblick über die sechs Werkzeugkisten. Kein Newsletter-Dauerfeuer.</small></div>
+<div><b>Die Liste als CSV per Mail</b><small>Eine Mail mit dem Download und dem Überblick über die {N_STACKS} Werkzeugkisten. Kein Newsletter-Dauerfeuer.</small></div>
 <form action="https://formsubmit.co/{LEAD_TO}" method="POST"><input type="hidden" name="_subject" value="CSV-Anfrage – KI-Werkstatt"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="{SITE_URL}danke.html"><input type="hidden" name="quelle" value="Sticky-Leiste"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
 <label class="sr" for="sb-mail">E-Mail</label><input id="sb-mail" type="email" name="email" placeholder="deine@mail.de" required><button class="btn btn-lime btn-sm" type="submit">Schicken</button><label class="sb-consent"><input type="checkbox" name="einwilligung" value="ja" required> Einverstanden, dass meine E-Mail über FormSubmit an Jean Maurice Port geht. <a href="datenschutz.html">Datenschutz</a></label></form>
 <button class="close" type="button" title="Schließen">{icon("x")}</button>
@@ -491,7 +496,7 @@ def build_index(sections, head_md):
 <div class="stat reveal"><b data-count="{n_cats}">0</b><span>Kategorien, {n_subs} Unterbereiche</span></div>
 <div class="stat reveal"><b data-count="{n_eu}">0</b><span>Anbieter mit Sitz in der EU</span></div>
 <div class="stat reveal"><b data-count="{n_oss}">0</b><span>Open-Source-Tools</span></div>
-<div class="stat reveal"><b data-count="{len(STACKS['stacks'])}">0</b><span>Werkzeugkisten</span></div>
+<div class="stat reveal"><b data-count="{N_STACKS}">0</b><span>Werkzeugkisten</span></div>
 </div></div></section>
 
 <section class="band" id="favoriten"><div class="wrap">
@@ -518,7 +523,7 @@ def build_index(sections, head_md):
 
 <section class="band" id="werkzeugkisten"><div class="wrap">
 <p class="eyebrow">Werkzeugkisten</p><h2>Fertige Stacks für typische Fälle</h2>
-<p class="intro">Sechs Tools, die zusammenpassen, mit einem Satz, warum jedes drin ist. Nimm die Kiste als Startpunkt, nicht als Vorschrift.</p>
+<p class="intro">{N_STACKS} Kisten mit je {STACK_SIZE_TXT} Tools, die zusammenpassen, mit einem Satz, warum jedes drin ist. Nimm die Kiste als Startpunkt, nicht als Vorschrift.</p>
 <div class="stacks">{stacks_html}</div>
 </div></section>
 
