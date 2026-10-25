@@ -163,8 +163,8 @@
         '<input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">' +
         '<input type="hidden" name="quelle" value="Stack-Finder"><input type="hidden" name="antworten" value="' + [ans.ziel, ans.daten, ans.team].join(" / ") + '"><input type="hidden" name="vorschlag" value="' + stackText.replace(/"/g, "&quot;") + '">' +
         '<p style="margin:0 0 4px;font:700 18px var(--font-d)">Soll Jean da noch mal drüberschauen?</p><p style="margin:0;color:#5B616B;font-size:14px">Du bekommst das Setup mit Anmerkungen zu deinem Fall per Mail. Kostenlos, ohne Pitch.</p>' +
-        '<div class="row"><div><label>Name</label><input name="name" required></div><div><label>E-Mail</label><input type="email" name="email" required></div></div>' +
-        '<label>Was baust du gerade? (optional)</label><textarea name="projekt" rows="3"></textarea>' +
+        '<div class="row"><div><label for="f-name">Name</label><input id="f-name" name="name" required autocomplete="name"></div><div><label for="f-mail">E-Mail</label><input id="f-mail" type="email" name="email" required autocomplete="email"></div></div>' +
+        '<label for="f-proj">Was baust du gerade? (optional)</label><textarea id="f-proj" name="projekt" rows="3"></textarea>' +
         '<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>' +
         '<button class="btn" type="submit">' + icon("mail") + 'Setup per Mail bekommen</button>' +
         '<p class="hint">Oder direkt: <a href="mailto:' + F.to + '?subject=Stack-Check">' + F.to + '</a></p></form>' +

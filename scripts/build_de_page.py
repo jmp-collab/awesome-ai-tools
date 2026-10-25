@@ -515,7 +515,7 @@ def build_index(sections, head_md):
 <p class="intro">Kein Tool kommt auf die Werkbank, ohne dass jemand draufgeschaut hat. Tote Links sind keine Tools.</p>
 <div class="steps">
 <div class="step reveal"><span class="n">1</span>{icon("search")}<h3>Sammeln</h3><p>Grundlage ist die englische Awesome-Liste plus eigene Funde aus dem DACH-Raum. Jeder Eintrag bekommt einen deutschen Satz, der sagt, wofür das Tool taugt.</p></div>
-<div class="step reveal"><span class="n">2</span>{icon("check")}<h3>Prüfen</h3><p>Jeder Link wird per HTTP abgefragt. 404, Serverfehler oder Domain weg: raus. Affiliate- und Referral-Parameter: raus. Umbenannte Produkte: korrigiert.</p></div>
+<div class="step reveal"><span class="n">2</span>{icon("check")}<h3>Prüfen</h3><p>Jeder Link wird per HTTP abgefragt. 404, Serverfehler oder Domain weg: raus. Affiliate- und Referral-Parameter bei Tool-Links: raus. Nur Links zu PROMPTGOTT tragen UTM-Parameter, damit erkennbar ist, dass der Besuch von hier kam. Umbenannte Produkte: korrigiert.</p></div>
 <div class="step reveal"><span class="n">3</span>{icon("layers")}<h3>Sortieren</h3><p>{n_cats} Kategorien nach Aufgabe, nicht nach Hype. EU-Sitz und Open Source als Badge. Werkzeugkisten für typische Fälle, damit du nicht {n_tools} Tools lesen musst.</p></div>
 </div></div></section>
 
