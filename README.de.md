@@ -240,7 +240,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [FARSITE](https://far.site/) - Compliance-Software für US-Regierungsauftragnehmer.
 - [BrainSoup](https://www.nurgo-software.com/products/brainsoup) - Multi-Agenten-Client für mehrere LLMs mit Gedächtnis und Werkzeugen.
 - [MindPal](https://mindpal.space/) - "Zweites Gehirn" mit einem Team aus KI-Agenten.
-- [fabric](https://github.com/danielmiessler/fabric/) - KI im Terminal mit einer Bibliothek bewährter Prompt-Muster. `OSS`
+- [fabric](https://github.com/danielmiessler/fabric) - KI im Terminal mit einer Bibliothek bewährter Prompt-Muster. `OSS`
 - [SlidesWizard](https://slideswizard.io) - PowerPoint- und Google-Slides-Präsentationen zu jedem Thema.
 - [Transgate](https://transgate.ai/) - Sprache-zu-Text mit KI.
 - [RabbitHoles AI](https://www.rabbitholes.ai/) - Chat mit KI auf einer unendlichen Leinwand.
@@ -408,7 +408,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Ideogram](https://ideogram.ai) - Bildgenerator, der besonders gut lesbare Schrift in Bildern erzeugt.
 - [Adobe Firefly](https://firefly.adobe.com) - Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.
 - [DALL·E](https://openai.com/dall-e-2/) - Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.
-- [Make-A-Scene](https://ai.facebook.com/blog/greater-creative-control-for-ai-image-generation/) - Metas Forschungsansatz, der Text und Skizze kombiniert.
 - [DragGAN](https://github.com/XingangPan/DragGAN) - Bilder per Punkt-Ziehen interaktiv verformen. `OSS`
 
 ### Bild-Dienste
@@ -427,7 +426,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Patience.ai](https://www.patience.ai/) - App für Bilder mit Stable Diffusion.
 - [GenShare](https://www.genshare.io/) - Kostenlos Kunst generieren und teilen.
 - [Playground AI](https://playgroundai.com/) - Kostenloser Bildgenerator für Social Posts, Poster und Logos.
-- [Pixelz AI Art Generator](https://pixelz.ai/) - Kunst aus Text mit mehreren Algorithmen.
 - [PhotoGuruAI](https://photoguruai.com/) - Professionelle KI-Bewerbungsfotos in vielen Stilen.
 - [Avatar AI](https://avatarai.me/) - Eigene KI-Avatare erstellen.
 - [RunDiffusion](https://rundiffusion.com/) - Cloud-Arbeitsplatz für KI-Kunst.
@@ -458,7 +456,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 
 - [KREA](https://www.krea.ai/) - Millionen KI-Bilder durchsuchen und Prompt-Sammlungen anlegen.
 - [OpenArt](https://openart.ai/) - Über 10 Millionen Prompts durchsuchen und selbst generieren.
-- [Libraire](https://libraire.ai/) - Große Bibliothek KI-generierter Bilder.
 - [Phygital](https://app.phygital.plus/) - Vorlagen zum Erzeugen und Bearbeiten von Bildern.
 - [PublicPrompts](https://publicprompts.art/) - Kostenlose Prompts für Stable Diffusion.
 

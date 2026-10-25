@@ -119,7 +119,7 @@ AI for Google Slides;https://www.aiforgoogleslides.com/;Präsentationen für Goo
 FARSITE;https://far.site/;Compliance-Software für US-Regierungsauftragnehmer.;Text und Sprache;Produktivität;nein;nein
 BrainSoup;https://www.nurgo-software.com/products/brainsoup;Multi-Agenten-Client für mehrere LLMs mit Gedächtnis und Werkzeugen.;Text und Sprache;Produktivität;nein;nein
 MindPal;https://mindpal.space/;"""Zweites Gehirn"" mit einem Team aus KI-Agenten.";Text und Sprache;Produktivität;nein;nein
-fabric;https://github.com/danielmiessler/fabric/;KI im Terminal mit einer Bibliothek bewährter Prompt-Muster.;Text und Sprache;Produktivität;nein;ja
+fabric;https://github.com/danielmiessler/fabric;KI im Terminal mit einer Bibliothek bewährter Prompt-Muster.;Text und Sprache;Produktivität;nein;ja
 SlidesWizard;https://slideswizard.io;PowerPoint- und Google-Slides-Präsentationen zu jedem Thema.;Text und Sprache;Produktivität;nein;nein
 Transgate;https://transgate.ai/;Sprache-zu-Text mit KI.;Text und Sprache;Produktivität;nein;nein
 RabbitHoles AI;https://www.rabbitholes.ai/;Chat mit KI auf einer unendlichen Leinwand.;Text und Sprache;Produktivität;nein;nein
@@ -242,7 +242,6 @@ Imagen;https://imagen.research.google/;Googles Text-zu-Bild-Modell mit hohem Fot
 Ideogram;https://ideogram.ai;Bildgenerator, der besonders gut lesbare Schrift in Bildern erzeugt.;Bilder;Bildmodelle;nein;nein
 Adobe Firefly;https://firefly.adobe.com;Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.;Bilder;Bildmodelle;nein;nein
 DALL·E;https://openai.com/dall-e-2/;Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.;Bilder;Bildmodelle;nein;nein
-Make-A-Scene;https://ai.facebook.com/blog/greater-creative-control-for-ai-image-generation/;Metas Forschungsansatz, der Text und Skizze kombiniert.;Bilder;Bildmodelle;nein;nein
 DragGAN;https://github.com/XingangPan/DragGAN;Bilder per Punkt-Ziehen interaktiv verformen.;Bilder;Bildmodelle;nein;ja
 Canva;https://www.canva.com/ai-image-generator/;KI-Bilder direkt in der Design-Plattform erzeugen und bearbeiten.;Bilder;Bild-Dienste;nein;nein
 Leonardo.ai;https://leonardo.ai;Bildgenerator mit vielen Stil-Modellen, beliebt für Game-Assets und Marketing.;Bilder;Bild-Dienste;nein;nein
@@ -258,7 +257,6 @@ Magic Studio;https://magicstudio.com/imagine;Bilder aus einer Beschreibung erzeu
 Patience.ai;https://www.patience.ai/;App für Bilder mit Stable Diffusion.;Bilder;Bild-Dienste;nein;nein
 GenShare;https://www.genshare.io/;Kostenlos Kunst generieren und teilen.;Bilder;Bild-Dienste;nein;nein
 Playground AI;https://playgroundai.com/;Kostenloser Bildgenerator für Social Posts, Poster und Logos.;Bilder;Bild-Dienste;nein;nein
-Pixelz AI Art Generator;https://pixelz.ai/;Kunst aus Text mit mehreren Algorithmen.;Bilder;Bild-Dienste;nein;nein
 PhotoGuruAI;https://photoguruai.com/;Professionelle KI-Bewerbungsfotos in vielen Stilen.;Bilder;Bild-Dienste;nein;nein
 Avatar AI;https://avatarai.me/;Eigene KI-Avatare erstellen.;Bilder;Bild-Dienste;nein;nein
 RunDiffusion;https://rundiffusion.com/;Cloud-Arbeitsplatz für KI-Kunst.;Bilder;Bild-Dienste;nein;nein
@@ -281,7 +279,6 @@ Text2Infographic;https://text2infographic.com/;Infografiken aus Text generieren 
 Seede.ai;https://seede.ai/;Poster in einer Minute.;Bilder;Grafikdesign;nein;nein
 Magic Patterns;https://www.magicpatterns.com/;UI-Entwürfe mit Figma-Export und React-Code.;Bilder;Grafikdesign;nein;nein
 OpenArt;https://openart.ai/;Über 10 Millionen Prompts durchsuchen und selbst generieren.;Bilder;Bildarchive und Prompt-Sammlungen;nein;nein
-Libraire;https://libraire.ai/;Große Bibliothek KI-generierter Bilder.;Bilder;Bildarchive und Prompt-Sammlungen;nein;nein
 Phygital;https://app.phygital.plus/;Vorlagen zum Erzeugen und Bearbeiten von Bildern.;Bilder;Bildarchive und Prompt-Sammlungen;nein;nein
 PublicPrompts;https://publicprompts.art/;Kostenlose Prompts für Stable Diffusion.;Bilder;Bildarchive und Prompt-Sammlungen;nein;nein
 Civitai;https://civitai.com/;Community-Plattform für Bildmodelle und LoRAs.;Bilder;Modell-Bibliotheken und Stable-Diffusion-Ressourcen;nein;nein

@@ -148,11 +148,10 @@
     "eu_swap": {
       "Claude": "Le Chat von Mistral",
       "Zapier": "n8n",
-      "Midjourney": "FLUX von Black Forest Labs",
+      "Midjourney": "PhotoRoom",
       "Canva": "PhotoRoom",
       "Perplexity": "Le Chat von Mistral",
-      "GitHub Copilot": "Mistral AI",
-      "Ideogram": "Recraft"
+      "GitHub Copilot": "Mistral AI"
     },
     "firma_add": ["Langdock", "Aleph Alpha"],
     "notes": {

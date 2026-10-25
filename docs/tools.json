@@ -1,5 +1,6 @@
 {
- "stand": "25.10.2026",
+ "gebaut": "25.10.2026",
+ "link_check": "25.10.2026",
  "quelle": "https://github.com/jmp-collab/awesome-ai-tools",
  "tools": [
   {
@@ -1084,7 +1085,7 @@
   },
   {
    "name": "fabric",
-   "url": "https://github.com/danielmiessler/fabric/",
+   "url": "https://github.com/danielmiessler/fabric",
    "beschreibung": "KI im Terminal mit einer Bibliothek bewährter Prompt-Muster.",
    "kategorie": "Text und Sprache",
    "bereich": "Produktivität",
@@ -2190,15 +2191,6 @@
    "open_source": false
   },
   {
-   "name": "Make-A-Scene",
-   "url": "https://ai.facebook.com/blog/greater-creative-control-for-ai-image-generation/",
-   "beschreibung": "Metas Forschungsansatz, der Text und Skizze kombiniert.",
-   "kategorie": "Bilder",
-   "bereich": "Bildmodelle",
-   "eu": false,
-   "open_source": false
-  },
-  {
    "name": "DragGAN",
    "url": "https://github.com/XingangPan/DragGAN",
    "beschreibung": "Bilder per Punkt-Ziehen interaktiv verformen.",
@@ -2328,15 +2320,6 @@
    "name": "Playground AI",
    "url": "https://playgroundai.com/",
    "beschreibung": "Kostenloser Bildgenerator für Social Posts, Poster und Logos.",
-   "kategorie": "Bilder",
-   "bereich": "Bild-Dienste",
-   "eu": false,
-   "open_source": false
-  },
-  {
-   "name": "Pixelz AI Art Generator",
-   "url": "https://pixelz.ai/",
-   "beschreibung": "Kunst aus Text mit mehreren Algorithmen.",
    "kategorie": "Bilder",
    "bereich": "Bild-Dienste",
    "eu": false,
@@ -2535,15 +2518,6 @@
    "name": "OpenArt",
    "url": "https://openart.ai/",
    "beschreibung": "Über 10 Millionen Prompts durchsuchen und selbst generieren.",
-   "kategorie": "Bilder",
-   "bereich": "Bildarchive und Prompt-Sammlungen",
-   "eu": false,
-   "open_source": false
-  },
-  {
-   "name": "Libraire",
-   "url": "https://libraire.ai/",
-   "beschreibung": "Große Bibliothek KI-generierter Bilder.",
    "kategorie": "Bilder",
    "bereich": "Bildarchive und Prompt-Sammlungen",
    "eu": false,

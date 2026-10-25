@@ -151,7 +151,7 @@
         '<div class="result-tools">' + cards + "</div>" + notes +
         '<form class="form" action="https://formsubmit.co/' + F.to + '" method="POST" style="margin-top:18px;box-shadow:none;border:1px solid var(--line)">' +
         '<input type="hidden" name="_subject" value="Stack-Check (Finder) – KI-Werkstatt"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false">' +
-        '<input type="hidden" name="_next" value="' + F.next + '"><input type="hidden" name="_autoresponse" value="Danke für deine Anfrage bei der KI-Werkstatt. Jean schaut sich deinen Fall an und meldet sich per Mail. Bis dahin: ' + F.next + '">' +
+        '<input type="hidden" name="_next" value="' + F.next + '">' +
         '<input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">' +
         '<input type="hidden" name="quelle" value="Stack-Finder"><input type="hidden" name="antworten" value="' + [ans.ziel, ans.daten, ans.team].join(" / ") + '"><input type="hidden" name="vorschlag" value="' + stackText.replace(/"/g, "&quot;") + '">' +
         '<p style="margin:0 0 4px;font:700 18px var(--font-d)">Soll Jean da noch mal drüberschauen?</p><p style="margin:0;color:#5B616B;font-size:14px">Du bekommst das Setup mit Anmerkungen zu deinem Fall per Mail. Kostenlos, ohne Pitch.</p>' +

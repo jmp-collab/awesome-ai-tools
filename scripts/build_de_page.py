@@ -37,7 +37,10 @@ DESCRIPTION = (
 SUBSTACK = "https://promptgott.substack.com/"
 UTM = "utm_source=github-pages&utm_medium=referral&utm_campaign=awesome-ki-tools-de"
 LEAD_TO = BRAND["lead_offer"]["recipient"]
-TODAY = date.today().strftime("%d.%m.%Y")
+TODAY = date.today().strftime("%d.%m.%Y")  # Build-Datum (Sitemap, Export)
+_LC = json.loads((ROOT / "data" / "linkcheck.json").read_text(encoding="utf-8"))
+LINK_CHECK = date.fromisoformat(_LC["date"]).strftime("%d.%m.%Y")  # setzt nur scripts/check_links.py
+LINK_CHECK_N = _LC["checked"]
 
 # Icon je Kategorie (Slug der H2-Überschrift)
 CAT_ICON = {
@@ -345,11 +348,10 @@ def render_stacks(tools_map):
 
 def lead_form(source, subject, compact=False):
     nxt = SITE_URL + "danke.html"
-    auto = f"Danke für deine Anfrage bei der KI-Werkstatt. Jean schaut sich deinen Fall an und meldet sich per Mail. Die Liste als CSV: {nxt}"
     return f"""<form class="form" action="https://formsubmit.co/{LEAD_TO}" method="POST">
 <input type="hidden" name="_subject" value="{html.escape(subject)}"><input type="hidden" name="_template" value="table">
 <input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="{nxt}">
-<input type="hidden" name="_autoresponse" value="{html.escape(auto)}"><input type="hidden" name="quelle" value="{source}">
+<input type="hidden" name="quelle" value="{source}">
 <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
 <div class="row"><div><label for="l-name">Name</label><input id="l-name" name="name" required autocomplete="name"></div>
 <div><label for="l-mail">E-Mail</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
@@ -394,9 +396,9 @@ def topbar(with_search=True):
     return f"""<header class="topbar"><div class="wrap in">
 <a class="logo" href="{SITE_URL}"><span class="mark">{icon("wrench")}</span><span>KI-WERKSTATT</span></a>
 {search}
-<div class="tools"><span id="count" class="badge hide-m" aria-live="polite"></span>
+<div class="tools">{'<span id="count" class="badge hide-m" aria-live="polite"></span>' if with_search else ''}
 <button class="iconbtn" id="theme" type="button" title="Hell/Dunkel umschalten">{icon("sun")}</button>
-<a class="btn btn-lime btn-sm hide-m" href="#stack-check">{icon("mail")}Stack-Check</a></div>
+<a class="btn btn-lime btn-sm hide-m" href="{'' if with_search else SITE_URL}#stack-check">{icon("mail")}Stack-Check</a></div>
 </div><div id="progress"></div></header>"""
 
 
@@ -408,14 +410,14 @@ def footer():
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
-<p>Stand der Liste: {TODAY}. Basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> von Mahsima Dastan (MIT). Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
+<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Seite gebaut am {TODAY}. Basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> von Mahsima Dastan (MIT). Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
 </div></footer>
 <button id="totop" type="button" title="Nach oben">{icon("up")}</button>
 <a class="btn btn-lime fab" href="#stack-check">{icon("mail")}Stack-Check</a>
 <div class="stickybar" id="stickybar"><div class="wrap in">
 <div><b>Die Liste als CSV + Setup-Tipps per Mail</b><small>Eine Mail mit dem Download und drei Werkzeugkisten für deinen Fall. Kein Newsletter-Dauerfeuer.</small></div>
 <form action="https://formsubmit.co/{LEAD_TO}" method="POST"><input type="hidden" name="_subject" value="CSV-Anfrage – KI-Werkstatt"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="{SITE_URL}danke.html"><input type="hidden" name="quelle" value="Sticky-Leiste"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
-<label class="sr" for="sb-mail">E-Mail</label><input id="sb-mail" type="email" name="email" placeholder="deine@mail.de" required><button class="btn btn-lime btn-sm" type="submit">Schicken</button></form>
+<label class="sr" for="sb-mail">E-Mail</label><input id="sb-mail" type="email" name="email" placeholder="deine@mail.de" required><button class="btn btn-lime btn-sm" type="submit">Schicken</button><label class="sb-consent"><input type="checkbox" name="einwilligung" value="ja" required> Einverstanden, dass meine E-Mail über FormSubmit an Jean Maurice Port geht. <a href="datenschutz.html">Datenschutz</a></label></form>
 <button class="close" type="button" title="Schließen">{icon("x")}</button>
 </div></div>"""
 
@@ -470,14 +472,14 @@ def build_index(sections, head_md):
                              for i, it in enumerate(uniq.values())]},
         {"@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": "Was bedeutet das EU-Zeichen bei einem Tool?", "acceptedAnswer": {"@type": "Answer", "text": "Der Anbieter hat seinen Firmensitz in der EU. Das ist ein Hinweis, keine Datenschutz-Prüfung. Für die DSGVO zählen Auftragsverarbeitungsvertrag, Serverstandort und Einstellungen."}},
-            {"@type": "Question", "name": "Wie werden die Tools geprüft?", "acceptedAnswer": {"@type": "Answer", "text": f"Jeder Link wird per HTTP-Abfrage geprüft (Stand {TODAY}). Tote Links, Serverfehler und verschwundene Domains fliegen raus. Bot-Schutz (403) gilt als erreichbar."}},
+            {"@type": "Question", "name": "Wie werden die Tools geprüft?", "acceptedAnswer": {"@type": "Answer", "text": f"Jeder Link wird per HTTP-Abfrage geprüft (letzter Link-Check: {LINK_CHECK}). Tote Links, Serverfehler und verschwundene Domains fliegen raus. Bot-Schutz (403) gilt als erreichbar."}},
             {"@type": "Question", "name": "Was ist der Stack-Check?", "acceptedAnswer": {"@type": "Answer", "text": BRAND["lead_offer"]["promise"]}},
         ]},
     ]}
 
     body = f"""{topbar()}
 <section class="hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
-<p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Stand {TODAY} · Link-Check bestanden</p>
+<p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Link-Check {LINK_CHECK}: {LINK_CHECK_N} Links geprüft</p>
 <h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Auf Deutsch.</h1>
 <p class="sub">Jedes Tool in einem Satz erklärt. Tote Links raus. Anbieter aus der EU markiert. Dazu Werkzeugkisten für typische Fälle und ein Stack-Finder, der dir in drei Fragen sagt, womit du anfängst.</p>
 <div class="ctas"><a class="btn btn-lime" href="#finder-band">{icon("compass")}Stack-Finder starten</a><a class="btn" href="#liste">{icon("layers")}Zur Liste</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
@@ -506,7 +508,7 @@ def build_index(sections, head_md):
 
 <section class="band" id="finder-band"><div class="wrap">
 <p class="eyebrow">Stack-Finder</p><h2>Drei Fragen. Dann weißt du, womit du anfängst.</h2>
-<p class="intro">Welches Werkzeug? Kommt drauf an, was du baust. Der Finder stellt dir ein Setup aus 6 Tools zusammen. Wenn du willst, schaut Jean danach noch mal drüber.</p>
+<p class="intro">Welches Werkzeug? Kommt drauf an, was du baust. Der Finder stellt dir ein Setup aus sechs bis acht Tools zusammen. Wenn du willst, schaut Jean danach noch mal drüber.</p>
 <div class="finder reveal" id="finder"><p class="finder-q"></p><div class="opts"></div><div class="finder-result hidden"></div>
 <div class="finder-bar"><button type="button" class="btn btn-sm back hidden">{icon("arrow")}Zurück</button><div class="dots"></div><span class="steplbl"></span></div></div>
 </div></section>
@@ -545,7 +547,7 @@ def build_index(sections, head_md):
 <li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
 <li>{icon("check")}<span><b>Was es kostet:</b> nichts. Keine Beratungsstunde, kein Vertrag, kein Pitch.</span></li>
 <li>{icon("check")}<span><b>Was wir nicht versprechen:</b> Preise oder DSGVO-Freigaben. Das prüfst du beim Anbieter.</span></li>
-<li>{icon("shield")}<span><b>Deine Daten:</b> gehen per Mail an Jean und sonst nirgendwohin. Kein CRM, keine Liste.</span></li>
+<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
 </ul></div>
 <div>{lead_form("Hauptformular", "Stack-Check – KI-Werkstatt")}</div></div>
 </div></section>
@@ -587,7 +589,7 @@ def build_subpages():
 <div class="page"><p class="eyebrow">Rechtliches</p><h1>Datenschutz</h1>{needs}
 <p><b>Verantwortlicher:</b> [NAME, ANSCHRIFT wie im Impressum], E-Mail: {LEAD_TO}</p>
 <h3>Hosting</h3><p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse und Zeitpunkt des Zugriffs. Details: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Auslieferung). [NEEDS_REVIEW: Hinweis auf Drittlandübermittlung und Data Privacy Framework ergänzen]</p>
-<h3>Kontaktformulare (Stack-Check, CSV-Anfrage)</h3><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten weiter und speichert sie nach eigenen Angaben nicht dauerhaft. [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken, Löschfristen angeben] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen.</p>
+<h3>Kontaktformulare (Stack-Check, CSV-Anfrage)</h3><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>). [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken; prüfen, ob ein AVV nötig ist] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen.</p>
 <h3>Favicons der Tool-Anbieter</h3><p>Neben jedem Tool wird dessen Favicon über den Dienst icons.duckduckgo.com geladen. Dabei erfährt DuckDuckGo (USA) deine IP-Adresse und den Domainnamen des Tools. Die Icons werden erst geladen, wenn sie in den sichtbaren Bereich scrollen. [NEEDS_REVIEW: alternativ Icons lokal speichern oder nach Einwilligung laden]</p>
 <h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) werden nur zwei Einstellungen abgelegt: dein Farbschema und ob du die untere Hinweisleiste geschlossen hast. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
 <h3>Externe Links</h3><p>Links zu Tools, zu PROMPTGOTT (Substack) und zu GitHub führen auf fremde Seiten mit eigenen Datenschutzregeln. Links zu PROMPTGOTT enthalten UTM-Parameter, damit erkennbar ist, dass der Besuch von dieser Seite kam; persönliche Daten werden dabei nicht übertragen.</p>
@@ -604,7 +606,7 @@ def build_data(uniq, sections):
             continue
         eu, oss, clean = item_meta(it)
         rows.append({"name": it["name"], "url": it["url"], "beschreibung": clean, "kategorie": s["title"], "bereich": sub["title"] if sub else "", "eu": eu, "open_source": oss})
-    (DOCS / "tools.json").write_text(json.dumps({"stand": TODAY, "quelle": REPO_URL, "tools": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
+    (DOCS / "tools.json").write_text(json.dumps({"gebaut": TODAY, "link_check": LINK_CHECK, "quelle": REPO_URL, "tools": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
     with (DOCS / "tools.csv").open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";")
         w.writeheader()
@@ -631,7 +633,7 @@ p{{position:absolute;left:72px;top:470px;margin:0;font:400 28px 'IBM Plex Sans';
 svg.w{{position:absolute;right:-60px;bottom:-80px;width:520px;height:520px;fill:none;stroke:#D7FF3C;stroke-width:.6;opacity:.35;stroke-linecap:round;stroke-linejoin:round}}
 </style></head><body>{ICONS}
 <div class="m"><i><svg width="30" height="30" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wrench"/></svg></i>KI-WERKSTATT</div>
-<div class="s">STAND {TODAY}</div>
+<div class="s">LINK-CHECK {LINK_CHECK}</div>
 <h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Auf Deutsch.</h1>
 <p>Jedes Tool in einem Satz. Tote Links raus. EU-Anbieter markiert. {n_cats} Kategorien, Werkzeugkisten, Stack-Finder.</p>
 <svg class="w" viewBox="0 0 24 24">{icon_body("wrench")}</svg>
