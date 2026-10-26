@@ -215,8 +215,8 @@
   function mText() { return merk.map(function (x) { return x.n + " (" + x.u + ")"; }).join("\n"); }
   function mLabel() { return merk.length + (merk.length === 1 ? " Tool" : " Tools") + " aus deiner Merkliste angehängt"; }
   var pill = $("#merk-pill"), panel = $("#merk"), mList = panel ? $(".merk-list", panel) : null;
-  $$("ul.tools li").forEach(function (li) {
-    var a = li.querySelector("a.name"); if (!a) return;
+  function addMerkBtn(li) {
+    var a = li.querySelector("a.name"); if (!a || li.querySelector(".merk-btn")) return;
     var b = document.createElement("button");
     b.type = "button"; b.className = "merk-btn"; b.innerHTML = svg("bookmark");
     b.dataset.u = a.href; b.dataset.n = a.textContent;
@@ -226,7 +226,9 @@
       if (pill && merk.length) { pill.classList.remove("pop"); void pill.offsetWidth; pill.classList.add("pop"); }
     });
     li.appendChild(b);
-  });
+  }
+  $$("ul.tools li").forEach(addMerkBtn);
+  window.kwAddMerk = function (root) { $$("li", root).forEach(addMerkBtn); mRender(); };
   function mRender() {
     $$(".merk-btn").forEach(function (b) {
       var on = mHas(b.dataset.u);
@@ -353,14 +355,18 @@
     }
     function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
     function spHide() { spGen++; sp.hidden = true; } // spätere Antworten einer alten Suche verwerfen
-    function spRun() {
-      var s = q.value.trim().toLowerCase(), my = ++spGen;
-      if (!s) { sp.hidden = true; return; }
+    function spRun(keepOpen) {
+      var s = q.value.trim().toLowerCase(), my = ++spGen, filt = spEu.checked || spOss.checked;
+      if (!s && !filt) { // ohne Suchwort reicht ein gesetzter Filter
+        if (keepOpen === true && !sp.hidden) { spCount.textContent = "Tipp ein Suchwort oder wähl einen Filter."; spList.innerHTML = ""; spEmpty.classList.add("hidden"); }
+        else sp.hidden = true;
+        return;
+      }
       spLoad().then(function (rows) {
         if (my !== spGen) return;
-        var words = s.split(/\s+/);
+        var words = s ? s.split(/\s+/) : [];
         var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source); });
-        hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
+        if (s) hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
         spCount.textContent = hits.length + " von " + rows.length + " Tools";
         spList.innerHTML = hits.slice(0, 40).map(function (t) {
           var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
@@ -368,6 +374,7 @@
             '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
         }).join("") + (hits.length > 40 ? '<li class="sp-more">Noch ' + (hits.length - 40) + " weitere Treffer. Grenz die Suche mit einem zweiten Wort ein.</li>" : "");
         spList.querySelectorAll("img").forEach(function (im) { im.addEventListener("error", function () { im.style.visibility = "hidden"; }); });
+        if (window.kwAddMerk) window.kwAddMerk(spList);
         spEmpty.classList.toggle("hidden", hits.length > 0);
         sp.hidden = false;
       }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
@@ -375,7 +382,13 @@
     window.kwPanelRun = spRun;
     var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
     q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
-    [spEu, spOss].forEach(function (c) { c.addEventListener("change", spRun); });
+    [spEu, spOss].forEach(function (c) { c.addEventListener("change", function () { spRun(true); }); });
+    $$("[data-sp]").forEach(function (b) {
+      b.addEventListener("click", function (e) {
+        e.stopPropagation(); // sonst schließt der Klick-außerhalb-Handler das Panel sofort wieder
+        spEu.checked = b.dataset.sp === "eu"; spOss.checked = b.dataset.sp === "oss"; spRun();
+      });
+    });
     $(".close", sp).addEventListener("click", function () { spHide(); q.focus(); });
     // Escape verwirft auch eine Suche, deren Antwort noch unterwegs ist
     document.addEventListener("keydown", function (e) { if (e.key !== "Escape") return; var open = !sp.hidden; spHide(); if (open) q.focus(); });

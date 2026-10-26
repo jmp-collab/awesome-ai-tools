@@ -408,13 +408,22 @@ def lead_form(source, subject, compact=False):
 </form>"""
 
 
-def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="", base=""):
-    base_tag = f'<base href="{base}">\n' if base else ""
+def absolutize(doc, base):
+    """Relative href/src auf den Seitenpfad umschreiben. Ersatz für <base>, das Fragment-Verweise wie
+    <use href="#i-wrench"> auf die Startseite umbiegen würde."""
+    def fix(m):
+        url = m.group(2)
+        if re.match(r"(https?:|mailto:|#|/|data:)", url):
+            return m.group(0)
+        return f'{m.group(1)}="{base}{url[2:] if url.startswith("./") else url}"'
+    return re.sub(r'\b(href|src)="([^"]*)"', fix, doc)
+
+
+def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head=""):
     return f"""<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
-{base_tag}
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
@@ -662,6 +671,7 @@ def build_index(sections, head_md):
 <section class="band" id="kategorien"><div class="wrap">
 <p class="eyebrow">Die Schubladen</p><h2>{n_cats} Schubladen, {n_tools} Tools, eine Werkstatt</h2>
 <p class="intro">Jede Schublade hat eine eigene Seite mit allen Tools, einem Werkstatt-Tipp und Antworten auf die Fragen, die uns am häufigsten gestellt werden. Such dir eine aus oder tipp oben ins Suchfeld, was du vorhast.</p>
+<p class="sp-filters"><button type="button" class="btn btn-sm" data-sp="eu">{icon("globe")}Alle {n_eu} EU-Anbieter zeigen</button><button type="button" class="btn btn-sm" data-sp="oss">{icon("code")}Alle {n_oss} Open-Source-Tools zeigen</button></p>
 <div class="drawers">{"".join(drawers)}
 <a class="drawer drawer-gl reveal" href="{GLOSSAR_PAGE}"><span class="drawer-art gl-art">{icon("abc")}</span><span class="drawer-body"><span class="drawer-no">Nachschlagen</span><b class="drawer-title">{icon("book")}KI-Glossar</b>
 <span class="drawer-teaser">Token, RAG, Halluzination: {len(GLOSSAR["begriffe"])} Begriffe, jeder mit ernster Erklärung und einer Werkstatt-Übersetzung zum Merken.</span>
@@ -715,7 +725,7 @@ def build_subpages(list_secs=()):
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "danke.html").write_text(page_shell("Danke – KI-Werkstatt", danke, "Anfrage angekommen.", SITE_URL + "danke.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
-    # 404: GitHub Pages liefert docs/404.html für jede unbekannte Adresse aus, deshalb <base> auf den Seitenpfad
+    # 404: GitHub Pages liefert docs/404.html für jede unbekannte Adresse aus, deshalb absolute Pfade
     base = urlparse(SITE_URL).path or "/"
     chips = "".join(f'<a class="chip" href="{cat_page(s["id"])}">{icon(CAT_ICON.get(s["id"], "box"))}{html.escape(s["title"])}</a>' for s in list_secs)
     nf = f"""{topbar(False, "sub")}
@@ -726,8 +736,8 @@ def build_subpages(list_secs=()):
 <div class="chips nf-chips"><a class="chip cat" href="./">{icon("wrench")}Startseite</a>{chips}<a class="chip" href="{GLOSSAR_PAGE}">{icon("abc")}KI-Glossar</a></div>
 <p style="margin-top:22px"><a class="btn btn-lime" href="./#stack-check">{icon("mail")}Jean direkt fragen</a></p></div>
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
-    (DOCS / "404.html").write_text(page_shell("Schublade nicht gefunden – KI-Werkstatt", nf, "Diese Seite gibt es nicht.", SITE_URL + "404.html",
-                                              '<meta name="robots" content="noindex">', base=base), encoding="utf-8")
+    (DOCS / "404.html").write_text(absolutize(page_shell("Schublade nicht gefunden – KI-Werkstatt", nf, "Diese Seite gibt es nicht.", SITE_URL + "404.html",
+                                                         '<meta name="robots" content="noindex">'), base), encoding="utf-8")
 
     needs = '<p class="needs"><b>[NEEDS_REVIEW]</b> Platzhalter: Name und Anschrift fehlen noch. Wer eine Seite mit Kontaktformular und geschäftlichem Zweck betreibt, braucht in Deutschland ein vollständiges Impressum nach § 5 DDG.</p>'
     needs_ds = '<p class="needs"><b>[NEEDS_REVIEW]</b> Entwurf, vor dem Bewerben der Seite rechtlich prüfen lassen. Die Informationspflichten nach Art. 13 DSGVO gelten ab dem ersten Formular, das Daten einsammelt.</p>'
