@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Prüft alle Links in README.de.md und in data/rechner.json und schreibt das Ergebnis nach data/linkcheck.json.
 
-Nur dieses Skript darf das Link-Check-Datum setzen; der Seiten-Generator liest es nur.
+Nur dieses Skript darf das Link-Check-Datum setzen: im Report immer, in der README-Einleitung
+nur nach einem Lauf ohne tote Links. Der Seiten-Generator liest es nur.
 Aufruf aus dem Repo-Root:
     python3 scripts/check_links.py
 
@@ -86,6 +87,11 @@ def main():
         "method": "HTTP HEAD, bei Nicht-OK (auch 405) GET; 2xx/3xx und Bot-Schutz (401/403/429) gelten als erreichbar",
     }
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    # README-Datum nur nach bestandenem Lauf, denn die Zeile sagt "Tote Tools sind raus"
+    stamp = date.today().strftime("%d.%m.%Y")
+    md_new, n = re.subn(r"Link-Check \(Stand: [^)]*\)", f"Link-Check (Stand: {stamp})", md)
+    if not dead and n and md_new != md:
+        SRC.write_text(md_new, encoding="utf-8")
     print(f"{report['checked']} Links geprüft, {len(dead)} tot -> {OUT.relative_to(ROOT)}")
     for u, c in sorted(dead.items()):
         print(f"  {c:>3} {u}")
