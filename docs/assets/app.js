@@ -342,7 +342,7 @@
   /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
   var sp = $("#searchpanel");
   if (sp && q) {
-    var DATA = null, loading = null, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
+    var DATA = null, loading = null, spGen = 0, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
     function spLoad() {
       if (DATA) return Promise.resolve(DATA);
       if (!loading) loading = fetch("tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
@@ -352,10 +352,12 @@
       return loading;
     }
     function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
+    function spHide() { spGen++; sp.hidden = true; } // spätere Antworten einer alten Suche verwerfen
     function spRun() {
-      var s = q.value.trim().toLowerCase();
+      var s = q.value.trim().toLowerCase(), my = ++spGen;
       if (!s) { sp.hidden = true; return; }
       spLoad().then(function (rows) {
+        if (my !== spGen) return;
         var words = s.split(/\s+/);
         var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source); });
         hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
@@ -368,14 +370,15 @@
         spList.querySelectorAll("img").forEach(function (im) { im.addEventListener("error", function () { im.style.visibility = "hidden"; }); });
         spEmpty.classList.toggle("hidden", hits.length > 0);
         sp.hidden = false;
-      }).catch(function () { spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
+      }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
     }
     window.kwPanelRun = spRun;
     var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
     q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
     [spEu, spOss].forEach(function (c) { c.addEventListener("change", spRun); });
-    $(".close", sp).addEventListener("click", function () { sp.hidden = true; q.focus(); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !sp.hidden) { sp.hidden = true; q.focus(); } });
-    document.addEventListener("click", function (e) { if (!sp.hidden && !sp.contains(e.target) && e.target !== q) sp.hidden = true; });
+    $(".close", sp).addEventListener("click", function () { spHide(); q.focus(); });
+    // Escape verwirft auch eine Suche, deren Antwort noch unterwegs ist
+    document.addEventListener("keydown", function (e) { if (e.key !== "Escape") return; var open = !sp.hidden; spHide(); if (open) q.focus(); });
+    document.addEventListener("click", function (e) { if (!sp.contains(e.target) && e.target !== q) spHide(); });
   }
 })();
