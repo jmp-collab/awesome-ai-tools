@@ -538,11 +538,11 @@ def build_index(sections, head_md):
 <p class="sub">Jedes Tool in einem Satz erklärt. Tote Links raus. Anbieter aus der EU markiert. Dazu Werkzeugkisten für typische Fälle und ein Stack-Finder, der dir in drei Fragen sagt, womit du anfängst.</p>
 <div class="ctas"><a class="btn btn-lime" href="#finder-band">{icon("compass")}Stack-Finder starten</a><a class="btn" href="#liste">{icon("layers")}Zur Liste</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 <div class="stats">
-<div class="stat reveal"><b data-count="{n_tools}">0</b><span>geprüfte Tools</span></div>
-<div class="stat reveal"><b data-count="{n_cats}">0</b><span>Kategorien, {n_subs} Unterbereiche</span></div>
-<div class="stat reveal"><b data-count="{n_eu}">0</b><span>Anbieter mit Sitz in der EU</span></div>
-<div class="stat reveal"><b data-count="{n_oss}">0</b><span>Open-Source-Tools</span></div>
-<div class="stat reveal"><b data-count="{N_STACKS}">0</b><span>Werkzeugkisten</span></div>
+<div class="stat reveal"><b data-count="{n_tools}">{n_tools}</b><span>geprüfte Tools</span></div>
+<div class="stat reveal"><b data-count="{n_cats}">{n_cats}</b><span>Kategorien, {n_subs} Unterbereiche</span></div>
+<div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit Sitz in der EU</span></div>
+<div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open-Source-Tools</span></div>
+<div class="stat reveal"><b data-count="{N_STACKS}">{N_STACKS}</b><span>Werkzeugkisten</span></div>
 </div></div></section>
 
 <section class="band" id="favoriten"><div class="wrap">
@@ -773,10 +773,10 @@ def build_category_pages(list_secs, tools_map):
 <div class="ctas"><a class="btn btn-lime" href="#{sec['subs'][0]['id'] if sec['subs'] else sec['id']}">{icon("layers")}Zu den Tools</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 </div><div class="cat-hero-art reveal"><img src="img/cat-{sec["id"]}.svg" alt="" width="800" height="300"></div></div>
 <div class="stats">
-<div class="stat reveal"><b data-count="{n}">0</b><span>Tools in dieser Schublade</span></div>
-<div class="stat reveal"><b data-count="{max(1, len(sec["subs"]))}">0</b><span>Bereiche</span></div>
-<div class="stat reveal"><b data-count="{n_eu}">0</b><span>Anbieter mit Sitz in der EU</span></div>
-<div class="stat reveal"><b data-count="{n_oss}">0</b><span>Open Source</span></div>
+<div class="stat reveal"><b data-count="{n}">{n}</b><span>Tools in dieser Schublade</span></div>
+<div class="stat reveal"><b data-count="{max(1, len(sec["subs"]))}">{max(1, len(sec["subs"]))}</b><span>Bereiche</span></div>
+<div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit Sitz in der EU</span></div>
+<div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open Source</span></div>
 </div></div></section>
 
 <div class="wrap layout" id="liste">

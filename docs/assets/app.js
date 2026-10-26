@@ -103,6 +103,7 @@
     function step(ts) { if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / dur); k = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(start + (end - start) * k); if (k < 1) requestAnimationFrame(step); }
     requestAnimationFrame(step);
   }
+  // Im HTML stehen die echten Zahlen (ohne JavaScript, für Crawler); die Animation zählt beim Einblenden ab 0 hoch
   if ("IntersectionObserver" in window) {
     var io2 = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); io2.unobserve(e.target); } }); });
     $$("[data-count]").forEach(function (el) { io2.observe(el); });

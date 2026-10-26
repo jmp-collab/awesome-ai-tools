@@ -53,6 +53,6 @@ Tool-Listen mit 10.000 Einträgen, die niemand geprüft hat. Buzzword-Marketing.
 
 ## Lead-Angebot: der Stack-Check
 
-Du sagst, was du baust. Jean schaut drauf und schickt dir ein Setup aus 6 bis 8 Tools, das zu deinem Fall passt. Kostenlos, per Mail, ohne Pitch. Anfragen gehen an jeanmauriceport@gmail.com.
+Du sagst, was du baust. Jean schaut drauf und schickt dir ein Setup aus 4 bis 6 Tools, das zu deinem Fall passt. Kostenlos, per Mail, ohne Pitch. Anfragen gehen an jeanmauriceport@gmail.com.
 
 Versprochen wird nur, was gehalten wird: eine Mail mit einem Vorschlag. Keine Beratung, kein Vertrag, keine Preise, die wir nicht kennen.
