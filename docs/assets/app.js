@@ -25,8 +25,10 @@
   var q = $("#q"), count = $("#count"), items = $$("ul.tools li");
   var feu = $$("input.f-eu"), foss = $$("input.f-oss");
   var main = $("main.content");
+  var panelMode = !!$("#searchpanel"); // Startseite: Suche über tools.json statt Filter auf der Seite
   function uniq(list) { var u = {}; list.forEach(function (li) { u[li.querySelector("a.name").href] = 1; }); return Object.keys(u).length; }
   function run() {
+    if (panelMode) { var tot = $(".hero .stat b[data-count]"); if (count && tot) count.textContent = tot.dataset.count + " Tools"; return; }
     var s = (q ? q.value : "").trim().toLowerCase();
     var eu = feu.some(function (c) { return c.checked; }), oss = foss.some(function (c) { return c.checked; }), filtering = !!(s || eu || oss);
     items.forEach(function (li) {
@@ -56,7 +58,7 @@
     }
   }
   [q].concat(feu, foss).forEach(function (el) { if (el) el.addEventListener("input", function (e) { if (e.target.type === "checkbox") { (e.target.classList.contains("f-eu") ? feu : foss).forEach(function (c) { c.checked = e.target.checked; }); } run(); }); });
-  var sf = $("#searchform"); if (sf) sf.addEventListener("submit", function (e) { e.preventDefault(); run(); });
+  var sf = $("#searchform"); if (sf) sf.addEventListener("submit", function (e) { e.preventDefault(); if (panelMode) { if (window.kwPanelRun) window.kwPanelRun(); } else run(); });
   run();
 
   /* Scroll: Fortschritt, Topbutton, Sticky-Leiste, Parallax */
@@ -213,8 +215,8 @@
   function mText() { return merk.map(function (x) { return x.n + " (" + x.u + ")"; }).join("\n"); }
   function mLabel() { return merk.length + (merk.length === 1 ? " Tool" : " Tools") + " aus deiner Merkliste angehängt"; }
   var pill = $("#merk-pill"), panel = $("#merk"), mList = panel ? $(".merk-list", panel) : null;
-  $$("ul.tools li").forEach(function (li) {
-    var a = li.querySelector("a.name"); if (!a) return;
+  function addMerkBtn(li) {
+    var a = li.querySelector("a.name"); if (!a || li.querySelector(".merk-btn")) return;
     var b = document.createElement("button");
     b.type = "button"; b.className = "merk-btn"; b.innerHTML = svg("bookmark");
     b.dataset.u = a.href; b.dataset.n = a.textContent;
@@ -224,7 +226,9 @@
       if (pill && merk.length) { pill.classList.remove("pop"); void pill.offsetWidth; pill.classList.add("pop"); }
     });
     li.appendChild(b);
-  });
+  }
+  $$("ul.tools li").forEach(addMerkBtn);
+  window.kwAddMerk = function (root) { $$("li", root).forEach(addMerkBtn); mRender(); };
   function mRender() {
     $$(".merk-btn").forEach(function (b) {
       var on = mHas(b.dataset.u);
@@ -336,5 +340,77 @@
     window.addEventListener("hashchange", flash);
     // Beim Laden mit #begriff: nach dem Aufbau der Seite sicher hinspringen
     var t0 = flash(); if (t0) window.addEventListener("load", function () { t0.scrollIntoView({ block: "start", behavior: "instant" }); });
+  }
+  /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
+  var sp = $("#searchpanel");
+  if (sp && q) {
+    var DATA = null, loading = null, spGen = 0, spHits = [], spShown = 0, SP_STEP = 40, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
+    function spLoad() {
+      if (DATA) return Promise.resolve(DATA);
+      if (!loading) loading = fetch("tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
+        DATA = j.tools.map(function (t) { t._s = [t.name, t.beschreibung, t.kategorie, t.bereich].join(" ").toLowerCase(); return t; });
+        return DATA;
+      });
+      return loading;
+    }
+    function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
+    function spHide() { spGen++; sp.hidden = true; } // spätere Antworten einer alten Suche verwerfen
+    function spRun(keepOpen) {
+      var s = q.value.trim().toLowerCase(), my = ++spGen, filt = spEu.checked || spOss.checked;
+      if (!s && !filt) { // ohne Suchwort reicht ein gesetzter Filter
+        if (keepOpen === true && !sp.hidden) { spCount.textContent = "Tipp ein Suchwort oder wähl einen Filter."; spList.innerHTML = ""; spEmpty.classList.add("hidden"); }
+        else sp.hidden = true;
+        return;
+      }
+      spLoad().then(function (rows) {
+        if (my !== spGen) return;
+        var words = s ? s.split(/\s+/) : [];
+        var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source); });
+        if (s) hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
+        spCount.textContent = hits.length + " von " + rows.length + " Tools";
+        spHits = hits; spShown = 0; spList.innerHTML = "";
+        spMore();
+        spEmpty.classList.toggle("hidden", hits.length > 0);
+        sp.hidden = false;
+      }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
+    }
+    function spRow(t) {
+      var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
+      return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
+        '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
+    }
+    // Treffer in Portionen anhängen; der Knopf am Ende holt die nächsten, bis alle sichtbar sind
+    function spMore() {
+      var old = $(".sp-more", spList); if (old) old.remove();
+      var next = spHits.slice(spShown, spShown + SP_STEP); spShown += next.length;
+      spList.insertAdjacentHTML("beforeend", next.map(spRow).join(""));
+      var rest = spHits.length - spShown;
+      if (rest > 0) spList.insertAdjacentHTML("beforeend", '<li class="sp-more"><button type="button" class="btn btn-sm">' + svg("layers") + "Noch " + Math.min(rest, SP_STEP) + " von " + rest + " weiteren zeigen</button></li>");
+      spList.querySelectorAll("img:not([data-e])").forEach(function (im) { im.dataset.e = "1"; im.addEventListener("error", function () { im.style.visibility = "hidden"; }); });
+      if (window.kwAddMerk) window.kwAddMerk(spList);
+    }
+    // stopPropagation: der Knopf verschwindet beim Nachladen, sonst hielte der Außen-Klick-Handler ihn für "außerhalb"
+    spList.addEventListener("click", function (e) { if (e.target.closest(".sp-more button")) { e.stopPropagation(); spMore(); } });
+    // Sprunglinks auf diese Seite (z. B. zum Stack-Check) schließen das Panel, damit es das Ziel nicht verdeckt
+    sp.addEventListener("click", function (e) {
+      var a = e.target.closest("a[href]"); if (!a) return;
+      var u = new URL(a.href, location.href);
+      if (u.origin === location.origin && u.pathname === location.pathname && u.hash) spHide();
+    });
+    window.kwPanelRun = spRun;
+    var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
+    q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
+    [spEu, spOss].forEach(function (c) { c.addEventListener("change", function () { spRun(true); }); });
+    $$("[data-sp]").forEach(function (b) {
+      b.addEventListener("click", function (e) {
+        e.stopPropagation(); // sonst schließt der Klick-außerhalb-Handler das Panel sofort wieder
+        q.value = ""; // "Alle …" heißt alle, nicht die Schnittmenge mit einem alten Suchwort
+        spEu.checked = b.dataset.sp === "eu"; spOss.checked = b.dataset.sp === "oss"; spRun();
+      });
+    });
+    $(".close", sp).addEventListener("click", function () { spHide(); q.focus(); });
+    // Escape verwirft auch eine Suche, deren Antwort noch unterwegs ist
+    document.addEventListener("keydown", function (e) { if (e.key !== "Escape") return; var open = !sp.hidden; spHide(); if (open) q.focus(); });
+    document.addEventListener("click", function (e) { if (!sp.contains(e.target) && e.target !== q) spHide(); });
   }
 })();

@@ -1,0 +1,183 @@
+{
+ "_hinweis": "Eigene Texte je Kategorie-Seite. Platzhalter: {n} = Anzahl Tools, {subs} = Anzahl Bereiche, {eu} = Namen der EU-Anbieter in dieser Schublade. Jeder Satz darf auf der ganzen Site nur einmal vorkommen; scripts/check_unique.py prüft das beim Build.",
+ "text-und-sprache": {
+  "seo_title": "KI-Tools für Text und Sprache: Chatbots, Übersetzer, Schreibhilfen",
+  "meta": "{n} KI-Tools für Text auf Deutsch erklärt: Chatbots wie ChatGPT, Claude und Le Chat, Übersetzer wie DeepL, KI-Suche, Schreibhilfen und lokale Modelle. Mit EU-Markierung.",
+  "teaser": "Die größte Schublade der Werkstatt. Hier liegt alles, was schreibt, übersetzt, zusammenfasst oder dir beim Lesen die Arbeit abnimmt.",
+  "hero": "Vom Chatbot über den Übersetzer bis zum Modell, das auf deinem eigenen Laptop läuft. Die Schublade ist so voll, dass wir sie in {subs} Fächer aufteilen mussten.",
+  "intro": [
+   "Text ist der Bereich, in dem KI am schnellsten vom Spielzeug zum Werkzeug geworden ist. Mails entwerfen, Handbücher zusammenfassen, Produktbeschreibungen in drei Sprachen: Dafür brauchst du mit den Tools hier keinen ganzen Nachmittag mehr.",
+   "Fang oben an. Erst kommen die Sprachmodelle selbst, dann die Assistenten, die darauf aufbauen, dann die Spezialisten. Wenn du Kundendaten verarbeitest, schau zuerst ins Fach „Lokal und privat“ und auf die EU-Markierung. Dein Datenschutzbeauftragter wird dich dafür lieben. Oder wenigstens nicht anrufen."
+  ],
+  "tipp": "Teste zwei Assistenten mit derselben echten Aufgabe aus deinem Alltag, nicht mit einem Gedicht über Katzen. Nach zehn Minuten weißt du mehr als nach zehn Vergleichsartikeln.",
+  "faq": [
+   ["Welcher KI-Chatbot schreibt das beste Deutsch?", "Das hängt stärker von deiner Aufgabe ab als vom Anbieter. Claude, ChatGPT und Le Chat liefern gutes Deutsch, für reine Übersetzungen klingt DeepL oft natürlicher. Teste mit einem eigenen Text und vergleiche die Ergebnisse nebeneinander."],
+   ["Gibt es KI-Assistenten aus der EU?", "Ja, und gar nicht so wenige. In dieser Schublade tragen unter anderem {eu} das EU-Zeichen. Es zeigt den Firmensitz und ersetzt keine Datenschutz-Prüfung."],
+   ["Kann ich ein Sprachmodell ohne Cloud nutzen?", "Ja. Mit Ollama oder LM Studio läuft ein offenes Modell direkt auf deinem Rechner, die Daten bleiben auf dem Gerät. Für flüssige Antworten brauchst du viel Arbeitsspeicher oder eine Grafikkarte mit ordentlich Grafikspeicher."]
+  ],
+  "lead_hook": "Zu viele Chatbots, zu wenig Zeit?",
+  "lead_text": "Schreib, wofür du Text-KI einsetzen willst. Jean sucht dir die zwei, drei Tools raus, die dafür wirklich taugen."
+ },
+ "automatisierung-und-ki-agenten": {
+  "seo_title": "KI-Automatisierung und KI-Agenten: n8n, Make, Zapier und mehr",
+  "meta": "{n} Tools für Automatisierung und KI-Agenten auf Deutsch erklärt: n8n, Make, Zapier und mehr. Welche du selbst hosten kannst und welche aus der EU kommen.",
+  "teaser": "Die Kabelbinder-Schublade: Tools, die deine Apps verbinden und Routinearbeit erledigen, während du Kaffee holst.",
+  "hero": "Hier wohnen die Tools, die Arbeit nicht schneller machen, sondern einfach erledigen. Kleine Schublade, aber die meisten Überstunden der ganzen Werkstatt.",
+  "intro": [
+   "Automatisierung ist der Teil der KI-Welt, bei dem du am wenigsten tippst und am meisten sparst. Ein Formular kommt rein, die KI sortiert es, das Ergebnis landet im richtigen Postfach. Einmal gebaut, läuft das jeden Tag. Auch montags.",
+   "n8n und Make haben ihren Sitz in der EU, n8n kannst du sogar auf dem eigenen Server betreiben. Zapier punktet mit sehr vielen fertigen Verbindungen. Die Agenten-Tools gehen noch einen Schritt weiter und planen Arbeitsschritte selbst. Klingt großartig, braucht aber klare Grenzen, sonst bestellt dein Agent irgendwann 400 Kabelbinder."
+  ],
+  "tipp": "Automatisiere zuerst den langweiligsten Ablauf, den du jede Woche von Hand erledigst, nicht den spannendsten. Der langweilige spart mehr und geht seltener kaputt.",
+  "faq": [
+   ["Was unterscheidet Zapier, Make und n8n?", "Alle drei verbinden Apps zu Abläufen. Zapier ist am schnellsten eingerichtet, Make zeigt Abläufe als Diagramm und eignet sich für verzweigte Szenarien, n8n lässt sich selbst hosten und gefällt Technikaffinen. Preise ändern sich oft, also prüf sie direkt beim Anbieter."],
+   ["Was genau macht ein KI-Agent anders als eine Automation?", "Eine Automation folgt einem festen Ablauf, den du gebaut hast. Ein Agent bekommt ein Ziel und entscheidet selbst, welche Werkzeuge er in welcher Reihenfolge benutzt. Das ist flexibler und genau deshalb prüfbedürftiger."],
+   ["Lassen sich Automationen DSGVO-konform betreiben?", "Das hängt an den Daten und am Vertrag, nicht am Tool allein. Ein selbst gehostetes n8n hält die Daten bei dir, bei Cloud-Diensten brauchst du einen Auftragsverarbeitungsvertrag. Im Zweifel fragst du die Person, die bei euch für Datenschutz zuständig ist."]
+  ],
+  "lead_hook": "Welchen Ablauf willst du nie wieder von Hand machen?",
+  "lead_text": "Beschreib ihn in drei Sätzen. Jean sagt dir, mit welchem Tool du ihn am schnellsten loswirst."
+ },
+ "entwickler-tools-und-llmops": {
+  "seo_title": "KI-Entwickler-Tools und LLMOps: Frameworks, Tracing, Tests",
+  "meta": "{n} Werkzeuge für Leute, die KI-Anwendungen bauen: LangChain, LlamaIndex, Haystack, Langfuse und mehr. Frameworks, Tracing und Tests, auf Deutsch erklärt.",
+  "teaser": "Für alle, die KI nicht nur benutzen, sondern damit bauen. Frameworks, Messgeräte und Prüfstände für Sprachmodelle.",
+  "hero": "Die Schublade mit dem Messschieber. Hier geht es darum, wie aus einem Sprachmodell eine Anwendung wird, die auch nächste Woche noch tut, was sie soll.",
+  "intro": [
+   "Ein Prompt im Chatfenster ist schnell gebaut. Eine Anwendung, die tausend Kundenanfragen am Tag beantwortet, ist eine andere Liga. Dafür brauchst du Frameworks für den Aufbau, Tracing, um zu sehen, was das Modell gerade treibt, und Tests, damit ein Modellwechsel nicht heimlich alles umwirft.",
+   "LangChain, LlamaIndex und Haystack sind die bekannten Baukästen, Haystack stammt aus Berlin. Langfuse, ebenfalls mit Wurzeln in Berlin, zeigt dir, was in deiner Anwendung passiert und was es kostet. Der Rest der Schublade ist Spezialwerkzeug für Gateways, Evaluierung und Agenten."
+  ],
+  "tipp": "Bau dir am ersten Tag einen kleinen Testsatz aus zwanzig echten Fragen mit guten Antworten. Jedes Mal, wenn du Prompt oder Modell änderst, läuft er durch. Das erspart dir später sehr unangenehme Montagmorgen.",
+  "faq": [
+   ["Brauche ich LangChain für eine KI-Anwendung?", "Nein. Für einfache Fälle reicht die Schnittstelle des Modellanbieters völlig. Frameworks lohnen sich, sobald du viele Bausteine kombinierst, etwa Dokumentensuche, Werkzeuge und mehrere Modelle."],
+   ["Was bedeutet LLMOps?", "Der Betrieb von Anwendungen mit Sprachmodellen: überwachen, testen, Kosten im Blick behalten, Versionen verwalten. Im Grunde DevOps, nur mit einem Kollegen, der sich manchmal Dinge ausdenkt."],
+   ["Welche Entwickler-Tools haben ihren Sitz in der EU?", "In dieser Schublade tragen {eu} das EU-Zeichen. Bei Open-Source-Werkzeugen ist der Firmensitz ohnehin zweitrangig, wenn du sie selbst betreibst."]
+  ],
+  "lead_hook": "Du baust etwas mit Sprachmodellen?",
+  "lead_text": "Erzähl, was es werden soll und wo es gerade hakt. Jean schaut auf deinen Stack und sagt dir, was fehlt und was raus kann."
+ },
+ "programmieren-mit-ki": {
+  "seo_title": "Programmieren mit KI: Code-Assistenten, KI-Editoren, App-Builder",
+  "meta": "{n} KI-Tools fürs Programmieren auf Deutsch erklärt: Cursor, Claude Code, GitHub Copilot, Lovable, v0 und mehr. Vom Code-Assistenten bis zum App-Builder.",
+  "teaser": "Code-Assistenten, KI-Editoren und App-Builder. Für Profis, die schneller sein wollen, und für alle, die nie programmieren wollten.",
+  "hero": "Vom Autovervollständigen bis zur App aus einem Satz. Diese Werkzeuge schreiben Code, prüfen Code und erklären dir Code, den du vor drei Jahren selbst geschrieben und erfolgreich verdrängt hast.",
+  "intro": [
+   "Programmieren mit KI teilt sich grob in zwei Lager. Das eine hilft Entwicklern im Editor: Cursor, GitHub Copilot, Claude Code oder Windsurf schlagen Code vor, bauen ganze Funktionen und erklären Fehlermeldungen. Das andere baut aus einer Beschreibung gleich eine ganze App, etwa Lovable, Bolt.new oder v0.",
+   "Beides spart Zeit, beides braucht jemanden, der hinterher draufschaut. KI-Code sieht oft richtig aus, bevor er richtig ist. Deshalb liegen hier auch Werkzeuge für Code-Reviews und Tests. Lovable kommt übrigens aus Stockholm, falls du einen EU-Builder suchst."
+  ],
+  "tipp": "Lass die KI zuerst die Tests schreiben und dann den Code. Wenn die Tests grün werden, weißt du wenigstens, was „funktioniert“ heißen sollte.",
+  "faq": [
+   ["Welcher KI-Code-Assistent ist der beste?", "Den einen für alle gibt es nicht. Cursor und Windsurf sind eigene Editoren, GitHub Copilot steckt in vielen bestehenden Editoren, Claude Code arbeitet im Terminal. Probier zwei davon an deinem echten Projekt aus, nicht an einer Demo."],
+   ["Kann ich ohne Programmierkenntnisse eine App bauen?", "Für Prototypen ja: Lovable, Bolt.new oder v0 machen aus einer Beschreibung eine lauffähige App. Sobald echte Kundendaten oder Zahlungen im Spiel sind, sollte jemand drüberschauen, der den Code versteht."],
+   ["Darf KI-generierter Code in mein Projekt?", "Technisch ja. Rechtlich lohnt ein Blick in die Bedingungen des Anbieters und in die Regeln deines Arbeitgebers. Das Review bleibt Pflicht, ganz egal, wer oder was den Code geschrieben hat."]
+  ],
+  "lead_hook": "Code, App oder beides?",
+  "lead_text": "Sag, ob du selbst entwickelst oder eine Idee schnell zum Laufen bringen willst. Jean empfiehlt dir den Editor oder Builder, der dazu passt."
+ },
+ "bilder": {
+  "seo_title": "KI-Bildgeneratoren und Bild-Tools: FLUX, Midjourney, Firefly",
+  "meta": "{n} KI-Tools für Bilder auf Deutsch erklärt: Bildgeneratoren wie FLUX, Midjourney und Adobe Firefly, Freisteller, Grafikdesign und Stable-Diffusion-Ressourcen.",
+  "teaser": "Bildgeneratoren, Freisteller und Design-Helfer. Für Produktfotos ohne Fotostudio und Social-Posts ohne Grafikabteilung.",
+  "hero": "Hier entstehen Bilder aus Text, Produkte verlieren ihren Hintergrund, und niemand muss mehr „mach das Logo größer“ von Hand umsetzen.",
+  "intro": [
+   "Die Schublade hat {subs} Fächer: Bildmodelle, die aus Text Bilder machen, Dienste für konkrete Jobs wie Freistellen oder Porträts, Werkzeuge fürs Grafikdesign, Archive voller Prompts und Beispiele und Ressourcen rund um Stable Diffusion.",
+   "Für Shops lohnt ein Blick auf PhotoRoom aus Paris, das Produktfotos freistellt und neu inszeniert. FLUX von Black Forest Labs aus Freiburg ist die europäische Antwort auf Midjourney. Und ja, die Hände sehen inzwischen meistens nach Händen aus."
+  ],
+  "tipp": "Beschreib im Prompt, was auf dem Bild passiert und wie es aussehen soll: Licht, Perspektive, Stil. „Schönes Bild von einem Roller“ liefert schöne Bilder von irgendeinem Roller.",
+  "faq": [
+   ["Darf ich KI-Bilder kommerziell nutzen?", "Das regeln die Nutzungsbedingungen des jeweiligen Anbieters, oft abhängig vom Tarif. Adobe Firefly wirbt ausdrücklich mit kommerzieller Nutzbarkeit. Lies die Bedingungen, bevor das Bild auf der Verpackung landet."],
+   ["Welche Bildgeneratoren kommen aus der EU?", "In dieser Schublade tragen {eu} das EU-Zeichen. Viele Open-Source-Modelle kannst du außerdem auf eigener Hardware betreiben, dann ist der Firmensitz Nebensache."],
+   ["Wie bekomme ich lesbare Schrift in KI-Bilder?", "Neuere Modelle wie FLUX und Ideogram setzen kurze Texte meist sauber ins Bild. Für Logos und längere Texte bleibt ein Grafikprogramm der sicherere Weg."]
+  ],
+  "lead_hook": "Bilder für Shop, Social oder Präsentation?",
+  "lead_text": "Schreib, was du brauchst und wie viele Bilder im Monat anfallen. Jean sagt dir, welches Tool das mit dem wenigsten Nachbessern schafft."
+ },
+ "video": {
+  "seo_title": "KI-Video-Tools: Clips generieren, Avatare, Untertitel, Schnitt",
+  "meta": "{n} KI-Tools für Video auf Deutsch erklärt: Google Veo, Sora, Runway, Synthesia, HeyGen, Descript und mehr. Vom generierten Clip bis zum fertig geschnittenen Short.",
+  "teaser": "Videos aus Text, sprechende Avatare und Tools, die aus einer Stunde Material die drei guten Minuten schneiden.",
+  "hero": "Kamera, Licht und Schnittplatz in einer Schublade. Manche Tools erzeugen ganze Clips aus einem Satz, andere machen aus deinem Webinar zehn Shorts.",
+  "intro": [
+   "Video-KI gibt es in drei Sorten. Generatoren wie Google Veo, Sora, Kling oder Runway erzeugen Clips aus Text oder Bildern. Avatar-Tools wie Synthesia und HeyGen lassen eine digitale Person sprechen, auch in anderen Sprachen. Und Schnitt-Helfer wie Descript oder Opus Clip bearbeiten Material, das du schon hast.",
+   "Für Erklärvideos und Schulungen sind Avatare oft der schnellste Weg, für Werbeclips eher die Generatoren. Bei echten Personen gilt: nur mit Einwilligung. Und täuschend echte Darstellungen gehören gekennzeichnet, das verlangt der EU AI Act und ist außerdem einfach anständig."
+  ],
+  "tipp": "Plane in kurzen Szenen von wenigen Sekunden und setz sie im Schnitt zusammen. Lange Clips am Stück laufen bei den meisten Generatoren irgendwann aus dem Ruder.",
+  "faq": [
+   ["Kann KI ein Video komplett aus Text erstellen?", "Ja, Generatoren wie Google Veo, Sora oder Kling erzeugen kurze Clips aus einer Beschreibung, teils sogar mit Ton. Für längere Videos setzt man mehrere Clips hintereinander."],
+   ["Wie übersetze ich ein Video mit KI?", "HeyGen übersetzt Videos mit Lippensynchronisation, ElevenLabs vertont sie in anderen Sprachen mit der Originalstimme. Lass das Ergebnis trotzdem von jemandem gegenhören, der die Zielsprache spricht."],
+   ["Muss ich KI-Videos kennzeichnen?", "Für Deepfakes, also täuschend echte Darstellungen realer Personen, verlangt der EU AI Act eine Offenlegung. Auch sonst schadet ein kurzer Hinweis nicht, dein Publikum merkt es ohnehin."]
+  ],
+  "lead_hook": "Erklärvideo, Werbeclip oder Shorts?",
+  "lead_text": "Sag, was für Videos du brauchst und wie oft. Jean nennt dir die Tools mit dem besten Verhältnis aus Aufwand und Ergebnis."
+ },
+ "audio": {
+  "seo_title": "KI-Audio-Tools: Stimmen, Transkription und Musik mit KI",
+  "meta": "{n} KI-Tools für Audio auf Deutsch erklärt: Stimmen und Voice Cloning mit ElevenLabs, Transkription auf Basis von Whisper, Musik mit Suno, Udio und mehr.",
+  "teaser": "Stimmen, die vorlesen, Software, die mitschreibt, und Musik auf Knopfdruck. Die Schublade mit dem besten Klang.",
+  "hero": "{subs} Fächer, ein Thema: Stimmen erzeugen, Gesprochenes aufschreiben, Musik machen. Gehörschutz brauchst du nur beim Musik-Fach.",
+  "intro": [
+   "Für Stimmen ist ElevenLabs der bekannteste Name, daneben gibt es Murf, Resemble AI und weitere. Fürs Aufschreiben von Gesprochenem liegen hier Transkriptions-Tools auf Basis von Whisper. Und im Musik-Fach warten Generatoren wie Suno und Udio, die ganze Songs aus einer Beschreibung bauen.",
+   "Fremde Stimmen klonst du nur mit Einwilligung, das ist keine Höflichkeitsfrage. Bei Musik lohnt ein Blick in die Lizenzbedingungen, bevor der Song unter dein Firmenvideo wandert."
+  ],
+  "tipp": "Bei Sprachausgabe hilft Zeichensetzung mehr als jeder Regler: Kommas machen Pausen, kurze Sätze klingen natürlicher. Lies dir den Text vorher einmal selbst laut vor.",
+  "faq": [
+   ["Welche KI-Stimme klingt auf Deutsch am natürlichsten?", "ElevenLabs gilt als Referenz für realistische deutsche Stimmen, andere Anbieter holen auf. Hör dir Proben mit deinem eigenen Text an, nicht nur die polierte Demo des Anbieters."],
+   ["Wie transkribiere ich Interviews mit KI?", "Tools auf Basis von Whisper wandeln Audio in Text um, Meeting-Assistenten erledigen das direkt im Call. Namen und Fachbegriffe solltest du danach gegenlesen."],
+   ["Darf ich KI-Musik in Videos verwenden?", "Das hängt von Anbieter und Tarif ab, manche erlauben kommerzielle Nutzung nur in bezahlten Plänen. Prüf die Bedingungen, bevor du veröffentlichst."]
+  ],
+  "lead_hook": "Podcast, Vertonung oder Hintergrundmusik?",
+  "lead_text": "Beschreib dein Audio-Projekt in zwei Sätzen. Jean sagt dir, welches Tool das passende Ohr dafür hat."
+ },
+ "marketing-und-seo": {
+  "seo_title": "KI-Tools für Marketing und SEO: Content, Keywords, Anzeigen",
+  "meta": "{n} KI-Tools für Marketing und SEO auf Deutsch erklärt: Semrush, Ahrefs, Surfer, Frase, neuroflash und mehr. Für Content, Keywords, Anzeigen und Social Media.",
+  "teaser": "Keyword-Recherche, Content-Optimierung, Anzeigen und Social. Für alle, die gefunden werden wollen, bevor es die Konkurrenz wird.",
+  "hero": "Die Schublade für Sichtbarkeit. Hier liegen Werkzeuge, die zeigen, wonach Leute suchen, und solche, die dir helfen, die beste Antwort darauf zu schreiben.",
+  "intro": [
+   "Das SEO-Fach beginnt mit den großen Datenbanken wie Semrush und Ahrefs und geht weiter zu Content-Tools wie Surfer und Frase, die deinen Text mit den Top-Ergebnissen vergleichen. Das zweite Fach sammelt Werkzeuge für Werbung, Social Media und Personalisierung.",
+   "neuroflash aus Hamburg hat sich auf deutschsprachige Marketing-Texte spezialisiert. Ein ehrlicher Satz aus der Werkstatt: KI-Texte ranken nicht, weil sie von KI sind, sondern wenn sie besser sind als das, was schon da ist. Die Tools helfen beim Bessermachen, nicht beim Abkürzen."
+  ],
+  "tipp": "Lass die KI nicht gleich den Artikel schreiben, sondern zuerst deine Gliederung gegen die Top-10-Ergebnisse prüfen. Was dort alle haben, brauchst du auch. Was dort keiner hat, ist deine Chance.",
+  "faq": [
+   ["Schadet KI-generierter Content dem Google-Ranking?", "Google bewertet nach eigenen Angaben die Qualität eines Textes, nicht wie er entstanden ist. Massenhaft erzeugte Seiten ohne Mehrwert verstoßen aber gegen die Richtlinien. Entscheidend bleibt, ob dein Text Lesern hilft."],
+   ["Welches SEO-Tool brauche ich zuerst?", "Für den Start reicht oft die kostenlose Google Search Console, die zeigt, wofür du schon gefunden wirst. Semrush oder Ahrefs lohnen sich, wenn du Wettbewerber und Keywords im großen Stil analysierst."],
+   ["Gibt es Marketing-KI aus der EU?", "In dieser Schublade tragen {eu} das EU-Zeichen. Für deutschsprachige Texte ist ein Anbieter mit Heimvorteil oft kein Nachteil."]
+  ],
+  "lead_hook": "Mehr Sichtbarkeit, weniger Tool-Abos?",
+  "lead_text": "Sag, wo du gefunden werden willst und was du schon nutzt. Jean schaut, was sich doppelt und was fehlt."
+ },
+ "ki-telefonagenten": {
+  "seo_title": "KI-Telefonagenten: Anrufe mit KI automatisieren",
+  "meta": "{n} KI-Telefonagenten auf Deutsch erklärt: Tools, die Anrufe annehmen, Termine eintragen und Leads qualifizieren. Mit Hinweisen zu Einwilligung und Kennzeichnung.",
+  "teaser": "Die kleinste Schublade, aber die mit dem lautesten Klingelton. KI, die rangeht, wenn du gerade nicht kannst.",
+  "hero": "Telefonagenten nehmen Anrufe an, beantworten Standardfragen und tragen Termine ein. Sie werden nie heiser und machen nie Mittagspause.",
+  "intro": [
+   "Ein KI-Telefonagent kombiniert drei Bausteine: Spracherkennung, die versteht, was der Anrufer sagt, ein Sprachmodell, das die Antwort findet, und eine Stimme, die sie ausspricht. Die Tools hier verpacken das in einen Dienst, den du mit Kalender oder CRM verbindest.",
+   "Gut geeignet sind wiederkehrende Fälle wie Öffnungszeiten, Terminbuchung oder Rückrufwünsche. Für schwierige Gespräche bleibt besser ein Mensch dran. Und für Werbeanrufe gelten in Deutschland strenge Regeln, mit oder ohne KI."
+  ],
+  "tipp": "Schreib die zehn häufigsten Fragen deiner Anrufer auf, bevor du ein Tool testest. Wenn der Agent die nicht sauber beantwortet, musst du die anderen gar nicht erst ausprobieren.",
+  "faq": [
+   ["Darf ein KI-Agent in Deutschland Kunden anrufen?", "Für Werbeanrufe bei Verbrauchern brauchst du vorher deren ausdrückliche Einwilligung, das schreibt das Gesetz gegen den unlauteren Wettbewerb auch ohne KI vor. Lass dich im Zweifel rechtlich beraten."],
+   ["Muss der Anrufer wissen, dass er mit einer KI spricht?", "Der EU AI Act verlangt, dass Menschen erkennen können, wenn sie mit einem KI-System sprechen, außer es ist ohnehin offensichtlich. Ein Satz zu Beginn des Gesprächs löst das elegant."],
+   ["Für welche Anrufe lohnt sich ein Telefonagent?", "Für viele gleichartige Anrufe mit klaren Antworten, etwa Terminbuchung, Status-Abfragen oder Rückrufwünsche. Bei Beschwerden und Verhandlungen ist ein Mensch die bessere Wahl."]
+  ],
+  "lead_hook": "Dein Telefon klingelt öfter, als dir lieb ist?",
+  "lead_text": "Schreib, welche Anrufe am häufigsten reinkommen. Jean sagt dir, ob ein Telefonagent dafür taugt und welcher."
+ },
+ "weitere-ki-tools": {
+  "seo_title": "Weitere KI-Tools: Prompts, Bewerbung, Verträge, Spiele und mehr",
+  "meta": "{n} KI-Tools, die in keine andere Schublade passen: Prompt-Marktplätze, Bewerbungshelfer, Vertragsmanagement, Finanz-Chat, Spiele und Kurioses. Auf Deutsch erklärt.",
+  "teaser": "Die Krimskrams-Schublade. Jede Werkstatt hat eine, und meistens liegt genau darin das, was man gerade sucht.",
+  "hero": "Prompt-Marktplätze, Bewerbungshelfer, ein Hochzeitsreden-Generator und ein Text-Abenteuer. Hier liegt, was nirgendwo sonst reinpasst, aber zu schade zum Wegwerfen ist.",
+  "intro": [
+   "In dieser Schublade findest du Spezialisten für sehr konkrete Aufgaben: Lebensläufe aufpolieren, Vorstellungsgespräche üben, Verträge verwalten oder Finanzdaten befragen. Dazu Prompt-Sammlungen und ein paar Tools, die vor allem Spaß machen.",
+   "fynk, ein Werkzeug fürs Vertragsmanagement, hat seinen Sitz in der EU. Bei den Bewerbungstools gilt: Die KI darf beim Formulieren helfen, die Erfahrung im Lebenslauf sollte trotzdem deine eigene bleiben."
+  ],
+  "tipp": "Bevor du für ein Nischen-Tool zahlst, probier die Aufgabe einmal mit einem allgemeinen Assistenten und einem guten Prompt. Oft reicht das schon. Wenn nicht, weißt du genau, was das Spezialwerkzeug besser können muss.",
+  "faq": [
+   ["Lohnen sich Prompt-Marktplätze?", "Für den Einstieg in ein neues Thema manchmal, als Dauerlösung selten. Ein guter Prompt hängt an deinem Material und deinem Ziel. Mit den Grundlagen aus dem Lernbereich schreibst du bessere selbst."],
+   ["Darf ich KI für meine Bewerbung nutzen?", "Ja, als Schreibhilfe spricht nichts dagegen. Die Angaben müssen stimmen, und im Gespräch solltest du alles erklären können, was in deinem Anschreiben steht."],
+   ["Warum ist diese Schublade so gemischt?", "Weil gute Tools sich nicht an unsere Kategorien halten. Was sich keiner Aufgabe von Text bis Telefon klar zuordnen lässt, landet eben hier."]
+  ],
+  "lead_hook": "Du suchst etwas sehr Spezielles?",
+  "lead_text": "Beschreib die Aufgabe so konkret wie möglich. Wenn es dafür ein Tool gibt, findet Jean es, und wenn nicht, bekommst du auch das ehrlich gesagt."
+ }
+}
