@@ -1,0 +1,65 @@
+{
+  "brand": "KI-Werkstatt",
+  "claim": "Werkzeug für Leute, die Dinge bauen.",
+  "brand_role": "Die Werkstatt, in der deutschsprachige Macher ihr KI-Werkzeug finden: geprüft, sortiert, in einem Satz erklärt. Kein Verzeichnis, eine Werkbank.",
+  "relationship_promptgott": "PROMPTGOTT liefert die Praxis (wie man aus Tools Systeme baut), die KI-Werkstatt liefert das Werkzeug. Orange gehört PROMPTGOTT, Lime gehört der Werkstatt. Beide reden Klartext, aber die Werkstatt ist ruhiger: weniger Pathos, mehr Checkliste.",
+  "voice_principles": [
+    "Du, nie Sie.",
+    "Ein Satz, ein Gedanke. Lieber zwei kurze Sätze als ein langer.",
+    "Zahl schlägt Adjektiv: '401 geprüfte Tools' statt 'riesige Auswahl'.",
+    "Testen statt hypen. Was wir nicht geprüft haben, sagen wir dazu.",
+    "Werkstatt-Vokabular (Werkzeug, Setup, Stack, Abstimmung) sparsam und wörtlich gemeint, nicht als Gag.",
+    "Haltung zeigen, nicht belehren. Wir sagen, was wir empfehlen und warum. Der Leser entscheidet.",
+    "Keine Verkaufssprache. Ein Lead entsteht, weil die Seite nützlich war, nicht weil ein Button geblinkt hat."
+  ],
+  "do_say": ["geprüft", "Setup", "Werkzeugkiste", "Stack", "läuft", "passt zu", "Klartext", "Link-Check", "in einem Satz", "kommt drauf an, was du baust", "Stand: [Datum]"],
+  "dont_say": [
+    "revolutionär", "game-changing", "bahnbrechend", "disruptiv", "Zukunft der Arbeit",
+    "unleash", "supercharge", "KI-Magie", "nahtlos", "ganzheitlich", "next level",
+    "die besten Tools der Welt", "Must-have", "100 % DSGVO-konform",
+    "Metall, das blutet (Schmitt-Ton)", "Riding Classic (BGM-Ton)", "Kein Theater (Naraku-Ton)", "Alles hat seinen Platz (Moped-Garage-Ton)", "abgefahrenste (PROMPTGOTT-Ton)"
+  ],
+  "catchphrases": [
+    "Geprüft. Sortiert. Auf Deutsch.",
+    "Kein Hype. Werkzeug.",
+    "Erst testen, dann empfehlen.",
+    "Welches Werkzeug? Kommt drauf an, was du baust.",
+    "Tote Links sind keine Tools."
+  ],
+  "enemy": "Tool-Listen mit 10.000 Einträgen, die niemand geprüft hat. Buzzword-Marketing. Affiliate-Links, die als Empfehlung getarnt sind. Tote Links.",
+  "visual_palette": {
+    "c1": {"hex": "#0E1116", "name": "Werkstatt-Schwarz", "use": "Hintergrund (dark), Text (light)"},
+    "c2": {"hex": "#D7FF3C", "name": "Signal-Lime", "use": "Akzent, Buttons, Markierungen. Die Farbe von Warnwesten und Werkzeuggriffen."},
+    "c3": {"hex": "#FF6719", "name": "PROMPTGOTT-Orange", "use": "Nur für Elemente mit PROMPTGOTT-Bezug. Nie für eigene CTAs."},
+    "paper": {"hex": "#F4F3EE", "name": "Werkbank-Papier", "use": "Hintergrund (light)"},
+    "steel": {"hex": "#8A9099", "name": "Stahl", "use": "Sekundärtext, Linien"}
+  },
+  "typography": {
+    "display": "Space Grotesk (Google Fonts), 700, enge Laufweite, Überschriften in Versalien nur im Logo",
+    "body": "IBM Plex Sans (Google Fonts), 400/600",
+    "mono": "IBM Plex Mono für Zahlen, Badges und Code"
+  },
+  "visual_language": [
+    "Raster und Maßlinien als Hintergrundtextur (Werkbank, Millimeterpapier).",
+    "Icons mit 1,75 px Strich, abgerundete Enden, keine Füllungen.",
+    "Kategorie-Grafiken: abstrakte Werkzeug-Silhouetten auf Lime-/Schwarz-Verlauf, nummeriert wie Schubladen.",
+    "Bewegung nur mit Zweck: Fortschritt, Reveal beim Scrollen, Parallax im Hero. Alles aus bei prefers-reduced-motion."
+  ],
+  "target_audiences": [
+    "Selbstständige und Freelancer, die ohne IT-Abteilung ein KI-Setup brauchen",
+    "Marketing- und SEO-Leute in kleinen Teams",
+    "Shop-Betreiber (Produkttexte, Bilder, Übersetzung, Support)",
+    "Macher, die lieber bauen als lesen: Vibe Coder, Automatisierer"
+  ],
+  "proof_sources": [
+    "Link-Check mit Datum und Methode (HTTP-Status, Bot-Schutz gilt als erreichbar)",
+    "Anzahl Tools und Kategorien direkt aus README.de.md gezählt",
+    "EU-Sitz = Hinweis auf den Firmensitz, keine Datenschutz-Prüfung",
+    "PROMPTGOTT-Deep-Dives als Praxisquelle, klar als extern markiert"
+  ],
+  "lead_offer": {
+    "name": "Stack-Check",
+    "promise": "Du sagst, was du baust. Jean schaut drauf und schickt dir ein Setup aus 4 bis 6 Tools, das zu deinem Fall passt. Kostenlos, per Mail, ohne Pitch.",
+    "recipient": "jeanmauriceport@gmail.com"
+  }
+}

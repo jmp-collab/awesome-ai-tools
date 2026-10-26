@@ -1,16 +1,16 @@
-# Awesome KI-Tools auf Deutsch [![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
+# KI-Werkstatt: KI-Tools auf Deutsch [![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
 
-> Kuratierte Liste der besten KI-Tools, auf Deutsch erklärt, geprüft und nach Einsatzzweck sortiert. Mit Praxis-Deep-Dives von **[PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de)**, dem deutschsprachigen Substack für abgefahrene AI-Use-Cases, Prompt Engineering und AI-SEO.
+> Über 400 KI-Tools. Geprüft. Sortiert. Auf Deutsch. Jedes Tool in einem Satz erklärt, tote Links raus, EU-Anbieter markiert. Mit Praxis-Deep-Dives von **[PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de)**, dem Substack für AI-Use-Cases, Prompt Engineering und AI-SEO.
 
-🇬🇧 [English version](README.md) · 📬 [PROMPTGOTT abonnieren](https://promptgott.substack.com/subscribe?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) · ➕ [Tool vorschlagen](#mitmachen)
+🛠️ [Zur Seite mit Suche und Stack-Finder](https://jmp-collab.github.io/awesome-ai-tools/) · 🇬🇧 [English version](README.md) · 📬 [PROMPTGOTT abonnieren](https://promptgott.substack.com/subscribe?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) · ➕ [Tool vorschlagen](#mitmachen)
 
-Diese Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) (MIT-Lizenz) und ist für den deutschsprachigen Raum überarbeitet:
+Die Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) (MIT-Lizenz). Für den deutschsprachigen Raum haben wir sie umgebaut:
 
-- **Übersetzt und gekürzt:** Jede Beschreibung sagt in einem Satz, wofür das Tool gut ist.
-- **Link-Check (Stand: 25.09.2026):** Nicht mehr erreichbare Tools (404, 5xx, Domain tot) sind entfernt, Affiliate- und Referral-Parameter entfernt.
-- **Aktualisiert:** Umbenannte Produkte korrigiert (z. B. Bing Chat → Microsoft Copilot, Metaphor → Exa), aktuelle Standard-Tools ergänzt.
-- **DACH-Fokus:** Eigene Abschnitte für Übersetzung/Lokalisierung, SEO und Automatisierung. Anbieter mit Sitz in der EU sind mit 🇪🇺 markiert. Das ist ein Hinweis, keine Datenschutz-Prüfung: Für DSGVO-Konformität zählen AVV, Serverstandort und Einstellungen im Einzelfall.
-- **PROMPTGOTT-Praxis:** Wo ein Deep Dive zeigt, *wie* man eine Tool-Kategorie in echte Ergebnisse übersetzt, steht ein 💡-Hinweis.
+- **Ein Satz pro Tool.** Was es kann, wofür es taugt. Keine Werbetexte.
+- **Link-Check (Stand: 26.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
+- **Namen auf Stand.** Bing Chat heißt Copilot, Metaphor heißt Exa. Aktuelle Standard-Tools sind ergänzt.
+- **DACH-Fokus.** Eigene Abschnitte für Übersetzung, SEO und Automatisierung. Anbieter mit Sitz in der EU tragen ein 🇪🇺. Das ist ein Hinweis auf den Firmensitz, keine Datenschutz-Prüfung. Für DSGVO zählen AVV, Serverstandort und Einstellungen.
+- **PROMPTGOTT-Praxis.** Wo ein Deep Dive zeigt, wie man aus einer Tool-Kategorie Ergebnisse macht, steht ein 💡.
 
 **Legende:** `OSS` = Open Source · 🇪🇺 = Anbieter mit Sitz in der EU · 💡 = PROMPTGOTT-Deep-Dive zum Thema
 
@@ -97,6 +97,11 @@ Der schnelle Einstieg: ein Tool pro typischer Aufgabe, bewusst mit EU-Alternativ
 - [Qwen](https://qwenlm.github.io) - Offene Modellfamilie von Alibaba, von klein bis sehr groß, stark mehrsprachig. `OSS`
 - [Bloom](https://huggingface.co/docs/transformers/model_doc/bloom) - Offenes, mehrsprachiges Modell aus dem BigScience-Projekt von Hugging Face (46 Sprachen). `OSS`
 - [Hugging Face](https://huggingface.co) - Die zentrale Plattform für offene Modelle, Datensätze und Demo-Apps (Spaces).
+- [Aleph Alpha](https://aleph-alpha.com) - 🇪🇺 Modelle und KI-Plattform aus Heidelberg, ausgelegt auf Behörden und Unternehmen.
+- [Jina AI](https://jina.ai) - 🇪🇺 Embeddings, Reranker und Reader-APIs für Suche und RAG, aus Berlin.
+- [Nebius](https://nebius.com) - 🇪🇺 KI-Cloud mit GPU-Instanzen und Inferenz-Diensten, Sitz in Amsterdam.
+- [Scaleway](https://www.scaleway.com) - 🇪🇺 Französische Cloud mit GPU-Servern und Inferenz für offene Modelle.
+- [STACKIT](https://www.stackit.de) - 🇪🇺 Souveräne Cloud der Schwarz-Gruppe aus Deutschland mit KI-Modell-Hosting.
 
 ### Chatbots und Assistenten
 
@@ -115,6 +120,8 @@ Der schnelle Einstieg: ein Tool pro typischer Aufgabe, bewusst mit EU-Alternativ
 - [AICamp](https://aicamp.so/) - ChatGPT-Arbeitsbereich für Teams.
 - [Gali Chat](https://www.galichat.com/) - KI-Support-Assistent für Websites, rund um die Uhr.
 - [dmwithme](https://dmwithme.com) - KI-Begleiter mit Emotionen, der auch widerspricht.
+- [Kimi](https://www.kimi.com) - Chat-Assistent von Moonshot AI mit sehr langem Kontext.
+- [Grok](https://grok.com) - Chat-Assistent von xAI mit Zugriff auf aktuelle Beiträge von X.
 
 ### KI-Suchmaschinen
 
@@ -185,6 +192,8 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [X-doc AI](https://x-doc.ai/) - KI-Übersetzer für Dokumente mit Erhalt des Layouts.
 - [ElevenLabs Dubbing](https://elevenlabs.io/) - Vertont Videos in andere Sprachen mit der Originalstimme.
 - [HeyGen](https://www.heygen.com) - Übersetzt Videos mit Lippensynchronisation.
+- [Lengoo](https://www.lengoo.com) - 🇪🇺 KI-Übersetzung mit menschlicher Nachbearbeitung für Unternehmen, aus Berlin.
+- [Unbabel](https://www.unbabel.com) - 🇪🇺 Übersetzungsplattform aus Lissabon, KI plus Community-Lektorat.
 
 ### Browser-Erweiterungen und Add-ons
 
@@ -231,7 +240,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [FARSITE](https://far.site/) - Compliance-Software für US-Regierungsauftragnehmer.
 - [BrainSoup](https://www.nurgo-software.com/products/brainsoup) - Multi-Agenten-Client für mehrere LLMs mit Gedächtnis und Werkzeugen.
 - [MindPal](https://mindpal.space/) - "Zweites Gehirn" mit einem Team aus KI-Agenten.
-- [fabric](https://github.com/danielmiessler/fabric/) - KI im Terminal mit einer Bibliothek bewährter Prompt-Muster. `OSS`
+- [fabric](https://github.com/danielmiessler/fabric) - KI im Terminal mit einer Bibliothek bewährter Prompt-Muster. `OSS`
 - [SlidesWizard](https://slideswizard.io) - PowerPoint- und Google-Slides-Präsentationen zu jedem Thema.
 - [Transgate](https://transgate.ai/) - Sprache-zu-Text mit KI.
 - [RabbitHoles AI](https://www.rabbitholes.ai/) - Chat mit KI auf einer unendlichen Leinwand.
@@ -284,6 +293,9 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Aidbase](https://www.aidbase.ai) - KI-Support für SaaS-Startups.
 - [Twig](https://www.twig.so/) - Löst Kundenanfragen sofort, für Kunden und Support-Teams.
 - [EmailTriager](https://www.emailtriager.com/) - Entwirft E-Mail-Antworten automatisch im Hintergrund.
+- [Parloa](https://www.parloa.com) - 🇪🇺 KI-Agenten für Telefon und Chat im Kundenservice, aus Berlin.
+- [Cognigy](https://www.cognigy.com) - 🇪🇺 Agenten-Plattform für Contact Center, aus Düsseldorf.
+- [Rasa](https://www.rasa.com) - 🇪🇺 Framework für eigene Chat- und Sprachassistenten, aus Berlin. `OSS`
 
 
 ## Automatisierung und KI-Agenten
@@ -396,7 +408,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Ideogram](https://ideogram.ai) - Bildgenerator, der besonders gut lesbare Schrift in Bildern erzeugt.
 - [Adobe Firefly](https://firefly.adobe.com) - Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.
 - [DALL·E](https://openai.com/dall-e-2/) - Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.
-- [Make-A-Scene](https://ai.facebook.com/blog/greater-creative-control-for-ai-image-generation/) - Metas Forschungsansatz, der Text und Skizze kombiniert.
 - [DragGAN](https://github.com/XingangPan/DragGAN) - Bilder per Punkt-Ziehen interaktiv verformen. `OSS`
 
 ### Bild-Dienste
@@ -415,7 +426,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Patience.ai](https://www.patience.ai/) - App für Bilder mit Stable Diffusion.
 - [GenShare](https://www.genshare.io/) - Kostenlos Kunst generieren und teilen.
 - [Playground AI](https://playgroundai.com/) - Kostenloser Bildgenerator für Social Posts, Poster und Logos.
-- [Pixelz AI Art Generator](https://pixelz.ai/) - Kunst aus Text mit mehreren Algorithmen.
 - [PhotoGuruAI](https://photoguruai.com/) - Professionelle KI-Bewerbungsfotos in vielen Stilen.
 - [Avatar AI](https://avatarai.me/) - Eigene KI-Avatare erstellen.
 - [RunDiffusion](https://rundiffusion.com/) - Cloud-Arbeitsplatz für KI-Kunst.
@@ -430,6 +440,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [AI Photo Forge](https://aiphotoforge.com/) - Telegram-Bot für KI-Fotos von dir.
 - [AI Boost](https://boost.pictures/) - All-in-one: Upscaling, Face Swap, Avatare, virtuelle Anprobe, Hintergründe.
 - [PlantTattoosAI](https://www.planttattoosai.com/) - Tattoo-Designs mit Pflanzen und Blumen.
+- [Recraft](https://www.recraft.ai) - Bildgenerator mit Stil-Kontrolle, erzeugt auch Vektorgrafiken.
 
 ### Grafikdesign
 
@@ -445,7 +456,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 
 - [KREA](https://www.krea.ai/) - Millionen KI-Bilder durchsuchen und Prompt-Sammlungen anlegen.
 - [OpenArt](https://openart.ai/) - Über 10 Millionen Prompts durchsuchen und selbst generieren.
-- [Libraire](https://libraire.ai/) - Große Bibliothek KI-generierter Bilder.
 - [Phygital](https://app.phygital.plus/) - Vorlagen zum Erzeugen und Bearbeiten von Bildern.
 - [PublicPrompts](https://publicprompts.art/) - Kostenlose Prompts für Stable Diffusion.
 

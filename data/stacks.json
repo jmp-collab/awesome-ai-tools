@@ -1,0 +1,164 @@
+{
+  "stacks": [
+    {
+      "id": "seo",
+      "icon": "search",
+      "title": "SEO-Stack",
+      "for": "Sichtbarkeit in Google und in KI-Antworten",
+      "tools": [
+        ["Semrush", "Keywords, Wettbewerber, Audits. Die Datenbasis."],
+        ["Surfer", "Texte gegen die Top-10 abstimmen."],
+        ["Frase", "Briefings aus den Suchergebnissen ziehen."],
+        ["Claude", "Entwürfe, Umschreiben, Strukturieren."],
+        ["NotebookLM", "Eigene Quellen befragen statt halluzinieren lassen."],
+        ["n8n", "Rankings, Briefings und Content-Jobs automatisieren."]
+      ],
+      "promptgott": ["Programmatic SEO Architecture", "https://promptgott.substack.com/p/programmatic-seo-architecture"]
+    },
+    {
+      "id": "content",
+      "icon": "pen",
+      "title": "Content-Stack",
+      "for": "Texte, Grafiken und Präsentationen in Serie",
+      "tools": [
+        ["Claude", "Langer Kontext, sauberer Stil."],
+        ["DeepL Write", "Deutsche Texte glätten, ohne sie zu verflachen."],
+        ["neuroflash", "Marketing-Texte mit deutscher Markenstimme."],
+        ["Napkin", "Aus Text Diagramme machen."],
+        ["Gamma", "Präsentationen und Webseiten aus einem Prompt."],
+        ["Canva", "Social-Grafiken mit KI-Bildern."]
+      ],
+      "promptgott": ["Die Content Factory", "https://promptgott.substack.com/p/die-content-factory"]
+    },
+    {
+      "id": "shop",
+      "icon": "box",
+      "title": "Shop-Stack",
+      "for": "Produkttexte, Produktbilder, Mehrsprachigkeit, Support",
+      "tools": [
+        ["Hypotenuse AI", "Produktbeschreibungen aus Keywords, stark im E-Commerce."],
+        ["PhotoRoom", "Produktfotos freistellen und neu inszenieren."],
+        ["DeepL Übersetzer", "Shop-Texte mit Glossar in andere Märkte."],
+        ["HeyGen", "Produktvideos mit Lippensynchronisation übersetzen."],
+        ["SiteGPT", "Support-Bot, trainiert auf die eigene Website."],
+        ["Zapier", "Bestellungen, Mails und Tabellen verbinden."]
+      ],
+      "promptgott": ["The Merchant Brain", "https://promptgott.substack.com/p/the-merchant-brain"]
+    },
+    {
+      "id": "eu",
+      "icon": "shield",
+      "title": "EU-Stack",
+      "for": "Anbieter mit Sitz in der EU, wenn der Datenschutz mitentscheidet",
+      "tools": [
+        ["Le Chat von Mistral", "Chat-Assistent aus Paris."],
+        ["DeepL Übersetzer", "Übersetzung aus Köln."],
+        ["Langdock", "Mehrere Modelle in einer Unternehmensoberfläche aus Deutschland."],
+        ["Aleph Alpha", "Modelle und Plattform aus Heidelberg."],
+        ["n8n", "Automatisierung aus Berlin, selbst hostbar."],
+        ["tl;dv", "Meeting-Notizen, Anbieter in der EU."],
+        ["FLUX von Black Forest Labs", "Bildmodelle aus Freiburg."]
+      ],
+      "note": "EU-Sitz ist ein Hinweis, keine Datenschutz-Prüfung. Was zählt: AVV, Serverstandort, Einstellungen."
+    },
+    {
+      "id": "bauen",
+      "icon": "code",
+      "title": "Bauen-Stack",
+      "for": "Apps, Tools und Prototypen per Chat und Agent",
+      "tools": [
+        ["Cursor", "Editor mit Agent, der die ganze Codebasis kennt."],
+        ["Claude Code", "Agentisches Coding im Terminal und in der IDE."],
+        ["Lovable", "Web-Apps per Chat, aus Stockholm."],
+        ["v0", "UI und Web-Apps mit React aus Text."],
+        ["Bolt.new", "Full-Stack-Prototypen im Browser."],
+        ["GitHub Copilot", "Vorschläge und Agent direkt im Repo."]
+      ],
+      "promptgott": ["Die Infrastruktur", "https://promptgott.substack.com/p/die-infrastruktur"]
+    },
+    {
+      "id": "lokal",
+      "icon": "cpu",
+      "title": "Lokal-Stack",
+      "for": "Nichts verlässt den eigenen Rechner",
+      "tools": [
+        ["Ollama", "Modelle mit einem Befehl lokal starten."],
+        ["LM Studio", "Desktop-App zum Laden und Chatten, offline."],
+        ["Open WebUI", "Selbst gehostete Chat-Oberfläche."],
+        ["privateGPT", "Fragen an eigene Dokumente, ohne Internet."],
+        ["Cosmos", "Lokale KI-Suche in Fotos und Videos."],
+        ["GPTLocalhost", "Lokale Modelle direkt in Microsoft Word."]
+      ]
+    },
+    {
+      "id": "team",
+      "icon": "users",
+      "title": "Team-Stack",
+      "for": "Meetings, Notizen, Aufgaben, Wissen",
+      "tools": [
+        ["tl;dv", "Aufzeichnen, transkribieren, zusammenfassen."],
+        ["Fireflies.ai", "Suche über alle Calls."],
+        ["Recall", "Artikel, Videos und Podcasts in eine Wissensbasis."],
+        ["Notion AI", "Fragen an den eigenen Workspace."],
+        ["Taskade", "Aufgaben und KI-Agenten in einem Workspace."],
+        ["Perplexity", "Schnelle Recherche mit Quellen."]
+      ]
+    }
+  ],
+  "finder": {
+    "questions": [
+      {
+        "id": "ziel",
+        "q": "Was baust du gerade?",
+        "options": [
+          ["content", "Texte, Grafiken, Präsentationen", "pen"],
+          ["seo", "Sichtbarkeit in Google und KI-Suchen", "search"],
+          ["shop", "Einen Online-Shop", "box"],
+          ["bauen", "Eine App oder ein Tool", "code"],
+          ["media", "Bilder, Video, Audio", "image"],
+          ["recherche", "Recherche und Wissen", "book"]
+        ]
+      },
+      {
+        "id": "daten",
+        "q": "Wie wichtig ist der Firmensitz des Anbieters?",
+        "options": [
+          ["eu", "EU bevorzugt, wo es geht", "shield"],
+          ["egal", "Egal, Hauptsache es funktioniert", "zap"]
+        ]
+      },
+      {
+        "id": "team",
+        "q": "Wer arbeitet damit?",
+        "options": [
+          ["solo", "Ich allein", "user"],
+          ["team", "Ein kleines Team", "users"],
+          ["firma", "Ein Unternehmen mit IT", "building"]
+        ]
+      }
+    ],
+    "base": {
+      "content": ["Claude", "DeepL Write", "neuroflash", "Napkin", "Gamma", "Canva"],
+      "seo": ["Semrush", "Surfer", "Frase", "Claude", "NotebookLM", "n8n"],
+      "shop": ["Hypotenuse AI", "PhotoRoom", "DeepL Übersetzer", "HeyGen", "SiteGPT", "Zapier"],
+      "bauen": ["Cursor", "Claude Code", "Lovable", "v0", "Bolt.new", "GitHub Copilot"],
+      "media": ["FLUX von Black Forest Labs", "Midjourney", "Ideogram", "Google Veo", "ElevenLabs", "Suno"],
+      "recherche": ["Perplexity", "NotebookLM", "Elicit", "Consensus", "Exa", "Recall"]
+    },
+    "eu_swap": {
+      "Claude": "Le Chat von Mistral",
+      "Zapier": "n8n",
+      "Midjourney": "PhotoRoom",
+      "Canva": "PhotoRoom",
+      "Perplexity": "Le Chat von Mistral",
+      "GitHub Copilot": "Mistral AI"
+    },
+    "firma_add": ["Langdock", "Aleph Alpha"],
+    "notes": {
+      "solo": "Fang mit zwei Tools an, nicht mit sechs. Die meisten hier haben einen kostenlosen Einstieg, prüf das auf der Anbieterseite.",
+      "team": "Ein gemeinsamer Arbeitsbereich spart mehr als das beste Einzeltool. Langdock oder Notion AI als Klammer lohnen sich ab drei Leuten.",
+      "firma": "Mit IT im Haus lohnt sich ein Blick auf Langdock, Aleph Alpha oder selbst gehostetes n8n. Vertragsfragen (AVV) klärt ihr vor dem Rollout.",
+      "eu": "EU-Sitz ist ein Hinweis, keine Freigabe. AVV, Serverstandort und Einstellungen entscheiden."
+    }
+  }
+}
