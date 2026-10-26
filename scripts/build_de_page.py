@@ -6,11 +6,13 @@ Keine Abhängigkeiten, nur Python 3.8+. Aufruf aus dem Repo-Root:
 
 Quellen:  README.de.md (Tool-Liste), brand/ki-werkstatt.json (Marke),
           data/stacks.json (Werkzeugkisten + Stack-Finder), data/rechner.json (Zeitspar-Rechner),
-          data/glossar.json (KI-Glossar), scripts/template/icons.svg
+          data/glossar.json (KI-Glossar), data/kategorien.json (eigene Texte je Kategorie-Seite),
+          scripts/template/icons.svg
 Ausgabe:  docs/index.html, docs/ki-tools-*.html (eine Seite je Kategorie), docs/ki-glossar.html,
-          docs/danke.html, docs/impressum.html, docs/datenschutz.html, docs/img/*.svg,
+          docs/404.html, docs/danke.html, docs/impressum.html, docs/datenschutz.html, docs/img/*.svg,
           docs/tools.json, docs/tools.csv, docs/sitemap.xml, docs/robots.txt
 README.de.md bleibt die einzige Quelle für die Liste; docs/ nie von Hand bearbeiten.
+Am Ende prüft scripts/check_unique.py, dass kein Satz auf zwei Seiten steht.
 """
 import csv
 import html
@@ -32,6 +34,7 @@ BRAND = json.loads((ROOT / "brand" / "ki-werkstatt.json").read_text(encoding="ut
 STACKS = json.loads((ROOT / "data" / "stacks.json").read_text(encoding="utf-8"))
 RECHNER = json.loads((ROOT / "data" / "rechner.json").read_text(encoding="utf-8"))
 GLOSSAR = json.loads((ROOT / "data" / "glossar.json").read_text(encoding="utf-8"))
+KAT = json.loads((ROOT / "data" / "kategorien.json").read_text(encoding="utf-8"))
 ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8")
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
@@ -255,6 +258,8 @@ def cat_art(idx, name, icon_name, dark_first):
     a, b = ("#0E1116", "#1C2430") if dark_first else ("#D7FF3C", "#9ED400")
     ink = "#D7FF3C" if dark_first else "#0E1116"
     g = icon_body(icon_name)
+    # Versalien in Space Grotesk sind etwa 0,7 em breit; links bleiben rund 480 px bis zum Kreis
+    fs = min(44, int(480 / (0.64 * max(1, len(name)))))
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="{html.escape(name)}">
 <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{a}"/><stop offset="1" stop-color="{b}"/></linearGradient>
 <pattern id="p" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="{ink}" stroke-opacity=".14"/></pattern></defs>
@@ -264,7 +269,7 @@ def cat_art(idx, name, icon_name, dark_first):
 <g transform="translate(560 70) scale(6.7)" fill="none" stroke="{ink}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">{g}</g>
 <g transform="translate(40 40) scale(2.2)" fill="none" stroke="{ink}" stroke-opacity=".5" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">{g}</g>
 <text x="40" y="250" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="18" font-weight="500" fill="{ink}" fill-opacity=".85" letter-spacing="3">SCHUBLADE {idx:02d}</text>
-<text x="40" y="200" font-family="Space Grotesk, system-ui, sans-serif" font-size="44" font-weight="700" fill="{ink}">{html.escape(name.upper())}</text>
+<text x="40" y="200" font-family="Space Grotesk, system-ui, sans-serif" font-size="{fs}" font-weight="700" fill="{ink}">{html.escape(name.upper())}</text>
 <path d="M40 268h220" stroke="{ink}" stroke-width="3"/>
 </svg>"""
 
@@ -377,7 +382,7 @@ def render_stacks(tools_map, stacks=None):
             pg = f'<p class="pgline">💡 PROMPTGOTT dazu: <a href="{html.escape(retag(st["promptgott"][1] + "?" + UTM))}" target="_blank" rel="noopener">{html.escape(st["promptgott"][0])}</a></p>'
         if st.get("note"):
             pg = f'<p class="pgline">{html.escape(st["note"])}</p>'
-        out.append(f'<article class="stack reveal"><div class="head">{icon(st["icon"])}<div><h3>{html.escape(st["title"])}</h3>'
+        out.append(f'<article class="stack reveal" id="kiste-{st["id"]}"><div class="head">{icon(st["icon"])}<div><h3>{html.escape(st["title"])}</h3>'
                    f'<p class="for">{html.escape(st["for"])}</p></div></div><ol>{"".join(lis)}</ol>{pg}</article>')
     return "".join(out)
 
@@ -403,11 +408,13 @@ def lead_form(source, subject, compact=False):
 </form>"""
 
 
-def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head=""):
+def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="", base=""):
+    base_tag = f'<base href="{base}">\n' if base else ""
     return f"""<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
+{base_tag}
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
@@ -476,25 +483,89 @@ def footer(fab_href="#stack-check"):
 </div>"""
 
 
+# --------------------------------------------------------------------------- Kurbel, der Werkstatt-Roboter
+def kurbel(cls="", wink=False, label="Kurbel, der Werkstatt-Roboter"):
+    eye_r = ('<path d="M68 42h10"/>' if wink else '<circle cx="73" cy="42" r="4.5" fill="currentColor" stroke="none"/>')
+    return f"""<svg class="kurbel {cls}" viewBox="0 0 130 124" role="img" aria-label="{html.escape(label)}">
+<g class="kb-ant"><path d="M60 22V11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="8" r="4.5" class="kb-spark"/>
+<path d="M50 5l-4-3M70 5l4-3M60-3v0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g class="kb-bob" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<rect x="30" y="22" width="60" height="44" rx="14" class="kb-head"/>
+<circle cx="47" cy="42" r="4.5" fill="currentColor" stroke="none"/>{eye_r}
+<path d="M48 54q12 8 24 0"/>
+<circle cx="38" cy="53" r="3" class="kb-cheek" stroke="none"/><circle cx="82" cy="53" r="3" class="kb-cheek" stroke="none"/>
+<path d="M54 66v6M66 66v6"/>
+<rect x="36" y="72" width="48" height="32" rx="10" class="kb-body"/>
+<circle cx="60" cy="88" r="5"/><path d="M57 88h6"/>
+<path d="M36 80q-12 4-14 16"/><path d="M84 80q10-2 15-12"/>
+<g transform="translate(97 52) rotate(35)"><path d="M0 14V4"/><path d="M-5 4a5 5 0 1 1 10 0l-2 2h-6Z"/></g>
+<path d="M48 104v10M72 104v10"/>
+</g>
+<g transform="translate(96 114) rotate(-18)" class="kb-screw"><rect x="0" y="0" width="12" height="4.5" rx="1.5"/><rect x="11" y="-1.5" width="3.5" height="7.5" rx="1"/></g>
+</svg>"""
+
+
+def eu_names(sec, limit=5):
+    names = [it["name"] for it in sec_items(sec) if item_meta(it)[0]]
+    if not names:
+        return ""
+    names = names[:limit]
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " und " + names[-1]
+
+
+def kat_text(sec, key):
+    """Text aus data/kategorien.json mit Platzhaltern {n}, {subs}, {eu}."""
+    raw = KAT[sec["id"]][key]
+    eu = eu_names(sec)
+
+    def fill(t):
+        if "{eu}" in t and not eu:
+            raise SystemExit(f"kategorien.json/{sec['id']}/{key}: {{eu}} benutzt, aber keine EU-Anbieter in dieser Schublade")
+        return t.replace("{n}", str(len(sec_items(sec)))).replace("{subs}", str(max(1, len(sec["subs"])))).replace("{eu}", eu)
+    if isinstance(raw, list):
+        return [[fill(x) for x in r] if isinstance(r, list) else fill(r) for r in raw]
+    return fill(raw)
+
+
+def top_tools(sec, k=3):
+    """Bekannte Tools zuerst: was in Favoriten oder Werkzeugkisten steht, dann der Rest."""
+    known = {n for st in STACKS["stacks"] for n, _ in st["tools"]}
+    its = sec_items(sec)
+    return (sorted(its, key=lambda it: 0 if it["name"] in known else 1))[:k]
+
+
+def faq_html(items):
+    return "".join(f'<details class="faq-item reveal"><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>' for q, a in items)
+
+
+def faq_ld(items):
+    return {"@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in items]}
+
+
 def build_index(sections, head_md):
-    tools_map = {}
     by_id = {s["id"]: s for s in sections}
     featured = by_id.pop("empfehlungen-der-redaktion", None)
     pg_sec = by_id.pop("promptgott-deep-dives", None)
     tail_ids = ["lernen-prompting-und-ki-grundlagen", "verwandte-listen", "mitmachen"]
     list_secs = [s for s in sections if s["id"] in by_id and s["id"] not in tail_ids]
     tail_secs = [by_id[i] for i in tail_ids if i in by_id]
+    missing = [s["id"] for s in list_secs if s["id"] not in KAT]
+    if missing:
+        raise SystemExit(f"data/kategorien.json: Texte fehlen für {missing}")
 
-    # Liste rendern (füllt tools_map)
-    list_html = "".join(render_section(s, i + 1, tools_map, page_link=True) for i, s in enumerate(list_secs))
+    # Werkzeug-Verzeichnis für Finder und Kisten: sachliche Beschreibung aus der Kategorie, nicht der Favoriten-Gag
+    tools_map = {}
+    for s_, sub, it in all_items(list_secs + tail_secs):
+        eu, oss, clean = item_meta(it)
+        tools_map.setdefault(it["name"], {"u": it["url"], "d": clean, "eu": eu})
     tail_html = "".join(render_section(s, i + 1 + len(list_secs), tools_map) for i, s in enumerate(tail_secs))
     featured_html = render_featured(featured, tools_map) if featured else ""
     pg_intro, pg_cards = render_pg(pg_sec) if pg_sec else ("", "")
     stacks_html = render_stacks(tools_map)
 
-    # Statistik (eindeutige URLs)
     uniq = {}
-    for s, sub, it in all_items(sections):
+    for s_, sub, it in all_items(sections):
         uniq.setdefault(it["url"], it)
     n_tools = len(uniq)
     n_eu = sum(1 for it in uniq.values() if item_meta(it)[0])
@@ -502,91 +573,100 @@ def build_index(sections, head_md):
     n_cats = len(list_secs)
     n_subs = sum(len(s["subs"]) for s in list_secs)
 
-    # Kategorie-Grafiken
     IMG.mkdir(parents=True, exist_ok=True)
-    tiles = []
     for i, s in enumerate(list_secs + tail_secs):
         (IMG / f"cat-{s['id']}.svg").write_text(cat_art(i + 1, s["title"], CAT_ICON.get(s["id"], "box"), i % 2 == 0), encoding="utf-8")
+    drawers = []
     for i, s in enumerate(list_secs):
-        n = len(sec_items(s))
-        tiles.append(f'<a class="cat-tile reveal" href="{cat_page(s["id"])}"><img src="img/cat-{s["id"]}.svg" alt="" loading="lazy"><span class="t">{html.escape(s["title"])}<small>{n} Tools · {len(s["subs"]) or 1} Bereiche</small></span></a>')
+        its = sec_items(s)
+        n_e = sum(1 for it in its if item_meta(it)[0])
+        tops = "".join(f'<li>{favicon(it["url"])}<span>{html.escape(it["name"])}</span></li>' for it in top_tools(s))
+        eu_txt = f" · {n_e} EU" if n_e else ""
+        drawers.append(f"""<a class="drawer reveal" href="{cat_page(s['id'])}">
+<span class="drawer-art"><img src="img/cat-{s['id']}.svg" alt="" loading="lazy" width="800" height="300"></span>
+<span class="drawer-body"><span class="drawer-no">Schublade {i + 1:02d}</span><b class="drawer-title">{icon(CAT_ICON.get(s["id"], "box"))}{html.escape(s["title"])}</b>
+<span class="drawer-teaser">{html.escape(kat_text(s, "teaser"))}</span>
+<ul class="drawer-tools">{tops}</ul>
+<span class="drawer-meta">{len(its)} Tools · {max(1, len(s["subs"]))} {"Bereiche" if len(s["subs"]) > 1 else "Bereich"}{eu_txt}</span><span class="drawer-cta">Schublade aufziehen{icon("arrow")}</span></span></a>""")
 
-    rail = "".join(f'<a href="#{s["id"]}">{icon(CAT_ICON.get(s["id"], "box"))}{html.escape(s["title"])}</a>' for s in list_secs + tail_secs)
     finder = dict(STACKS["finder"], to=LEAD_TO, next=SITE_URL + "danke.html")
     tools_js = json.dumps(tools_map, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     finder_js = json.dumps(finder, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
+    faq = [
+        ("Was bedeutet das EU-Zeichen bei einem Tool?", "Der Anbieter hat seinen Firmensitz in der EU. Das ist ein Hinweis, keine Datenschutz-Prüfung. Für die DSGVO zählen Auftragsverarbeitungsvertrag, Serverstandort und Einstellungen."),
+        ("Wie prüft ihr die Tools?", f"Jeder Link wird per HTTP abgefragt, zuletzt am {LINK_CHECK}. Tote Links, Serverfehler und verschwundene Domains fliegen raus. Bot-Schutz gilt als erreichbar, denn dahinter steckt fast immer eine echte Seite."),
+        ("Was kostet der Stack-Check?", "Nichts. Du schreibst, was du baust, und bekommst einen Vorschlag per Mail. Keine Beratungsstunde, kein Vertrag, kein Newsletter-Abo durch die Hintertür."),
+        ("Wer ist Kurbel?", "Unser Werkstatt-Roboter. Hilfsbereit, gründlich und leicht schusselig, denn nach jeder Reparatur bleibt eine Schraube übrig. Du triffst Kurbel überall dort, wo es sonst leer wäre."),
+    ]
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebPage", "@id": SITE_URL, "url": SITE_URL, "name": TITLE, "description": DESCRIPTION, "inLanguage": "de-DE",
          "isBasedOn": "https://github.com/mahseema/awesome-ai-tools",
          "publisher": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
          "citation": {"@type": "CreativeWork", "name": "PROMPTGOTT", "url": SUBSTACK}},
-        {"@type": "ItemList", "name": "KI-Tools auf Deutsch", "numberOfItems": n_tools,
-         "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": it["name"], "url": it["url"], "description": item_meta(it)[2]}
-                             for i, it in enumerate(uniq.values())]},
-        {"@type": "FAQPage", "mainEntity": [
-            {"@type": "Question", "name": "Was bedeutet das EU-Zeichen bei einem Tool?", "acceptedAnswer": {"@type": "Answer", "text": "Der Anbieter hat seinen Firmensitz in der EU. Das ist ein Hinweis, keine Datenschutz-Prüfung. Für die DSGVO zählen Auftragsverarbeitungsvertrag, Serverstandort und Einstellungen."}},
-            {"@type": "Question", "name": "Wie werden die Tools geprüft?", "acceptedAnswer": {"@type": "Answer", "text": f"Jeder Link wird per HTTP-Abfrage geprüft (letzter Link-Check: {LINK_CHECK}). Tote Links, Serverfehler und verschwundene Domains fliegen raus. Bot-Schutz (403) gilt als erreichbar."}},
-            {"@type": "Question", "name": "Was ist der Stack-Check?", "acceptedAnswer": {"@type": "Answer", "text": BRAND["lead_offer"]["promise"]}},
-        ]},
+        {"@type": "ItemList", "name": "Die Schubladen der KI-Werkstatt", "numberOfItems": n_cats,
+         "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": s["title"], "url": SITE_URL + cat_page(s["id"])}
+                             for i, s in enumerate(list_secs)]},
+        faq_ld(faq),
     ]}
 
     body = f"""{topbar(True, "index")}
+<div class="searchpanel" id="searchpanel" hidden><div class="wrap">
+<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><button class="close" type="button" title="Suche schließen">{icon("x")}</button></div>
+<ol class="sp-list"></ol>
+<div class="sp-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Zu diesem Wort hat Kurbel nichts gefunden. Probier ein anderes oder frag direkt beim <a href="#stack-check">Stack-Check</a>.</p></div>
+</div></div>
 <section class="hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Link-Check {LINK_CHECK}: {LINK_CHECK_N} Links geprüft</p>
-<h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Auf Deutsch.</h1>
-<p class="sub">Jedes Tool in einem Satz erklärt. Tote Links raus. Anbieter aus der EU markiert. Dazu Werkzeugkisten für typische Fälle und ein Stack-Finder, der dir in drei Fragen sagt, womit du anfängst.</p>
-<div class="ctas"><a class="btn btn-lime" href="#finder-band">{icon("compass")}Stack-Finder starten</a><a class="btn" href="#liste">{icon("layers")}Zur Liste</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Ohne Zauberstab.</h1>
+<p class="sub">Hier gibt es kein Wundermittel, nur gutes Werkzeug: jedes Tool in einem Satz erklärt, tote Links aussortiert, EU-Anbieter markiert. Dazu Werkzeugkisten für typische Jobs und ein Stack-Finder, der schneller zum Punkt kommt als jedes Beratungsgespräch.</p>
+<div class="ctas"><a class="btn btn-lime" href="#finder-band">{icon("compass")}Stack-Finder starten</a><a class="btn" href="#kategorien">{icon("layers")}Schubladen öffnen</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 <div class="stats">
 <div class="stat reveal"><b data-count="{n_tools}">{n_tools}</b><span>geprüfte Tools</span></div>
-<div class="stat reveal"><b data-count="{n_cats}">{n_cats}</b><span>Kategorien, {n_subs} Unterbereiche</span></div>
-<div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit Sitz in der EU</span></div>
+<div class="stat reveal"><b data-count="{n_cats}">{n_cats}</b><span>Schubladen, {n_subs} Fächer</span></div>
+<div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit EU-Sitz</span></div>
 <div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open-Source-Tools</span></div>
 <div class="stat reveal"><b data-count="{N_STACKS}">{N_STACKS}</b><span>Werkzeugkisten</span></div>
 </div></div></section>
 
 <section class="band" id="favoriten"><div class="wrap">
-<p class="eyebrow">Werkbank-Favoriten</p><h2>Ein Tool pro Aufgabe. Mehr brauchst du am Anfang nicht.</h2>
-<p class="intro">Der schnelle Einstieg, bewusst mit Alternativen aus der EU. Wenn du nur zehn Minuten hast: hier anfangen.</p>
+<p class="eyebrow">Werkbank-Favoriten</p><h2>Zehn Werkzeuge für den Anfang. Mehr braucht kaum jemand.</h2>
+<p class="intro">Wer nur zehn Minuten hat, fängt hier an. Bewusst mit Alternativen aus der EU, weil nicht jeder Schraubenschlüssel aus Kalifornien kommen muss.</p>
 <ul class="tools">{featured_html}</ul>
 </div></section>
 
 <section class="band" id="so-arbeiten-wir"><div class="wrap">
 <p class="eyebrow">So arbeitet die Werkstatt</p><h2>Sammeln. Prüfen. Sortieren.</h2>
-<p class="intro">Kein Tool kommt auf die Werkbank, ohne dass jemand draufgeschaut hat. Tote Links sind keine Tools.</p>
+<p class="intro">Kein Tool kommt auf die Werkbank, ohne dass es jemand in die Hand genommen hat. Tote Links sind keine Tools, sondern Staubfänger.</p>
 <div class="steps">
-<div class="step reveal"><span class="n">1</span>{icon("search")}<h3>Sammeln</h3><p>Grundlage ist die englische Awesome-Liste plus eigene Funde aus dem DACH-Raum. Jeder Eintrag bekommt einen deutschen Satz, der sagt, wofür das Tool taugt.</p></div>
-<div class="step reveal"><span class="n">2</span>{icon("check")}<h3>Prüfen</h3><p>Jeder Link wird per HTTP abgefragt. 404, Serverfehler oder Domain weg: raus. Affiliate- und Referral-Parameter bei Tool-Links: raus. Nur Links zu PROMPTGOTT tragen UTM-Parameter, damit erkennbar ist, dass der Besuch von hier kam. Umbenannte Produkte: korrigiert.</p></div>
-<div class="step reveal"><span class="n">3</span>{icon("layers")}<h3>Sortieren</h3><p>{n_cats} Kategorien nach Aufgabe, nicht nach Hype. EU-Sitz und Open Source als Badge. Werkzeugkisten für typische Fälle, damit du nicht {n_tools} Tools lesen musst.</p></div>
+<div class="step reveal"><span class="n">1</span>{icon("search")}<h3>Sammeln</h3><p>Grundlage ist die englische Awesome-Liste, ergänzt um Funde aus dem DACH-Raum. Jeder Eintrag bekommt einen deutschen Satz, der sagt, wofür das Tool taugt. Ohne Werbeprosa.</p></div>
+<div class="step reveal"><span class="n">2</span>{icon("check")}<h3>Prüfen</h3><p>Jeder Link wird per HTTP abgeklopft. 404, Serverfehler oder Domain weg: ab in die Tonne. Affiliate- und Referral-Parameter bei Tool-Links fliegen auch raus. Nur Links zu PROMPTGOTT tragen UTM-Parameter, damit erkennbar ist, dass der Besuch von hier kam.</p></div>
+<div class="step reveal"><span class="n">3</span>{icon("layers")}<h3>Sortieren</h3><p>{n_cats} Schubladen nach Aufgabe, nicht nach Hype. EU-Sitz und Open Source als Badge. Dazu Werkzeugkisten für typische Jobs, damit du nicht alle {n_tools} Tools einzeln anfassen musst.</p></div>
 </div></div></section>
 
 <section class="band" id="finder-band"><div class="wrap">
 <p class="eyebrow">Stack-Finder</p><h2>Drei Fragen. Dann weißt du, womit du anfängst.</h2>
-<p class="intro">Welches Werkzeug? Kommt drauf an, was du baust. Der Finder stellt dir ein Setup aus sechs bis acht Tools zusammen. Wenn du willst, schaut Jean danach noch mal drüber.</p>
+<p class="intro">Welches Werkzeug? Kommt drauf an, was du baust. Der Finder fragt kurz nach und legt dir sechs bis acht Tools auf die Werkbank. Wenn du magst, schaut Jean danach noch einmal drüber.</p>
 <div class="finder reveal" id="finder"><p class="finder-q"></p><div class="opts"></div><div class="finder-result hidden"></div>
 <div class="finder-bar"><button type="button" class="btn btn-sm back hidden">{icon("arrow")}Zurück</button><div class="dots"></div><span class="steplbl"></span></div></div>
 </div></section>
 
 <section class="band" id="werkzeugkisten"><div class="wrap">
-<p class="eyebrow">Werkzeugkisten</p><h2>Fertige Stacks für typische Fälle</h2>
-<p class="intro">{N_STACKS} Kisten mit je {STACK_SIZE_TXT} Tools, die zusammenpassen, mit einem Satz, warum jedes drin ist. Nimm die Kiste als Startpunkt, nicht als Vorschrift.</p>
+<p class="eyebrow">Werkzeugkisten</p><h2>Fertig gepackte Kisten für typische Jobs</h2>
+<p class="intro">{N_STACKS} Kisten mit je {STACK_SIZE_TXT} Tools, die zusammenpassen, und einem Satz, warum jedes drin liegt. Nimm die Kiste als Startpunkt, nicht als Bauanleitung.</p>
 <div class="stacks">{stacks_html}</div>
 </div></section>
 
 {rechner_band()}
 
 <section class="band" id="kategorien"><div class="wrap">
-<p class="eyebrow">Die Schubladen</p><h2>{n_cats} Kategorien, {n_tools} Tools</h2>
-<p class="intro">Jede Schublade hat eine Nummer und eine eigene Seite. Klick rein oder nutz die Suche oben.</p>
-<div class="catgrid">{"".join(tiles)}<a class="cat-tile glossar-tile reveal" href="{GLOSSAR_PAGE}"><span class="gl-mark">{icon("abc")}</span><span class="t">KI-Glossar<small>{len(GLOSSAR["begriffe"])} Begriffe, je zwei Sätze</small></span></a></div>
+<p class="eyebrow">Die Schubladen</p><h2>{n_cats} Schubladen, {n_tools} Tools, eine Werkstatt</h2>
+<p class="intro">Jede Schublade hat eine eigene Seite mit allen Tools, einem Werkstatt-Tipp und Antworten auf die Fragen, die uns am häufigsten gestellt werden. Such dir eine aus oder tipp oben ins Suchfeld, was du vorhast.</p>
+<div class="drawers">{"".join(drawers)}
+<a class="drawer drawer-gl reveal" href="{GLOSSAR_PAGE}"><span class="drawer-art gl-art">{icon("abc")}</span><span class="drawer-body"><span class="drawer-no">Nachschlagen</span><b class="drawer-title">{icon("book")}KI-Glossar</b>
+<span class="drawer-teaser">Token, RAG, Halluzination: {len(GLOSSAR["begriffe"])} Begriffe, jeder mit ernster Erklärung und einer Werkstatt-Übersetzung zum Merken.</span>
+<span class="drawer-cta">Glossar aufschlagen{icon("arrow")}</span></span></a></div>
 </div></section>
-
-<div class="wrap layout" id="liste">
-<aside class="rail"><div class="in"><h4>Kategorien</h4>{rail}
-<div style="margin-top:14px;display:grid;gap:6px"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="f-eu"> nur Anbieter aus der EU</label><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="f-oss"> nur Open Source</label></div>
-<div class="lead-mini"><b>Stack-Check</b><p>Sag, was du baust. Du bekommst ein Setup aus 4 bis 6 Tools per Mail. Kostenlos.</p><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></aside>
-<main class="content"><div class="filters"><label><input type="checkbox" class="f-eu"> nur EU-Anbieter</label><label><input type="checkbox" class="f-oss"> nur Open Source</label></div>{list_html}</main>
-</div>
 
 <section class="band pg" id="promptgott"><div class="wrap">
 <p class="eyebrow">PROMPTGOTT Deep Dives</p><h2>Werkzeug ist das eine. Systeme bauen das andere.</h2>
@@ -595,16 +675,22 @@ def build_index(sections, head_md):
 <p style="margin-top:24px"><a class="btn btn-pg" href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">{icon("flame")}PROMPTGOTT abonnieren</a></p>
 </div></section>
 
+<section class="band faq" id="faq"><div class="wrap">
+<p class="eyebrow">Fragen an der Werkbank</p><h2>Was Leute uns am Tresen fragen</h2>
+<div class="faq-list">{faq_html(faq)}</div>
+</div></section>
+
 <section class="band lead" id="stack-check"><div class="wrap">
 <div class="lead-grid"><div>
-<p class="eyebrow">Stack-Check</p><h2>Sag, was du baust. Du bekommst ein Setup.</h2>
+<p class="eyebrow">Stack-Check</p><h2>Sag, was du baust. Jean legt dir das Werkzeug hin.</h2>
 <p class="intro">{html.escape(BRAND["lead_offer"]["promise"])}</p>
 <ul>
 <li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
-<li>{icon("check")}<span><b>Was es kostet:</b> nichts. Keine Beratungsstunde, kein Vertrag, kein Pitch.</span></li>
-<li>{icon("check")}<span><b>Was wir nicht versprechen:</b> Preise oder DSGVO-Freigaben. Das prüfst du beim Anbieter.</span></li>
+<li>{icon("check")}<span><b>Was es kostet:</b> zwei Minuten fürs Formular. Kein Vertrag, kein Pitch.</span></li>
+<li>{icon("check")}<span><b>Was wir nicht versprechen:</b> Preise oder DSGVO-Freigaben. Die prüfst du beim Anbieter.</span></li>
 <li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
-</ul></div>
+</ul>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich halte solange die Schraube fest.</p></div></div>
 <div>{lead_form("Hauptformular", "Stack-Check – KI-Werkstatt")}</div></div>
 </div></section>
 
@@ -618,17 +704,33 @@ def build_index(sections, head_md):
     return uniq, n_tools, n_cats, list_secs, tools_map
 
 
-def build_subpages():
+def build_subpages(list_secs=()):
     danke = f"""{topbar(False, "sub")}
-<div class="page"><p class="eyebrow">Angekommen</p><h1>Danke. Jean schaut drauf.</h1>
-<p>Deine Anfrage ist raus. Du bekommst eine Antwort per Mail, meist innerhalb weniger Tage. Wenn du nichts hörst: Spam-Ordner prüfen oder direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a> schreiben.</p>
+<div class="page page-kb"><div class="kb-say kb-hero">{kurbel("kb-lg", wink=True)}<p class="bubble">Ich sortiere solange die Schrauben.</p></div>
+<p class="eyebrow">Angekommen</p><h1>Danke. Deine Anfrage liegt auf der Werkbank.</h1>
+<p>Jean schaut sie sich an und antwortet per Mail, meist innerhalb weniger Tage. Hörst du nichts, wirf einen Blick in den Spam-Ordner, manchmal versteckt sich die Post dort. Oder schreib direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a>.</p>
 <p><a class="btn btn-lime" href="tools.csv" download>{icon("download")}Die Liste als CSV laden</a> <a class="btn" href="tools.json" download>{icon("download")}JSON</a></p>
-<p>Bis dahin: <a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT</a> zeigt, wie man aus Tools Systeme baut. Und die <a href="{SITE_URL}#werkzeugkisten">Werkzeugkisten</a> sind ein guter Startpunkt.</p>
-<p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
+<p>Zum Überbrücken: <a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT</a> zeigt, wie man aus Tools Systeme baut. Und in den <a href="./#werkzeugkisten">Werkzeugkisten</a> liegt schon ein Startpunkt bereit.</p>
+<p><a href="./">Zurück in die Werkstatt</a></p></div>
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "danke.html").write_text(page_shell("Danke – KI-Werkstatt", danke, "Anfrage angekommen.", SITE_URL + "danke.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
-    needs = '<p class="needs"><b>[NEEDS_REVIEW]</b> Platzhalter. Vor dem Veröffentlichen eintragen und rechtlich prüfen lassen. Eine Seite mit Kontaktformular und geschäftlichem Zweck braucht in Deutschland ein vollständiges Impressum (§ 5 DDG) und eine Datenschutzerklärung (Art. 13 DSGVO).</p>'
+    # 404: GitHub Pages liefert docs/404.html für jede unbekannte Adresse aus, deshalb <base> auf den Seitenpfad
+    base = urlparse(SITE_URL).path or "/"
+    chips = "".join(f'<a class="chip" href="{cat_page(s["id"])}">{icon(CAT_ICON.get(s["id"], "box"))}{html.escape(s["title"])}</a>' for s in list_secs)
+    nf = f"""{topbar(False, "sub")}
+<div class="page page-kb"><div class="kb-say kb-hero">{kurbel("kb-lg")}<p class="bubble">Eine Schraube hab ich gefunden. Die Seite nicht.</p></div>
+<p class="eyebrow">Fehler 404</p><h1>Diese Schublade gibt es nicht.</h1>
+<p>Kurbel hat überall nachgesehen, sogar unter der Werkbank und hinter dem Kaffeeautomaten. Vielleicht hat sich die Adresse verschraubt, vielleicht ist die Seite umgezogen.</p>
+<p>Von hier aus kommst du sicher weiter:</p>
+<div class="chips nf-chips"><a class="chip cat" href="./">{icon("wrench")}Startseite</a>{chips}<a class="chip" href="{GLOSSAR_PAGE}">{icon("abc")}KI-Glossar</a></div>
+<p style="margin-top:22px"><a class="btn btn-lime" href="./#stack-check">{icon("mail")}Jean direkt fragen</a></p></div>
+<footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
+    (DOCS / "404.html").write_text(page_shell("Schublade nicht gefunden – KI-Werkstatt", nf, "Diese Seite gibt es nicht.", SITE_URL + "404.html",
+                                              '<meta name="robots" content="noindex">', base=base), encoding="utf-8")
+
+    needs = '<p class="needs"><b>[NEEDS_REVIEW]</b> Platzhalter: Name und Anschrift fehlen noch. Wer eine Seite mit Kontaktformular und geschäftlichem Zweck betreibt, braucht in Deutschland ein vollständiges Impressum nach § 5 DDG.</p>'
+    needs_ds = '<p class="needs"><b>[NEEDS_REVIEW]</b> Entwurf, vor dem Bewerben der Seite rechtlich prüfen lassen. Die Informationspflichten nach Art. 13 DSGVO gelten ab dem ersten Formular, das Daten einsammelt.</p>'
     impressum = f"""{topbar(False, "sub")}
 <div class="page"><p class="eyebrow">Rechtliches</p><h1>Impressum</h1>{needs}
 <p><b>Angaben gemäß § 5 DDG</b><br>[NAME, VORNAME]<br>[STRASSE, HAUSNUMMER]<br>[PLZ, ORT]<br>Deutschland</p>
@@ -642,7 +744,7 @@ def build_subpages():
     (DOCS / "impressum.html").write_text(page_shell("Impressum – KI-Werkstatt", impressum, "Impressum der KI-Werkstatt.", SITE_URL + "impressum.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
     ds = f"""{topbar(False, "sub")}
-<div class="page"><p class="eyebrow">Rechtliches</p><h1>Datenschutz</h1>{needs}
+<div class="page"><p class="eyebrow">Rechtliches</p><h1>Datenschutz</h1>{needs_ds}
 <p><b>Verantwortlicher:</b> [NAME, ANSCHRIFT wie im Impressum], E-Mail: {LEAD_TO}</p>
 <h3>Hosting</h3><p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse und Zeitpunkt des Zugriffs. Details: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Auslieferung). [NEEDS_REVIEW: Hinweis auf Drittlandübermittlung und Data Privacy Framework ergänzen]</p>
 <h3>Kontaktformulare (Stack-Check, CSV-Anfrage)</h3><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>). [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken; prüfen, ob ein AVV nötig ist] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen.</p>
@@ -672,8 +774,8 @@ def rechner_band():
 <div class="calc-bar" aria-hidden="true"><div class="track"><i></i></div><span></span></div>
 <p class="calc-src">{html.escape(a["befund"])}{src}{cat}</p></div>""")
     return f"""<section class="band" id="rechner"><div class="wrap">
-<p class="eyebrow">Zeitspar-Rechner</p><h2>Wie viele Stunden holst du raus?</h2>
-<p class="intro">Trag ein, wie viele Stunden pro Woche du mit diesen Aufgaben verbringst. Jeder Regler startet bei ungefähr der Hälfte des Werts aus einer Studie, die Studie steht darunter. Rechnet nur in deinem Browser.</p>
+<p class="eyebrow">Zeitspar-Rechner</p><h2>Wie viel Feierabend steckt in deiner Woche?</h2>
+<p class="intro">Trag ein, wie viele Stunden du pro Woche mit diesen Aufgaben verbringst. Jeder Regler startet bei ungefähr der Hälfte des Werts aus einer Studie, die Quelle steht jeweils darunter. Gerechnet wird nur in deinem Browser, wir gucken nicht mit.</p>
 <p class="nojs">Der Rechner braucht JavaScript. Ohne JavaScript siehst du hier die Studienwerte.</p>
 <div class="calc" id="calc" data-wochen="{RECHNER['wochen']}">
 <div class="calc-rows">{"".join(rows)}</div>
@@ -716,34 +818,34 @@ def build_category_pages(list_secs, tools_map):
         urls = {it["url"] for it in its}
         h1 = CAT_H1.get(sec["id"], "KI-Tools: " + sec["title"])
         page = cat_page(sec["id"])
-        top3 = [it["name"] for it in its[:3]]
-        desc = (f"{n} KI-Tools für {sec['title']} auf Deutsch erklärt, darunter {', '.join(top3[:-1])} und {top3[-1]}. "
-                f"Link-Check {LINK_CHECK}, EU-Anbieter und Open Source markiert.") if len(top3) > 1 else f"{n} KI-Tools für {sec['title']} auf Deutsch erklärt."
-        # Werkzeugkisten, die mindestens zwei Tools aus dieser Schublade nutzen
+        desc = kat_text(sec, "meta")
+        faq = [tuple(x) for x in kat_text(sec, "faq")]
+        # Werkzeugkisten nur als Verweis: die ausführliche Kiste steht einmal, auf der Startseite
         ranked = []
         for st in STACKS["stacks"]:
-            hit = sum(1 for name, _ in st["tools"] if tools_map.get(name, {}).get("u") in urls)
-            if hit >= 2:
-                ranked.append((hit, st))
+            hits = [name for name, _ in st["tools"] if tools_map.get(name, {}).get("u") in urls]
+            if len(hits) >= 2:
+                ranked.append((len(hits), st, hits))
         ranked.sort(key=lambda x: -x[0])
-        stacks = [st for _, st in ranked[:2]]
+        refs = []
+        for cnt, st, hits in ranked[:3]:
+            names = ", ".join(hits[:-1]) + " und " + hits[-1]
+            refs.append(f'<a class="kiste-ref reveal" href="./#kiste-{st["id"]}">{icon(st["icon"])}<span><b>{html.escape(st["title"])}</b>'
+                        f'<small>{cnt} von {len(st["tools"])} Tools liegen in dieser Schublade: {html.escape(names)}.</small></span>{icon("arrow")}</a>')
         stacks_html = (f"""<section class="band" id="werkzeugkisten"><div class="wrap">
-<p class="eyebrow">Werkzeugkisten mit dieser Schublade</p><h2>Fertig zusammengestellt</h2>
-<p class="intro">Diese Kisten nutzen mehrere Tools von dieser Seite. Alle {N_STACKS} Kisten stehen auf der <a href="./#werkzeugkisten">Startseite</a>.</p>
-<div class="stacks">{render_stacks(tools_map, stacks)}</div></div></section>""") if stacks else ""
+<p class="eyebrow">Passende Werkzeugkisten</p><h2>Kisten mit Werkzeug aus „{html.escape(sec["title"])}“</h2>
+<div class="kisten-refs">{"".join(refs)}</div></div></section>""") if refs else ""
         terms = terms_by_cat.get(sec["id"], [])
-        terms_html = ("".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(g["t"])}">{icon(g["icon"])}{html.escape(g["t"])}</a>' for g in terms))
-        calc_hits = [a for a in RECHNER["aufgaben"] if a.get("kategorie") == sec["id"]]
-        calc_html = ""
-        if calc_hits:
-            a = calc_hits[0]
-            calc_html = (f'<div class="side-card reveal">{icon("clock")}<b>Wie viel Zeit spart das?</b>'
-                         f'<p>{html.escape(a["befund"])}</p><a class="btn btn-sm" href="./#rechner">{icon("calc")}Zum Zeitspar-Rechner</a></div>')
-        gl_card = (f'<div class="side-card reveal">{icon("abc")}<b>Begriffe zu dieser Schublade</b><div class="chips">{terms_html}</div>'
-                   f'<a class="btn btn-sm" href="{GLOSSAR_PAGE}">{icon("book")}Ganzes Glossar</a></div>') if terms else ""
+        terms_html = "".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(g["t"])}">{icon(g["icon"])}{html.escape(g["t"])}</a>' for g in terms)
+        side = []
+        if any(a.get("kategorie") == sec["id"] for a in RECHNER["aufgaben"]):
+            side.append(f'<div class="side-card reveal">{icon("clock")}<b>Wie viel Zeit spart das?</b><a class="btn btn-sm" href="./#rechner">{icon("calc")}Zum Zeitspar-Rechner</a></div>')
+        if terms:
+            side.append(f'<div class="side-card reveal">{icon("abc")}<b>Begriffe zu dieser Schublade</b><div class="chips">{terms_html}</div></div>')
         rail_links = "".join(f'<a href="#{sub["id"]}">{icon(SUB_ICON.get(sub["id"], "layers"))}{html.escape(sub["title"])}</a>' for sub in sec["subs"]) \
             or f'<a href="#{sec["id"]}">{icon(CAT_ICON.get(sec["id"], "box"))}Alle Tools</a>'
-        if stacks:
+        rail_links += f'<a href="#faq">{icon("chat")}Fragen</a>'
+        if refs:
             rail_links += f'<a href="#werkzeugkisten">{icon("layers")}Werkzeugkisten</a>'
         rail_links += f'<a href="#stack-check">{icon("mail")}Stack-Check</a>'
         others = []
@@ -753,6 +855,7 @@ def build_category_pages(list_secs, tools_map):
             others.append(f'<a class="cat-tile reveal" href="{cat_page(o["id"])}"><img src="img/cat-{o["id"]}.svg" alt="" loading="lazy">'
                           f'<span class="t">{html.escape(o["title"])}<small>Schublade {j + 1:02d} · {len(sec_items(o))} Tools</small></span></a>')
         section_html = render_section(sec, idx + 1, {})
+        intro_html = "".join(f"<p>{html.escape(x)}</p>" for x in kat_text(sec, "intro"))
         ld = {"@context": "https://schema.org", "@graph": [
             {"@type": "CollectionPage", "@id": SITE_URL + page, "url": SITE_URL + page, "name": h1, "description": desc, "inLanguage": "de-DE",
              "isPartOf": {"@type": "WebSite", "name": "KI-Werkstatt", "url": SITE_URL}},
@@ -760,56 +863,64 @@ def build_category_pages(list_secs, tools_map):
             {"@type": "ItemList", "name": h1, "numberOfItems": n,
              "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": it["name"], "url": it["url"], "description": item_meta(it)[2]}
                                  for i, it in enumerate(its)]},
+            faq_ld(faq),
         ]}
         ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
-        subs_txt = f'{len(sec["subs"])} Bereiche: ' + ", ".join(sub["title"] for sub in sec["subs"]) + "." if sec["subs"] else ""
+        first = sec["subs"][0]["id"] if sec["subs"] else sec["id"]
         body = f"""{topbar(True, "kategorie")}
 <section class="hero cat-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<a href="./#kategorien">Schubladen</a>{icon("arrow")}<span aria-current="page">{html.escape(sec["title"])}</span></nav>
 <div class="cat-hero-grid"><div>
 <p class="kicker">{icon(CAT_ICON.get(sec["id"], "box"))} <b>Schublade {idx + 1:02d}</b> · Link-Check {LINK_CHECK}</p>
 <h1><em>{html.escape(h1)}</em></h1>
-<p class="sub">{n} Tools, jedes in einem Satz erklärt. {html.escape(subs_txt)}</p>
-<div class="ctas"><a class="btn btn-lime" href="#{sec['subs'][0]['id'] if sec['subs'] else sec['id']}">{icon("layers")}Zu den Tools</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<p class="sub">{html.escape(kat_text(sec, "hero"))}</p>
+<div class="ctas"><a class="btn btn-lime" href="#{first}">{icon("layers")}Zu den {n} Tools</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 </div><div class="cat-hero-art reveal"><img src="img/cat-{sec["id"]}.svg" alt="" width="800" height="300"></div></div>
 <div class="stats">
 <div class="stat reveal"><b data-count="{n}">{n}</b><span>Tools in dieser Schublade</span></div>
-<div class="stat reveal"><b data-count="{max(1, len(sec["subs"]))}">{max(1, len(sec["subs"]))}</b><span>Bereiche</span></div>
-<div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit Sitz in der EU</span></div>
+<div class="stat reveal"><b data-count="{max(1, len(sec["subs"]))}">{max(1, len(sec["subs"]))}</b><span>{"Fächer" if len(sec["subs"]) > 1 else "Fach"}</span></div>
+<div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>mit EU-Sitz</span></div>
 <div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open Source</span></div>
 </div></div></section>
 
+<section class="band cat-intro"><div class="wrap intro-grid">
+<div class="intro-text reveal">{intro_html}</div>
+<aside class="tipp reveal">{kurbel("kb-sm", wink=True)}<p class="eyebrow">Werkstatt-Tipp</p><p>{html.escape(kat_text(sec, "tipp"))}</p></aside>
+</div></section>
+
 <div class="wrap layout" id="liste">
-<aside class="rail"><div class="in"><h4>Auf dieser Seite</h4>{rail_links}
+<aside class="rail" data-chrome><div class="in"><h4>Auf dieser Seite</h4>{rail_links}
 <div style="margin-top:14px;display:grid;gap:6px"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="f-eu"> nur Anbieter aus der EU</label><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="f-oss"> nur Open Source</label></div>
-<div class="lead-mini"><b>Stack-Check</b><p>Sag, was du baust. Du bekommst ein Setup aus 4 bis 6 Tools per Mail. Kostenlos.</p><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></aside>
+<div class="lead-mini"><b>Stack-Check</b><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></aside>
 <main class="content"><div class="filters"><label><input type="checkbox" class="f-eu"> nur EU-Anbieter</label><label><input type="checkbox" class="f-oss"> nur Open Source</label></div>
 {section_html}
-<div class="side-cards">{calc_html}{gl_card}</div>
+<div class="side-cards">{"".join(side)}</div>
 </main>
 </div>
+
+<section class="band faq" id="faq"><div class="wrap">
+<p class="eyebrow">Fragen aus der Werkstatt</p><h2>{html.escape(sec["title"])}: kurz beantwortet</h2>
+<div class="faq-list">{faq_html(faq)}</div>
+</div></section>
 
 {stacks_html}
 
 <section class="band lead" id="stack-check"><div class="wrap">
 <div class="lead-grid"><div>
-<p class="eyebrow">Stack-Check</p><h2>{n} Tools sind zu viele. Sag, was du baust.</h2>
-<p class="intro">{html.escape(BRAND["lead_offer"]["promise"])}</p>
-<ul>
-<li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
-<li>{icon("bookmark")}<span><b>Tipp:</b> Markier Tools mit dem Lesezeichen. Die Merkliste hängt sich an deine Anfrage.</span></li>
-<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
-</ul></div>
+<p class="eyebrow">Stack-Check</p><h2>{html.escape(kat_text(sec, "lead_hook"))}</h2>
+<p class="intro">{html.escape(kat_text(sec, "lead_text"))}</p>
+<p class="lead-merk" data-chrome>{icon("bookmark")}<span>Markier Tools mit dem Lesezeichen, die Merkliste reist mit deiner Anfrage mit.</span></p>
+</div>
 <div>{lead_form("Kategorie: " + sec["title"], "Stack-Check (" + sec["title"] + ") – KI-Werkstatt")}</div></div>
 </div></section>
 
 <section class="band" id="weitere"><div class="wrap">
-<p class="eyebrow">Weitere Schubladen</p><h2>Woanders weitersuchen</h2>
+<p class="eyebrow">Weitere Schubladen</p><h2>Woanders weiterstöbern</h2>
 <div class="catgrid">{"".join(others)}</div>
 </div></section>
 {footer()}
 """
-        title = f"{h1}: {n} Tools geprüft – KI-Werkstatt"
+        title = f"{kat_text(sec, 'seo_title')} – KI-Werkstatt"
         (DOCS / page).write_text(page_shell(title, body, desc, SITE_URL + page, f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
         pages.append(page)
     return pages
@@ -854,6 +965,7 @@ def build_glossar(tools_map, list_secs, sections):
         cards.append(f"""<article class="term reveal" id="{slug(g['t'])}" data-search="{html.escape(search)}">
 <div class="term-head"><span class="term-ico">{icon(g["icon"])}</span><h3><dfn>{html.escape(g["t"])}</dfn></h3><a class="anchor" href="#{slug(g['t'])}" title="Link auf diesen Begriff">#</a></div>
 <p>{html.escape(g["d"])}</p>
+<p class="spruch">{icon("wrench")}<span><b>Werkstatt-Übersetzung:</b> {html.escape(g["spruch"])}</span></p>
 <p class="see"><b>Siehe auch:</b> {see}</p>{extra}</article>""")
     az = "".join(f'<a href="#buchstabe-{L.lower()}">{L}</a>' for L in letters)
     n = len(terms)
@@ -868,27 +980,24 @@ def build_glossar(tools_map, list_secs, sections):
 <section class="hero gl-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<span aria-current="page">KI-Glossar</span></nav>
 <p class="kicker">{icon("abc")} <b>KI-Glossar</b> · {n} Begriffe von A bis Z</p>
-<h1><em>{n} KI-Begriffe.</em><br>Je zwei Sätze.<br>Auf Deutsch.</h1>
+<h1><em>{n} KI-Begriffe.</em><br>Ernst erklärt.<br>Mit Augenzwinkern übersetzt.</h1>
 <p class="sub">{html.escape(GLOSSAR["intro"])}</p>
 <div class="ctas"><a class="btn btn-lime" href="#begriffe">{icon("book")}Zu den Begriffen</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 </div></section>
 <nav class="az" aria-label="Buchstaben"><div class="wrap in"><div class="az-letters">{az}</div>
 <label class="sr" for="gq">Begriffe filtern</label><input type="search" id="gq" placeholder="Begriff filtern: Token, RAG, DSGVO …" autocomplete="off"><span id="gcount" aria-live="polite"></span></div></nav>
-<div class="wrap gl" id="begriffe">{"".join(cards)}<p class="gl-empty hidden">Kein Begriff gefunden. Fehlt einer? Schreib an <a href="mailto:{LEAD_TO}?subject=Glossar">{LEAD_TO}</a>.</p></div>
+<div class="wrap gl" id="begriffe">{"".join(cards)}<div class="gl-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Diesen Begriff kennt Kurbel noch nicht. Fehlt einer? Schreib an <a href="mailto:{LEAD_TO}?subject=Glossar">{LEAD_TO}</a>.</p></div></div>
 
 <section class="band lead" id="stack-check"><div class="wrap">
 <div class="lead-grid"><div>
-<p class="eyebrow">Stack-Check</p><h2>Begriffe klar. Und welches Tool jetzt?</h2>
-<p class="intro">{html.escape(BRAND["lead_offer"]["promise"])}</p>
-<ul>
-<li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
-<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
-</ul></div>
+<p class="eyebrow">Stack-Check</p><h2>Vokabeln sitzen. Und welches Tool jetzt?</h2>
+<p class="intro">Wer weiß, was ein Token ist, stellt die besseren Fragen. Stell eine davon Jean und bekomm ein Setup, das zu deinem Vorhaben passt.</p>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich hab das Glossar übrigens auswendig gelernt. Fast.</p></div></div>
 <div>{lead_form("Glossar", "Stack-Check (Glossar) – KI-Werkstatt")}</div></div>
 </div></section>
 {footer()}
 """
-    desc = f"{n} KI-Begriffe auf Deutsch erklärt, von Agent bis Zero-Shot: Token, RAG, MCP, Halluzination, DSGVO und EU AI Act. Je zwei Sätze, mit Querverweisen und passenden Tools."
+    desc = f"{n} KI-Begriffe auf Deutsch erklärt, von Agent bis Zero-Shot: Token, RAG, MCP, Halluzination, DSGVO und EU AI Act. Jeder mit Werkstatt-Übersetzung, Querverweisen und passenden Tools."
     (DOCS / GLOSSAR_PAGE).write_text(page_shell(f"KI-Glossar: {n} Begriffe auf Deutsch erklärt – KI-Werkstatt", body, desc, url,
                                                 f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
     return GLOSSAR_PAGE
@@ -901,13 +1010,21 @@ def csv_safe(v):
     return v
 
 
-def build_data(uniq, sections, pages=()):
+def build_data(uniq, sections, pages=(), list_secs=()):
+    page_ids = {s["id"] for s in list_secs}
+    first = {}
+    # Zuerst die Fundstelle in einer Kategorie (sachlicher Text, eigene Seite), Favoriten nur als Rückfall
+    ordered = [x for x in all_items(sections) if x[0]["id"] != "empfehlungen-der-redaktion"] + \
+              [x for x in all_items(sections) if x[0]["id"] == "empfehlungen-der-redaktion"]
+    for s, sub, it in ordered:
+        first.setdefault(it["url"], (s, sub, it))
     rows = []
-    for s, sub, it in all_items(sections):
-        if uniq.get(it["url"]) is not it:
-            continue
+    for url in uniq:
+        s, sub, it = first[url]
         eu, oss, clean = item_meta(it)
-        rows.append({"name": it["name"], "url": it["url"], "beschreibung": clean, "kategorie": s["title"], "bereich": sub["title"] if sub else "", "eu": eu, "open_source": oss})
+        seite = (cat_page(s["id"]) + (f"#{sub['id']}" if sub else "")) if s["id"] in page_ids else f"./#{s['id']}"
+        rows.append({"name": it["name"], "url": it["url"], "beschreibung": clean, "kategorie": s["title"], "bereich": sub["title"] if sub else "",
+                     "eu": eu, "open_source": oss, "seite": seite})
     (DOCS / "tools.json").write_text(json.dumps({"gebaut": TODAY, "link_check": LINK_CHECK, "quelle": REPO_URL, "tools": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
     with (DOCS / "tools.csv").open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";")
@@ -958,10 +1075,17 @@ def main():
     uniq, n_tools, n_cats, list_secs, tools_map = build_index(sections, head_md)
     pages = build_category_pages(list_secs, tools_map)
     pages.append(build_glossar(tools_map, list_secs, sections))
-    build_subpages()
-    build_data(uniq, sections, pages)
+    build_subpages(list_secs)
+    build_data(uniq, sections, pages, list_secs)
     build_og(n_tools, n_cats)
     print(f"docs/index.html: {n_tools} Tools, {n_cats} Kategorien, {len(list(IMG.glob('cat-*.svg')))} Grafiken, {len(pages)} Unterseiten")
+    from check_unique import find_duplicates
+    dups = find_duplicates(DOCS)
+    if dups:
+        for sent, where in dups[:20]:
+            print(f"  doppelt: {sent[:90]!r} in {', '.join(where)}")
+        raise SystemExit(f"Abbruch: {len(dups)} Sätze stehen auf mehr als einer Seite (oder doppelt auf einer). Texte umschreiben.")
+    print("Uniqueness-Check: kein Satz doppelt")
 
 
 if __name__ == "__main__":

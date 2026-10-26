@@ -1,45 +1,541 @@
 {
- "intro": "Die Begriffe, die dir in Tool-Beschreibungen, Preislisten und Datenschutzfragen begegnen. Jeder in zwei, drei Sätzen, mit Querverweisen und passenden Tools aus der Liste.",
+ "intro": "Die Wörter, die dir in Tool-Beschreibungen, Preislisten und Datenschutz-Runden um die Ohren fliegen. Jeder Begriff mit einer ernsten Erklärung und einer Werkstatt-Übersetzung, damit er auch hängen bleibt.",
  "begriffe": [
-  {"t": "Agent", "icon": "bot", "d": "Ein Sprachmodell, das nicht nur antwortet, sondern Werkzeuge benutzt und mehrere Schritte selbst plant: suchen, klicken, Dateien schreiben, Mails verschicken. Je mehr ein Agent darf, desto wichtiger sind Freigaben und Protokolle.", "see": ["Tool Use", "MCP", "Guardrails"], "tools": ["n8n", "Zapier"], "cat": "automatisierung-und-ki-agenten"},
-  {"t": "API", "icon": "link", "d": "Schnittstelle, über die Programme miteinander reden. Wer ein Sprachmodell in Shop, CMS oder Skript einbauen will, nutzt die API des Anbieters und zahlt meist pro Token.", "see": ["Token", "Rate Limit"], "tools": ["OpenAI API", "Google Gemini API", "Mistral AI"], "cat": "entwickler-tools-und-llmops"},
-  {"t": "AVV", "icon": "shield", "d": "Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Den brauchst du, wenn ein Dienstleister personenbezogene Daten in deinem Auftrag verarbeitet. Bei KI-Tools mit Kundendaten: vorher abschließen, nicht hinterher.", "see": ["DSGVO", "EU AI Act"], "tools": ["Langdock"], "cat": ""},
-  {"t": "Benchmark", "icon": "ruler", "d": "Standardisierter Test, mit dem Modelle verglichen werden. Ein guter Benchmark-Wert heißt nicht, dass ein Modell deine Aufgabe gut löst. Teste mit zehn echten Beispielen aus deinem Alltag.", "see": ["Halluzination", "LLM"], "tools": [], "cat": ""},
-  {"t": "C2PA und Wasserzeichen", "icon": "image", "d": "Kennzeichnung KI-erzeugter Inhalte. C2PA hängt signierte Herkunftsdaten an Bilder und Videos. Sichtbare Wasserzeichen lassen sich leicht entfernen, Metadaten auch.", "see": ["Deepfake", "Diffusionsmodell"], "tools": [], "cat": "bilder"},
-  {"t": "Chatbot", "icon": "chat", "d": "Programm, mit dem du per Text oder Sprache redest. Heute meist ein Sprachmodell mit Oberfläche, etwa ChatGPT, Claude oder Le Chat.", "see": ["LLM", "System-Prompt"], "tools": ["ChatGPT", "Claude", "Le Chat von Mistral"], "cat": "text-und-sprache"},
-  {"t": "Deepfake", "icon": "video", "d": "Täuschend echte, KI-erzeugte Bilder, Videos oder Stimmen einer realen Person. Der EU AI Act verlangt, solche Inhalte als künstlich erzeugt offenzulegen.", "see": ["C2PA und Wasserzeichen", "EU AI Act", "Text-to-Speech"], "tools": [], "cat": "video"},
-  {"t": "Diffusionsmodell", "icon": "image", "d": "Bildmodell, das aus Rauschen Schritt für Schritt ein Bild formt, gesteuert durch deinen Prompt. Stable Diffusion und FLUX arbeiten so.", "see": ["LoRA", "Prompt"], "tools": ["Stable Diffusion", "FLUX von Black Forest Labs"], "cat": "bilder"},
-  {"t": "DSGVO", "icon": "lock", "d": "Die Datenschutz-Grundverordnung der EU. Für KI-Tools zählt: Welche Daten gibst du ein, wo werden sie verarbeitet, gibt es einen AVV, und wird mit deinen Eingaben trainiert?", "see": ["AVV", "Lokales Modell", "EU AI Act"], "tools": [], "cat": ""},
-  {"t": "Embedding", "icon": "layers", "d": "Ein Text als Zahlenreihe, die seine Bedeutung abbildet. Ähnliche Texte bekommen ähnliche Zahlen. Damit funktionieren semantische Suche und RAG.", "see": ["RAG", "Vektordatenbank"], "tools": [], "cat": "entwickler-tools-und-llmops"},
-  {"t": "EU AI Act", "icon": "building", "d": "EU-Verordnung über künstliche Intelligenz, in Kraft seit 1. August 2024 und stufenweise anwendbar. Sie teilt KI-Systeme nach Risiko ein. Seit Februar 2025 müssen Unternehmen, die KI einsetzen, für ausreichende KI-Kompetenz ihrer Leute sorgen.", "see": ["DSGVO", "Deepfake"], "tools": [], "cat": ""},
-  {"t": "Few-Shot", "icon": "layers", "d": "Prompt-Technik: Du gibst dem Modell zwei bis fünf Beispiele, wie die Antwort aussehen soll. Oft der schnellste Weg zu gleichbleibendem Format.", "see": ["Prompt", "Zero-Shot"], "tools": [], "cat": ""},
-  {"t": "Fine-Tuning", "icon": "hammer", "d": "Ein fertiges Modell mit eigenen Beispielen nachtrainieren, damit es Stil, Format oder Fachsprache übernimmt. Für Wissen ist RAG meist billiger und aktueller.", "see": ["LoRA", "RAG"], "tools": ["Hugging Face"], "cat": "entwickler-tools-und-llmops"},
-  {"t": "GPU", "icon": "cpu", "d": "Grafikprozessor. Rechnet die vielen parallelen Multiplikationen, aus denen KI-Modelle bestehen. Für lokale Modelle zählt vor allem der Grafikspeicher (VRAM).", "see": ["Lokales Modell", "Quantisierung", "Inferenz"], "tools": [], "cat": ""},
-  {"t": "Guardrails", "icon": "shield", "d": "Regeln und Filter um ein Modell herum: was es darf, was es nicht ausgeben soll, wann ein Mensch freigibt. Pflicht, sobald ein Agent handeln darf.", "see": ["Agent", "Prompt Injection"], "tools": [], "cat": ""},
-  {"t": "Halluzination", "icon": "spark", "d": "Das Modell erfindet etwas und klingt dabei sicher: Quellen, Zahlen, Paragrafen. Gegenmittel: Quellen verlangen, mit RAG arbeiten, Fakten selbst prüfen.", "see": ["RAG", "KI-Suchmaschine"], "tools": [], "cat": ""},
-  {"t": "Inferenz", "icon": "zap", "d": "Der Moment, in dem ein trainiertes Modell eine Antwort berechnet. Inferenz kostet Rechenzeit, deshalb rechnen Anbieter pro Token ab.", "see": ["Token", "GPU"], "tools": [], "cat": ""},
-  {"t": "KI-Suchmaschine", "icon": "search", "d": "Suche, die Treffer liest und dir eine zusammengefasste Antwort mit Quellen gibt. Spart Klicks, ersetzt aber nicht das Lesen der Quelle.", "see": ["Halluzination", "RAG"], "tools": ["Perplexity"], "cat": "text-und-sprache"},
-  {"t": "Kontextfenster", "icon": "text", "d": "Wie viel Text ein Modell auf einmal berücksichtigt: Prompt, angehängte Dateien und bisheriger Chat, gemessen in Token. Was nicht reinpasst, ist für das Modell nicht da.", "see": ["Token", "RAG"], "tools": [], "cat": ""},
-  {"t": "LLM", "icon": "cpu", "d": "Large Language Model, auf Deutsch großes Sprachmodell. Trainiert auf riesigen Textmengen, sagt es das wahrscheinlich nächste Wortstück voraus. Darauf bauen ChatGPT, Claude, Gemini und Le Chat auf.", "see": ["Token", "Chatbot", "Open Weights"], "tools": ["Claude", "Gemini", "Llama"], "cat": "text-und-sprache"},
-  {"t": "Lokales Modell", "icon": "lock", "d": "Ein Modell, das auf deinem eigenen Rechner oder Server läuft. Die Daten verlassen das Gerät nicht, dafür brauchst du passende Hardware.", "see": ["Open Weights", "Quantisierung", "GPU"], "tools": ["Ollama", "LM Studio", "Open WebUI"], "cat": "text-und-sprache"},
-  {"t": "LoRA", "icon": "puzzle", "d": "Low-Rank Adaptation: sparsame Art des Fine-Tunings, bei der nur kleine Zusatzgewichte trainiert werden. Bei Bildmodellen der übliche Weg zu eigenem Stil oder eigenem Produkt im Bild.", "see": ["Fine-Tuning", "Diffusionsmodell"], "tools": [], "cat": "bilder"},
-  {"t": "MCP", "icon": "puzzle", "d": "Model Context Protocol: offener Standard, über den KI-Anwendungen an Werkzeuge und Datenquellen angeschlossen werden, etwa Kalender, Datenbanken oder Shop-Systeme. 2024 von Anthropic vorgestellt, inzwischen von vielen Anbietern unterstützt.", "see": ["Agent", "Tool Use", "API"], "tools": ["Claude"], "cat": "automatisierung-und-ki-agenten"},
-  {"t": "Multimodal", "icon": "image", "d": "Ein Modell, das mehr als Text versteht: Bilder, Audio, Video oder PDFs. Praktisch für Screenshots, Rechnungen oder Produktfotos.", "see": ["LLM", "OCR"], "tools": [], "cat": ""},
-  {"t": "OCR", "icon": "text", "d": "Texterkennung in Bildern und Scans. Multimodale Modelle lesen auch Tabellen und Handschrift, machen dabei aber Fehler. Zahlen immer gegenprüfen.", "see": ["Multimodal"], "tools": [], "cat": ""},
-  {"t": "Open Weights", "icon": "code", "d": "Die Modellgewichte sind frei herunterladbar, etwa bei Llama oder Mistral. Open Source im strengen Sinn heißt zusätzlich offene Lizenz, offener Code und offengelegte Trainingsdaten. Das erfüllen nur wenige Modelle.", "see": ["Lokales Modell", "LLM"], "tools": ["Llama", "Mistral AI", "Hugging Face"], "cat": ""},
-  {"t": "Prompt", "icon": "pen", "d": "Deine Anweisung an das Modell. Gute Prompts nennen Rolle, Ziel, Material, Format und Grenzen. Je klarer der Auftrag, desto weniger Nacharbeit.", "see": ["System-Prompt", "Few-Shot", "Temperatur"], "tools": [], "cat": "lernen-prompting-und-ki-grundlagen"},
-  {"t": "Prompt Injection", "icon": "x", "d": "Angriff, bei dem versteckte Anweisungen in einer Webseite, Mail oder Datei das Modell umsteuern. Gefährlich bei Agenten, die lesen und handeln dürfen.", "see": ["Agent", "Guardrails"], "tools": [], "cat": ""},
-  {"t": "Quantisierung", "icon": "ruler", "d": "Modellgewichte mit weniger Bits speichern, etwa 4 statt 16. Das Modell wird kleiner und schneller, verliert aber etwas Genauigkeit. So passen große Modelle auf normale Rechner.", "see": ["Lokales Modell", "GPU"], "tools": ["Ollama", "LM Studio"], "cat": ""},
-  {"t": "RAG", "icon": "book", "d": "Retrieval-Augmented Generation: Das Modell sucht vor der Antwort passende Stellen in deinen Dokumenten und antwortet auf dieser Grundlage. Der übliche Weg zum Chat mit Handbuch, Wiki oder Produktdaten.", "see": ["Embedding", "Vektordatenbank", "Halluzination"], "tools": ["NotebookLM", "LlamaIndex", "LangChain"], "cat": "entwickler-tools-und-llmops"},
-  {"t": "Rate Limit", "icon": "clock", "d": "Obergrenze, wie viele Anfragen oder Token du pro Minute an eine API schicken darfst. Wer Tausende Produkttexte erzeugt, plant Pausen und Wiederholungen ein.", "see": ["API", "Token"], "tools": [], "cat": ""},
-  {"t": "Reasoning-Modell", "icon": "compass", "d": "Modell, das vor der Antwort Zwischenschritte durchrechnet. Besser bei Mathe, Code und Planung, dafür langsamer und teurer pro Anfrage.", "see": ["LLM", "Token"], "tools": [], "cat": ""},
-  {"t": "Speech-to-Text", "icon": "headset", "d": "Gesprochenes in Text umwandeln, auch Transkription genannt. Grundlage für Meeting-Protokolle, Untertitel und Telefonagenten.", "see": ["Text-to-Speech", "Multimodal"], "tools": ["Whisper API", "Otter.ai", "tl;dv"], "cat": "audio"},
-  {"t": "System-Prompt", "icon": "cpu", "d": "Grundanweisung, die vor jedem Chat steht und Rolle, Ton und Regeln festlegt. In eigenen Assistenten der Ort für Markenstimme und Verbote.", "see": ["Prompt", "Guardrails"], "tools": [], "cat": ""},
-  {"t": "Temperatur", "icon": "sun", "d": "Regler für Zufall in der Antwort. Niedrig für Fakten, Daten und Code, höher für Ideen und Varianten.", "see": ["Prompt"], "tools": [], "cat": ""},
-  {"t": "Text-to-Speech", "icon": "music", "d": "Text in gesprochene Sprache umwandeln. Heutige Stimmen klingen fast menschlich. Eine fremde Stimme klonst du nur mit Einwilligung der Person.", "see": ["Speech-to-Text", "Deepfake"], "tools": ["ElevenLabs"], "cat": "audio"},
-  {"t": "Token", "icon": "box", "d": "Die Einheit, in der Modelle Text zählen. Ein Token ist meist ein Wortteil. Deutsche Texte brauchen in der Regel mehr Token pro Wort als englische, das merkst du an Preis und Kontextfenster.", "see": ["Kontextfenster", "API", "Inferenz"], "tools": [], "cat": ""},
-  {"t": "Tool Use", "icon": "wrench", "d": "Auch Function Calling: Das Modell ruft selbst Funktionen auf, etwa rechnen, im Kalender nachsehen oder in der Datenbank suchen. Die Grundlage für Agenten.", "see": ["Agent", "MCP", "API"], "tools": [], "cat": "automatisierung-und-ki-agenten"},
-  {"t": "Vektordatenbank", "icon": "layers", "d": "Datenbank für Embeddings. Findet Texte nach Bedeutung statt nach exaktem Wortlaut und ist das Gedächtnis vieler RAG-Systeme.", "see": ["Embedding", "RAG"], "tools": [], "cat": "entwickler-tools-und-llmops"},
-  {"t": "Zero-Shot", "icon": "spark", "d": "Prompt ohne Beispiele, nur die Aufgabe. Reicht für Standardaufgaben. Wenn das Format schwankt, wechsel auf Few-Shot.", "see": ["Few-Shot", "Prompt"], "tools": [], "cat": ""}
+  {
+   "t": "Agent",
+   "icon": "bot",
+   "d": "Ein Sprachmodell, das nicht nur antwortet, sondern Werkzeuge benutzt und mehrere Schritte selbst plant: suchen, klicken, Dateien schreiben, Mails verschicken. Je mehr ein Agent darf, desto wichtiger sind Freigaben und Protokolle.",
+   "see": [
+    "Tool Use",
+    "MCP",
+    "Guardrails"
+   ],
+   "tools": [
+    "n8n",
+    "Zapier"
+   ],
+   "cat": "automatisierung-und-ki-agenten",
+   "spruch": "Ein Praktikant mit Schlüsselbund. Gib ihm nur die Schlüssel, die er wirklich braucht."
+  },
+  {
+   "t": "API",
+   "icon": "link",
+   "d": "Schnittstelle, über die Programme miteinander reden. Wer ein Sprachmodell in Shop, CMS oder Skript einbauen will, nutzt die API des Anbieters und zahlt meist pro Token.",
+   "see": [
+    "Token",
+    "Rate Limit"
+   ],
+   "tools": [
+    "OpenAI API",
+    "Google Gemini API",
+    "Mistral AI"
+   ],
+   "cat": "entwickler-tools-und-llmops",
+   "spruch": "Die Durchreiche zwischen zwei Programmen: Bestellung rein, Ergebnis raus."
+  },
+  {
+   "t": "AVV",
+   "icon": "shield",
+   "d": "Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Den brauchst du, wenn ein Dienstleister personenbezogene Daten in deinem Auftrag verarbeitet. Bei KI-Tools mit Kundendaten: vorher abschließen, nicht hinterher.",
+   "see": [
+    "DSGVO",
+    "EU AI Act"
+   ],
+   "tools": [
+    "Langdock"
+   ],
+   "cat": "",
+   "spruch": "Der Zettel, den du unterschreibst, bevor jemand anders deine Kundenkartei anfasst."
+  },
+  {
+   "t": "Benchmark",
+   "icon": "ruler",
+   "d": "Standardisierter Test, mit dem Modelle verglichen werden. Ein guter Benchmark-Wert heißt nicht, dass ein Modell deine Aufgabe gut löst. Teste mit zehn echten Beispielen aus deinem Alltag.",
+   "see": [
+    "Halluzination",
+    "LLM"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Das Ergebnis vom Prüfstand. Sagt viel über den Prüfstand und etwas über die Straße."
+  },
+  {
+   "t": "C2PA und Wasserzeichen",
+   "icon": "image",
+   "d": "Kennzeichnung KI-erzeugter Inhalte. C2PA hängt signierte Herkunftsdaten an Bilder und Videos. Sichtbare Wasserzeichen lassen sich leicht entfernen, Metadaten auch.",
+   "see": [
+    "Deepfake",
+    "Diffusionsmodell"
+   ],
+   "tools": [],
+   "cat": "bilder",
+   "spruch": "Der Herkunftsstempel auf dem Bild. Hält, solange keiner ihn abschleift."
+  },
+  {
+   "t": "Chatbot",
+   "icon": "chat",
+   "d": "Programm, mit dem du per Text oder Sprache redest. Heute meist ein Sprachmodell mit Oberfläche, etwa ChatGPT, Claude oder Le Chat.",
+   "see": [
+    "LLM",
+    "System-Prompt"
+   ],
+   "tools": [
+    "ChatGPT",
+    "Claude",
+    "Le Chat von Mistral"
+   ],
+   "cat": "text-und-sprache",
+   "spruch": "Der Kollege am Tresen, der immer Zeit hat und nie Kaffeepause macht."
+  },
+  {
+   "t": "Deepfake",
+   "icon": "video",
+   "d": "Täuschend echte, KI-erzeugte Bilder, Videos oder Stimmen einer realen Person. Der EU AI Act verlangt, solche Inhalte als künstlich erzeugt offenzulegen.",
+   "see": [
+    "C2PA und Wasserzeichen",
+    "EU AI Act",
+    "Text-to-Speech"
+   ],
+   "tools": [],
+   "cat": "video",
+   "spruch": "Bei „täuschend echt“ ist das Täuschen das Problem, nicht das Echte."
+  },
+  {
+   "t": "Diffusionsmodell",
+   "icon": "image",
+   "d": "Bildmodell, das aus Rauschen Schritt für Schritt ein Bild formt, gesteuert durch deinen Prompt. Stable Diffusion und FLUX arbeiten so.",
+   "see": [
+    "LoRA",
+    "Prompt"
+   ],
+   "tools": [
+    "Stable Diffusion",
+    "FLUX von Black Forest Labs"
+   ],
+   "cat": "bilder",
+   "spruch": "Ein Bildhauer, der aus Rauschen meißelt statt aus Marmor."
+  },
+  {
+   "t": "DSGVO",
+   "icon": "lock",
+   "d": "Die Datenschutz-Grundverordnung der EU. Für KI-Tools zählt: Welche Daten gibst du ein, wo werden sie verarbeitet, gibt es einen AVV, und wird mit deinen Eingaben trainiert?",
+   "see": [
+    "AVV",
+    "Lokales Modell",
+    "EU AI Act"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Die Hausordnung für personenbezogene Daten. Gilt auch für Roboter."
+  },
+  {
+   "t": "Embedding",
+   "icon": "layers",
+   "d": "Ein Text als Zahlenreihe, die seine Bedeutung abbildet. Ähnliche Texte bekommen ähnliche Zahlen. Damit funktionieren semantische Suche und RAG.",
+   "see": [
+    "RAG",
+    "Vektordatenbank"
+   ],
+   "tools": [],
+   "cat": "entwickler-tools-und-llmops",
+   "spruch": "Der Geruch eines Textes in Zahlen: Ähnliches riecht ähnlich."
+  },
+  {
+   "t": "EU AI Act",
+   "icon": "building",
+   "d": "EU-Verordnung über künstliche Intelligenz, in Kraft seit 1. August 2024 und stufenweise anwendbar. Sie teilt KI-Systeme nach Risiko ein. Seit Februar 2025 müssen Unternehmen, die KI einsetzen, für ausreichende KI-Kompetenz ihrer Leute sorgen.",
+   "see": [
+    "DSGVO",
+    "Deepfake"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Die Straßenverkehrsordnung für KI, inklusive Fahrstunden für alle, die sie im Betrieb einsetzen."
+  },
+  {
+   "t": "Few-Shot",
+   "icon": "layers",
+   "d": "Prompt-Technik: Du gibst dem Modell zwei bis fünf Beispiele, wie die Antwort aussehen soll. Oft der schnellste Weg zu gleichbleibendem Format.",
+   "see": [
+    "Prompt",
+    "Zero-Shot"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Zeigen statt erklären. Drei Beispiele sagen mehr als drei Absätze Anleitung."
+  },
+  {
+   "t": "Fine-Tuning",
+   "icon": "hammer",
+   "d": "Ein fertiges Modell mit eigenen Beispielen nachtrainieren, damit es Stil, Format oder Fachsprache übernimmt. Für Wissen ist RAG meist billiger und aktueller.",
+   "see": [
+    "LoRA",
+    "RAG"
+   ],
+   "tools": [
+    "Hugging Face"
+   ],
+   "cat": "entwickler-tools-und-llmops",
+   "spruch": "Eine Umschulung für ein Modell, das eigentlich schon einen Job hat."
+  },
+  {
+   "t": "GPU",
+   "icon": "cpu",
+   "d": "Grafikprozessor. Rechnet die vielen parallelen Multiplikationen, aus denen KI-Modelle bestehen. Für lokale Modelle zählt vor allem der Grafikspeicher (VRAM).",
+   "see": [
+    "Lokales Modell",
+    "Quantisierung",
+    "Inferenz"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Der Motorblock. Bei lokalen Modellen zählt der Hubraum, und der heißt hier VRAM."
+  },
+  {
+   "t": "Guardrails",
+   "icon": "shield",
+   "d": "Regeln und Filter um ein Modell herum: was es darf, was es nicht ausgeben soll, wann ein Mensch freigibt. Pflicht, sobald ein Agent handeln darf.",
+   "see": [
+    "Agent",
+    "Prompt Injection"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Leitplanken. Fallen erst auf, wenn man sie dringend braucht."
+  },
+  {
+   "t": "Halluzination",
+   "icon": "spark",
+   "d": "Das Modell erfindet etwas und klingt dabei sicher: Quellen, Zahlen, Paragrafen. Gegenmittel: Quellen verlangen, mit RAG arbeiten, Fakten selbst prüfen.",
+   "see": [
+    "RAG",
+    "KI-Suchmaschine"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Der Kollege, der lieber etwas erfindet, als „weiß ich nicht“ zu sagen."
+  },
+  {
+   "t": "Inferenz",
+   "icon": "zap",
+   "d": "Der Moment, in dem ein trainiertes Modell eine Antwort berechnet. Inferenz kostet Rechenzeit, deshalb rechnen Anbieter pro Token ab.",
+   "see": [
+    "Token",
+    "GPU"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Der Moment, in dem der Motor läuft und der Taxameter tickt."
+  },
+  {
+   "t": "KI-Suchmaschine",
+   "icon": "search",
+   "d": "Suche, die Treffer liest und dir eine zusammengefasste Antwort mit Quellen gibt. Spart Klicks, ersetzt aber nicht das Lesen der Quelle.",
+   "see": [
+    "Halluzination",
+    "RAG"
+   ],
+   "tools": [
+    "Perplexity"
+   ],
+   "cat": "text-und-sprache",
+   "spruch": "Der Bibliothekar, der dir die Antwort vorliest und die Bücher gleich danebenlegt."
+  },
+  {
+   "t": "Kontextfenster",
+   "icon": "text",
+   "d": "Wie viel Text ein Modell auf einmal berücksichtigt: Prompt, angehängte Dateien und bisheriger Chat, gemessen in Token. Was nicht reinpasst, ist für das Modell nicht da.",
+   "see": [
+    "Token",
+    "RAG"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Die Größe der Werkbank. Was nicht draufpasst, fällt hinten runter."
+  },
+  {
+   "t": "LLM",
+   "icon": "cpu",
+   "d": "Large Language Model, auf Deutsch großes Sprachmodell. Trainiert auf riesigen Textmengen, sagt es das wahrscheinlich nächste Wortstück voraus. Darauf bauen ChatGPT, Claude, Gemini und Le Chat auf.",
+   "see": [
+    "Token",
+    "Chatbot",
+    "Open Weights"
+   ],
+   "tools": [
+    "Claude",
+    "Gemini",
+    "Llama"
+   ],
+   "cat": "text-und-sprache",
+   "spruch": "Die Autovervollständigung, die zur Uni gegangen ist."
+  },
+  {
+   "t": "Lokales Modell",
+   "icon": "lock",
+   "d": "Ein Modell, das auf deinem eigenen Rechner oder Server läuft. Die Daten verlassen das Gerät nicht, dafür brauchst du passende Hardware.",
+   "see": [
+    "Open Weights",
+    "Quantisierung",
+    "GPU"
+   ],
+   "tools": [
+    "Ollama",
+    "LM Studio",
+    "Open WebUI"
+   ],
+   "cat": "text-und-sprache",
+   "spruch": "Die Werkstatt im eigenen Keller: Nichts verlässt das Haus."
+  },
+  {
+   "t": "LoRA",
+   "icon": "puzzle",
+   "d": "Low-Rank Adaptation: sparsame Art des Fine-Tunings, bei der nur kleine Zusatzgewichte trainiert werden. Bei Bildmodellen der übliche Weg zu eigenem Stil oder eigenem Produkt im Bild.",
+   "see": [
+    "Fine-Tuning",
+    "Diffusionsmodell"
+   ],
+   "tools": [],
+   "cat": "bilder",
+   "spruch": "Ein Aufsatz für die Bohrmaschine statt einer neuen Bohrmaschine."
+  },
+  {
+   "t": "MCP",
+   "icon": "puzzle",
+   "d": "Model Context Protocol: offener Standard, über den KI-Anwendungen an Werkzeuge und Datenquellen angeschlossen werden, etwa Kalender, Datenbanken oder Shop-Systeme. 2024 von Anthropic vorgestellt, inzwischen von vielen Anbietern unterstützt.",
+   "see": [
+    "Agent",
+    "Tool Use",
+    "API"
+   ],
+   "tools": [
+    "Claude"
+   ],
+   "cat": "automatisierung-und-ki-agenten",
+   "spruch": "Die Steckdosennorm für KI: ein Stecker, viele Geräte."
+  },
+  {
+   "t": "Multimodal",
+   "icon": "image",
+   "d": "Ein Modell, das mehr als Text versteht: Bilder, Audio, Video oder PDFs. Praktisch für Screenshots, Rechnungen oder Produktfotos.",
+   "see": [
+    "LLM",
+    "OCR"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Kann nicht nur lesen, sondern auch gucken und zuhören."
+  },
+  {
+   "t": "OCR",
+   "icon": "text",
+   "d": "Texterkennung in Bildern und Scans. Multimodale Modelle lesen auch Tabellen und Handschrift, machen dabei aber Fehler. Zahlen immer gegenprüfen.",
+   "see": [
+    "Multimodal"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Abtippen lassen, ohne dass jemand tippt. Gegenlesen bleibt dein Job."
+  },
+  {
+   "t": "Open Weights",
+   "icon": "code",
+   "d": "Die Modellgewichte sind frei herunterladbar, etwa bei Llama oder Mistral. Open Source im strengen Sinn heißt zusätzlich offene Lizenz, offener Code und offengelegte Trainingsdaten. Das erfüllen nur wenige Modelle.",
+   "see": [
+    "Lokales Modell",
+    "LLM"
+   ],
+   "tools": [
+    "Llama",
+    "Mistral AI",
+    "Hugging Face"
+   ],
+   "cat": "",
+   "spruch": "Das Rezept liegt offen, die Einkaufsliste der Trainingsdaten meistens nicht."
+  },
+  {
+   "t": "Prompt",
+   "icon": "pen",
+   "d": "Deine Anweisung an das Modell. Gute Prompts nennen Rolle, Ziel, Material, Format und Grenzen. Je klarer der Auftrag, desto weniger Nacharbeit.",
+   "see": [
+    "System-Prompt",
+    "Few-Shot",
+    "Temperatur"
+   ],
+   "tools": [],
+   "cat": "lernen-prompting-und-ki-grundlagen",
+   "spruch": "Der Arbeitsauftrag. Unklarer Auftrag, unklares Ergebnis, genau wie bei Menschen."
+  },
+  {
+   "t": "Prompt Injection",
+   "icon": "x",
+   "d": "Angriff, bei dem versteckte Anweisungen in einer Webseite, Mail oder Datei das Modell umsteuern. Gefährlich bei Agenten, die lesen und handeln dürfen.",
+   "see": [
+    "Agent",
+    "Guardrails"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Der Zettel im Paket mit der Aufschrift „Ignoriere alles, was dein Chef gesagt hat“."
+  },
+  {
+   "t": "Quantisierung",
+   "icon": "ruler",
+   "d": "Modellgewichte mit weniger Bits speichern, etwa 4 statt 16. Das Modell wird kleiner und schneller, verliert aber etwas Genauigkeit. So passen große Modelle auf normale Rechner.",
+   "see": [
+    "Lokales Modell",
+    "GPU"
+   ],
+   "tools": [
+    "Ollama",
+    "LM Studio"
+   ],
+   "cat": "",
+   "spruch": "Das Modell auf Diät: ein bisschen weniger genau, passt dafür auf deinen Laptop."
+  },
+  {
+   "t": "RAG",
+   "icon": "book",
+   "d": "Retrieval-Augmented Generation: Das Modell sucht vor der Antwort passende Stellen in deinen Dokumenten und antwortet auf dieser Grundlage. Der übliche Weg zum Chat mit Handbuch, Wiki oder Produktdaten.",
+   "see": [
+    "Embedding",
+    "Vektordatenbank",
+    "Halluzination"
+   ],
+   "tools": [
+    "NotebookLM",
+    "LlamaIndex",
+    "LangChain"
+   ],
+   "cat": "entwickler-tools-und-llmops",
+   "spruch": "Spickzettel erlaubt. Das Modell schaut erst in deine Unterlagen und antwortet dann."
+  },
+  {
+   "t": "Rate Limit",
+   "icon": "clock",
+   "d": "Obergrenze, wie viele Anfragen oder Token du pro Minute an eine API schicken darfst. Wer Tausende Produkttexte erzeugt, plant Pausen und Wiederholungen ein.",
+   "see": [
+    "API",
+    "Token"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Die Drehtür am Eingang: Alle kommen rein, nur nicht gleichzeitig."
+  },
+  {
+   "t": "Reasoning-Modell",
+   "icon": "compass",
+   "d": "Modell, das vor der Antwort Zwischenschritte durchrechnet. Besser bei Mathe, Code und Planung, dafür langsamer und teurer pro Anfrage.",
+   "see": [
+    "LLM",
+    "Token"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Erst denken, dann reden. Kostet Zeit, spart Ausreden."
+  },
+  {
+   "t": "Speech-to-Text",
+   "icon": "headset",
+   "d": "Gesprochenes in Text umwandeln, auch Transkription genannt. Grundlage für Meeting-Protokolle, Untertitel und Telefonagenten.",
+   "see": [
+    "Text-to-Speech",
+    "Multimodal"
+   ],
+   "tools": [
+    "Whisper API",
+    "Otter.ai",
+    "tl;dv"
+   ],
+   "cat": "audio",
+   "spruch": "Das Protokoll, das sich selbst schreibt, während alle reden."
+  },
+  {
+   "t": "System-Prompt",
+   "icon": "cpu",
+   "d": "Grundanweisung, die vor jedem Chat steht und Rolle, Ton und Regeln festlegt. In eigenen Assistenten der Ort für Markenstimme und Verbote.",
+   "see": [
+    "Prompt",
+    "Guardrails"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Die Stellenbeschreibung, die der Assistent vor jedem Gespräch noch mal liest."
+  },
+  {
+   "t": "Temperatur",
+   "icon": "sun",
+   "d": "Regler für Zufall in der Antwort. Niedrig für Fakten, Daten und Code, höher für Ideen und Varianten.",
+   "see": [
+    "Prompt"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Der Kreativ-Regler: links Buchhaltung, rechts Brainstorming."
+  },
+  {
+   "t": "Text-to-Speech",
+   "icon": "music",
+   "d": "Text in gesprochene Sprache umwandeln. Heutige Stimmen klingen fast menschlich. Eine fremde Stimme klonst du nur mit Einwilligung der Person.",
+   "see": [
+    "Speech-to-Text",
+    "Deepfake"
+   ],
+   "tools": [
+    "ElevenLabs"
+   ],
+   "cat": "audio",
+   "spruch": "Die Vorlesestimme aus der Steckdose. Fremde Stimmen nur mit Erlaubnis."
+  },
+  {
+   "t": "Token",
+   "icon": "box",
+   "d": "Die Einheit, in der Modelle Text zählen. Ein Token ist meist ein Wortteil. Deutsche Texte brauchen in der Regel mehr Token pro Wort als englische, das merkst du an Preis und Kontextfenster.",
+   "see": [
+    "Kontextfenster",
+    "API",
+    "Inferenz"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Die Münzen, mit denen du für Text bezahlst. Deutsche Wörter sind lang, also brauchst du mehr davon."
+  },
+  {
+   "t": "Tool Use",
+   "icon": "wrench",
+   "d": "Auch Function Calling: Das Modell ruft selbst Funktionen auf, etwa rechnen, im Kalender nachsehen oder in der Datenbank suchen. Die Grundlage für Agenten.",
+   "see": [
+    "Agent",
+    "MCP",
+    "API"
+   ],
+   "tools": [],
+   "cat": "automatisierung-und-ki-agenten",
+   "spruch": "Das Modell greift zum Werkzeugkasten, statt alles im Kopf zu rechnen."
+  },
+  {
+   "t": "Vektordatenbank",
+   "icon": "layers",
+   "d": "Datenbank für Embeddings. Findet Texte nach Bedeutung statt nach exaktem Wortlaut und ist das Gedächtnis vieler RAG-Systeme.",
+   "see": [
+    "Embedding",
+    "RAG"
+   ],
+   "tools": [],
+   "cat": "entwickler-tools-und-llmops",
+   "spruch": "Das Archiv, das nach Bedeutung sortiert statt nach Alphabet."
+  },
+  {
+   "t": "Zero-Shot",
+   "icon": "spark",
+   "d": "Prompt ohne Beispiele, nur die Aufgabe. Reicht für Standardaufgaben. Wenn das Format schwankt, wechsel auf Few-Shot.",
+   "see": [
+    "Few-Shot",
+    "Prompt"
+   ],
+   "tools": [],
+   "cat": "",
+   "spruch": "Kaltstart ohne Beispiel. Klappt öfter, als man denkt, und seltener, als man hofft."
+  }
  ]
 }

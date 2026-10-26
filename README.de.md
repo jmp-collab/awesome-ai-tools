@@ -1,12 +1,12 @@
 # KI-Werkstatt: KI-Tools auf Deutsch [![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
 
-> Über 400 KI-Tools. Geprüft. Sortiert. Auf Deutsch. Jedes Tool in einem Satz erklärt, tote Links raus, EU-Anbieter markiert. Mit Praxis-Deep-Dives von **[PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de)**, dem Substack für AI-Use-Cases, Prompt Engineering und AI-SEO.
+> Über 400 KI-Tools. Geprüft. Sortiert. Ohne Zauberstab. Jedes Tool in einem Satz erklärt, tote Links aussortiert, EU-Anbieter markiert. Weniger Hype, mehr Hebel. Mit Praxis-Deep-Dives von **[PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de)**, dem Substack für AI-Use-Cases, Prompt Engineering und AI-SEO.
 
 🛠️ [Zur Seite mit Suche und Stack-Finder](https://jmp-collab.github.io/awesome-ai-tools/) · 🇬🇧 [English version](README.md) · 📬 [PROMPTGOTT abonnieren](https://promptgott.substack.com/subscribe?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) · ➕ [Tool vorschlagen](#mitmachen)
 
-Die Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) (MIT-Lizenz). Für den deutschsprachigen Raum haben wir sie umgebaut:
+Die Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) (MIT-Lizenz). Für den deutschsprachigen Raum haben wir sie auseinandergeschraubt, geputzt und neu sortiert:
 
-- **Ein Satz pro Tool.** Was es kann, wofür es taugt. Keine Werbetexte.
+- **Ein Satz pro Tool.** Was es kann, wofür es taugt. Keine Werbetexte, die Beschreibungen bleiben sachlich. Gewitzelt wird drumherum.
 - **Link-Check (Stand: 26.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
 - **Namen auf Stand.** Bing Chat heißt Copilot, Metaphor heißt Exa. Aktuelle Standard-Tools sind ergänzt.
 - **DACH-Fokus.** Eigene Abschnitte für Übersetzung, SEO und Automatisierung. Anbieter mit Sitz in der EU tragen ein 🇪🇺. Das ist ein Hinweis auf den Firmensitz, keine Datenschutz-Prüfung. Für DSGVO zählen AVV, Serverstandort und Einstellungen.
@@ -46,18 +46,18 @@ Die Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-
 
 ## Empfehlungen der Redaktion
 
-Der schnelle Einstieg: ein Tool pro typischer Aufgabe, bewusst mit EU-Alternativen.
+Zehn Werkzeuge, die bei uns nie in der Schublade verschwinden. Ein Tool pro typischer Aufgabe, bewusst mit EU-Alternativen.
 
-- [ChatGPT](https://chatgpt.com) - Der Allrounder für Text, Analyse, Bilder und Recherche.
-- [Claude](https://claude.ai/) - Stark bei langen Dokumenten, sauberem Schreiben und Code.
-- [Le Chat von Mistral](https://chat.mistral.ai) - 🇪🇺 Französischer KI-Assistent, die naheliegende EU-Alternative zu ChatGPT.
-- [DeepL](https://www.deepl.com/translator) - 🇪🇺 Übersetzer aus Köln, bei Deutsch meist natürlicher als generische Chatbots.
-- [Perplexity](https://www.perplexity.ai/) - Antwortmaschine mit Quellenangaben für schnelle Recherche.
-- [NotebookLM](https://notebooklm.google.com/) - Chattet nur mit deinen eigenen Quellen und erzeugt daraus Zusammenfassungen und Audio-Überblicke.
-- [n8n](https://n8n.io) - 🇪🇺 Workflow-Automatisierung aus Berlin, selbst hostbar, mit KI-Agenten-Bausteinen.
-- [FLUX von Black Forest Labs](https://bfl.ai) - 🇪🇺 Bildmodelle aus Freiburg, Spitzenklasse bei Fotorealismus und Text im Bild.
-- [ElevenLabs](https://elevenlabs.io/) - Sehr realistische Stimmen, Voice Cloning und Vertonung auf Deutsch.
-- [Cursor](https://cursor.com) - Code-Editor mit KI-Agent, der ganze Projekte versteht und ändert.
+- [ChatGPT](https://chatgpt.com) - Das Schweizer Taschenmesser: schreibt, rechnet, sucht und malt, selten Weltmeister in einer Disziplin, aber fast immer griffbereit.
+- [Claude](https://claude.ai/) - Der ruhige Kollege für lange Dokumente: liest den Vertrag bis zur letzten Seite und schreibt Code, den du auch morgen noch verstehst.
+- [Le Chat von Mistral](https://chat.mistral.ai) - 🇪🇺 Für alle, die in der Datenschutz-Runde nach einer europäischen Alternative gefragt werden: Assistent aus Paris, flott und mit Websuche.
+- [DeepL](https://www.deepl.com/translator) - 🇪🇺 Aus Köln, und das hört man: Übersetzungen ins Deutsche klingen hier meist nach Mensch statt nach Bedienungsanleitung.
+- [Perplexity](https://www.perplexity.ai/) - Für Recherchen, bei denen du hinterher sagen musst, woher du es hast: jede Antwort kommt mit Fußnoten.
+- [NotebookLM](https://notebooklm.google.com/) - Wirf deine PDFs rein und frag sie aus. Bonus: Daraus wird auf Wunsch ein Podcast für die Bahnfahrt.
+- [n8n](https://n8n.io) - 🇪🇺 Kabelbinder für deine Software, made in Berlin: verbindet Apps zu Abläufen und läuft auch auf deinem eigenen Server.
+- [FLUX von Black Forest Labs](https://bfl.ai) - 🇪🇺 Bilder aus Freiburg, die man nicht auf den ersten Blick als KI erkennt. Kann sogar Schrift im Bild, ohne Buchstabensalat.
+- [ElevenLabs](https://elevenlabs.io/) - Stimmen, bei denen man zweimal hinhört. Liest deutsche Texte vor, ohne nach Navi zu klingen.
+- [Cursor](https://cursor.com) - Der Code-Editor, der mitliest und mitbaut. Gut, solange du am Ende noch selbst weißt, was in deinem Code passiert.
 
 
 ## PROMPTGOTT Deep Dives
@@ -551,7 +551,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Frase](https://frase.io) - SEO-Briefings und Content-Optimierung aus den Top-Suchergebnissen.
 - [MarketMuse](https://www.marketmuse.com/) - Themen-Planung und Content-Optimierung mit KI.
 - [Luthor](https://luthor.ai/) - Programmatisches Content-Marketing in großem Umfang.
-- [Quick Creator](https://quickcreator.io) - SEO-optimierte Blog-Plattform mit KI.
+- [Quick Creator](https://quickcreator.io) - KI-Blogplattform, die Beiträge entlang von Suchbegriffen aufbaut.
 - [Headlinesai.pro](https://www.headlinesai.pro/) - Überschriften für verschiedene Plattformen optimieren.
 
 ### Werbung, Social und Personalisierung

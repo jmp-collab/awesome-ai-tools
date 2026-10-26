@@ -1,38 +1,94 @@
 {
   "brand": "KI-Werkstatt",
   "claim": "Werkzeug für Leute, die Dinge bauen.",
-  "brand_role": "Die Werkstatt, in der deutschsprachige Macher ihr KI-Werkzeug finden: geprüft, sortiert, in einem Satz erklärt. Kein Verzeichnis, eine Werkbank.",
-  "relationship_promptgott": "PROMPTGOTT liefert die Praxis (wie man aus Tools Systeme baut), die KI-Werkstatt liefert das Werkzeug. Orange gehört PROMPTGOTT, Lime gehört der Werkstatt. Beide reden Klartext, aber die Werkstatt ist ruhiger: weniger Pathos, mehr Checkliste.",
+  "brand_role": "Die Werkstatt, in der deutschsprachige Macher ihr KI-Werkzeug finden: geprüft, sortiert, in einem Satz erklärt. Klingt wie der Kollege an der Werkbank, der dir den richtigen Schlüssel reicht und dabei einen trockenen Spruch macht.",
+  "relationship_promptgott": "PROMPTGOTT liefert die Praxis mit Haltung und Pathos, die KI-Werkstatt liefert das Werkzeug mit Augenzwinkern. Orange gehört PROMPTGOTT, Lime gehört der Werkstatt.",
   "voice_principles": [
     "Du, nie Sie.",
     "Ein Satz, ein Gedanke. Lieber zwei kurze Sätze als ein langer.",
-    "Zahl schlägt Adjektiv: '401 geprüfte Tools' statt 'riesige Auswahl'.",
+    "Zahl schlägt Adjektiv: '411 geprüfte Tools' statt 'riesige Auswahl'.",
     "Testen statt hypen. Was wir nicht geprüft haben, sagen wir dazu.",
-    "Werkstatt-Vokabular (Werkzeug, Setup, Stack, Abstimmung) sparsam und wörtlich gemeint, nicht als Gag.",
     "Haltung zeigen, nicht belehren. Wir sagen, was wir empfehlen und warum. Der Leser entscheidet.",
-    "Keine Verkaufssprache. Ein Lead entsteht, weil die Seite nützlich war, nicht weil ein Button geblinkt hat."
+    "Keine Verkaufssprache. Ein Lead entsteht, weil die Seite nützlich war.",
+    "Werkstatt statt Raumschiff: Bilder aus Werkstatt, Baumarkt und Kaffeeküche, kein Sci-Fi-Pathos.",
+    "Ein Augenzwinkern pro Absatz, nicht mehr.",
+    "Wir lachen über Hype und über uns selbst, nie über die Leser.",
+    "Fakten ohne Gag: Preise, Recht, Datenschutz, Studienwerte und Tool-Beschreibungen bleiben sachlich.",
+    "Jeder Text nur einmal: kein Satz steht auf zwei Seiten (scripts/check_unique.py prüft das)."
   ],
-  "do_say": ["geprüft", "Setup", "Werkzeugkiste", "Stack", "läuft", "passt zu", "Klartext", "Link-Check", "in einem Satz", "kommt drauf an, was du baust", "Stand: [Datum]"],
+  "do_say": [
+    "geprüft",
+    "Setup",
+    "Werkzeugkiste",
+    "Stack",
+    "läuft",
+    "passt zu",
+    "Klartext",
+    "Link-Check",
+    "in einem Satz",
+    "kommt drauf an, was du baust",
+    "Stand: [Datum]",
+    "Schublade",
+    "Werkbank",
+    "Panzertape-Lösung",
+    "Kurbel"
+  ],
   "dont_say": [
-    "revolutionär", "game-changing", "bahnbrechend", "disruptiv", "Zukunft der Arbeit",
-    "unleash", "supercharge", "KI-Magie", "nahtlos", "ganzheitlich", "next level",
-    "die besten Tools der Welt", "Must-have", "100 % DSGVO-konform",
-    "Metall, das blutet (Schmitt-Ton)", "Riding Classic (BGM-Ton)", "Kein Theater (Naraku-Ton)", "Alles hat seinen Platz (Moped-Garage-Ton)", "abgefahrenste (PROMPTGOTT-Ton)"
+    "revolutionär",
+    "game-changing",
+    "bahnbrechend",
+    "disruptiv",
+    "Zukunft der Arbeit",
+    "unleash",
+    "supercharge",
+    "KI-Magie",
+    "nahtlos",
+    "ganzheitlich",
+    "next level",
+    "die besten Tools der Welt",
+    "Must-have",
+    "100 % DSGVO-konform",
+    "Metall, das blutet (Schmitt-Ton)",
+    "Riding Classic (BGM-Ton)",
+    "Kein Theater (Naraku-Ton)",
+    "Alles hat seinen Platz (Moped-Garage-Ton)",
+    "abgefahrenste (PROMPTGOTT-Ton)"
   ],
   "catchphrases": [
     "Geprüft. Sortiert. Auf Deutsch.",
-    "Kein Hype. Werkzeug.",
+    "Weniger Hype, mehr Hebel.",
+    "Kein Zauberstab. Werkzeug.",
     "Erst testen, dann empfehlen.",
     "Welches Werkzeug? Kommt drauf an, was du baust.",
     "Tote Links sind keine Tools."
   ],
-  "enemy": "Tool-Listen mit 10.000 Einträgen, die niemand geprüft hat. Buzzword-Marketing. Affiliate-Links, die als Empfehlung getarnt sind. Tote Links.",
+  "enemy": "Tool-Listen mit 10.000 Einträgen, die niemand geprüft hat. Buzzword-Marketing. Affiliate-Links, die als Empfehlung getarnt sind. Tote Links. Und Texte, die auf zehn Seiten wortgleich stehen.",
   "visual_palette": {
-    "c1": {"hex": "#0E1116", "name": "Werkstatt-Schwarz", "use": "Hintergrund (dark), Text (light)"},
-    "c2": {"hex": "#D7FF3C", "name": "Signal-Lime", "use": "Akzent, Buttons, Markierungen. Die Farbe von Warnwesten und Werkzeuggriffen."},
-    "c3": {"hex": "#FF6719", "name": "PROMPTGOTT-Orange", "use": "Nur für Elemente mit PROMPTGOTT-Bezug. Nie für eigene CTAs."},
-    "paper": {"hex": "#F4F3EE", "name": "Werkbank-Papier", "use": "Hintergrund (light)"},
-    "steel": {"hex": "#8A9099", "name": "Stahl", "use": "Sekundärtext, Linien"}
+    "c1": {
+      "hex": "#0E1116",
+      "name": "Werkstatt-Schwarz",
+      "use": "Hintergrund (dark), Text (light)"
+    },
+    "c2": {
+      "hex": "#D7FF3C",
+      "name": "Signal-Lime",
+      "use": "Akzent, Buttons, Markierungen. Die Farbe von Warnwesten und Werkzeuggriffen."
+    },
+    "c3": {
+      "hex": "#FF6719",
+      "name": "PROMPTGOTT-Orange",
+      "use": "Nur für Elemente mit PROMPTGOTT-Bezug. Nie für eigene CTAs."
+    },
+    "paper": {
+      "hex": "#F4F3EE",
+      "name": "Werkbank-Papier",
+      "use": "Hintergrund (light)"
+    },
+    "steel": {
+      "hex": "#8A9099",
+      "name": "Stahl",
+      "use": "Sekundärtext, Linien"
+    }
   },
   "typography": {
     "display": "Space Grotesk (Google Fonts), 700, enge Laufweite, Überschriften in Versalien nur im Logo",
@@ -43,7 +99,8 @@
     "Raster und Maßlinien als Hintergrundtextur (Werkbank, Millimeterpapier).",
     "Icons mit 1,75 px Strich, abgerundete Enden, keine Füllungen.",
     "Kategorie-Grafiken: abstrakte Werkzeug-Silhouetten auf Lime-/Schwarz-Verlauf, nummeriert wie Schubladen.",
-    "Bewegung nur mit Zweck: Fortschritt, Reveal beim Scrollen, Parallax im Hero. Alles aus bei prefers-reduced-motion."
+    "Bewegung nur mit Zweck: Fortschritt, Reveal beim Scrollen, Parallax im Hero. Alles aus bei prefers-reduced-motion.",
+    "Maskottchen Kurbel: Strichzeichnung im Icon-Stil, Lime als einzige Füllfarbe, Antenne mit Funken."
   ],
   "target_audiences": [
     "Selbstständige und Freelancer, die ohne IT-Abteilung ein KI-Setup brauchen",
@@ -61,5 +118,33 @@
     "name": "Stack-Check",
     "promise": "Du sagst, was du baust. Jean schaut drauf und schickt dir ein Setup aus 4 bis 6 Tools, das zu deinem Fall passt. Kostenlos, per Mail, ohne Pitch.",
     "recipient": "jeanmauriceport@gmail.com"
+  },
+  "tagline": "Weniger Hype, mehr Hebel.",
+  "version": "2.0",
+  "humor": {
+    "ton": "trocken, warm, selbstironisch",
+    "running_gags": [
+      "Kurbels übrige Schraube",
+      "Die Schublade klemmt (Fehler, leere Ergebnisse)",
+      "Panzertape-Lösung (Provisorien)",
+      "Erst Kaffee, dann Kabel (Geduld)"
+    ],
+    "no_go": [
+      "Witze über Leser oder Zielgruppen",
+      "Meme-Slang und Emoji-Ketten",
+      "Gags in Preis-, Rechts- oder Datenschutzangaben",
+      "Roboter-Apokalypse und Sci-Fi-Pathos"
+    ]
+  },
+  "mascot": {
+    "name": "Kurbel",
+    "rolle": "Werkstatt-Roboter, hilfsbereit, gründlich, leicht schusselig: nach jeder Reparatur bleibt eine Schraube übrig.",
+    "einsatz": [
+      "404-Seite",
+      "Dankeseite",
+      "leere Suchergebnisse und Listen",
+      "Stack-Check"
+    ],
+    "stimme": "kurz, freundlich, nie in Großbuchstaben"
   }
 }

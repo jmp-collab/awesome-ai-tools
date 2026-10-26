@@ -25,8 +25,10 @@
   var q = $("#q"), count = $("#count"), items = $$("ul.tools li");
   var feu = $$("input.f-eu"), foss = $$("input.f-oss");
   var main = $("main.content");
+  var panelMode = !!$("#searchpanel"); // Startseite: Suche über tools.json statt Filter auf der Seite
   function uniq(list) { var u = {}; list.forEach(function (li) { u[li.querySelector("a.name").href] = 1; }); return Object.keys(u).length; }
   function run() {
+    if (panelMode) { var tot = $(".hero .stat b[data-count]"); if (count && tot) count.textContent = tot.dataset.count + " Tools"; return; }
     var s = (q ? q.value : "").trim().toLowerCase();
     var eu = feu.some(function (c) { return c.checked; }), oss = foss.some(function (c) { return c.checked; }), filtering = !!(s || eu || oss);
     items.forEach(function (li) {
@@ -56,7 +58,7 @@
     }
   }
   [q].concat(feu, foss).forEach(function (el) { if (el) el.addEventListener("input", function (e) { if (e.target.type === "checkbox") { (e.target.classList.contains("f-eu") ? feu : foss).forEach(function (c) { c.checked = e.target.checked; }); } run(); }); });
-  var sf = $("#searchform"); if (sf) sf.addEventListener("submit", function (e) { e.preventDefault(); run(); });
+  var sf = $("#searchform"); if (sf) sf.addEventListener("submit", function (e) { e.preventDefault(); if (panelMode) { if (window.kwPanelRun) window.kwPanelRun(); } else run(); });
   run();
 
   /* Scroll: Fortschritt, Topbutton, Sticky-Leiste, Parallax */
@@ -336,5 +338,44 @@
     window.addEventListener("hashchange", flash);
     // Beim Laden mit #begriff: nach dem Aufbau der Seite sicher hinspringen
     var t0 = flash(); if (t0) window.addEventListener("load", function () { t0.scrollIntoView({ block: "start", behavior: "instant" }); });
+  }
+  /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
+  var sp = $("#searchpanel");
+  if (sp && q) {
+    var DATA = null, loading = null, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
+    function spLoad() {
+      if (DATA) return Promise.resolve(DATA);
+      if (!loading) loading = fetch("tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
+        DATA = j.tools.map(function (t) { t._s = [t.name, t.beschreibung, t.kategorie, t.bereich].join(" ").toLowerCase(); return t; });
+        return DATA;
+      });
+      return loading;
+    }
+    function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
+    function spRun() {
+      var s = q.value.trim().toLowerCase();
+      if (!s) { sp.hidden = true; return; }
+      spLoad().then(function (rows) {
+        var words = s.split(/\s+/);
+        var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source); });
+        hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
+        spCount.textContent = hits.length + " von " + rows.length + " Tools";
+        spList.innerHTML = hits.slice(0, 40).map(function (t) {
+          var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
+          return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
+            '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
+        }).join("") + (hits.length > 40 ? '<li class="sp-more">Noch ' + (hits.length - 40) + " weitere Treffer. Grenz die Suche mit einem zweiten Wort ein.</li>" : "");
+        spList.querySelectorAll("img").forEach(function (im) { im.addEventListener("error", function () { im.style.visibility = "hidden"; }); });
+        spEmpty.classList.toggle("hidden", hits.length > 0);
+        sp.hidden = false;
+      }).catch(function () { spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
+    }
+    window.kwPanelRun = spRun;
+    var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
+    q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
+    [spEu, spOss].forEach(function (c) { c.addEventListener("change", spRun); });
+    $(".close", sp).addEventListener("click", function () { sp.hidden = true; q.focus(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !sp.hidden) { sp.hidden = true; q.focus(); } });
+    document.addEventListener("click", function (e) { if (!sp.hidden && !sp.contains(e.target) && e.target !== q) sp.hidden = true; });
   }
 })();
