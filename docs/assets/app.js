@@ -391,6 +391,12 @@
     }
     // stopPropagation: der Knopf verschwindet beim Nachladen, sonst hielte der Außen-Klick-Handler ihn für "außerhalb"
     spList.addEventListener("click", function (e) { if (e.target.closest(".sp-more button")) { e.stopPropagation(); spMore(); } });
+    // Sprunglinks auf diese Seite (z. B. zum Stack-Check) schließen das Panel, damit es das Ziel nicht verdeckt
+    sp.addEventListener("click", function (e) {
+      var a = e.target.closest("a[href]"); if (!a) return;
+      var u = new URL(a.href, location.href);
+      if (u.origin === location.origin && u.pathname === location.pathname && u.hash) spHide();
+    });
     window.kwPanelRun = spRun;
     var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
     q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
@@ -398,6 +404,7 @@
     $$("[data-sp]").forEach(function (b) {
       b.addEventListener("click", function (e) {
         e.stopPropagation(); // sonst schließt der Klick-außerhalb-Handler das Panel sofort wieder
+        q.value = ""; // "Alle …" heißt alle, nicht die Schnittmenge mit einem alten Suchwort
         spEu.checked = b.dataset.sp === "eu"; spOss.checked = b.dataset.sp === "oss"; spRun();
       });
     });
