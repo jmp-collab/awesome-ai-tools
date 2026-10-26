@@ -1,0 +1,27 @@
+{
+ "wochen": 46,
+ "wochen_hinweis": "46 Arbeitswochen: 52 Wochen minus Urlaub und Feiertage. Annahme, keine Messung.",
+ "stundensatz": 60,
+ "methode": "Startwert je Aufgabe ist rund die Hälfte des Studienwerts. Studien messen unter Laborbedingungen mit klar abgegrenzten Aufgaben; im Alltag kommen Einarbeitung, Prüfen und Nacharbeit dazu. Schieb die Regler auf deinen eigenen Erfahrungswert.",
+ "aufgaben": [
+  {"id": "text", "label": "Texte schreiben und überarbeiten", "icon": "pen", "stunden": 6, "prozent": 20,
+   "befund": "Schreibaufgaben im Experiment: 40 % weniger Zeit, 18 % bessere Qualität.",
+   "quelle": "Noy und Zhang 2023, Science", "url": "https://www.science.org/doi/10.1126/science.adh2586",
+   "kategorie": "text-und-sprache"},
+  {"id": "analyse", "label": "Recherche, Analyse, Konzepte", "icon": "search", "stunden": 5, "prozent": 12,
+   "befund": "Beratungsaufgaben mit GPT-4: 25,1 % schneller und 12,2 % mehr Aufgaben erledigt, solange die Aufgabe im Können des Modells lag.",
+   "quelle": "Dell'Acqua u. a. 2023, Harvard Business School und BCG", "url": "https://mitsloan.mit.edu/sites/default/files/2023-10/SSRN-id4573321.pdf",
+   "kategorie": "text-und-sprache"},
+  {"id": "code", "label": "Programmieren", "icon": "code", "stunden": 4, "prozent": 25,
+   "befund": "Testaufgabe mit GitHub Copilot: 55,8 % schneller fertig als die Kontrollgruppe.",
+   "quelle": "Peng u. a. 2023, arXiv", "url": "https://arxiv.org/abs/2302.06590",
+   "kategorie": "programmieren-mit-ki"},
+  {"id": "support", "label": "Kundenanfragen beantworten", "icon": "headset", "stunden": 5, "prozent": 6,
+   "befund": "Kundenservice mit KI-Assistent: 14 % mehr gelöste Anfragen pro Stunde, also rund 12 % weniger Zeit je Anfrage.",
+   "quelle": "Brynjolfsson, Li und Raymond 2023, NBER", "url": "https://www.nber.org/papers/w31161",
+   "kategorie": "text-und-sprache"},
+  {"id": "eigen", "label": "Eigene Aufgabe", "icon": "wrench", "stunden": 0, "prozent": 0,
+   "befund": "Keine Studie, dein Erfahrungswert. Starte bei 0 % und erhöhe erst, wenn du es getestet hast.",
+   "quelle": "", "url": "", "kategorie": ""}
+ ]
+}

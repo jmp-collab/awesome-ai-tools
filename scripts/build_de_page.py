@@ -5,9 +5,11 @@ Keine Abhängigkeiten, nur Python 3.8+. Aufruf aus dem Repo-Root:
     python3 scripts/build_de_page.py
 
 Quellen:  README.de.md (Tool-Liste), brand/ki-werkstatt.json (Marke),
-          data/stacks.json (Werkzeugkisten + Stack-Finder), scripts/template/icons.svg
-Ausgabe:  docs/index.html, docs/danke.html, docs/impressum.html, docs/datenschutz.html,
-          docs/img/*.svg, docs/tools.json, docs/tools.csv, docs/sitemap.xml, docs/robots.txt
+          data/stacks.json (Werkzeugkisten + Stack-Finder), data/rechner.json (Zeitspar-Rechner),
+          data/glossar.json (KI-Glossar), scripts/template/icons.svg
+Ausgabe:  docs/index.html, docs/ki-tools-*.html (eine Seite je Kategorie), docs/ki-glossar.html,
+          docs/danke.html, docs/impressum.html, docs/datenschutz.html, docs/img/*.svg,
+          docs/tools.json, docs/tools.csv, docs/sitemap.xml, docs/robots.txt
 README.de.md bleibt die einzige Quelle für die Liste; docs/ nie von Hand bearbeiten.
 """
 import csv
@@ -28,6 +30,8 @@ DOCS = ROOT / "docs"
 IMG = DOCS / "img"
 BRAND = json.loads((ROOT / "brand" / "ki-werkstatt.json").read_text(encoding="utf-8"))
 STACKS = json.loads((ROOT / "data" / "stacks.json").read_text(encoding="utf-8"))
+RECHNER = json.loads((ROOT / "data" / "rechner.json").read_text(encoding="utf-8"))
+GLOSSAR = json.loads((ROOT / "data" / "glossar.json").read_text(encoding="utf-8"))
 ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8")
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
@@ -48,9 +52,9 @@ LINK_CHECK_N = _LC["checked"]
 if _LC.get("dead"):
     raise SystemExit(f"Abbruch: data/linkcheck.json meldet {len(_LC['dead'])} tote Links. Erst README.de.md bereinigen und scripts/check_links.py erneut laufen lassen.")
 sys.path.insert(0, str(ROOT / "scripts"))
-from check_links import extract_urls, url_hash  # noqa: E402  (gleiche Linkliste wie der Checker)
-if _LC.get("urls_sha256") != url_hash(extract_urls(SRC.read_text(encoding="utf-8"))):
-    raise SystemExit("Abbruch: Die Links in README.de.md haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
+from check_links import all_urls, url_hash  # noqa: E402  (gleiche Linkliste wie der Checker)
+if _LC.get("urls_sha256") != url_hash(all_urls(SRC.read_text(encoding="utf-8"))):
+    raise SystemExit("Abbruch: Die Links in README.de.md oder data/rechner.json haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
 N_STACKS = len(STACKS["stacks"])
 STACK_SIZES = sorted({len(s["tools"]) for s in STACKS["stacks"]})
 STACK_SIZE_TXT = str(STACK_SIZES[0]) if len(STACK_SIZES) == 1 else f"{STACK_SIZES[0]} bis {STACK_SIZES[-1]}"
@@ -70,6 +74,20 @@ SUB_ICON = {  # H3-Icons, wo sie etwas aussagen
     "produktivität": "zap", "meeting-assistenten": "calendar", "wissenschaft-und-recherche": "flask",
     "kundenservice": "headset",
 }
+# H1 der Kategorie-Seiten (sonst "KI-Tools: <Titel>")
+CAT_H1 = {
+    "text-und-sprache": "KI-Tools für Text und Sprache", "automatisierung-und-ki-agenten": "KI-Tools für Automatisierung und Agenten",
+    "entwickler-tools-und-llmops": "KI-Entwickler-Tools und LLMOps", "programmieren-mit-ki": "Programmieren mit KI",
+    "bilder": "KI-Tools für Bilder", "video": "KI-Tools für Video", "audio": "KI-Tools für Audio",
+    "marketing-und-seo": "KI-Tools für Marketing und SEO", "ki-telefonagenten": "KI-Telefonagenten", "weitere-ki-tools": "Weitere KI-Tools",
+}
+GLOSSAR_PAGE = "ki-glossar.html"
+
+
+def cat_page(sec_id):
+    return f"ki-tools-{sec_id}.html"
+
+
 # Link-Ziel mit bis zu einer Ebene balancierter Klammern, z. B. Wikipedia-Titel
 DEST = r"((?:[^()\s]|\([^()\s]*\))+)"
 ITEM_RE = re.compile(r"^- \[([^\]]+)\]\(" + DEST + r"\)\s*[-–—]\s*(.*)$")
@@ -296,9 +314,9 @@ def render_blocks(blocks, sec_id, sub_id, tools_map):
     return "\n".join(out)
 
 
-def render_section(sec, idx, tools_map):
+def render_section(sec, idx, tools_map, page_link=False):
     ico = CAT_ICON.get(sec["id"], "box")
-    n = sum(1 for s, _, _ in all_items([sec]))
+    n = len(sec_items(sec))  # eindeutige Tools, wie Kategorie-Seite und Kacheln
     art = f'<div class="cat-art reveal"><img src="img/cat-{sec["id"]}.svg" alt="" loading="lazy" width="800" height="300"></div>' if n else ""
     body = [render_blocks(sec["blocks"], sec["id"], None, tools_map)]
     for sub in sec["subs"]:
@@ -306,6 +324,8 @@ def render_section(sec, idx, tools_map):
         body.append(f'<h3 id="{sub["id"]}">{icon(sico) if sico else ""}{inline(sub["title"])}</h3>')
         body.append(render_blocks(sub["blocks"], sec["id"], sub["id"], tools_map))
     count = f'<span class="count">{n} TOOLS</span>' if n else ""
+    if page_link:
+        count += f'<a class="more" href="{cat_page(sec["id"])}" title="Eigene Seite: {html.escape(sec["title"])}">Seite{icon("arrow")}</a>'
     return (f'<section class="cat" id="{sec["id"]}"><div class="cat-head">{icon(ico)}<h2>{inline(sec["title"])}</h2>{count}</div>'
             f'{art}{"".join(body)}</section>')
 
@@ -342,9 +362,9 @@ def render_pg(sec):
     return intro, "".join(cards)
 
 
-def render_stacks(tools_map):
+def render_stacks(tools_map, stacks=None):
     out = []
-    for st in STACKS["stacks"]:
+    for st in (STACKS["stacks"] if stacks is None else stacks):
         lis = []
         for name, why in st["tools"]:
             t = tools_map.get(name)
@@ -367,13 +387,16 @@ def lead_form(source, subject, compact=False):
     return f"""<form class="form" action="https://formsubmit.co/{LEAD_TO}" method="POST">
 <input type="hidden" name="_subject" value="{html.escape(subject)}"><input type="hidden" name="_template" value="table">
 <input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="{nxt}">
-<input type="hidden" name="quelle" value="{source}">
+<input type="hidden" name="quelle" value="{html.escape(source)}">
 <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
+<input type="hidden" name="merkliste" id="l-merk" value=""><input type="hidden" name="rechner" id="l-rechner" value="">
 <div class="row"><div><label for="l-name">Name</label><input id="l-name" name="name" required autocomplete="name"></div>
 <div><label for="l-mail">E-Mail</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
 <div class="row"><div><label for="l-web">Website oder Shop (optional)</label><input id="l-web" name="website" placeholder="https://" autocomplete="url"></div>
 <div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle"><option>Selbstständig / Freelancer</option><option>Marketing / SEO</option><option>Shop-Betreiber</option><option>Entwickler / Maker</option><option>Agentur</option><option>Anderes</option></select></div></div>
 <label for="l-proj">Was baust du gerade, und wo hakt es?</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
+<div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">entfernen</button></div>
+<div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">entfernen</button></div>
 <label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
 <button class="btn" type="submit">{icon("mail")}Stack-Check anfragen</button>
 <p class="hint">Antwort kommt per Mail, meist innerhalb weniger Tage. Oder direkt an <a href="mailto:{LEAD_TO}?subject=Stack-Check">{LEAD_TO}</a>.</p>
@@ -407,36 +430,50 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 """
 
 
-def topbar(with_search=True):
+def topbar(with_search=True, here=""):
+    home = "" if here == "index" else "./"
+    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("glossar", GLOSSAR_PAGE, "Glossar")]
+    cur = ' aria-current="page"'
+    nav = '<nav class="mainnav" aria-label="Seiten">' + "".join(
+        f'<a href="{href}"{cur if key == here else ""}>{label}</a>' for key, href, label in nav_items) + "</nav>"
     search = ('<form id="searchform" role="search"><label class="sr" for="q">Tools durchsuchen</label>'
               '<input type="search" id="q" placeholder="Suchen: übersetzen, Podcast, SEO, Shop …" autocomplete="off"></form>') if with_search else ""
     return f"""<header class="topbar"><div class="wrap in">
-<a class="logo" href="{SITE_URL}"><span class="mark">{icon("wrench")}</span><span>KI-WERKSTATT</span></a>
-{search}
+<a class="logo" href="./"><span class="mark">{icon("wrench")}</span><span>KI-WERKSTATT</span></a>
+{search}{nav}
 <div class="tools">{'<span id="count" class="badge hide-m" aria-live="polite"></span>' if with_search else ''}
 <button class="iconbtn" id="theme" type="button" title="Hell/Dunkel umschalten">{icon("sun")}</button>
-<a class="btn btn-lime btn-sm hide-m" href="{'' if with_search else SITE_URL}#stack-check">{icon("mail")}Stack-Check</a></div>
+<a class="btn btn-lime btn-sm hide-m" href="{'' if here != 'sub' else './'}#stack-check">{icon("mail")}Stack-Check</a></div>
 </div><div id="progress"></div></header>"""
 
 
-def footer():
+def footer(fab_href="#stack-check"):
     return f"""<footer><div class="wrap">
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
 <div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li></ul></div>
+<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
 <p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Seite gebaut am {TODAY}. Basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> von Mahsima Dastan (MIT). Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
 </div></footer>
 <button id="totop" type="button" title="Nach oben">{icon("up")}</button>
-<a class="btn btn-lime fab" href="#stack-check">{icon("mail")}Stack-Check</a>
+<a class="btn btn-lime fab" href="{fab_href}">{icon("mail")}Stack-Check</a>
 <div class="stickybar" id="stickybar"><div class="wrap in">
 <div><b>Die Liste als CSV per Mail</b><small>Eine Mail mit dem Download und dem Überblick über die {N_STACKS} Werkzeugkisten. Kein Newsletter-Dauerfeuer.</small></div>
 <form action="https://formsubmit.co/{LEAD_TO}" method="POST"><input type="hidden" name="_subject" value="CSV-Anfrage – KI-Werkstatt"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="{SITE_URL}danke.html"><input type="hidden" name="quelle" value="Sticky-Leiste"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
 <label class="sr" for="sb-mail">E-Mail</label><input id="sb-mail" type="email" name="email" placeholder="deine@mail.de" required><button class="btn btn-lime btn-sm" type="submit">Schicken</button><label class="sb-consent"><input type="checkbox" name="einwilligung" value="ja" required> Einverstanden, dass meine E-Mail über FormSubmit an Jean Maurice Port geht. <a href="datenschutz.html">Datenschutz</a></label></form>
 <button class="close" type="button" title="Schließen">{icon("x")}</button>
-</div></div>"""
+</div></div>
+<button id="merk-pill" class="merk-pill hidden" type="button" aria-controls="merk" aria-expanded="false">{icon("bookmark")}Merkliste <b id="merk-n">0</b></button>
+<div id="merk" class="merk" role="dialog" aria-labelledby="merk-h" hidden>
+<div class="merk-head"><h3 id="merk-h">{icon("bookmark")}Deine Merkliste</h3><button class="close" type="button" title="Schließen">{icon("x")}</button></div>
+<p class="merk-empty">Noch leer. Klick bei einem Tool auf das Lesezeichen.</p>
+<ol class="merk-list"></ol>
+<div class="merk-actions"><button type="button" class="btn btn-lime btn-sm" id="merk-send">{icon("mail")}Jean drüberschauen lassen</button><button type="button" class="btn btn-sm" id="merk-copy">{icon("copy")}Kopieren</button><button type="button" class="btn btn-sm" id="merk-clear">{icon("trash")}Leeren</button></div>
+<p class="merk-note">Die Merkliste liegt nur in deinem Browser. An Jean geht sie erst, wenn du das Stack-Check-Formular abschickst.</p>
+</div>"""
 
 
 def build_index(sections, head_md):
@@ -449,7 +486,7 @@ def build_index(sections, head_md):
     tail_secs = [by_id[i] for i in tail_ids if i in by_id]
 
     # Liste rendern (füllt tools_map)
-    list_html = "".join(render_section(s, i + 1, tools_map) for i, s in enumerate(list_secs))
+    list_html = "".join(render_section(s, i + 1, tools_map, page_link=True) for i, s in enumerate(list_secs))
     tail_html = "".join(render_section(s, i + 1 + len(list_secs), tools_map) for i, s in enumerate(tail_secs))
     featured_html = render_featured(featured, tools_map) if featured else ""
     pg_intro, pg_cards = render_pg(pg_sec) if pg_sec else ("", "")
@@ -471,8 +508,8 @@ def build_index(sections, head_md):
     for i, s in enumerate(list_secs + tail_secs):
         (IMG / f"cat-{s['id']}.svg").write_text(cat_art(i + 1, s["title"], CAT_ICON.get(s["id"], "box"), i % 2 == 0), encoding="utf-8")
     for i, s in enumerate(list_secs):
-        n = sum(1 for _ in all_items([s]))
-        tiles.append(f'<a class="cat-tile reveal" href="#{s["id"]}"><img src="img/cat-{s["id"]}.svg" alt="" loading="lazy"><span class="t">{html.escape(s["title"])}<small>{n} Tools · {len(s["subs"]) or 1} Bereiche</small></span></a>')
+        n = len(sec_items(s))
+        tiles.append(f'<a class="cat-tile reveal" href="{cat_page(s["id"])}"><img src="img/cat-{s["id"]}.svg" alt="" loading="lazy"><span class="t">{html.escape(s["title"])}<small>{n} Tools · {len(s["subs"]) or 1} Bereiche</small></span></a>')
 
     rail = "".join(f'<a href="#{s["id"]}">{icon(CAT_ICON.get(s["id"], "box"))}{html.escape(s["title"])}</a>' for s in list_secs + tail_secs)
     finder = dict(STACKS["finder"], to=LEAD_TO, next=SITE_URL + "danke.html")
@@ -494,7 +531,7 @@ def build_index(sections, head_md):
         ]},
     ]}
 
-    body = f"""{topbar()}
+    body = f"""{topbar(True, "index")}
 <section class="hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Link-Check {LINK_CHECK}: {LINK_CHECK_N} Links geprüft</p>
 <h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Auf Deutsch.</h1>
@@ -536,10 +573,12 @@ def build_index(sections, head_md):
 <div class="stacks">{stacks_html}</div>
 </div></section>
 
+{rechner_band()}
+
 <section class="band" id="kategorien"><div class="wrap">
 <p class="eyebrow">Die Schubladen</p><h2>{n_cats} Kategorien, {n_tools} Tools</h2>
-<p class="intro">Jede Schublade hat eine Nummer. Klick rein oder nutz die Suche oben.</p>
-<div class="catgrid">{"".join(tiles)}</div>
+<p class="intro">Jede Schublade hat eine Nummer und eine eigene Seite. Klick rein oder nutz die Suche oben.</p>
+<div class="catgrid">{"".join(tiles)}<a class="cat-tile glossar-tile reveal" href="{GLOSSAR_PAGE}"><span class="gl-mark">{icon("abc")}</span><span class="t">KI-Glossar<small>{len(GLOSSAR["begriffe"])} Begriffe, je zwei Sätze</small></span></a></div>
 </div></section>
 
 <div class="wrap layout" id="liste">
@@ -576,11 +615,11 @@ def build_index(sections, head_md):
     ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     extra = f'<script type="application/ld+json">{ld_js}</script>'
     (DOCS / "index.html").write_text(page_shell(TITLE, body, extra_head=extra), encoding="utf-8")
-    return uniq, n_tools, n_cats
+    return uniq, n_tools, n_cats, list_secs, tools_map
 
 
 def build_subpages():
-    danke = f"""{topbar(False)}
+    danke = f"""{topbar(False, "sub")}
 <div class="page"><p class="eyebrow">Angekommen</p><h1>Danke. Jean schaut drauf.</h1>
 <p>Deine Anfrage ist raus. Du bekommst eine Antwort per Mail, meist innerhalb weniger Tage. Wenn du nichts hörst: Spam-Ordner prüfen oder direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a> schreiben.</p>
 <p><a class="btn btn-lime" href="tools.csv" download>{icon("download")}Die Liste als CSV laden</a> <a class="btn" href="tools.json" download>{icon("download")}JSON</a></p>
@@ -590,7 +629,7 @@ def build_subpages():
     (DOCS / "danke.html").write_text(page_shell("Danke – KI-Werkstatt", danke, "Anfrage angekommen.", SITE_URL + "danke.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
     needs = '<p class="needs"><b>[NEEDS_REVIEW]</b> Platzhalter. Vor dem Veröffentlichen eintragen und rechtlich prüfen lassen. Eine Seite mit Kontaktformular und geschäftlichem Zweck braucht in Deutschland ein vollständiges Impressum (§ 5 DDG) und eine Datenschutzerklärung (Art. 13 DSGVO).</p>'
-    impressum = f"""{topbar(False)}
+    impressum = f"""{topbar(False, "sub")}
 <div class="page"><p class="eyebrow">Rechtliches</p><h1>Impressum</h1>{needs}
 <p><b>Angaben gemäß § 5 DDG</b><br>[NAME, VORNAME]<br>[STRASSE, HAUSNUMMER]<br>[PLZ, ORT]<br>Deutschland</p>
 <p><b>Kontakt</b><br>E-Mail: {LEAD_TO}<br>[TELEFON, optional]</p>
@@ -602,18 +641,257 @@ def build_subpages():
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "impressum.html").write_text(page_shell("Impressum – KI-Werkstatt", impressum, "Impressum der KI-Werkstatt.", SITE_URL + "impressum.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
-    ds = f"""{topbar(False)}
+    ds = f"""{topbar(False, "sub")}
 <div class="page"><p class="eyebrow">Rechtliches</p><h1>Datenschutz</h1>{needs}
 <p><b>Verantwortlicher:</b> [NAME, ANSCHRIFT wie im Impressum], E-Mail: {LEAD_TO}</p>
 <h3>Hosting</h3><p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse und Zeitpunkt des Zugriffs. Details: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Auslieferung). [NEEDS_REVIEW: Hinweis auf Drittlandübermittlung und Data Privacy Framework ergänzen]</p>
 <h3>Kontaktformulare (Stack-Check, CSV-Anfrage)</h3><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>). [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken; prüfen, ob ein AVV nötig ist] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen.</p>
 <h3>Favicons der Tool-Anbieter</h3><p>Neben jedem Tool wird dessen Favicon über den Dienst icons.duckduckgo.com geladen. Dabei erfährt DuckDuckGo (USA) deine IP-Adresse und den Domainnamen des Tools. Die Icons werden erst geladen, wenn sie in den sichtbaren Bereich scrollen. [NEEDS_REVIEW: alternativ Icons lokal speichern oder nach Einwilligung laden]</p>
-<h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) werden nur zwei Einstellungen abgelegt: dein Farbschema und ob du die untere Hinweisleiste geschlossen hast. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
+<h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) liegen nur drei Dinge: dein Farbschema, ob du die untere Hinweisleiste geschlossen hast, und deine Merkliste (Name und Link der Tools, die du markiert hast). Der Zeitspar-Rechner rechnet nur in deinem Browser und speichert nichts. Merkliste und Rechner-Ergebnis gehen nur dann an Jean, wenn du sie an das Stack-Check-Formular anhängst und es abschickst. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
 <h3>Externe Links</h3><p>Links zu Tools, zu PROMPTGOTT (Substack) und zu GitHub führen auf fremde Seiten mit eigenen Datenschutzregeln. Links zu PROMPTGOTT enthalten UTM-Parameter, damit erkennbar ist, dass der Besuch von dieser Seite kam; persönliche Daten werden dabei nicht übertragen.</p>
 <h3>Deine Rechte</h3><p>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch und Beschwerde bei einer Aufsichtsbehörde (Art. 15 bis 21, 77 DSGVO). Schreib dafür an {LEAD_TO}.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "datenschutz.html").write_text(page_shell("Datenschutz – KI-Werkstatt", ds, "Datenschutzerklärung der KI-Werkstatt.", SITE_URL + "datenschutz.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
+
+
+# --------------------------------------------------------------------------- Zeitspar-Rechner
+def fmt_pct(v):
+    return f"{v} %"
+
+
+def rechner_band():
+    rows = []
+    for a in RECHNER["aufgaben"]:
+        src = (f' <a href="{html.escape(a["url"])}" target="_blank" rel="noopener">Quelle: {html.escape(a["quelle"])}</a>' if a["url"] else "")
+        cat = (f' <a href="{cat_page(a["kategorie"])}">Passende Tools</a>' if a.get("kategorie") else "")
+        rows.append(f"""<div class="calc-row reveal" data-id="{a['id']}" data-label="{html.escape(a['label'])}">
+<div class="calc-head"><span class="calc-ico">{icon(a["icon"])}</span><b>{html.escape(a["label"])}</b></div>
+<div class="calc-in"><div><label for="c-h-{a['id']}">Stunden pro Woche</label><input type="number" id="c-h-{a['id']}" class="c-h" min="0" max="60" step="0.5" value="{a['stunden']}" inputmode="decimal"></div>
+<div><label for="c-p-{a['id']}">Ersparnis: <output id="c-po-{a['id']}" for="c-p-{a['id']}">{fmt_pct(a['prozent'])}</output></label><input type="range" id="c-p-{a['id']}" class="c-p" min="0" max="60" step="1" value="{a['prozent']}"></div></div>
+<div class="calc-bar" aria-hidden="true"><div class="track"><i></i></div><span></span></div>
+<p class="calc-src">{html.escape(a["befund"])}{src}{cat}</p></div>""")
+    return f"""<section class="band" id="rechner"><div class="wrap">
+<p class="eyebrow">Zeitspar-Rechner</p><h2>Wie viele Stunden holst du raus?</h2>
+<p class="intro">Trag ein, wie viele Stunden pro Woche du mit diesen Aufgaben verbringst. Jeder Regler startet bei ungefähr der Hälfte des Werts aus einer Studie, die Studie steht darunter. Rechnet nur in deinem Browser.</p>
+<p class="nojs">Der Rechner braucht JavaScript. Ohne JavaScript siehst du hier die Studienwerte.</p>
+<div class="calc" id="calc" data-wochen="{RECHNER['wochen']}">
+<div class="calc-rows">{"".join(rows)}</div>
+<aside class="calc-out"><div class="in">
+<p class="eyebrow">Dein Ergebnis</p>
+<div class="calc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="bg" cx="60" cy="60" r="50"/><circle class="fg" cx="60" cy="60" r="50" pathLength="100" stroke-dasharray="0 100"/></svg><div><b id="c-share">0 %</b><small>deiner Stunden</small></div></div>
+<dl><div><dt>pro Woche</dt><dd id="c-week">0 h</dd></div><div><dt>pro Jahr</dt><dd id="c-year">0 h</dd></div><div><dt>Gegenwert</dt><dd id="c-eur">0 €</dd></div></dl>
+<label for="c-rate">Dein Stundensatz in Euro</label><input type="number" id="c-rate" min="0" max="1000" step="5" value="{RECHNER['stundensatz']}" inputmode="decimal">
+<p class="calc-note">{html.escape(RECHNER["wochen_hinweis"])}</p>
+<button type="button" class="btn btn-lime" id="c-send">{icon("mail")}Mit diesen Zahlen zum Stack-Check</button>
+</div></aside></div>
+<p class="calc-method">{icon("ruler")} {html.escape(RECHNER["methode"])}</p>
+</div></section>"""
+
+
+# --------------------------------------------------------------------------- Kategorie-Seiten
+def sec_items(sec):
+    seen = {}
+    for _, _, it in all_items([sec]):
+        seen.setdefault(it["url"], it)
+    return list(seen.values())
+
+
+def breadcrumb_ld(trail):
+    return {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "name": name, "item": url} for i, (name, url) in enumerate(trail)]}
+
+
+def build_category_pages(list_secs, tools_map):
+    pages = []
+    terms_by_cat = {}
+    for g in GLOSSAR["begriffe"]:
+        if g.get("cat"):
+            terms_by_cat.setdefault(g["cat"], []).append(g)
+    for idx, sec in enumerate(list_secs):
+        its = sec_items(sec)
+        n = len(its)
+        n_eu = sum(1 for it in its if item_meta(it)[0])
+        n_oss = sum(1 for it in its if item_meta(it)[1])
+        urls = {it["url"] for it in its}
+        h1 = CAT_H1.get(sec["id"], "KI-Tools: " + sec["title"])
+        page = cat_page(sec["id"])
+        top3 = [it["name"] for it in its[:3]]
+        desc = (f"{n} KI-Tools für {sec['title']} auf Deutsch erklärt, darunter {', '.join(top3[:-1])} und {top3[-1]}. "
+                f"Link-Check {LINK_CHECK}, EU-Anbieter und Open Source markiert.") if len(top3) > 1 else f"{n} KI-Tools für {sec['title']} auf Deutsch erklärt."
+        # Werkzeugkisten, die mindestens zwei Tools aus dieser Schublade nutzen
+        ranked = []
+        for st in STACKS["stacks"]:
+            hit = sum(1 for name, _ in st["tools"] if tools_map.get(name, {}).get("u") in urls)
+            if hit >= 2:
+                ranked.append((hit, st))
+        ranked.sort(key=lambda x: -x[0])
+        stacks = [st for _, st in ranked[:2]]
+        stacks_html = (f"""<section class="band" id="werkzeugkisten"><div class="wrap">
+<p class="eyebrow">Werkzeugkisten mit dieser Schublade</p><h2>Fertig zusammengestellt</h2>
+<p class="intro">Diese Kisten nutzen mehrere Tools von dieser Seite. Alle {N_STACKS} Kisten stehen auf der <a href="./#werkzeugkisten">Startseite</a>.</p>
+<div class="stacks">{render_stacks(tools_map, stacks)}</div></div></section>""") if stacks else ""
+        terms = terms_by_cat.get(sec["id"], [])
+        terms_html = ("".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(g["t"])}">{icon(g["icon"])}{html.escape(g["t"])}</a>' for g in terms))
+        calc_hits = [a for a in RECHNER["aufgaben"] if a.get("kategorie") == sec["id"]]
+        calc_html = ""
+        if calc_hits:
+            a = calc_hits[0]
+            calc_html = (f'<div class="side-card reveal">{icon("clock")}<b>Wie viel Zeit spart das?</b>'
+                         f'<p>{html.escape(a["befund"])}</p><a class="btn btn-sm" href="./#rechner">{icon("calc")}Zum Zeitspar-Rechner</a></div>')
+        gl_card = (f'<div class="side-card reveal">{icon("abc")}<b>Begriffe zu dieser Schublade</b><div class="chips">{terms_html}</div>'
+                   f'<a class="btn btn-sm" href="{GLOSSAR_PAGE}">{icon("book")}Ganzes Glossar</a></div>') if terms else ""
+        rail_links = "".join(f'<a href="#{sub["id"]}">{icon(SUB_ICON.get(sub["id"], "layers"))}{html.escape(sub["title"])}</a>' for sub in sec["subs"]) \
+            or f'<a href="#{sec["id"]}">{icon(CAT_ICON.get(sec["id"], "box"))}Alle Tools</a>'
+        if stacks:
+            rail_links += f'<a href="#werkzeugkisten">{icon("layers")}Werkzeugkisten</a>'
+        rail_links += f'<a href="#stack-check">{icon("mail")}Stack-Check</a>'
+        others = []
+        for j, o in enumerate(list_secs):
+            if o is sec:
+                continue
+            others.append(f'<a class="cat-tile reveal" href="{cat_page(o["id"])}"><img src="img/cat-{o["id"]}.svg" alt="" loading="lazy">'
+                          f'<span class="t">{html.escape(o["title"])}<small>Schublade {j + 1:02d} · {len(sec_items(o))} Tools</small></span></a>')
+        section_html = render_section(sec, idx + 1, {})
+        ld = {"@context": "https://schema.org", "@graph": [
+            {"@type": "CollectionPage", "@id": SITE_URL + page, "url": SITE_URL + page, "name": h1, "description": desc, "inLanguage": "de-DE",
+             "isPartOf": {"@type": "WebSite", "name": "KI-Werkstatt", "url": SITE_URL}},
+            breadcrumb_ld([("KI-Werkstatt", SITE_URL), (sec["title"], SITE_URL + page)]),
+            {"@type": "ItemList", "name": h1, "numberOfItems": n,
+             "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": it["name"], "url": it["url"], "description": item_meta(it)[2]}
+                                 for i, it in enumerate(its)]},
+        ]}
+        ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+        subs_txt = f'{len(sec["subs"])} Bereiche: ' + ", ".join(sub["title"] for sub in sec["subs"]) + "." if sec["subs"] else ""
+        body = f"""{topbar(True, "kategorie")}
+<section class="hero cat-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<a href="./#kategorien">Schubladen</a>{icon("arrow")}<span aria-current="page">{html.escape(sec["title"])}</span></nav>
+<div class="cat-hero-grid"><div>
+<p class="kicker">{icon(CAT_ICON.get(sec["id"], "box"))} <b>Schublade {idx + 1:02d}</b> · Link-Check {LINK_CHECK}</p>
+<h1><em>{html.escape(h1)}</em></h1>
+<p class="sub">{n} Tools, jedes in einem Satz erklärt. {html.escape(subs_txt)}</p>
+<div class="ctas"><a class="btn btn-lime" href="#{sec['subs'][0]['id'] if sec['subs'] else sec['id']}">{icon("layers")}Zu den Tools</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div><div class="cat-hero-art reveal"><img src="img/cat-{sec["id"]}.svg" alt="" width="800" height="300"></div></div>
+<div class="stats">
+<div class="stat reveal"><b data-count="{n}">0</b><span>Tools in dieser Schublade</span></div>
+<div class="stat reveal"><b data-count="{max(1, len(sec["subs"]))}">0</b><span>Bereiche</span></div>
+<div class="stat reveal"><b data-count="{n_eu}">0</b><span>Anbieter mit Sitz in der EU</span></div>
+<div class="stat reveal"><b data-count="{n_oss}">0</b><span>Open Source</span></div>
+</div></div></section>
+
+<div class="wrap layout" id="liste">
+<aside class="rail"><div class="in"><h4>Auf dieser Seite</h4>{rail_links}
+<div style="margin-top:14px;display:grid;gap:6px"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="f-eu"> nur Anbieter aus der EU</label><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="f-oss"> nur Open Source</label></div>
+<div class="lead-mini"><b>Stack-Check</b><p>Sag, was du baust. Du bekommst ein Setup aus 4 bis 6 Tools per Mail. Kostenlos.</p><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></aside>
+<main class="content"><div class="filters"><label><input type="checkbox" class="f-eu"> nur EU-Anbieter</label><label><input type="checkbox" class="f-oss"> nur Open Source</label></div>
+{section_html}
+<div class="side-cards">{calc_html}{gl_card}</div>
+</main>
+</div>
+
+{stacks_html}
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>{n} Tools sind zu viele. Sag, was du baust.</h2>
+<p class="intro">{html.escape(BRAND["lead_offer"]["promise"])}</p>
+<ul>
+<li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
+<li>{icon("bookmark")}<span><b>Tipp:</b> Markier Tools mit dem Lesezeichen. Die Merkliste hängt sich an deine Anfrage.</span></li>
+<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
+</ul></div>
+<div>{lead_form("Kategorie: " + sec["title"], "Stack-Check (" + sec["title"] + ") – KI-Werkstatt")}</div></div>
+</div></section>
+
+<section class="band" id="weitere"><div class="wrap">
+<p class="eyebrow">Weitere Schubladen</p><h2>Woanders weitersuchen</h2>
+<div class="catgrid">{"".join(others)}</div>
+</div></section>
+{footer()}
+"""
+        title = f"{h1}: {n} Tools geprüft – KI-Werkstatt"
+        (DOCS / page).write_text(page_shell(title, body, desc, SITE_URL + page, f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+        pages.append(page)
+    return pages
+
+
+# --------------------------------------------------------------------------- KI-Glossar
+def build_glossar(tools_map, list_secs, sections):
+    terms = sorted(GLOSSAR["begriffe"], key=lambda g: g["t"].lower())
+    names = {g["t"] for g in terms}
+    page_ids = {s["id"] for s in list_secs}
+    slugs = [slug(g["t"]) for g in terms]
+    if len(set(slugs)) != len(slugs):
+        raise SystemExit("Glossar: doppelte Anker")
+    letters = []
+    cards = []
+    cur = None
+    for g in terms:
+        for ref in g["see"]:
+            if ref not in names:
+                raise SystemExit(f"Glossar '{g['t']}': Verweis '{ref}' fehlt")
+        for t in g["tools"]:
+            if t not in tools_map:
+                raise SystemExit(f"Glossar '{g['t']}': Tool '{t}' nicht in README.de.md gefunden")
+        L = g["t"][0].upper()
+        if L != cur:
+            cur = L
+            letters.append(L)
+            cards.append(f'<h2 class="az-letter" id="buchstabe-{L.lower()}">{L}</h2>')
+        see = " ".join(f'<a href="#{slug(r)}">{html.escape(r)}</a>' for r in g["see"])
+        tools = "".join(f'<a class="chip tool" href="{html.escape(tools_map[t]["u"])}" target="_blank" rel="noopener">{favicon(tools_map[t]["u"])}{html.escape(t)}</a>' for t in g["tools"])
+        cat = ""
+        if g.get("cat"):
+            href = cat_page(g["cat"]) if g["cat"] in page_ids else f'./#{g["cat"]}'
+            label = next((s["title"] for s in sections if s["id"] == g["cat"]), None)
+            if label is None:
+                raise SystemExit(f"Glossar '{g['t']}': Kategorie '{g['cat']}' fehlt")
+            cat = f'<a class="chip cat" href="{href}">{icon("layers")}Schublade: {html.escape(label)}</a>'
+        extra = ""
+        if tools or cat:
+            extra = f'<div class="chips">{tools}{cat}</div>'
+        search = (g["t"] + " " + g["d"]).lower()
+        cards.append(f"""<article class="term reveal" id="{slug(g['t'])}" data-search="{html.escape(search)}">
+<div class="term-head"><span class="term-ico">{icon(g["icon"])}</span><h3><dfn>{html.escape(g["t"])}</dfn></h3><a class="anchor" href="#{slug(g['t'])}" title="Link auf diesen Begriff">#</a></div>
+<p>{html.escape(g["d"])}</p>
+<p class="see"><b>Siehe auch:</b> {see}</p>{extra}</article>""")
+    az = "".join(f'<a href="#buchstabe-{L.lower()}">{L}</a>' for L in letters)
+    n = len(terms)
+    url = SITE_URL + GLOSSAR_PAGE
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "DefinedTermSet", "@id": url, "url": url, "name": "KI-Glossar der KI-Werkstatt", "inLanguage": "de-DE",
+         "hasDefinedTerm": [{"@type": "DefinedTerm", "name": g["t"], "description": g["d"], "url": f"{url}#{slug(g['t'])}"} for g in terms]},
+        breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("KI-Glossar", url)]),
+    ]}
+    ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+    body = f"""{topbar(False, "glossar")}
+<section class="hero gl-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<span aria-current="page">KI-Glossar</span></nav>
+<p class="kicker">{icon("abc")} <b>KI-Glossar</b> · {n} Begriffe von A bis Z</p>
+<h1><em>{n} KI-Begriffe.</em><br>Je zwei Sätze.<br>Auf Deutsch.</h1>
+<p class="sub">{html.escape(GLOSSAR["intro"])}</p>
+<div class="ctas"><a class="btn btn-lime" href="#begriffe">{icon("book")}Zu den Begriffen</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div></section>
+<nav class="az" aria-label="Buchstaben"><div class="wrap in"><div class="az-letters">{az}</div>
+<label class="sr" for="gq">Begriffe filtern</label><input type="search" id="gq" placeholder="Begriff filtern: Token, RAG, DSGVO …" autocomplete="off"><span id="gcount" aria-live="polite"></span></div></nav>
+<div class="wrap gl" id="begriffe">{"".join(cards)}<p class="gl-empty hidden">Kein Begriff gefunden. Fehlt einer? Schreib an <a href="mailto:{LEAD_TO}?subject=Glossar">{LEAD_TO}</a>.</p></div>
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>Begriffe klar. Und welches Tool jetzt?</h2>
+<p class="intro">{html.escape(BRAND["lead_offer"]["promise"])}</p>
+<ul>
+<li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
+<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
+</ul></div>
+<div>{lead_form("Glossar", "Stack-Check (Glossar) – KI-Werkstatt")}</div></div>
+</div></section>
+{footer()}
+"""
+    desc = f"{n} KI-Begriffe auf Deutsch erklärt, von Agent bis Zero-Shot: Token, RAG, MCP, Halluzination, DSGVO und EU AI Act. Je zwei Sätze, mit Querverweisen und passenden Tools."
+    (DOCS / GLOSSAR_PAGE).write_text(page_shell(f"KI-Glossar: {n} Begriffe auf Deutsch erklärt – KI-Werkstatt", body, desc, url,
+                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+    return GLOSSAR_PAGE
 
 
 def csv_safe(v):
@@ -623,7 +901,7 @@ def csv_safe(v):
     return v
 
 
-def build_data(uniq, sections):
+def build_data(uniq, sections, pages=()):
     rows = []
     for s, sub, it in all_items(sections):
         if uniq.get(it["url"]) is not it:
@@ -636,8 +914,10 @@ def build_data(uniq, sections):
         w.writeheader()
         for r in rows:
             w.writerow({k: ("ja" if v is True else "nein" if v is False else csv_safe(v)) for k, v in r.items()})
+    lastmod = date.today().isoformat()
+    urls = "".join(f"<url><loc>{SITE_URL}{pg}</loc><lastmod>{lastmod}</lastmod></url>" for pg in ("",) + tuple(pages))
     (DOCS / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-                                      f'<url><loc>{SITE_URL}</loc><lastmod>{date.today().isoformat()}</lastmod></url></urlset>\n', encoding="utf-8")
+                                      f"{urls}</urlset>\n", encoding="utf-8")
     (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n", encoding="utf-8")
     (DOCS / "favicon.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#D7FF3C"/>'
                                       '<g transform="translate(10 10) scale(1.83)" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
@@ -675,11 +955,13 @@ svg.w{{position:absolute;right:-60px;bottom:-80px;width:520px;height:520px;fill:
 
 def main():
     sections, head_md = parse(SRC.read_text(encoding="utf-8"))
-    uniq, n_tools, n_cats = build_index(sections, head_md)
+    uniq, n_tools, n_cats, list_secs, tools_map = build_index(sections, head_md)
+    pages = build_category_pages(list_secs, tools_map)
+    pages.append(build_glossar(tools_map, list_secs, sections))
     build_subpages()
-    build_data(uniq, sections)
+    build_data(uniq, sections, pages)
     build_og(n_tools, n_cats)
-    print(f"docs/index.html: {n_tools} Tools, {n_cats} Kategorien, {len(list(IMG.glob('cat-*.svg')))} Grafiken")
+    print(f"docs/index.html: {n_tools} Tools, {n_cats} Kategorien, {len(list(IMG.glob('cat-*.svg')))} Grafiken, {len(pages)} Unterseiten")
 
 
 if __name__ == "__main__":

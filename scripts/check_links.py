@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prüft alle Links in README.de.md und schreibt das Ergebnis nach data/linkcheck.json.
+"""Prüft alle Links in README.de.md und in data/rechner.json und schreibt das Ergebnis nach data/linkcheck.json.
 
 Nur dieses Skript darf das Link-Check-Datum setzen; der Seiten-Generator liest es nur.
 Aufruf aus dem Repo-Root:
@@ -22,6 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "README.de.md"
 OUT = ROOT / "data" / "linkcheck.json"
+DATA_FILES = [ROOT / "data" / "rechner.json"]
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36"
 OK_CODES = {401, 403, 429}  # Bot-Schutz: Seite existiert, mag nur keine Skripte; 405 ist absichtlich nicht dabei
 DEST = r"((?:[^()\s]|\([^()\s]*\))+)"
@@ -50,6 +51,20 @@ def extract_urls(md):
     return sorted({u for u in re.findall(r"\]\(" + DEST + r"\)", md) if u.startswith("http") and u != "https://url"})
 
 
+def data_urls():
+    """Quellen-Links aus den Datendateien (z. B. Studien im Zeitspar-Rechner)."""
+    out = set()
+    for p in DATA_FILES:
+        if p.exists():
+            out |= {u for u in re.findall(r'"(https?://[^"\s]+)"', p.read_text(encoding="utf-8"))}
+    return out
+
+
+def all_urls(md):
+    """Alles, was die Seite verlinkt und als geprüft ausweist: README plus Datendateien."""
+    return sorted(set(extract_urls(md)) | data_urls())
+
+
 def url_hash(urls):
     """Fingerabdruck der Linkliste; der Generator vergleicht ihn mit dem Report."""
     return hashlib.sha256("\n".join(urls).encode("utf-8")).hexdigest()
@@ -57,7 +72,7 @@ def url_hash(urls):
 
 def main():
     md = SRC.read_text(encoding="utf-8")
-    urls = extract_urls(md)
+    urls = all_urls(md)
     with ThreadPoolExecutor(max_workers=24) as ex:
         results = dict(zip(urls, ex.map(status, urls)))
     dead = {u: c for u, c in results.items() if not (200 <= c < 400 or c in OK_CODES)}
