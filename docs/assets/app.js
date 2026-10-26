@@ -88,7 +88,6 @@
   if (totop) totop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
   var barClose = $("#stickybar .close");
   if (barClose) barClose.addEventListener("click", function () { bar.classList.remove("show"); document.body.classList.remove("has-bar"); barDone = true; store.set("kw-bar", "1"); });
-  var barForm = $("#stickybar form"); if (barForm) barForm.addEventListener("submit", function () { store.set("kw-bar", "1"); });
 
   /* Reveal beim Scrollen */
   if ("IntersectionObserver" in window && !reduce) {
@@ -201,7 +200,6 @@
     var nm = $("#l-name"); if (nm) setTimeout(function () { nm.focus({ preventScroll: true }); }, reduce ? 0 : 700);
   }
   var leadForm = $("#l-merk") ? $("#l-merk").form : null;
-  if (leadForm) leadForm.addEventListener("submit", function () { store.set("kw-merk-attach", "0"); });
 
   /* Merkliste: Lesezeichen an jedem Tool, Liste bleibt im Browser */
   var MK = "kw-merk";
@@ -413,4 +411,91 @@
     document.addEventListener("keydown", function (e) { if (e.key !== "Escape") return; var open = !sp.hidden; spHide(); if (open) q.focus(); });
     document.addEventListener("click", function (e) { if (!sp.contains(e.target) && e.target !== q) spHide(); });
   }
+  /* Formulare: im Hintergrund an FormSubmit senden, mit Status und Mail-Ausweg, falls der Dienst hängt.
+     Ohne JavaScript bleibt der normale POST an FormSubmit. */
+  var FS_SLOW = 15000, FS_GIVEUP = 60000;
+  var FS_FIRST = ["name", "email", "website", "rolle", "projekt", "antworten", "vorschlag", "quelle"]; // Kontakt vor Anhängen
+  var FS_LONG = { merkliste: 600, rechner: 500 };
+  // Gespeicherte Merker erst setzen, wenn die Anfrage sicher raus ist (oder der Mail-Weg gewählt wurde)
+  function fsMark(form) {
+    if (form.closest("#stickybar")) store.set("kw-bar", "1");
+    if (form.querySelector("#l-merk")) store.set("kw-merk-attach", "0");
+  }
+  function fsData(form) {
+    var fd = new FormData(form), vals = {}, subject = "Anfrage – KI-Werkstatt";
+    fd.forEach(function (v, k) {
+      if (k === "_subject") subject = String(v);
+      if (k.charAt(0) === "_" || k === "einwilligung" || !String(v).trim()) return;
+      var t = String(v);
+      if (FS_LONG[k] && t.length > FS_LONG[k]) t = t.slice(0, FS_LONG[k]) + " … (gekürzt)";
+      vals[k] = t;
+    });
+    var keys = FS_FIRST.filter(function (k) { return k in vals; }).concat(Object.keys(vals).filter(function (k) { return FS_FIRST.indexOf(k) < 0; }));
+    return { fd: fd, subject: subject, text: keys.map(function (k) { return k + ": " + vals[k]; }).join("\n") };
+  }
+  function fsStatus(form) {
+    var st = form.querySelector(".form-status");
+    if (!st) {
+      st = document.createElement("div"); st.className = "form-status"; st.setAttribute("role", "status"); st.setAttribute("aria-live", "polite");
+      var btn = form.querySelector("button[type=submit]");
+      if (btn) btn.insertAdjacentElement("afterend", st); else form.appendChild(st);
+    }
+    return st;
+  }
+  function fsMailto(form, data) {
+    var to = decodeURIComponent((form.action.split("formsubmit.co/")[1] || "").replace(/^ajax\//, ""));
+    return { to: to, href: "mailto:" + to + "?subject=" + encodeURIComponent(data.subject) + "&body=" + encodeURIComponent(data.text.slice(0, 1800)) };
+  }
+  document.addEventListener("submit", function (e) {
+    var form = e.target;
+    if (!form || !form.action || form.action.indexOf("https://formsubmit.co/") !== 0) return;
+    if (!window.fetch || !window.FormData) { fsMark(form); return; } // alter Browser: normaler POST
+    e.preventDefault();
+    if (form.dataset.busy === "1") return;
+    var data = fsData(form), st = fsStatus(form), btn = form.querySelector("button[type=submit]");
+    var honey = form.querySelector("[name=_honey]");
+    if (honey && honey.value) { st.className = "form-status ok"; st.textContent = "Danke."; return; } // Bot: still verwerfen
+    var next = (form.querySelector("[name=_next]") || {}).value || "danke.html", mail = fsMailto(form, data), done = false;
+    function offerMail(cls, msg, label, note) {
+      done = true; form.dataset.busy = "0"; if (btn) btn.disabled = false;
+      st.className = "form-status " + cls;
+      st.innerHTML = "<p>" + escH(msg) + '</p><a class="mailbtn" href="' + escH(mail.href) + '">' + svg("mail") + escH(label) + "</a><small>" + escH(note) + "</small>";
+      var mb = st.querySelector(".mailbtn");
+      if (mb) { mb.addEventListener("click", function () { fsMark(form); }); mb.focus(); }
+    }
+    // Abgelehnt: die Anfrage ist sicher nicht angekommen, der Mail-Weg ist der Ersatz
+    function failed(msg) {
+      if (done) return;
+      offerMail("warn", msg, "Anfrage per E-Mail-Programm senden", "Deine Angaben stehen schon drin, du musst nur noch auf Senden drücken. Oder schreib direkt an " + mail.to + ".");
+    }
+    // Keine Antwort: vielleicht angekommen, vielleicht nicht. Mail nur zur Sicherheit, mit Hinweis auf Doppelung
+    function unknown(msg) {
+      if (done) return;
+      offerMail("unsure", msg, "Zur Sicherheit per Mail senden", "Kann sein, dass Jean die Anfrage dann doppelt bekommt. Das ist kein Problem, eine Antwort kommt trotzdem nur einmal.");
+    }
+    form.dataset.busy = "1"; if (btn) btn.disabled = true;
+    st.className = "form-status busy"; st.textContent = "Wird gesendet … Kurbel trägt den Zettel rüber.";
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var slow = setTimeout(function () { if (!done) st.textContent = "Dauert länger als üblich. Die Anfrage ist vermutlich schon unterwegs, Kurbel wartet noch auf die Quittung …"; }, FS_SLOW);
+    var giveUp = setTimeout(function () {
+      if (ctrl) ctrl.abort();
+      unknown("Der Formulardienst hat nach einer Minute nicht geantwortet. Ob die Anfrage angekommen ist, wissen wir deshalb nicht.");
+    }, FS_GIVEUP);
+    fetch(form.action.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/"), { method: "POST", body: data.fd, headers: { Accept: "application/json" }, signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) {
+        return r.json().catch(function () { return { success: "false", message: "HTTP " + r.status }; }).then(function (j) { j._ok = r.ok; return j; });
+      })
+      .then(function (j) {
+        clearTimeout(slow); clearTimeout(giveUp); if (done) return;
+        if (j._ok && (j.success === true || j.success === "true")) {
+          done = true; fsMark(form); st.className = "form-status ok"; st.textContent = "Angekommen. Du wirst gleich weitergeleitet."; location.href = next; return;
+        }
+        if (/activat/i.test(String(j.message || ""))) return failed("Das Formular ist noch nicht freigeschaltet: FormSubmit hat dafür eine Bestätigungsmail an Jean geschickt. Bis dahin klappt der Weg per Mail.");
+        failed("Der Formulardienst hat die Anfrage gerade nicht angenommen. Per Mail geht es sofort.");
+      })
+      .catch(function () {
+        clearTimeout(slow); clearTimeout(giveUp);
+        unknown("Die Verbindung zum Formulardienst ist abgebrochen. Ob die Anfrage angekommen ist, wissen wir deshalb nicht.");
+      });
+  }, true);
 })();
