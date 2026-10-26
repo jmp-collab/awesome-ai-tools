@@ -27,7 +27,7 @@ Die Werkstatt ist nicht PROMPTGOTT. PROMPTGOTT liefert die Praxis: wie man aus T
 | Entdecke die revolutionären KI-Tools der Zukunft! | 401 KI-Tools. Geprüft. Auf Deutsch. |
 | Unser ganzheitliches Verzeichnis bietet eine riesige Auswahl. | Jedes Tool in einem Satz. Tote Links raus. |
 | 100 % DSGVO-konforme Tools | Anbieter mit Sitz in der EU sind markiert. Ob das für dich reicht, hängt von AVV und Einstellungen ab. |
-| Jetzt kostenlos durchstarten! | Sag, was du baust. Du bekommst ein Setup aus 4 bis 6 Tools per Mail. |
+| Jetzt kostenlos durchstarten! | Sag, was du baust. Du bekommst ein Setup aus 6 bis 8 Tools per Mail. |
 | Dieses Must-have-Tool verändert alles. | DeepL übersetzt Dokumente mit Glossar. Für deutsche Texte meist natürlicher als Chatbots. |
 
 ## Catchphrases
@@ -53,6 +53,6 @@ Tool-Listen mit 10.000 Einträgen, die niemand geprüft hat. Buzzword-Marketing.
 
 ## Lead-Angebot: der Stack-Check
 
-Du sagst, was du baust. Jean schaut drauf und schickt dir ein Setup aus 4 bis 6 Tools, das zu deinem Fall passt. Kostenlos, per Mail, ohne Pitch. Anfragen gehen an jeanmaurieport@gmail.com.
+Du sagst, was du baust. Jean schaut drauf und schickt dir ein Setup aus 6 bis 8 Tools, das zu deinem Fall passt. Kostenlos, per Mail, ohne Pitch. Anfragen gehen an jeanmauriceport@gmail.com.
 
 Versprochen wird nur, was gehalten wird: eine Mail mit einem Vorschlag. Keine Beratung, kein Vertrag, keine Preise, die wir nicht kennen.
