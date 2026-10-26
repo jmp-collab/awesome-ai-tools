@@ -413,4 +413,64 @@
     document.addEventListener("keydown", function (e) { if (e.key !== "Escape") return; var open = !sp.hidden; spHide(); if (open) q.focus(); });
     document.addEventListener("click", function (e) { if (!sp.contains(e.target) && e.target !== q) spHide(); });
   }
+  /* Formulare: im Hintergrund an FormSubmit senden, mit Status und Mail-Ausweg, falls der Dienst hängt.
+     Ohne JavaScript bleibt der normale POST an FormSubmit. */
+  var FS_TIMEOUT = 15000;
+  function fsData(form) {
+    var fd = new FormData(form), lines = [], subject = "Anfrage – KI-Werkstatt";
+    fd.forEach(function (v, k) {
+      if (k === "_subject") subject = String(v);
+      if (k.charAt(0) === "_" || k === "einwilligung" || !String(v).trim()) return;
+      lines.push(k + ": " + v);
+    });
+    return { fd: fd, subject: subject, text: lines.join("\n") };
+  }
+  function fsStatus(form) {
+    var st = form.querySelector(".form-status");
+    if (!st) {
+      st = document.createElement("div"); st.className = "form-status"; st.setAttribute("role", "status"); st.setAttribute("aria-live", "polite");
+      var btn = form.querySelector("button[type=submit]");
+      if (btn) btn.insertAdjacentElement("afterend", st); else form.appendChild(st);
+    }
+    return st;
+  }
+  function fsMailto(form, data) {
+    var to = decodeURIComponent((form.action.split("formsubmit.co/")[1] || "").replace(/^ajax\//, ""));
+    return "mailto:" + to + "?subject=" + encodeURIComponent(data.subject) + "&body=" + encodeURIComponent(data.text.slice(0, 1800));
+  }
+  document.addEventListener("submit", function (e) {
+    var form = e.target;
+    if (!form || !form.action || form.action.indexOf("https://formsubmit.co/") !== 0 || !window.fetch || !window.FormData) return;
+    e.preventDefault();
+    if (form.dataset.busy === "1") return;
+    var data = fsData(form), st = fsStatus(form), btn = form.querySelector("button[type=submit]");
+    var honey = form.querySelector("[name=_honey]");
+    if (honey && honey.value) { st.className = "form-status ok"; st.textContent = "Danke."; return; } // Bot: still verwerfen
+    var next = (form.querySelector("[name=_next]") || {}).value || "danke.html", mail = fsMailto(form, data), done = false;
+    function fallback(msg) {
+      if (done) return; done = true;
+      form.dataset.busy = "0"; if (btn) btn.disabled = false;
+      st.className = "form-status warn";
+      st.innerHTML = "<p>" + escH(msg) + '</p><a class="mailbtn" href="' + escH(mail) + '">' + svg("mail") + "Anfrage per E-Mail-Programm senden</a>" +
+        "<small>Deine Angaben stehen schon drin, du musst nur noch auf Senden drücken. Oder schreib direkt an " + escH(mail.slice(7, mail.indexOf("?"))) + ".</small>";
+      var mb = st.querySelector(".mailbtn"); if (mb) mb.focus();
+    }
+    form.dataset.busy = "1"; if (btn) btn.disabled = true;
+    st.className = "form-status busy"; st.textContent = "Wird gesendet … Kurbel trägt den Zettel rüber.";
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var tmr = setTimeout(function () { if (ctrl) ctrl.abort(); fallback("Der Formulardienst braucht gerade ungewöhnlich lange. Per Mail geht es sofort."); }, FS_TIMEOUT);
+    fetch(form.action.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/"), { method: "POST", body: data.fd, headers: { Accept: "application/json" }, signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) {
+        return r.json().catch(function () { return { success: "false", message: "HTTP " + r.status }; }).then(function (j) { j._ok = r.ok; return j; });
+      })
+      .then(function (j) {
+        clearTimeout(tmr); if (done) return;
+        if (j._ok && (j.success === true || j.success === "true")) {
+          done = true; st.className = "form-status ok"; st.textContent = "Angekommen. Du wirst gleich weitergeleitet."; location.href = next; return;
+        }
+        if (/activat/i.test(String(j.message || ""))) return fallback("Das Formular ist noch nicht freigeschaltet: FormSubmit hat dafür eine Bestätigungsmail an Jean geschickt. Bis dahin klappt der Weg per Mail.");
+        fallback("Der Formulardienst hat die Anfrage gerade nicht angenommen. Per Mail geht es sofort.");
+      })
+      .catch(function () { clearTimeout(tmr); fallback("Der Formulardienst antwortet gerade nicht. Kein Drama: Per Mail geht es sofort."); });
+  }, true);
 })();

@@ -469,3 +469,14 @@ html:has(.az){scroll-padding-top:calc(var(--top) + 76px)}
 @media (prefers-reduced-motion:reduce){.kurbel .kb-bob,.kurbel .kb-spark{animation:none}}
 .sp-list li{position:relative;padding-right:44px}
 .sp-filters{display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 24px}
+
+/* Formular-Status */
+.form-status{margin-top:12px;font-size:14px;border-radius:10px;padding:10px 12px}
+.form-status.busy{background:#F4F3EE;color:#5B616B}
+.form-status.ok{background:#E9F7EC;color:#166534}
+.form-status.warn{background:#FFF4D6;color:#7A4B00}
+.form-status p{margin:0 0 10px}
+.form-status small{display:block;margin-top:8px;color:inherit;font-size:12.5px}
+.form-status .mailbtn{display:inline-flex;gap:8px;align-items:center;background:#0E1116;color:#fff;border-radius:999px;padding:9px 14px;text-decoration:none;font-weight:600}
+.stickybar .form-status{flex:1 1 100%;margin-top:2px}
+form button[type=submit][disabled]{opacity:.6;cursor:wait}
