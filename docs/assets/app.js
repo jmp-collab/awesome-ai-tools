@@ -344,7 +344,7 @@
   /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
   var sp = $("#searchpanel");
   if (sp && q) {
-    var DATA = null, loading = null, spGen = 0, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
+    var DATA = null, loading = null, spGen = 0, spHits = [], spShown = 0, SP_STEP = 40, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
     function spLoad() {
       if (DATA) return Promise.resolve(DATA);
       if (!loading) loading = fetch("tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
@@ -368,17 +368,29 @@
         var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source); });
         if (s) hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
         spCount.textContent = hits.length + " von " + rows.length + " Tools";
-        spList.innerHTML = hits.slice(0, 40).map(function (t) {
-          var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
-          return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
-            '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
-        }).join("") + (hits.length > 40 ? '<li class="sp-more">Noch ' + (hits.length - 40) + " weitere Treffer. Grenz die Suche mit einem zweiten Wort ein.</li>" : "");
-        spList.querySelectorAll("img").forEach(function (im) { im.addEventListener("error", function () { im.style.visibility = "hidden"; }); });
-        if (window.kwAddMerk) window.kwAddMerk(spList);
+        spHits = hits; spShown = 0; spList.innerHTML = "";
+        spMore();
         spEmpty.classList.toggle("hidden", hits.length > 0);
         sp.hidden = false;
       }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
     }
+    function spRow(t) {
+      var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
+      return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
+        '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
+    }
+    // Treffer in Portionen anhängen; der Knopf am Ende holt die nächsten, bis alle sichtbar sind
+    function spMore() {
+      var old = $(".sp-more", spList); if (old) old.remove();
+      var next = spHits.slice(spShown, spShown + SP_STEP); spShown += next.length;
+      spList.insertAdjacentHTML("beforeend", next.map(spRow).join(""));
+      var rest = spHits.length - spShown;
+      if (rest > 0) spList.insertAdjacentHTML("beforeend", '<li class="sp-more"><button type="button" class="btn btn-sm">' + svg("layers") + "Noch " + Math.min(rest, SP_STEP) + " von " + rest + " weiteren zeigen</button></li>");
+      spList.querySelectorAll("img:not([data-e])").forEach(function (im) { im.dataset.e = "1"; im.addEventListener("error", function () { im.style.visibility = "hidden"; }); });
+      if (window.kwAddMerk) window.kwAddMerk(spList);
+    }
+    // stopPropagation: der Knopf verschwindet beim Nachladen, sonst hielte der Außen-Klick-Handler ihn für "außerhalb"
+    spList.addEventListener("click", function (e) { if (e.target.closest(".sp-more button")) { e.stopPropagation(); spMore(); } });
     window.kwPanelRun = spRun;
     var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
     q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
