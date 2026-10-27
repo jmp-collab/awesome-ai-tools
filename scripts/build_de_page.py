@@ -88,8 +88,8 @@ CAT_H1 = {
 }
 GLOSSAR_PAGE = "ki-glossar.html"
 TRENDS_PAGE = "ki-trends.html"
-# NEU-Badge: gilt ab "seit" für NEU["tage"] Tage, danach verschwindet es beim nächsten Build von selbst
-NEU_AKTIV = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) + timedelta(days=NEU["tage"]) >= date.today()]
+# NEU-Badge: gilt ab "seit" für genau NEU["tage"] Tage (seit <= heute < seit + tage); vorher und danach kein Badge
+NEU_AKTIV = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) <= date.today() < date.fromisoformat(t["seit"]) + timedelta(days=NEU["tage"])]
 NEU_NAMES = {t["name"] for t in NEU_AKTIV}
 NEU_BADGE = '<span class="badge neu" title="Neu in der Liste">NEU</span>'
 
