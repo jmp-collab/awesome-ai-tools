@@ -37,6 +37,7 @@ GLOSSAR = json.loads((ROOT / "data" / "glossar.json").read_text(encoding="utf-8"
 KAT = json.loads((ROOT / "data" / "kategorien.json").read_text(encoding="utf-8"))
 TRENDS = json.loads((ROOT / "data" / "trends.json").read_text(encoding="utf-8"))
 NEU = json.loads((ROOT / "data" / "neu.json").read_text(encoding="utf-8"))
+EINSATZ = json.loads((ROOT / "data" / "einsatz.json").read_text(encoding="utf-8"))
 ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8")
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
@@ -394,8 +395,14 @@ def render_stacks(tools_map, stacks=None):
     return "".join(out)
 
 
-def lead_form(source, subject, compact=False):
+ROLLEN_FORM = ["Selbstständig / Freelancer", "Marketing / SEO", "Shop-Betreiber", "Entwickler / Maker", "Agentur", "Anderes"]
+
+
+def lead_form(source, subject, compact=False, rolle=""):
     nxt = SITE_URL + "danke.html"
+    if rolle and rolle not in ROLLEN_FORM:
+        raise SystemExit(f"lead_form: unbekannte Rolle {rolle!r}")
+    opts = "".join(f"<option{' selected' if r == rolle else ''}>{r}</option>" for r in ROLLEN_FORM)
     return f"""<form class="form" action="https://formsubmit.co/{LEAD_TO}" method="POST">
 <input type="hidden" name="_subject" value="{html.escape(subject)}"><input type="hidden" name="_template" value="table">
 <input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="{nxt}">
@@ -405,7 +412,7 @@ def lead_form(source, subject, compact=False):
 <div class="row"><div><label for="l-name">Name</label><input id="l-name" name="name" required autocomplete="name"></div>
 <div><label for="l-mail">E-Mail</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
 <div class="row"><div><label for="l-web">Website oder Shop (optional)</label><input id="l-web" name="website" placeholder="https://" autocomplete="url"></div>
-<div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle"><option>Selbstständig / Freelancer</option><option>Marketing / SEO</option><option>Shop-Betreiber</option><option>Entwickler / Maker</option><option>Agentur</option><option>Anderes</option></select></div></div>
+<div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle">{opts}</select></div></div>
 <label for="l-proj">Was baust du gerade, und wo hakt es?</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
 <div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">entfernen</button></div>
 <div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">entfernen</button></div>
@@ -477,7 +484,7 @@ def footer(fab_href="#stack-check"):
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
 <div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li><li><a href="feed.xml">Trends als Feed (Atom)</a></li></ul></div>
-<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
+<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="./#einsatz">KI nach Einsatzgebiet</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
@@ -652,6 +659,8 @@ def build_index(sections, head_md):
 <p class="intro">Wer nur zehn Minuten hat, fängt hier an. Bewusst mit Alternativen aus der EU, weil nicht jeder Schraubenschlüssel aus Kalifornien kommen muss.</p>
 <ul class="tools">{featured_html}</ul>
 </div></section>
+
+{einsatz_band()}
 
 {neu_band(list_secs)}
 
@@ -1130,7 +1139,8 @@ def build_trends(tools_map, list_secs):
     ]}
     ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     radar_btns = "".join(f'<button type="button" class="opt" data-rolle="{r["id"]}">{icon(r["icon"])}{html.escape(r["label"])}</button>' for r in TRENDS["rollen"])
-    radar_js = json.dumps({"rollen": TRENDS["rollen"], "trends": [{"id": t["id"], "label": t["label"], "schritt": t["erster_schritt"], "radar": t["radar"]}
+    pages_by_rolle = {e["rolle"]: {"page": e["page"], "h1": e["h1"]} for e in EINSATZ["seiten"]}
+    radar_js = json.dumps({"rollen": [dict(r, **pages_by_rolle.get(r["id"], {})) for r in TRENDS["rollen"]], "trends": [{"id": t["id"], "label": t["label"], "schritt": t["erster_schritt"], "radar": t["radar"]}
                                                                 for t in TRENDS["trends"]]}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     body = f"""{topbar(False, "trends")}
 <section class="hero tr-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
@@ -1165,6 +1175,139 @@ def build_trends(tools_map, list_secs):
     (DOCS / TRENDS_PAGE).write_text(page_shell(f"{TRENDS['titel']}: {n} Entwicklungen eingeordnet – KI-Werkstatt", body, desc, url,
                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
     return TRENDS_PAGE
+
+
+# --------------------------------------------------------------------------- Einsatzgebiete
+RADAR_TXT = ["kannst du auslassen", "am Rande", "lohnt einen Blick", "trifft dich direkt"]
+
+
+def radar_bar(score):
+    on = ' class="on"'
+    return f'<span class="radar-bar" title="{RADAR_TXT[score]}">' + "".join(f'<i{on if j <= score else ""}></i>' for j in (1, 2, 3)) + "</span>"
+
+
+def einsatz_band():
+    tiles = "".join(f"""<a class="einsatz-tile reveal" href="{e['page']}"><span class="term-ico">{icon(e["icon"])}</span>
+<span><b>{html.escape(e["h1"])}</b><small>{html.escape(e["teaser"])}</small><span class="drawer-cta">Ansehen{icon("arrow")}</span></span></a>""" for e in EINSATZ["seiten"])
+    return f"""<section class="band" id="einsatz"><div class="wrap">
+<p class="eyebrow">{html.escape(EINSATZ["titel"])}</p><h2>Sag, wo du arbeitest. Wir zeigen, wo KI anpackt.</h2>
+<p class="intro">Sechs Arbeitsfelder, jedes mit konkreten Aufgaben, passenden Werkzeugen, den Trends, die dort zählen, und den Fragen, die uns dazu am häufigsten erreichen.</p>
+<div class="einsatz-grid">{tiles}</div>
+</div></section>"""
+
+
+def build_einsatz(tools_map, list_secs, sections):
+    rollen = {r["id"]: r for r in TRENDS["rollen"]}
+    kisten = {st["id"]: st for st in STACKS["stacks"]}
+    sec_by_id = {x["id"]: x for x in sections}
+    page_ids = {x["id"] for x in list_secs}
+    terms = {g["t"]: g for g in GLOSSAR["begriffe"]}
+    tasks = {a["id"]: a for a in RECHNER["aufgaben"]}
+    pages = []
+    for e in EINSATZ["seiten"]:
+        where = f"data/einsatz.json/{e['id']}"
+        if e["rolle"] not in rollen:
+            raise SystemExit(f"{where}: Rolle '{e['rolle']}' fehlt in data/trends.json")
+        for a in e["aufgaben"]:
+            for name in a["tools"]:
+                if name not in tools_map:
+                    raise SystemExit(f"{where}: Tool '{name}' nicht in README.de.md gefunden")
+        for k in e["kisten"]:
+            if k not in kisten:
+                raise SystemExit(f"{where}: Werkzeugkiste '{k}' fehlt")
+        for c in e["kategorien"]:
+            if c not in page_ids:
+                raise SystemExit(f"{where}: Schublade '{c}' hat keine eigene Seite")
+        for t in e["glossar"]:
+            if t not in terms:
+                raise SystemExit(f"{where}: Glossarbegriff '{t}' fehlt")
+        if e["rechner"] and e["rechner"] not in tasks:
+            raise SystemExit(f"{where}: Rechner-Aufgabe '{e['rechner']}' fehlt")
+        url = SITE_URL + e["page"]
+        n_tools = len({n for a in e["aufgaben"] for n in a["tools"]})
+
+        def chip(name):
+            t = tools_map[name]
+            return (f'<a class="chip tool" href="{html.escape(t["u"])}" target="_blank" rel="noopener">{favicon(t["u"])}{html.escape(name)}'
+                    f'{NEU_BADGE if name in NEU_NAMES else ""}</a>')
+        auf = "".join(f"""<article class="aufgabe reveal"><span class="n">{i + 1}</span><h3>{html.escape(a["titel"])}</h3><p>{html.escape(a["text"])}</p>
+<div class="chips">{"".join(chip(n) for n in a["tools"])}</div></article>""" for i, a in enumerate(e["aufgaben"]))
+        ranked = sorted(enumerate(TRENDS["trends"]), key=lambda x: (-x[1]["radar"][e["rolle"]], x[0]))[:3]
+        trend_cards = "".join(f"""<a class="trend-card reveal" href="{TRENDS_PAGE}#{t['id']}"><span class="term-ico">{icon(t["icon"])}</span>
+<span><span class="trend-no">Trend {i + 1:02d}</span><b>{html.escape(t["label"])}</b>{radar_bar(t["radar"][e["rolle"]])}</span></a>""" for i, t in ranked)
+        kiste_html = "".join(f'<a class="kiste-ref reveal" href="./#kiste-{k}">{icon(kisten[k]["icon"])}<span><b>{html.escape(kisten[k]["title"])}</b>'
+                             f'<small>{len(kisten[k]["tools"])} Tools, fertig gepackt</small></span>{icon("arrow")}</a>' for k in e["kisten"])
+        kat_chips = "".join(f'<a class="chip cat" href="{cat_page(c)}">{icon(CAT_ICON.get(c, "layers"))}{html.escape(sec_by_id[c]["title"])}</a>' for c in e["kategorien"])
+        gl_chips = "".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(t)}">{icon(terms[t]["icon"])}{html.escape(t)}</a>' for t in e["glossar"])
+        rechner = (f'<a class="btn btn-sm" href="./#rechner">{icon("calc")}Rechner: {html.escape(tasks[e["rechner"]]["label"])}</a>') if e["rechner"] else ""
+        others = "".join(f'<a class="einsatz-mini" href="{o["page"]}">{icon(o["icon"])}{html.escape(o["h1"])}</a>' for o in EINSATZ["seiten"] if o is not e)
+        faq = [tuple(x) for x in e["faq"]]
+        ld = {"@context": "https://schema.org", "@graph": [
+            {"@type": "WebPage", "@id": url, "url": url, "name": e["h1"], "description": e["meta"], "inLanguage": "de-DE",
+             "isPartOf": {"@type": "WebSite", "name": "KI-Werkstatt", "url": SITE_URL}},
+            breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("Einsatzgebiete", SITE_URL + "#einsatz"), (e["h1"], url)]),
+            {"@type": "ItemList", "name": f"Aufgaben: {e['h1']}", "numberOfItems": len(e["aufgaben"]),
+             "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": a["titel"]} for i, a in enumerate(e["aufgaben"])]},
+            faq_ld(faq),
+        ]}
+        ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+        label = rollen[e["rolle"]]["label"]
+        body = f"""{topbar(False, "einsatz")}
+<section class="hero cat-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<a href="./#einsatz">Einsatzgebiete</a>{icon("arrow")}<span aria-current="page">{html.escape(e["h1"])}</span></nav>
+<p class="kicker">{icon(e["icon"])} <b>Einsatzgebiet</b> · {len(e["aufgaben"])} Aufgaben · {n_tools} Tools</p>
+<h1><em>{html.escape(e["h1"])}</em></h1>
+<p class="sub">{html.escape(e["hero"])}</p>
+<div class="ctas"><a class="btn btn-lime" href="#aufgaben">{icon("wrench")}Zu den Aufgaben</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div></section>
+
+<section class="band cat-intro"><div class="wrap intro-grid">
+<div class="intro-text reveal">{"".join(f"<p>{gl_autolink(x, set())}</p>" for x in e["intro"])}</div>
+<aside class="tipp reveal">{kurbel("kb-sm", wink=True)}<p class="eyebrow">Werkstatt-Tipp</p><p>{html.escape(e["tipp"])}</p></aside>
+</div></section>
+
+<section class="band" id="aufgaben"><div class="wrap">
+<p class="eyebrow">Wo KI mit anpackt</p><h2>{len(e["aufgaben"])} Aufgaben, bei denen es sich lohnt: {html.escape(e["h1"])}</h2>
+<div class="aufgaben">{auf}</div>
+</div></section>
+
+<section class="band" id="trends"><div class="wrap">
+<p class="eyebrow">Trend-Radar · {html.escape(label)}</p><h2>Drei Trends mit dem größten Hebel: {html.escape(e["h1"])}</h2>
+<div class="trend-cards">{trend_cards}</div>
+<p style="margin-top:18px"><a class="btn" href="{TRENDS_PAGE}?rolle={e['rolle']}#radar">{icon("compass")}Ganzes Trend-Radar ansehen</a></p>
+</div></section>
+
+<section class="band" id="werkzeug"><div class="wrap">
+<p class="eyebrow">Weiter in der Werkstatt</p><h2>Kisten, Schubladen und Begriffe: {html.escape(e["h1"])}</h2>
+<div class="kisten-refs">{kiste_html}</div>
+<div class="einsatz-more">
+<div><h3>{icon("layers")}Passende Schubladen</h3><div class="chips">{kat_chips}</div></div>
+<div><h3>{icon("abc")}Begriffe zum Nachschlagen</h3><div class="chips">{gl_chips}</div></div>
+{f'<div><h3>{icon("clock")}Zeit nachrechnen</h3>{rechner}</div>' if rechner else ""}
+</div></div></section>
+
+<section class="band faq" id="faq"><div class="wrap">
+<p class="eyebrow">Fragen aus der Werkstatt</p><h2>{html.escape(e["h1"])}: kurz beantwortet</h2>
+<div class="faq-list">{faq_html(faq)}</div>
+</div></section>
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>{html.escape(e["lead_hook"])}</h2>
+<p class="intro">{html.escape(e["lead_text"])}</p>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">{html.escape(e["bubble"])}</p></div></div>
+<div>{lead_form("Einsatz: " + e["h1"], "Stack-Check (" + e["h1"] + ") – KI-Werkstatt", rolle=e["form_rolle"])}</div></div>
+</div></section>
+
+<section class="band" id="weitere"><div class="wrap">
+<p class="eyebrow">Andere Einsatzgebiete</p><div class="einsatz-minis">{others}</div>
+</div></section>
+{footer()}
+"""
+        (DOCS / e["page"]).write_text(page_shell(f"{e['seo_title']} – KI-Werkstatt", body, e["meta"], url,
+                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+        pages.append(e["page"])
+    return pages
 
 
 def build_feed(list_secs):
@@ -1261,6 +1404,7 @@ def main():
     pages = build_category_pages(list_secs, tools_map)
     pages.append(build_glossar(tools_map, list_secs, sections))
     pages.append(build_trends(tools_map, list_secs))
+    pages += build_einsatz(tools_map, list_secs, sections)
     build_feed(list_secs)
     build_subpages(list_secs)
     build_data(uniq, sections, pages, list_secs)

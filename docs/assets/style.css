@@ -545,3 +545,21 @@ form button[type=submit][disabled]{opacity:.6;cursor:wait}
 :root[data-theme="dark"] .radar-bar i.on{background:var(--lime)}
 .radar-step{grid-column:2/-1;margin:4px 0 0;display:flex;gap:8px;font-size:14.5px}.radar-step .ico{width:16px;height:16px;flex:none;margin-top:3px;color:var(--accent)}
 .radar-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:16px 0 0}.radar-cta span{font-size:14px;color:var(--muted)}
+
+/* Einsatzgebiete */
+.einsatz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
+.einsatz-tile{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;text-decoration:none;color:var(--fg);box-shadow:var(--shadow);transition:border-color .2s,transform .2s}
+.einsatz-tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.einsatz-tile b{display:block;font:700 19px var(--font-d);margin:2px 0 4px}
+.einsatz-tile small{display:block;color:var(--muted);font-size:14px;line-height:1.45;margin-bottom:8px}
+.aufgaben{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px 14px;margin-top:28px}
+.aufgabe{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px 18px;box-shadow:var(--shadow)}
+.aufgabe .n{position:absolute;top:-13px;left:16px;width:28px;height:28px;border-radius:999px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font:700 13px var(--font-m)}
+.aufgabe h3{margin:0 0 6px;font-size:19px}.aufgabe p{margin:0 0 12px;font-size:15px}
+.trend-card .radar-bar{margin-top:6px}
+.einsatz-more{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:18px;margin-top:22px}
+.einsatz-more h3{margin:0 0 10px;font-size:16px;display:flex;align-items:center;gap:8px}.einsatz-more h3 .ico{color:var(--accent)}
+.einsatz-minis{display:flex;flex-wrap:wrap;gap:8px}
+.einsatz-mini{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);text-decoration:none;font-weight:600}
+.einsatz-mini .ico{width:16px;height:16px;color:var(--accent)}.einsatz-mini:hover{border-color:var(--accent)}
+.radar-page{margin:10px 0 0}.radar-page a{display:inline-flex;align-items:center;gap:6px;font-weight:700}.radar-page .ico{width:15px;height:15px}

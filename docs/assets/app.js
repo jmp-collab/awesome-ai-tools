@@ -359,7 +359,8 @@
         var bars = ""; for (var j = 1; j <= 3; j++) bars += "<i" + (j <= x.s ? ' class="on"' : "") + "></i>";
         return '<li class="s' + x.s + (k < top.length ? " top" : "") + '"><a href="#' + escH(x.t.id) + '">' + escH(x.t.label) + '</a><span class="radar-bar" title="' + RD_TXT[x.s] + '">' + bars + "</span><small>" + RD_TXT[x.s] + "</small>" +
           (k < top.length ? '<p class="radar-step">' + svg("check") + "<span>" + escH(x.t.schritt) + "</span></p>" : "") + "</li>";
-      }).join("") + '</ol><p class="radar-cta"><button type="button" class="btn btn-lime btn-sm" id="radar-send">' + svg("mail") + 'Radar an Jean schicken</button><span>Jean schaut, welche Tools zu deinen drei Trends passen.</span></p>';
+      }).join("") + '</ol><p class="radar-cta"><button type="button" class="btn btn-lime btn-sm" id="radar-send">' + svg("mail") + 'Radar an Jean schicken</button><span>Jean schaut, welche Tools zu deinen drei Trends passen.</span></p>' +
+        (rdRole.page ? '<p class="radar-page"><a href="' + escH(rdRole.page) + '">' + svg("arrow") + escH(rdRole.h1) + ": Aufgaben, Werkzeuge, Fragen</a></p>" : "");
       $("#radar-send").addEventListener("click", function () {
         var names = top.map(function (x) { return x.t.label; });
         var text = "Rolle: " + rdRole.label + "\n" + top.map(function (x, k) { return (k + 1) + ". " + x.t.label + ": " + x.t.schritt; }).join("\n");
@@ -370,6 +371,9 @@
       });
     }
     $$(".radar-roles .opt", radar).forEach(function (b) { b.setAttribute("aria-pressed", "false"); b.addEventListener("click", function () { rdRender(b.dataset.rolle); }); });
+    // Einstieg von einer Einsatz-Seite: ki-trends.html?rolle=shop#radar zeigt das Radar gleich für diese Rolle
+    var rdQ = new URLSearchParams(location.search).get("rolle");
+    if (rdQ && RD.rollen.some(function (r) { return r.id === rdQ; })) rdRender(rdQ);
   }
 
   /* Trend-Seite: aktiven Trend in der Leiste markieren und sichtbar halten */
