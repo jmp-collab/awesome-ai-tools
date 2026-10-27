@@ -347,7 +347,6 @@
     radar.hidden = false;
     var RD = window.KW_RADAR, rdOut = $(".radar-out", radar), rdRole = null;
     var RD_TXT = ["kannst du auslassen", "am Rande", "lohnt einen Blick", "trifft dich direkt"];
-    var RD_FORM = { shop: "Shop-Betreiber", marketing: "Marketing / SEO", entwicklung: "Entwickler / Maker" };
     function rdRank(id) {
       return RD.trends.map(function (t, i) { return { t: t, s: t.radar[id], i: i }; }).sort(function (a, b) { return b.s - a.s || a.i - b.i; });
     }
@@ -365,7 +364,7 @@
         var names = top.map(function (x) { return x.t.label; });
         var text = "Rolle: " + rdRole.label + "\n" + top.map(function (x, k) { return (k + 1) + ". " + x.t.label + ": " + x.t.schritt; }).join("\n");
         if (attach("l-radar", text, "Trend-Radar angehängt: " + rdRole.label)) {
-          var sel = $("#l-rolle"); if (sel && RD_FORM[id]) sel.value = RD_FORM[id];
+          var sel = $("#l-rolle"); if (sel && rdRole.form) sel.value = rdRole.form; // jede Rolle hat eine Formular-Option (Build prüft das)
           goLead("Mein Trend-Radar (" + rdRole.label + ") sagt: " + names.join(", ") + ". Welche Tools passen dazu? ");
         }
       });

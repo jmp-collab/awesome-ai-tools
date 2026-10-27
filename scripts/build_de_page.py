@@ -395,7 +395,8 @@ def render_stacks(tools_map, stacks=None):
     return "".join(out)
 
 
-ROLLEN_FORM = ["Selbstständig / Freelancer", "Marketing / SEO", "Shop-Betreiber", "Entwickler / Maker", "Agentur", "Anderes"]
+ROLLEN_FORM = ["Selbstständig / Freelancer", "Marketing / SEO", "Shop-Betreiber", "Entwickler / Maker", "Kundenservice / Vertrieb",
+               "Content / Social Media", "Büro / Geschäftsführung", "Agentur", "Anderes"]
 
 
 def lead_form(source, subject, compact=False, rolle=""):
@@ -1139,7 +1140,10 @@ def build_trends(tools_map, list_secs):
     ]}
     ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     radar_btns = "".join(f'<button type="button" class="opt" data-rolle="{r["id"]}">{icon(r["icon"])}{html.escape(r["label"])}</button>' for r in TRENDS["rollen"])
-    pages_by_rolle = {e["rolle"]: {"page": e["page"], "h1": e["h1"]} for e in EINSATZ["seiten"]}
+    pages_by_rolle = {e["rolle"]: {"page": e["page"], "h1": e["h1"], "form": e["form_rolle"]} for e in EINSATZ["seiten"]}
+    missing = [r["id"] for r in TRENDS["rollen"] if pages_by_rolle.get(r["id"], {}).get("form") not in ROLLEN_FORM]
+    if missing:
+        raise SystemExit(f"data/einsatz.json: form_rolle fehlt oder unbekannt für Rollen {missing}")
     radar_js = json.dumps({"rollen": [dict(r, **pages_by_rolle.get(r["id"], {})) for r in TRENDS["rollen"]], "trends": [{"id": t["id"], "label": t["label"], "schritt": t["erster_schritt"], "radar": t["radar"]}
                                                                 for t in TRENDS["trends"]]}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     body = f"""{topbar(False, "trends")}
@@ -1312,13 +1316,15 @@ def build_einsatz(tools_map, list_secs, sections):
 
 def build_feed(list_secs):
     home = tool_home(list_secs)
-    stamp = max([TRENDS["stand"]] + [t["seit"] for t in NEU["tools"]]) + "T00:00:00Z"
+    # Nur bereits gestartete Neuzugänge; abgelaufene bleiben als Historie im Feed
+    neu = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) <= date.today()]
+    stamp = max([TRENDS["stand"]] + [t["seit"] for t in neu]) + "T00:00:00Z"
     x = html.escape
     entries = []
     for t in TRENDS["trends"]:
         u = f"{SITE_URL}{TRENDS_PAGE}#{t['id']}"
         entries.append(f'<entry><title>{x(t["titel"])}</title><link href="{x(u)}"/><id>{x(u)}</id><updated>{TRENDS["stand"]}T00:00:00Z</updated><summary>{x(t["kurz"])}</summary></entry>')
-    for t in NEU["tools"]:
+    for t in neu:
         u = SITE_URL + home[t["name"]]
         entries.append(f'<entry><title>Neu in der Liste: {x(t["name"])}</title><link href="{x(u)}"/><id>{x(SITE_URL)}neu/{slug(t["name"])}</id>'
                        f'<updated>{t["seit"]}T00:00:00Z</updated><summary>{x(t["notiz"])}</summary></entry>')

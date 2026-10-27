@@ -363,7 +363,7 @@
    "lead_hook": "Beschreib Jean deine Anfragen, er zieht die Grenze für den Bot.",
    "lead_text": "Kanäle, Anfragen pro Woche, Shop- oder Ticketsystem und die drei häufigsten Fragen: Damit lässt sich sagen, wo ein Bot hilft und wo er stört.",
    "bubble": "Piep. Ich bin übrigens ein Roboter. Das muss ich jetzt immer dazusagen.",
-   "form_rolle": ""
+   "form_rolle": "Kundenservice / Vertrieb"
   },
   {
    "id": "content-creator",
@@ -451,7 +451,7 @@
    "lead_hook": "Zeig Jean deinen Kanal, er packt dir die Kreativkiste.",
    "lead_text": "Plattformen, Formate, Upload-Rhythmus und was dich gerade am meisten Zeit kostet: Daraus wird ein Set für Bild, Schnitt und Ton.",
    "bubble": "Ich hab einen Song über die übrige Schraube gemacht. Er ist sehr kurz.",
-   "form_rolle": ""
+   "form_rolle": "Content / Social Media"
   },
   {
    "id": "buero",
@@ -542,7 +542,7 @@
    "lead_hook": "Erzähl Jean, was im Büro jede Woche liegen bleibt.",
    "lead_text": "Teamgröße, vorhandene Software, Datenschutzvorgaben und die drei zähesten Routinen: Daraus wird ein Setup, das ihr ohne IT-Großprojekt startet.",
    "bubble": "Ich hab das Protokoll schon fertig. Das Meeting fängt erst gleich an.",
-   "form_rolle": ""
+   "form_rolle": "Büro / Geschäftsführung"
   }
  ]
 }
