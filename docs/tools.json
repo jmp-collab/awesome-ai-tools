@@ -4470,28 +4470,6 @@
    "seite": "./#lernen-prompting-und-ki-grundlagen"
   },
   {
-   "name": "Awesome AI Tools (Original, Englisch)",
-   "url": "https://github.com/mahseema/awesome-ai-tools",
-   "beschreibung": "Die Grundlage dieser Liste.",
-   "kategorie": "Verwandte Listen",
-   "bereich": "",
-   "eu": false,
-   "open_source": false,
-   "neu": false,
-   "seite": "./#verwandte-listen"
-  },
-  {
-   "name": "Altern",
-   "url": "https://altern.ai",
-   "beschreibung": "Verzeichnis für KI-Tools.",
-   "kategorie": "Verwandte Listen",
-   "bereich": "",
-   "eu": false,
-   "open_source": false,
-   "neu": false,
-   "seite": "./#verwandte-listen"
-  },
-  {
    "name": "AI For Developers",
    "url": "https://aifordevelopers.org",
    "beschreibung": "Liste von KI-Entwicklerwerkzeugen.",
@@ -4539,17 +4517,6 @@
    "name": "Awesome Vibe Coding",
    "url": "https://github.com/dariubs/awesome-vibe-coding",
    "beschreibung": "Werkzeuge und Ressourcen für Vibe Coding.",
-   "kategorie": "Verwandte Listen",
-   "bereich": "",
-   "eu": false,
-   "open_source": false,
-   "neu": false,
-   "seite": "./#verwandte-listen"
-  },
-  {
-   "name": "Awesome AI Books",
-   "url": "https://github.com/mahseema/aibooks",
-   "beschreibung": "Bücher zu KI und Machine Learning.",
    "kategorie": "Verwandte Listen",
    "bereich": "",
    "eu": false,

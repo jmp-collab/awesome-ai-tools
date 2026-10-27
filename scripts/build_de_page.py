@@ -484,12 +484,12 @@ def footer(fab_href="#stack-check"):
     return f"""<footer><div class="wrap">
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
-<div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li><li><a href="feed.xml">Trends als Feed (Atom)</a></li></ul></div>
+<div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">About (English)</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li><li><a href="feed.xml">Trends als Feed (Atom)</a></li></ul></div>
 <div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="./#einsatz">KI nach Einsatzgebiet</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
-<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Seite gebaut am {TODAY}. Basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> von Mahsima Dastan (MIT). Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
+<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Seite gebaut am {TODAY}. Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
 </div></footer>
 <button id="totop" type="button" title="Nach oben">{icon("up")}</button>
 <a class="btn btn-lime fab" href="{fab_href}">{icon("mail")}Stack-Check</a>
@@ -627,7 +627,6 @@ def build_index(sections, head_md):
     ]
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebPage", "@id": SITE_URL, "url": SITE_URL, "name": TITLE, "description": DESCRIPTION, "inLanguage": "de-DE",
-         "isBasedOn": "https://github.com/mahseema/awesome-ai-tools",
          "publisher": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
          "citation": {"@type": "CreativeWork", "name": "PROMPTGOTT", "url": SUBSTACK}},
         {"@type": "ItemList", "name": "Die Schubladen der KI-Werkstatt", "numberOfItems": n_cats,
@@ -669,7 +668,7 @@ def build_index(sections, head_md):
 <p class="eyebrow">So arbeitet die Werkstatt</p><h2>Sammeln. Prüfen. Sortieren.</h2>
 <p class="intro">Kein Tool kommt auf die Werkbank, ohne dass es jemand in die Hand genommen hat. Tote Links sind keine Tools, sondern Staubfänger.</p>
 <div class="steps">
-<div class="step reveal"><span class="n">1</span>{icon("search")}<h3>Sammeln</h3><p>Grundlage ist die englische Awesome-Liste, ergänzt um Funde aus dem DACH-Raum. Jeder Eintrag bekommt einen deutschen Satz, der sagt, wofür das Tool taugt. Ohne Werbeprosa.</p></div>
+<div class="step reveal"><span class="n">1</span>{icon("search")}<h3>Sammeln</h3><p>Gesammelt wird, was in Projekten, Fachartikeln und Herstellerankündigungen auftaucht, mit besonderem Blick auf den DACH-Raum. Jeder Eintrag bekommt einen deutschen Satz, der sagt, wofür das Tool taugt. Ohne Werbeprosa.</p></div>
 <div class="step reveal"><span class="n">2</span>{icon("check")}<h3>Prüfen</h3><p>Jeder Link wird per HTTP abgeklopft. 404, Serverfehler oder Domain weg: ab in die Tonne. Affiliate- und Referral-Parameter bei Tool-Links fliegen auch raus. Nur Links zu PROMPTGOTT tragen UTM-Parameter, damit erkennbar ist, dass der Besuch von hier kam.</p></div>
 <div class="step reveal"><span class="n">3</span>{icon("layers")}<h3>Sortieren</h3><p>{n_cats} Schubladen nach Aufgabe, nicht nach Hype. EU-Sitz und Open Source als Badge. Dazu Werkzeugkisten für typische Jobs, damit du nicht alle {n_tools} Tools einzeln anfassen musst.</p></div>
 </div></div></section>
@@ -769,7 +768,7 @@ def build_subpages(list_secs=()):
 <p><b>Verantwortlich für den Inhalt</b> nach § 18 Abs. 2 MStV: [NAME, ANSCHRIFT wie oben]</p>
 <p><b>Umsatzsteuer</b>: [USt-IdNr., falls vorhanden, sonst Zeile löschen]</p>
 <p><b>Haftung für Links:</b> Die Liste enthält Links zu externen Websites, auf deren Inhalte wir keinen Einfluss haben. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Links werden regelmäßig auf Erreichbarkeit geprüft, nicht auf Inhalt.</p>
-<p><b>Quelle:</b> Die Liste basiert auf <a href="https://github.com/mahseema/awesome-ai-tools">Awesome AI Tools</a> (MIT-Lizenz). Die Schriften IBM Plex (IBM Corp.) und Space Grotesk (Florian Karsten) stehen unter der SIL Open Font License 1.1; die Lizenztexte liegen unter <a href="assets/fonts/LICENSE-IBM-Plex.txt">assets/fonts/LICENSE-IBM-Plex.txt</a> und <a href="assets/fonts/LICENSE-Space-Grotesk.txt">assets/fonts/LICENSE-Space-Grotesk.txt</a>. Tool-Logos werden als Favicons vom jeweiligen Anbieter geladen; Marken und Logos gehören den jeweiligen Inhabern.</p>
+<p><b>Schriften und Logos:</b> Die Schriften IBM Plex (IBM Corp.) und Space Grotesk (Florian Karsten) stehen unter der SIL Open Font License 1.1; die Lizenztexte liegen unter <a href="assets/fonts/LICENSE-IBM-Plex.txt">assets/fonts/LICENSE-IBM-Plex.txt</a> und <a href="assets/fonts/LICENSE-Space-Grotesk.txt">assets/fonts/LICENSE-Space-Grotesk.txt</a>. Tool-Logos werden als Favicons vom jeweiligen Anbieter geladen; Marken und Logos gehören den jeweiligen Inhabern.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "impressum.html").write_text(page_shell("Impressum – KI-Werkstatt", impressum, "Impressum der KI-Werkstatt.", SITE_URL + "impressum.html", '<meta name="robots" content="noindex">'), encoding="utf-8")

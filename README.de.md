@@ -1,10 +1,10 @@
-# KI-Werkstatt: KI-Tools auf Deutsch [![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
+# KI-Werkstatt: KI-Tools auf Deutsch
 
 > Über 400 KI-Tools. Geprüft. Sortiert. Ohne Zauberstab. Jedes Tool in einem Satz erklärt, tote Links aussortiert, EU-Anbieter markiert. Weniger Hype, mehr Hebel. Mit Praxis-Deep-Dives von **[PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de)**, dem Substack für AI-Use-Cases, Prompt Engineering und AI-SEO.
 
-🛠️ [Zur Seite mit Suche und Stack-Finder](https://jmp-collab.github.io/awesome-ai-tools/) · 🇬🇧 [English version](README.md) · 📬 [PROMPTGOTT abonnieren](https://promptgott.substack.com/subscribe?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) · ➕ [Tool vorschlagen](#mitmachen)
+🛠️ [Zur Seite mit Suche und Stack-Finder](https://jmp-collab.github.io/awesome-ai-tools/) · 🇬🇧 [About (English)](README.md) · 📬 [PROMPTGOTT abonnieren](https://promptgott.substack.com/subscribe?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) · ➕ [Tool vorschlagen](#mitmachen)
 
-Die Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) (MIT-Lizenz). Für den deutschsprachigen Raum haben wir sie auseinandergeschraubt, geputzt und neu sortiert:
+Gebaut für den deutschsprachigen Raum, auseinandergeschraubt, geputzt und nach Aufgaben sortiert:
 
 - **Ein Satz pro Tool.** Was es kann, wofür es taugt. Keine Werbetexte, die Beschreibungen bleiben sachlich. Gewitzelt wird drumherum.
 - **Link-Check (Stand: 27.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
@@ -401,7 +401,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 
 ## Bilder
 
-*Umfangreichere Listen: [Best Image AI Tools](IMAGE.md) und [Awesome AI Image](https://github.com/xaramore/awesome-ai-image)*
+*Umfangreichere Liste: [Awesome AI Image](https://github.com/xaramore/awesome-ai-image)*
 
 ### Bildmodelle
 
@@ -540,7 +540,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 
 ## Marketing und SEO
 
-*Umfangreichere Liste (Englisch): [Marketing List](marketing.md)*
 
 > 💡 **PROMPTGOTT-Praxis für SEO:** Die Kern-Serie zu KI-gestütztem SEO:
 > [Programmatic SEO Architecture](https://promptgott.substack.com/p/programmatic-seo-architecture?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) (Template × Datensatz) ·
@@ -651,15 +650,12 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 
 ## Verwandte Listen
 
-- [Awesome AI Tools (Original, Englisch)](https://github.com/mahseema/awesome-ai-tools) - Die Grundlage dieser Liste.
 - [PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de) - Deep Dives zu AI-Use-Cases und AI-SEO auf Deutsch.
-- [Altern](https://altern.ai) - Verzeichnis für KI-Tools.
 - [AI For Developers](https://aifordevelopers.org) - Liste von KI-Entwicklerwerkzeugen.
 - [Best of AI](https://github.com/best-of-ai/best-of-ai) - Eine Art Michelin-Führer für KI.
 - [Awesome AI Models](https://github.com/dariubs/awesome-ai-models) - Kuratierte Liste von KI-Modellen und LLMs.
 - [Awesome AI Coding Tools](https://github.com/ai-for-developers/awesome-ai-coding-tools) - KI-Werkzeuge für Entwickler.
 - [Awesome Vibe Coding](https://github.com/dariubs/awesome-vibe-coding) - Werkzeuge und Ressourcen für Vibe Coding.
-- [Awesome AI Books](https://github.com/mahseema/aibooks) - Bücher zu KI und Machine Learning.
 - [AI for Productivity](https://productivity.directory/category/ai) - KI-Apps für Produktivität.
 - [Awesome Workflow Automation](https://github.com/dariubs/awesome-workflow-automation) - Werkzeuge für Workflow-Automatisierung.
 - [Awesome Marketing](https://github.com/marketingtoolslist/awesome-marketing) - Marketing-Werkzeuge.
@@ -677,4 +673,4 @@ Neues Tool, toter Link oder bessere Beschreibung? Pull Requests sind willkommen:
 
 ---
 
-Deutsche Bearbeitung mit Praxisbezug zu [PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de). Original: [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) von [Mahsima Dastan](https://github.com/mahseema), MIT-Lizenz.
+KI-Werkstatt mit Praxisbezug zu [PROMPTGOTT](https://promptgott.substack.com/?utm_source=github&utm_medium=referral&utm_campaign=awesome-ki-tools-de). MIT-Lizenz, siehe [LICENSE](LICENSE).
