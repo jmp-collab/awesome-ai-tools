@@ -22,7 +22,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -35,6 +35,8 @@ STACKS = json.loads((ROOT / "data" / "stacks.json").read_text(encoding="utf-8"))
 RECHNER = json.loads((ROOT / "data" / "rechner.json").read_text(encoding="utf-8"))
 GLOSSAR = json.loads((ROOT / "data" / "glossar.json").read_text(encoding="utf-8"))
 KAT = json.loads((ROOT / "data" / "kategorien.json").read_text(encoding="utf-8"))
+TRENDS = json.loads((ROOT / "data" / "trends.json").read_text(encoding="utf-8"))
+NEU = json.loads((ROOT / "data" / "neu.json").read_text(encoding="utf-8"))
 ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8")
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
@@ -57,7 +59,7 @@ if _LC.get("dead"):
 sys.path.insert(0, str(ROOT / "scripts"))
 from check_links import all_urls, url_hash  # noqa: E402  (gleiche Linkliste wie der Checker)
 if _LC.get("urls_sha256") != url_hash(all_urls(SRC.read_text(encoding="utf-8"))):
-    raise SystemExit("Abbruch: Die Links in README.de.md oder data/rechner.json haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
+    raise SystemExit("Abbruch: Die Links in README.de.md, data/rechner.json oder data/trends.json haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
 N_STACKS = len(STACKS["stacks"])
 STACK_SIZES = sorted({len(s["tools"]) for s in STACKS["stacks"]})
 STACK_SIZE_TXT = str(STACK_SIZES[0]) if len(STACK_SIZES) == 1 else f"{STACK_SIZES[0]} bis {STACK_SIZES[-1]}"
@@ -85,6 +87,11 @@ CAT_H1 = {
     "marketing-und-seo": "KI-Tools für Marketing und SEO", "ki-telefonagenten": "KI-Telefonagenten", "weitere-ki-tools": "Weitere KI-Tools",
 }
 GLOSSAR_PAGE = "ki-glossar.html"
+TRENDS_PAGE = "ki-trends.html"
+# NEU-Badge: gilt ab "seit" für NEU["tage"] Tage, danach verschwindet es beim nächsten Build von selbst
+NEU_AKTIV = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) + timedelta(days=NEU["tage"]) >= date.today()]
+NEU_NAMES = {t["name"] for t in NEU_AKTIV}
+NEU_BADGE = '<span class="badge neu" title="Neu in der Liste">NEU</span>'
 
 
 def cat_page(sec_id):
@@ -291,7 +298,7 @@ def render_blocks(blocks, sec_id, sub_id, tools_map):
             for it in val:
                 eu, oss, clean = item_meta(it)
                 badges = (f'<span class="badge eu" title="Anbieter mit Sitz in der EU">EU</span>' if eu else "") + (
-                    '<span class="badge oss" title="Open Source">OSS</span>' if oss else "")
+                    '<span class="badge oss" title="Open Source">OSS</span>' if oss else "") + (NEU_BADGE if it["name"] in NEU_NAMES else "")
                 search = plain(" ".join([it["name"], clean, sec_id.replace("-", " "), (sub_id or "").replace("-", " ")])).lower()
                 desc_html = inline(re.sub(r"\s*🇪🇺\s*", " ", re.sub(r"\[`OSS`\]\([^)]*\)|`OSS`", "", it["desc"])).strip())
                 out.append(
@@ -448,7 +455,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 
 def topbar(with_search=True, here=""):
     home = "" if here == "index" else "./"
-    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("glossar", GLOSSAR_PAGE, "Glossar")]
+    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("trends", TRENDS_PAGE, "Trends"), ("glossar", GLOSSAR_PAGE, "Glossar")]
     cur = ' aria-current="page"'
     nav = '<nav class="mainnav" aria-label="Seiten">' + "".join(
         f'<a href="{href}"{cur if key == here else ""}>{label}</a>' for key, href, label in nav_items) + "</nav>"
@@ -468,7 +475,7 @@ def footer(fab_href="#stack-check"):
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
 <div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li></ul></div>
-<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
+<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
@@ -643,6 +650,8 @@ def build_index(sections, head_md):
 <p class="intro">Wer nur zehn Minuten hat, fängt hier an. Bewusst mit Alternativen aus der EU, weil nicht jeder Schraubenschlüssel aus Kalifornien kommen muss.</p>
 <ul class="tools">{featured_html}</ul>
 </div></section>
+
+{neu_band(list_secs)}
 
 <section class="band" id="so-arbeiten-wir"><div class="wrap">
 <p class="eyebrow">So arbeitet die Werkstatt</p><h2>Sammeln. Prüfen. Sortieren.</h2>
@@ -1013,6 +1022,111 @@ def build_glossar(tools_map, list_secs, sections):
     return GLOSSAR_PAGE
 
 
+# --------------------------------------------------------------------------- Trends und Neuzugänge
+def de_date(iso):
+    return date.fromisoformat(iso).strftime("%d.%m.%Y") if iso else ""
+
+
+def tool_home(list_secs):
+    """Name -> Kategorie-Seite mit Fach-Anker, wie in tools.json."""
+    out = {}
+    for s, sub, it in all_items(list_secs):
+        out.setdefault(it["name"], cat_page(s["id"]) + (f"#{sub['id']}" if sub else ""))
+    return out
+
+
+def neu_band(list_secs):
+    home = tool_home(list_secs)
+    trend_ids = {t["id"]: t for t in TRENDS["trends"]}
+    for t in NEU["tools"]:
+        if t["name"] not in home:
+            raise SystemExit(f"data/neu.json: '{t['name']}' steht in keiner Schublade von README.de.md")
+        if t["trend"] not in trend_ids:
+            raise SystemExit(f"data/neu.json: Trend '{t['trend']}' fehlt in data/trends.json")
+    cards = "".join(f"""<a class="trend-card reveal" href="{TRENDS_PAGE}#{t['id']}"><span class="term-ico">{icon(t["icon"])}</span>
+<span><span class="trend-no">Trend {i + 1:02d}</span><b>{html.escape(t["label"])}</b><small>{html.escape(t["kurz"])}</small></span></a>""" for i, t in enumerate(TRENDS["trends"]))
+    neu = "".join(f"""<li><a class="name" href="{home[t['name']]}">{html.escape(t["name"])}</a>{NEU_BADGE}<span class="desc">{html.escape(t["notiz"])}</span>
+<a class="neu-trend" href="{TRENDS_PAGE}#{t['trend']}">{icon("spark")}{html.escape(trend_ids[t["trend"]]["label"])}</a></li>""" for t in NEU_AKTIV)
+    neu_html = f"""<div class="neu-box reveal"><h3>{icon("plus")}Frisch in den Schubladen</h3><ul class="neu-list">{neu}</ul></div>""" if neu else ""
+    return f"""<section class="band" id="neu-und-trends"><div class="wrap">
+<p class="eyebrow">Neu &amp; im Trend · Stand {de_date(TRENDS["stand"])}</p><h2>Was diesen Herbst in der Werkstatt angekommen ist</h2>
+<p class="intro">Acht Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
+<div class="trend-cards">{cards}</div>
+{neu_html}
+<p style="margin-top:20px"><a class="btn btn-lime" href="{TRENDS_PAGE}">{icon("chart")}Alle Trends mit Quellen</a></p>
+</div></section>"""
+
+
+def build_trends(tools_map, list_secs):
+    stand = de_date(TRENDS["stand"])
+    url = SITE_URL + TRENDS_PAGE
+    n = len(TRENDS["trends"])
+    ids = [t["id"] for t in TRENDS["trends"]]
+    if len(set(ids)) != len(ids):
+        raise SystemExit("data/trends.json: doppelte Trend-ID")
+    links, arts = [], []
+    for i, t in enumerate(TRENDS["trends"]):
+        for name in t["tools"]:
+            if name not in tools_map:
+                raise SystemExit(f"Trend '{t['id']}': Tool '{name}' nicht in README.de.md gefunden")
+        if not t["quellen"]:
+            raise SystemExit(f"Trend '{t['id']}': keine Quelle")
+        chips = "".join(f'<a class="chip tool" href="{html.escape(tools_map[name]["u"])}" target="_blank" rel="noopener">{favicon(tools_map[name]["u"])}{html.escape(name)}'
+                        f'{NEU_BADGE if name in NEU_NAMES else ""}</a>' for name in t["tools"])
+        chips_html = f'<div class="chips trend-tools"><span class="chips-lbl">Werkzeug dazu:</span>{chips}</div>' if chips else ""
+        quellen = "".join(f'<li><a href="{html.escape(u)}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
+                          for lbl, u, d in t["quellen"])
+        text = "".join(f"<p>{html.escape(x)}</p>" for x in t["text"])
+        links.append(f'<a href="#{t["id"]}">{icon(t["icon"])}{html.escape(t["label"])}</a>')
+        arts.append(f"""<article class="trend reveal" id="{t['id']}">
+<div class="trend-head"><span class="term-ico">{icon(t["icon"])}</span><div><p class="eyebrow">Trend {i + 1:02d} · {html.escape(t["label"])}</p><h2>{html.escape(t["titel"])}</h2></div></div>
+<div class="trend-text">{text}</div>
+<div class="trend-grid"><div class="fuer-dich"><h3>{icon("user")}Was heißt das für dich?</h3><p>{html.escape(t["fuer_dich"])}</p></div>
+<div class="urteil"><h3>{icon("wrench")}Werkstatt-Urteil</h3><p>{html.escape(t["urteil"])}</p></div></div>
+{chips_html}
+<details class="quellen" data-chrome><summary>{icon("link")}Quellen ({len(t["quellen"])})</summary><ol>{quellen}</ol></details>
+</article>""")
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "Article", "@id": url, "url": url, "headline": TRENDS["titel"], "description": TRENDS["intro"], "inLanguage": "de-DE",
+         "datePublished": TRENDS["stand"], "dateModified": TRENDS["stand"], "mainEntityOfPage": url,
+         "author": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
+         "publisher": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
+         "citation": [u for t in TRENDS["trends"] for _, u, _ in t["quellen"]]},
+        {"@type": "ItemList", "name": TRENDS["titel"], "numberOfItems": n,
+         "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": t["titel"], "url": f"{url}#{t['id']}"} for i, t in enumerate(TRENDS["trends"])]},
+        breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("KI-Trends", url)]),
+    ]}
+    ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+    body = f"""{topbar(False, "trends")}
+<section class="hero tr-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<span aria-current="page">KI-Trends</span></nav>
+<p class="kicker">{icon("chart")} <b>{html.escape(TRENDS["titel"])}</b> · Stand {stand}</p>
+<h1><em>{n} KI-Trends.</em><br>Beim Hersteller nachgelesen.<br>Für die Werkbank übersetzt.</h1>
+<p class="sub">{html.escape(TRENDS["intro"])}</p>
+<div class="ctas"><a class="btn btn-lime" href="#{ids[0]}">{icon("chart")}Zum ersten Trend</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div></section>
+<nav class="az tr-nav" aria-label="Trends"><div class="wrap in"><div class="tr-links">{"".join(links)}</div></div></nav>
+<div class="wrap tr-wrap">
+<aside class="tipp tr-method reveal">{kurbel("kb-sm", wink=True)}<p class="eyebrow">So haben wir sortiert</p><p>{html.escape(TRENDS["methode"])}</p></aside>
+{"".join(arts)}
+</div>
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>Trends gelesen. Welcher davon zahlt bei dir ein?</h2>
+<p class="intro">Nicht jede Neuheit gehört in deinen Werkzeugkasten. Schreib Jean, woran du gerade arbeitest, und du erfährst, welcher dieser Trends dir tatsächlich Arbeit abnimmt und welchen du getrost vorbeiziehen lässt.</p>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich hab alle Quellen gelesen. Zweimal. Eine Schraube ist trotzdem übrig.</p></div></div>
+<div>{lead_form("Trends", "Stack-Check (Trends) – KI-Werkstatt")}</div></div>
+</div></section>
+{footer()}
+"""
+    desc = (f"{TRENDS['titel']}: {n} KI-Entwicklungen auf Deutsch eingeordnet, von günstigeren Spitzenmodellen über Agenten-Standards bis zum EU AI Act. "
+            "Mit Quellen beim Hersteller und passenden Tools.")
+    (DOCS / TRENDS_PAGE).write_text(page_shell(f"{TRENDS['titel']}: {n} Entwicklungen eingeordnet – KI-Werkstatt", body, desc, url,
+                                               f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+    return TRENDS_PAGE
+
+
 def csv_safe(v):
     """Zellen, die wie eine Tabellenformel beginnen, bekommen ein führendes Hochkomma (CSV-Injection)."""
     if isinstance(v, str) and v[:1] in ("=", "+", "-", "@", "\t", "\r"):
@@ -1034,7 +1148,7 @@ def build_data(uniq, sections, pages=(), list_secs=()):
         eu, oss, clean = item_meta(it)
         seite = (cat_page(s["id"]) + (f"#{sub['id']}" if sub else "")) if s["id"] in page_ids else f"./#{s['id']}"
         rows.append({"name": it["name"], "url": it["url"], "beschreibung": clean, "kategorie": s["title"], "bereich": sub["title"] if sub else "",
-                     "eu": eu, "open_source": oss, "seite": seite})
+                     "eu": eu, "open_source": oss, "neu": it["name"] in NEU_NAMES, "seite": seite})
     (DOCS / "tools.json").write_text(json.dumps({"gebaut": TODAY, "link_check": LINK_CHECK, "quelle": REPO_URL, "tools": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
     with (DOCS / "tools.csv").open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";")
@@ -1085,6 +1199,7 @@ def main():
     uniq, n_tools, n_cats, list_secs, tools_map = build_index(sections, head_md)
     pages = build_category_pages(list_secs, tools_map)
     pages.append(build_glossar(tools_map, list_secs, sections))
+    pages.append(build_trends(tools_map, list_secs))
     build_subpages(list_secs)
     build_data(uniq, sections, pages, list_secs)
     build_og(n_tools, n_cats)

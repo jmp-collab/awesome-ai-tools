@@ -339,6 +339,22 @@
     // Beim Laden mit #begriff: nach dem Aufbau der Seite sicher hinspringen
     var t0 = flash(); if (t0) window.addEventListener("load", function () { t0.scrollIntoView({ block: "start", behavior: "instant" }); });
   }
+  /* Trend-Seite: aktiven Trend in der Leiste markieren und sichtbar halten */
+  var trLinks = $$(".tr-links a");
+  if (trLinks.length && "IntersectionObserver" in window) {
+    var io5 = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        trLinks.forEach(function (a) {
+          var on = a.getAttribute("href") === "#" + e.target.id;
+          a.classList.toggle("on", on);
+          if (on) { var bar = a.parentNode; bar.scrollLeft = a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2; }
+        });
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    $$("article.trend").forEach(function (t) { io5.observe(t); });
+  }
+
   /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
   var sp = $("#searchpanel");
   if (sp && q) {
@@ -373,7 +389,7 @@
       }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
     }
     function spRow(t) {
-      var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
+      var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "") + (t.neu ? '<span class="badge neu">NEU</span>' : "");
       return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
         '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
     }

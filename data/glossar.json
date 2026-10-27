@@ -536,6 +536,51 @@
    "tools": [],
    "cat": "",
    "spruch": "Kaltstart ohne Beispiel. Klappt öfter, als man denkt, und seltener, als man hofft."
+  },
+  {
+   "t": "Agent Skills",
+   "icon": "book",
+   "d": "Offener Standard, mit dem Agenten Fachwissen nachladen: ein Ordner mit einer Datei SKILL.md, die eine Aufgabe beschreibt, plus Skripte und Vorlagen. Seit Oktober 2026 betreut ihn die Agentic AI Foundation der Linux Foundation.",
+   "see": [
+    "Agent",
+    "MCP",
+    "System-Prompt"
+   ],
+   "tools": [
+    "Agent Skills"
+   ],
+   "cat": "entwickler-tools-und-llmops",
+   "spruch": "Die Arbeitsmappe, die der Agent aufschlägt, bevor er loslegt."
+  },
+  {
+   "t": "Computer Use",
+   "icon": "cpu",
+   "d": "Ein Modell bedient Bildschirm, Maus und Tastatur oder einen Browser selbst, statt nur Text zu liefern. Praktisch für Formulare und Altsysteme ohne Schnittstelle, riskant ohne klare Grenzen.",
+   "see": [
+    "Agent",
+    "Tool Use",
+    "Prompt Injection"
+   ],
+   "tools": [
+    "Claude"
+   ],
+   "cat": "automatisierung-und-ki-agenten",
+   "spruch": "Der Praktikant darf jetzt an die Maus. Bleib in der Nähe."
+  },
+  {
+   "t": "Mixture of Experts",
+   "icon": "layers",
+   "d": "Bauweise großer Modelle, bei der pro Anfrage nur ein Teil der Parameter rechnet. Mistral Large 4 hat eine Billion Parameter, davon arbeiten 52 Milliarden gleichzeitig. Das macht große Modelle schneller und billiger im Betrieb.",
+   "see": [
+    "LLM",
+    "Inferenz",
+    "GPU"
+   ],
+   "tools": [
+    "Mistral Large 4"
+   ],
+   "cat": "",
+   "spruch": "Ein Großraumbüro, in dem bei jeder Frage nur die zuständigen Leute aufstehen."
   }
  ]
 }
