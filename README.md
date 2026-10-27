@@ -365,6 +365,8 @@ We publish regular updates of this repo in the [Altern Newsletter](http://newsle
 - [Brandmark](https://brandmark.io/) - AI-based logo design tool.
 - [Gamma](https://gamma.app/) - Create beautiful presentations and webpages with none of the formatting and design work.
 - [Microsoft Designer](https://designer.microsoft.com/) - Stunning designs in a flash.
+- [PromptImage](https://promptimage.cloud) - Free AI image & video studio with prompt library (Freemium).
+- [TeslaWraps](https://teslawraps.design) - Free browser Tesla wrap designer; core editing free, optional AI credits.
 - [SVGStud.io](https://svgstud.io/) - AI-based SVG Generation and Semantic Seach
 - [Text2Infographic](https://text2infographic.com/) - AI infographic generator and editor.
 - [Seede.ai](https://seede.ai/) - Create a stunning poster in just 1 minute with Seede.
@@ -394,6 +396,7 @@ We publish regular updates of this repo in the [Altern Newsletter](http://newsle
 ## Video
 
 - [RunwayML](https://runwayml.com/) - Magical AI tools, realtime collaboration, precision editing, and more. Your next-generation content creation suite.
+- [GrokVideo Studio](https://grokvideogenerator.dev) - Independent text/image-to-video via Grok Imagine API (Free Trial). Not affiliated with xAI or X.
 - [Synthesia](https://www.synthesia.io/) - Create videos from plain text in minutes.
 - [Rephrase AI](https://www.rephrase.ai/) - Rephrase's technology enables hyper-personalized video creation at scale that drive engagement and business efficiencies.
 - [Hour One](https://hourone.ai/) - Turn text into video, featuring virtual presenters, automatically.
