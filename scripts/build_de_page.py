@@ -401,7 +401,7 @@ def lead_form(source, subject, compact=False):
 <input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="{nxt}">
 <input type="hidden" name="quelle" value="{html.escape(source)}">
 <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
-<input type="hidden" name="merkliste" id="l-merk" value=""><input type="hidden" name="rechner" id="l-rechner" value="">
+<input type="hidden" name="merkliste" id="l-merk" value=""><input type="hidden" name="rechner" id="l-rechner" value=""><input type="hidden" name="radar" id="l-radar" value="">
 <div class="row"><div><label for="l-name">Name</label><input id="l-name" name="name" required autocomplete="name"></div>
 <div><label for="l-mail">E-Mail</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
 <div class="row"><div><label for="l-web">Website oder Shop (optional)</label><input id="l-web" name="website" placeholder="https://" autocomplete="url"></div>
@@ -409,6 +409,7 @@ def lead_form(source, subject, compact=False):
 <label for="l-proj">Was baust du gerade, und wo hakt es?</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
 <div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">entfernen</button></div>
 <div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">entfernen</button></div>
+<div class="attach hidden" id="l-attach-radar">{icon("chart")}<span></span><button type="button" data-clear="l-radar">entfernen</button></div>
 <label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
 <button class="btn" type="submit">{icon("mail")}Stack-Check anfragen</button>
 <p class="hint">Antwort kommt per Mail, meist innerhalb weniger Tage. Oder direkt an <a href="mailto:{LEAD_TO}?subject=Stack-Check">{LEAD_TO}</a>.</p>
@@ -440,6 +441,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 <meta property="og:url" content="{canonical}"><meta property="og:image" content="{SITE_URL}og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/atom+xml" title="KI-Werkstatt: Trends und Neuzugänge" href="{SITE_URL}feed.xml">
 <script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="assets/fonts.css"><link rel="stylesheet" href="assets/style.css">
 {extra_head}
@@ -474,7 +476,7 @@ def footer(fab_href="#stack-check"):
     return f"""<footer><div class="wrap">
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
-<div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li></ul></div>
+<div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li><li><a href="feed.xml">Trends als Feed (Atom)</a></li></ul></div>
 <div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
@@ -628,7 +630,7 @@ def build_index(sections, head_md):
 
     body = f"""{topbar(True, "index")}
 <div class="searchpanel" id="searchpanel" hidden><div class="wrap">
-<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><button class="close" type="button" title="Suche schließen">{icon("x")}</button></div>
+<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><label><input type="checkbox" id="sp-neu"> nur neu</label><button class="close" type="button" title="Suche schließen">{icon("x")}</button></div>
 <ol class="sp-list"></ol>
 <div class="sp-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Zu diesem Wort hat Kurbel nichts gefunden. Probier ein anderes oder frag direkt beim <a href="#stack-check">Stack-Check</a>.</p></div>
 </div></div>
@@ -680,7 +682,7 @@ def build_index(sections, head_md):
 <section class="band" id="kategorien"><div class="wrap">
 <p class="eyebrow">Die Schubladen</p><h2>{n_cats} Schubladen, {n_tools} Tools, eine Werkstatt</h2>
 <p class="intro">Jede Schublade hat eine eigene Seite mit allen Tools, einem Werkstatt-Tipp und Antworten auf die Fragen, die uns am häufigsten gestellt werden. Such dir eine aus oder tipp oben ins Suchfeld, was du vorhast.</p>
-<p class="sp-filters"><button type="button" class="btn btn-sm" data-sp="eu">{icon("globe")}Alle {n_eu} EU-Anbieter zeigen</button><button type="button" class="btn btn-sm" data-sp="oss">{icon("code")}Alle {n_oss} Open-Source-Tools zeigen</button></p>
+<p class="sp-filters"><button type="button" class="btn btn-sm" data-sp="eu">{icon("globe")}Alle {n_eu} EU-Anbieter zeigen</button><button type="button" class="btn btn-sm" data-sp="oss">{icon("code")}Alle {n_oss} Open-Source-Tools zeigen</button>{f'<button type="button" class="btn btn-sm" data-sp="neu">{icon("plus")}Alle {len(NEU_AKTIV)} Neuzugänge zeigen</button>' if NEU_AKTIV else ""}</p>
 <div class="drawers">{"".join(drawers)}
 <a class="drawer drawer-gl reveal" href="{GLOSSAR_PAGE}"><span class="drawer-art gl-art">{icon("abc")}</span><span class="drawer-body"><span class="drawer-no">Nachschlagen</span><b class="drawer-title">{icon("book")}KI-Glossar</b>
 <span class="drawer-teaser">Token, RAG, Halluzination: {len(GLOSSAR["begriffe"])} Begriffe, jeder mit ernster Erklärung und einer Werkstatt-Übersetzung zum Merken.</span>
@@ -768,7 +770,7 @@ def build_subpages(list_secs=()):
 <h3>Hosting</h3><p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse und Zeitpunkt des Zugriffs. Details: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Auslieferung). [NEEDS_REVIEW: Hinweis auf Drittlandübermittlung und Data Privacy Framework ergänzen]</p>
 <h3>Kontaktformulare (Stack-Check, CSV-Anfrage)</h3><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>). [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken; prüfen, ob ein AVV nötig ist] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen. Antwortet FormSubmit nicht oder lehnt die Anfrage ab, bietet das Formular an, sie zusätzlich über dein eigenes E-Mail-Programm zu senden. Deine Angaben sind zu diesem Zeitpunkt bereits an FormSubmit übermittelt worden; mit dem Mail-Weg gehen sie außerdem über deinen Mail-Anbieter.</p>
 <h3>Favicons der Tool-Anbieter</h3><p>Neben jedem Tool wird dessen Favicon über den Dienst icons.duckduckgo.com geladen. Dabei erfährt DuckDuckGo (USA) deine IP-Adresse und den Domainnamen des Tools. Die Icons werden erst geladen, wenn sie in den sichtbaren Bereich scrollen. [NEEDS_REVIEW: alternativ Icons lokal speichern oder nach Einwilligung laden]</p>
-<h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) liegen nur drei Dinge: dein Farbschema, ob du die untere Hinweisleiste geschlossen hast, und deine Merkliste (Name und Link der Tools, die du markiert hast). Der Zeitspar-Rechner rechnet nur in deinem Browser und speichert nichts. Merkliste und Rechner-Ergebnis gehen nur dann an Jean, wenn du sie an das Stack-Check-Formular anhängst und es abschickst. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
+<h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) liegen nur drei Dinge: dein Farbschema, ob du die untere Hinweisleiste geschlossen hast, und deine Merkliste (Name und Link der Tools, die du markiert hast). Zeitspar-Rechner und Trend-Radar rechnen nur in deinem Browser und speichern nichts. Merkliste, Rechner-Ergebnis und Radar gehen nur dann an Jean, wenn du sie an das Stack-Check-Formular anhängst und es abschickst. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
 <h3>Externe Links</h3><p>Links zu Tools, zu PROMPTGOTT (Substack) und zu GitHub führen auf fremde Seiten mit eigenen Datenschutzregeln. Links zu PROMPTGOTT enthalten UTM-Parameter, damit erkennbar ist, dass der Besuch von dieser Seite kam; persönliche Daten werden dabei nicht übertragen.</p>
 <h3>Deine Rechte</h3><p>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch und Beschwerde bei einer Aufsichtsbehörde (Art. 15 bis 21, 77 DSGVO). Schreib dafür an {LEAD_TO}.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
@@ -980,7 +982,7 @@ def build_glossar(tools_map, list_secs, sections):
         extra = ""
         if tools or cat:
             extra = f'<div class="chips">{tools}{cat}</div>'
-        search = (g["t"] + " " + g["d"]).lower()
+        search = " ".join([g["t"], g["d"]] + g.get("auch", [])).lower()
         cards.append(f"""<article class="term reveal" id="{slug(g['t'])}" data-search="{html.escape(search)}">
 <div class="term-head"><span class="term-ico">{icon(g["icon"])}</span><h3><dfn>{html.escape(g["t"])}</dfn></h3><a class="anchor" href="#{slug(g['t'])}" title="Link auf diesen Begriff">#</a></div>
 <p>{html.escape(g["d"])}</p>
@@ -1057,6 +1059,32 @@ def neu_band(list_secs):
 </div></section>"""
 
 
+def gl_aliases():
+    out = []
+    for g in GLOSSAR["begriffe"]:
+        for a in [g["t"]] + g.get("auch", []):
+            out.append((a, g["t"]))
+    return sorted(out, key=lambda x: -len(x[0]))
+
+
+GL_ALIASES = gl_aliases()
+
+
+def gl_autolink(txt, used):
+    """Text escapen und das erste Vorkommen jedes Glossarbegriffs (oder Synonyms) auf der Seite verlinken."""
+    out, slots = html.escape(txt), []
+    for alias, term in GL_ALIASES:
+        if term in used:
+            continue
+        m = re.search(r"(?<![\w-])" + re.escape(html.escape(alias)) + r"(?![\w-])", out)
+        if not m:
+            continue
+        used.add(term)
+        slots.append(f'<a class="gl-link" href="{GLOSSAR_PAGE}#{slug(term)}" title="Im Glossar: {html.escape(term)}">{m.group(0)}</a>')
+        out = out[:m.start()] + f"\x00{len(slots) - 1}\x00" + out[m.end():]
+    return re.sub("\x00(\\d+)\x00", lambda m: slots[int(m.group(1))], out)
+
+
 def build_trends(tools_map, list_secs):
     stand = de_date(TRENDS["stand"])
     url = SITE_URL + TRENDS_PAGE
@@ -1064,8 +1092,11 @@ def build_trends(tools_map, list_secs):
     ids = [t["id"] for t in TRENDS["trends"]]
     if len(set(ids)) != len(ids):
         raise SystemExit("data/trends.json: doppelte Trend-ID")
-    links, arts = [], []
+    links, arts, used = [f'<a href="#radar" data-js-only hidden>{icon("compass")}Radar</a>'], [], set()
+    rollen = {r["id"] for r in TRENDS["rollen"]}
     for i, t in enumerate(TRENDS["trends"]):
+        if set(t["radar"]) != rollen or not all(v in (0, 1, 2, 3) for v in t["radar"].values()):
+            raise SystemExit(f"Trend '{t['id']}': radar braucht für jede Rolle einen Wert 0 bis 3")
         for name in t["tools"]:
             if name not in tools_map:
                 raise SystemExit(f"Trend '{t['id']}': Tool '{name}' nicht in README.de.md gefunden")
@@ -1076,12 +1107,13 @@ def build_trends(tools_map, list_secs):
         chips_html = f'<div class="chips trend-tools"><span class="chips-lbl">Werkzeug dazu:</span>{chips}</div>' if chips else ""
         quellen = "".join(f'<li><a href="{html.escape(u)}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
                           for lbl, u, d in t["quellen"])
-        text = "".join(f"<p>{html.escape(x)}</p>" for x in t["text"])
+        text = "".join(f"<p>{gl_autolink(x, used)}</p>" for x in t["text"])
         links.append(f'<a href="#{t["id"]}">{icon(t["icon"])}{html.escape(t["label"])}</a>')
         arts.append(f"""<article class="trend reveal" id="{t['id']}">
 <div class="trend-head"><span class="term-ico">{icon(t["icon"])}</span><div><p class="eyebrow">Trend {i + 1:02d} · {html.escape(t["label"])}</p><h2>{html.escape(t["titel"])}</h2></div></div>
 <div class="trend-text">{text}</div>
-<div class="trend-grid"><div class="fuer-dich"><h3>{icon("user")}Was heißt das für dich?</h3><p>{html.escape(t["fuer_dich"])}</p></div>
+<div class="trend-grid"><div class="fuer-dich"><h3>{icon("user")}Was heißt das für dich?</h3><p>{gl_autolink(t["fuer_dich"], used)}</p></div>
+<div class="schritt"><h3>{icon("check")}Erster Schritt</h3><p>{html.escape(t["erster_schritt"])}</p></div>
 <div class="urteil"><h3>{icon("wrench")}Werkstatt-Urteil</h3><p>{html.escape(t["urteil"])}</p></div></div>
 {chips_html}
 <details class="quellen" data-chrome><summary>{icon("link")}Quellen ({len(t["quellen"])})</summary><ol>{quellen}</ol></details>
@@ -1097,17 +1129,24 @@ def build_trends(tools_map, list_secs):
         breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("KI-Trends", url)]),
     ]}
     ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+    radar_btns = "".join(f'<button type="button" class="opt" data-rolle="{r["id"]}">{icon(r["icon"])}{html.escape(r["label"])}</button>' for r in TRENDS["rollen"])
+    radar_js = json.dumps({"rollen": TRENDS["rollen"], "trends": [{"id": t["id"], "label": t["label"], "schritt": t["erster_schritt"], "radar": t["radar"]}
+                                                                for t in TRENDS["trends"]]}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     body = f"""{topbar(False, "trends")}
 <section class="hero tr-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<span aria-current="page">KI-Trends</span></nav>
 <p class="kicker">{icon("chart")} <b>{html.escape(TRENDS["titel"])}</b> · Stand {stand}</p>
 <h1><em>{n} KI-Trends.</em><br>Beim Hersteller nachgelesen.<br>Für die Werkbank übersetzt.</h1>
 <p class="sub">{html.escape(TRENDS["intro"])}</p>
-<div class="ctas"><a class="btn btn-lime" href="#{ids[0]}">{icon("chart")}Zum ersten Trend</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<div class="ctas"><a class="btn btn-lime" href="#radar" data-js-only hidden>{icon("compass")}Trend-Radar starten</a><a class="btn" href="#{ids[0]}">{icon("chart")}Zum ersten Trend</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 </div></section>
 <nav class="az tr-nav" aria-label="Trends"><div class="wrap in"><div class="tr-links">{"".join(links)}</div></div></nav>
 <div class="wrap tr-wrap">
 <aside class="tipp tr-method reveal">{kurbel("kb-sm", wink=True)}<p class="eyebrow">So haben wir sortiert</p><p>{html.escape(TRENDS["methode"])}</p></aside>
+<section class="radar" id="radar" hidden><p class="eyebrow">Trend-Radar</p><h2>Welche dieser Trends treffen deine Arbeit?</h2>
+<p class="radar-intro">Wähl, woran du hauptsächlich arbeitest. Das Radar sortiert die Trends nach unserer Einschätzung für diese Rolle und legt dir für die drei wichtigsten einen ersten Handgriff hin.</p>
+<div class="radar-roles" role="group" aria-label="Deine Rolle">{radar_btns}</div>
+<div class="radar-out" aria-live="polite"></div></section>
 {"".join(arts)}
 </div>
 
@@ -1119,12 +1158,34 @@ def build_trends(tools_map, list_secs):
 <div>{lead_form("Trends", "Stack-Check (Trends) – KI-Werkstatt")}</div></div>
 </div></section>
 {footer()}
+<script>window.KW_RADAR={radar_js};</script>
 """
     desc = (f"{TRENDS['titel']}: {n} KI-Entwicklungen auf Deutsch eingeordnet, von günstigeren Spitzenmodellen über Agenten-Standards bis zum EU AI Act. "
             "Mit Quellen beim Hersteller und passenden Tools.")
     (DOCS / TRENDS_PAGE).write_text(page_shell(f"{TRENDS['titel']}: {n} Entwicklungen eingeordnet – KI-Werkstatt", body, desc, url,
                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
     return TRENDS_PAGE
+
+
+def build_feed(list_secs):
+    home = tool_home(list_secs)
+    stamp = max([TRENDS["stand"]] + [t["seit"] for t in NEU["tools"]]) + "T00:00:00Z"
+    x = html.escape
+    entries = []
+    for t in TRENDS["trends"]:
+        u = f"{SITE_URL}{TRENDS_PAGE}#{t['id']}"
+        entries.append(f'<entry><title>{x(t["titel"])}</title><link href="{x(u)}"/><id>{x(u)}</id><updated>{TRENDS["stand"]}T00:00:00Z</updated><summary>{x(t["kurz"])}</summary></entry>')
+    for t in NEU["tools"]:
+        u = SITE_URL + home[t["name"]]
+        entries.append(f'<entry><title>Neu in der Liste: {x(t["name"])}</title><link href="{x(u)}"/><id>{x(SITE_URL)}neu/{slug(t["name"])}</id>'
+                       f'<updated>{t["seit"]}T00:00:00Z</updated><summary>{x(t["notiz"])}</summary></entry>')
+    (DOCS / "feed.xml").write_text(f"""<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="de"><title>KI-Werkstatt: Trends und Neuzugänge</title>
+<link href="{SITE_URL}feed.xml" rel="self"/><link href="{SITE_URL}{TRENDS_PAGE}"/><id>{SITE_URL}feed.xml</id><updated>{stamp}</updated>
+<author><name>KI-Werkstatt</name></author>
+{chr(10).join(entries)}
+</feed>
+""", encoding="utf-8")
 
 
 def csv_safe(v):
@@ -1200,6 +1261,7 @@ def main():
     pages = build_category_pages(list_secs, tools_map)
     pages.append(build_glossar(tools_map, list_secs, sections))
     pages.append(build_trends(tools_map, list_secs))
+    build_feed(list_secs)
     build_subpages(list_secs)
     build_data(uniq, sections, pages, list_secs)
     build_og(n_tools, n_cats)

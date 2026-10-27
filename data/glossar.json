@@ -15,7 +15,10 @@
     "Zapier"
    ],
    "cat": "automatisierung-und-ki-agenten",
-   "spruch": "Ein Praktikant mit Schlüsselbund. Gib ihm nur die Schlüssel, die er wirklich braucht."
+   "spruch": "Ein Praktikant mit Schlüsselbund. Gib ihm nur die Schlüssel, die er wirklich braucht.",
+   "auch": [
+    "Agenten"
+   ]
   },
   {
    "t": "API",
@@ -57,7 +60,10 @@
    ],
    "tools": [],
    "cat": "",
-   "spruch": "Das Ergebnis vom Prüfstand. Sagt viel über den Prüfstand und etwas über die Straße."
+   "spruch": "Das Ergebnis vom Prüfstand. Sagt viel über den Prüfstand und etwas über die Straße.",
+   "auch": [
+    "Benchmarks"
+   ]
   },
   {
    "t": "C2PA und Wasserzeichen",
@@ -85,7 +91,10 @@
     "Le Chat von Mistral"
    ],
    "cat": "text-und-sprache",
-   "spruch": "Der Kollege am Tresen, der immer Zeit hat und nie Kaffeepause macht."
+   "spruch": "Der Kollege am Tresen, der immer Zeit hat und nie Kaffeepause macht.",
+   "auch": [
+    "Chatbots"
+   ]
   },
   {
    "t": "Deepfake",
@@ -98,7 +107,10 @@
    ],
    "tools": [],
    "cat": "video",
-   "spruch": "Bei „täuschend echt“ ist das Täuschen das Problem, nicht das Echte."
+   "spruch": "Bei „täuschend echt“ ist das Täuschen das Problem, nicht das Echte.",
+   "auch": [
+    "täuschend echte KI-Inhalte"
+   ]
   },
   {
    "t": "Diffusionsmodell",
@@ -189,7 +201,11 @@
    ],
    "tools": [],
    "cat": "",
-   "spruch": "Der Motorblock. Bei lokalen Modellen zählt der Hubraum, und der heißt hier VRAM."
+   "spruch": "Der Motorblock. Bei lokalen Modellen zählt der Hubraum, und der heißt hier VRAM.",
+   "auch": [
+    "Grafikkarten",
+    "Grafikkarte"
+   ]
   },
   {
    "t": "Guardrails",
@@ -312,7 +328,11 @@
     "Claude"
    ],
    "cat": "automatisierung-und-ki-agenten",
-   "spruch": "Die Steckdosennorm für KI: ein Stecker, viele Geräte."
+   "spruch": "Die Steckdosennorm für KI: ein Stecker, viele Geräte.",
+   "auch": [
+    "Model Context Protocol",
+    "MCP-Server"
+   ]
   },
   {
    "t": "Multimodal",
@@ -324,7 +344,11 @@
    ],
    "tools": [],
    "cat": "",
-   "spruch": "Kann nicht nur lesen, sondern auch gucken und zuhören."
+   "spruch": "Kann nicht nur lesen, sondern auch gucken und zuhören.",
+   "auch": [
+    "multimodales",
+    "multimodale"
+   ]
   },
   {
    "t": "OCR",
@@ -351,7 +375,12 @@
     "Hugging Face"
    ],
    "cat": "",
-   "spruch": "Das Rezept liegt offen, die Einkaufsliste der Trainingsdaten meistens nicht."
+   "spruch": "Das Rezept liegt offen, die Einkaufsliste der Trainingsdaten meistens nicht.",
+   "auch": [
+    "offenen Gewichten",
+    "offenen Gewichte",
+    "offene Gewichte"
+   ]
   },
   {
    "t": "Prompt",
@@ -448,7 +477,11 @@
     "tl;dv"
    ],
    "cat": "audio",
-   "spruch": "Das Protokoll, das sich selbst schreibt, während alle reden."
+   "spruch": "Das Protokoll, das sich selbst schreibt, während alle reden.",
+   "auch": [
+    "Spracherkennung",
+    "Transkription"
+   ]
   },
   {
    "t": "System-Prompt",
@@ -485,7 +518,10 @@
     "ElevenLabs"
    ],
    "cat": "audio",
-   "spruch": "Die Vorlesestimme aus der Steckdose. Fremde Stimmen nur mit Erlaubnis."
+   "spruch": "Die Vorlesestimme aus der Steckdose. Fremde Stimmen nur mit Erlaubnis.",
+   "auch": [
+    "Sprachausgabe"
+   ]
   },
   {
    "t": "Token",
@@ -511,7 +547,10 @@
    ],
    "tools": [],
    "cat": "automatisierung-und-ki-agenten",
-   "spruch": "Das Modell greift zum Werkzeugkasten, statt alles im Kopf zu rechnen."
+   "spruch": "Das Modell greift zum Werkzeugkasten, statt alles im Kopf zu rechnen.",
+   "auch": [
+    "Werkzeuganschluss"
+   ]
   },
   {
    "t": "Vektordatenbank",
