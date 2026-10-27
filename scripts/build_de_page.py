@@ -22,7 +22,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -35,6 +35,9 @@ STACKS = json.loads((ROOT / "data" / "stacks.json").read_text(encoding="utf-8"))
 RECHNER = json.loads((ROOT / "data" / "rechner.json").read_text(encoding="utf-8"))
 GLOSSAR = json.loads((ROOT / "data" / "glossar.json").read_text(encoding="utf-8"))
 KAT = json.loads((ROOT / "data" / "kategorien.json").read_text(encoding="utf-8"))
+TRENDS = json.loads((ROOT / "data" / "trends.json").read_text(encoding="utf-8"))
+NEU = json.loads((ROOT / "data" / "neu.json").read_text(encoding="utf-8"))
+EINSATZ = json.loads((ROOT / "data" / "einsatz.json").read_text(encoding="utf-8"))
 ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8")
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
@@ -57,7 +60,7 @@ if _LC.get("dead"):
 sys.path.insert(0, str(ROOT / "scripts"))
 from check_links import all_urls, url_hash  # noqa: E402  (gleiche Linkliste wie der Checker)
 if _LC.get("urls_sha256") != url_hash(all_urls(SRC.read_text(encoding="utf-8"))):
-    raise SystemExit("Abbruch: Die Links in README.de.md oder data/rechner.json haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
+    raise SystemExit("Abbruch: Die Links in README.de.md, data/rechner.json oder data/trends.json haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
 N_STACKS = len(STACKS["stacks"])
 STACK_SIZES = sorted({len(s["tools"]) for s in STACKS["stacks"]})
 STACK_SIZE_TXT = str(STACK_SIZES[0]) if len(STACK_SIZES) == 1 else f"{STACK_SIZES[0]} bis {STACK_SIZES[-1]}"
@@ -85,6 +88,11 @@ CAT_H1 = {
     "marketing-und-seo": "KI-Tools für Marketing und SEO", "ki-telefonagenten": "KI-Telefonagenten", "weitere-ki-tools": "Weitere KI-Tools",
 }
 GLOSSAR_PAGE = "ki-glossar.html"
+TRENDS_PAGE = "ki-trends.html"
+# NEU-Badge: gilt ab "seit" für genau NEU["tage"] Tage (seit <= heute < seit + tage); vorher und danach kein Badge
+NEU_AKTIV = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) <= date.today() < date.fromisoformat(t["seit"]) + timedelta(days=NEU["tage"])]
+NEU_NAMES = {t["name"] for t in NEU_AKTIV}
+NEU_BADGE = '<span class="badge neu" title="Neu in der Liste">NEU</span>'
 
 
 def cat_page(sec_id):
@@ -291,7 +299,7 @@ def render_blocks(blocks, sec_id, sub_id, tools_map):
             for it in val:
                 eu, oss, clean = item_meta(it)
                 badges = (f'<span class="badge eu" title="Anbieter mit Sitz in der EU">EU</span>' if eu else "") + (
-                    '<span class="badge oss" title="Open Source">OSS</span>' if oss else "")
+                    '<span class="badge oss" title="Open Source">OSS</span>' if oss else "") + (NEU_BADGE if it["name"] in NEU_NAMES else "")
                 search = plain(" ".join([it["name"], clean, sec_id.replace("-", " "), (sub_id or "").replace("-", " ")])).lower()
                 desc_html = inline(re.sub(r"\s*🇪🇺\s*", " ", re.sub(r"\[`OSS`\]\([^)]*\)|`OSS`", "", it["desc"])).strip())
                 out.append(
@@ -387,21 +395,29 @@ def render_stacks(tools_map, stacks=None):
     return "".join(out)
 
 
-def lead_form(source, subject, compact=False):
+ROLLEN_FORM = ["Selbstständig / Freelancer", "Marketing / SEO", "Shop-Betreiber", "Entwickler / Maker", "Kundenservice / Vertrieb",
+               "Content / Social Media", "Büro / Geschäftsführung", "Agentur", "Anderes"]
+
+
+def lead_form(source, subject, compact=False, rolle=""):
     nxt = SITE_URL + "danke.html"
+    if rolle and rolle not in ROLLEN_FORM:
+        raise SystemExit(f"lead_form: unbekannte Rolle {rolle!r}")
+    opts = "".join(f"<option{' selected' if r == rolle else ''}>{r}</option>" for r in ROLLEN_FORM)
     return f"""<form class="form" action="https://formsubmit.co/{LEAD_TO}" method="POST">
 <input type="hidden" name="_subject" value="{html.escape(subject)}"><input type="hidden" name="_template" value="table">
 <input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="{nxt}">
 <input type="hidden" name="quelle" value="{html.escape(source)}">
 <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
-<input type="hidden" name="merkliste" id="l-merk" value=""><input type="hidden" name="rechner" id="l-rechner" value="">
+<input type="hidden" name="merkliste" id="l-merk" value=""><input type="hidden" name="rechner" id="l-rechner" value=""><input type="hidden" name="radar" id="l-radar" value="">
 <div class="row"><div><label for="l-name">Name</label><input id="l-name" name="name" required autocomplete="name"></div>
 <div><label for="l-mail">E-Mail</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
 <div class="row"><div><label for="l-web">Website oder Shop (optional)</label><input id="l-web" name="website" placeholder="https://" autocomplete="url"></div>
-<div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle"><option>Selbstständig / Freelancer</option><option>Marketing / SEO</option><option>Shop-Betreiber</option><option>Entwickler / Maker</option><option>Agentur</option><option>Anderes</option></select></div></div>
+<div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle">{opts}</select></div></div>
 <label for="l-proj">Was baust du gerade, und wo hakt es?</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
 <div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">entfernen</button></div>
 <div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">entfernen</button></div>
+<div class="attach hidden" id="l-attach-radar">{icon("chart")}<span></span><button type="button" data-clear="l-radar">entfernen</button></div>
 <label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
 <button class="btn" type="submit">{icon("mail")}Stack-Check anfragen</button>
 <p class="hint">Antwort kommt per Mail, meist innerhalb weniger Tage. Oder direkt an <a href="mailto:{LEAD_TO}?subject=Stack-Check">{LEAD_TO}</a>.</p>
@@ -433,6 +449,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 <meta property="og:url" content="{canonical}"><meta property="og:image" content="{SITE_URL}og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/atom+xml" title="KI-Werkstatt: Trends und Neuzugänge" href="{SITE_URL}feed.xml">
 <script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="assets/fonts.css"><link rel="stylesheet" href="assets/style.css">
 {extra_head}
@@ -448,7 +465,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 
 def topbar(with_search=True, here=""):
     home = "" if here == "index" else "./"
-    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("glossar", GLOSSAR_PAGE, "Glossar")]
+    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("trends", TRENDS_PAGE, "Trends"), ("glossar", GLOSSAR_PAGE, "Glossar")]
     cur = ' aria-current="page"'
     nav = '<nav class="mainnav" aria-label="Seiten">' + "".join(
         f'<a href="{href}"{cur if key == here else ""}>{label}</a>' for key, href, label in nav_items) + "</nav>"
@@ -467,8 +484,8 @@ def footer(fab_href="#stack-check"):
     return f"""<footer><div class="wrap">
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
-<div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li></ul></div>
-<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
+<div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">English version</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li><li><a href="feed.xml">Trends als Feed (Atom)</a></li></ul></div>
+<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="./#einsatz">KI nach Einsatzgebiet</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
@@ -621,7 +638,7 @@ def build_index(sections, head_md):
 
     body = f"""{topbar(True, "index")}
 <div class="searchpanel" id="searchpanel" hidden><div class="wrap">
-<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><button class="close" type="button" title="Suche schließen">{icon("x")}</button></div>
+<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><label><input type="checkbox" id="sp-neu"> nur neu</label><button class="close" type="button" title="Suche schließen">{icon("x")}</button></div>
 <ol class="sp-list"></ol>
 <div class="sp-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Zu diesem Wort hat Kurbel nichts gefunden. Probier ein anderes oder frag direkt beim <a href="#stack-check">Stack-Check</a>.</p></div>
 </div></div>
@@ -643,6 +660,10 @@ def build_index(sections, head_md):
 <p class="intro">Wer nur zehn Minuten hat, fängt hier an. Bewusst mit Alternativen aus der EU, weil nicht jeder Schraubenschlüssel aus Kalifornien kommen muss.</p>
 <ul class="tools">{featured_html}</ul>
 </div></section>
+
+{einsatz_band()}
+
+{neu_band(list_secs)}
 
 <section class="band" id="so-arbeiten-wir"><div class="wrap">
 <p class="eyebrow">So arbeitet die Werkstatt</p><h2>Sammeln. Prüfen. Sortieren.</h2>
@@ -671,7 +692,7 @@ def build_index(sections, head_md):
 <section class="band" id="kategorien"><div class="wrap">
 <p class="eyebrow">Die Schubladen</p><h2>{n_cats} Schubladen, {n_tools} Tools, eine Werkstatt</h2>
 <p class="intro">Jede Schublade hat eine eigene Seite mit allen Tools, einem Werkstatt-Tipp und Antworten auf die Fragen, die uns am häufigsten gestellt werden. Such dir eine aus oder tipp oben ins Suchfeld, was du vorhast.</p>
-<p class="sp-filters"><button type="button" class="btn btn-sm" data-sp="eu">{icon("globe")}Alle {n_eu} EU-Anbieter zeigen</button><button type="button" class="btn btn-sm" data-sp="oss">{icon("code")}Alle {n_oss} Open-Source-Tools zeigen</button></p>
+<p class="sp-filters"><button type="button" class="btn btn-sm" data-sp="eu">{icon("globe")}Alle {n_eu} EU-Anbieter zeigen</button><button type="button" class="btn btn-sm" data-sp="oss">{icon("code")}Alle {n_oss} Open-Source-Tools zeigen</button>{f'<button type="button" class="btn btn-sm" data-sp="neu">{icon("plus")}Alle {len(NEU_AKTIV)} Neuzugänge zeigen</button>' if NEU_AKTIV else ""}</p>
 <div class="drawers">{"".join(drawers)}
 <a class="drawer drawer-gl reveal" href="{GLOSSAR_PAGE}"><span class="drawer-art gl-art">{icon("abc")}</span><span class="drawer-body"><span class="drawer-no">Nachschlagen</span><b class="drawer-title">{icon("book")}KI-Glossar</b>
 <span class="drawer-teaser">Token, RAG, Halluzination: {len(GLOSSAR["begriffe"])} Begriffe, jeder mit ernster Erklärung und einer Werkstatt-Übersetzung zum Merken.</span>
@@ -759,7 +780,7 @@ def build_subpages(list_secs=()):
 <h3>Hosting</h3><p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse und Zeitpunkt des Zugriffs. Details: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Auslieferung). [NEEDS_REVIEW: Hinweis auf Drittlandübermittlung und Data Privacy Framework ergänzen]</p>
 <h3>Kontaktformulare (Stack-Check, CSV-Anfrage)</h3><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>). [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken; prüfen, ob ein AVV nötig ist] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen. Antwortet FormSubmit nicht oder lehnt die Anfrage ab, bietet das Formular an, sie zusätzlich über dein eigenes E-Mail-Programm zu senden. Deine Angaben sind zu diesem Zeitpunkt bereits an FormSubmit übermittelt worden; mit dem Mail-Weg gehen sie außerdem über deinen Mail-Anbieter.</p>
 <h3>Favicons der Tool-Anbieter</h3><p>Neben jedem Tool wird dessen Favicon über den Dienst icons.duckduckgo.com geladen. Dabei erfährt DuckDuckGo (USA) deine IP-Adresse und den Domainnamen des Tools. Die Icons werden erst geladen, wenn sie in den sichtbaren Bereich scrollen. [NEEDS_REVIEW: alternativ Icons lokal speichern oder nach Einwilligung laden]</p>
-<h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) liegen nur drei Dinge: dein Farbschema, ob du die untere Hinweisleiste geschlossen hast, und deine Merkliste (Name und Link der Tools, die du markiert hast). Der Zeitspar-Rechner rechnet nur in deinem Browser und speichert nichts. Merkliste und Rechner-Ergebnis gehen nur dann an Jean, wenn du sie an das Stack-Check-Formular anhängst und es abschickst. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
+<h3>Schriften, Skripte, Speicher</h3><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) liegen nur drei Dinge: dein Farbschema, ob du die untere Hinweisleiste geschlossen hast, und deine Merkliste (Name und Link der Tools, die du markiert hast). Zeitspar-Rechner und Trend-Radar rechnen nur in deinem Browser und speichern nichts. Merkliste, Rechner-Ergebnis und Radar gehen nur dann an Jean, wenn du sie an das Stack-Check-Formular anhängst und es abschickst. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
 <h3>Externe Links</h3><p>Links zu Tools, zu PROMPTGOTT (Substack) und zu GitHub führen auf fremde Seiten mit eigenen Datenschutzregeln. Links zu PROMPTGOTT enthalten UTM-Parameter, damit erkennbar ist, dass der Besuch von dieser Seite kam; persönliche Daten werden dabei nicht übertragen.</p>
 <h3>Deine Rechte</h3><p>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch und Beschwerde bei einer Aufsichtsbehörde (Art. 15 bis 21, 77 DSGVO). Schreib dafür an {LEAD_TO}.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
@@ -971,7 +992,7 @@ def build_glossar(tools_map, list_secs, sections):
         extra = ""
         if tools or cat:
             extra = f'<div class="chips">{tools}{cat}</div>'
-        search = (g["t"] + " " + g["d"]).lower()
+        search = " ".join([g["t"], g["d"]] + g.get("auch", [])).lower()
         cards.append(f"""<article class="term reveal" id="{slug(g['t'])}" data-search="{html.escape(search)}">
 <div class="term-head"><span class="term-ico">{icon(g["icon"])}</span><h3><dfn>{html.escape(g["t"])}</dfn></h3><a class="anchor" href="#{slug(g['t'])}" title="Link auf diesen Begriff">#</a></div>
 <p>{html.escape(g["d"])}</p>
@@ -1013,6 +1034,309 @@ def build_glossar(tools_map, list_secs, sections):
     return GLOSSAR_PAGE
 
 
+# --------------------------------------------------------------------------- Trends und Neuzugänge
+def de_date(iso):
+    return date.fromisoformat(iso).strftime("%d.%m.%Y") if iso else ""
+
+
+def tool_home(list_secs):
+    """Name -> Kategorie-Seite mit Fach-Anker, wie in tools.json."""
+    out = {}
+    for s, sub, it in all_items(list_secs):
+        out.setdefault(it["name"], cat_page(s["id"]) + (f"#{sub['id']}" if sub else ""))
+    return out
+
+
+def neu_band(list_secs):
+    home = tool_home(list_secs)
+    trend_ids = {t["id"]: t for t in TRENDS["trends"]}
+    for t in NEU["tools"]:
+        if t["name"] not in home:
+            raise SystemExit(f"data/neu.json: '{t['name']}' steht in keiner Schublade von README.de.md")
+        if t["trend"] not in trend_ids:
+            raise SystemExit(f"data/neu.json: Trend '{t['trend']}' fehlt in data/trends.json")
+    cards = "".join(f"""<a class="trend-card reveal" href="{TRENDS_PAGE}#{t['id']}"><span class="term-ico">{icon(t["icon"])}</span>
+<span><span class="trend-no">Trend {i + 1:02d}</span><b>{html.escape(t["label"])}</b><small>{html.escape(t["kurz"])}</small></span></a>""" for i, t in enumerate(TRENDS["trends"]))
+    neu = "".join(f"""<li><a class="name" href="{home[t['name']]}">{html.escape(t["name"])}</a>{NEU_BADGE}<span class="desc">{html.escape(t["notiz"])}</span>
+<a class="neu-trend" href="{TRENDS_PAGE}#{t['trend']}">{icon("spark")}{html.escape(trend_ids[t["trend"]]["label"])}</a></li>""" for t in NEU_AKTIV)
+    neu_html = f"""<div class="neu-box reveal"><h3>{icon("plus")}Frisch in den Schubladen</h3><ul class="neu-list">{neu}</ul></div>""" if neu else ""
+    return f"""<section class="band" id="neu-und-trends"><div class="wrap">
+<p class="eyebrow">Neu &amp; im Trend · Stand {de_date(TRENDS["stand"])}</p><h2>Was diesen Herbst in der Werkstatt angekommen ist</h2>
+<p class="intro">Acht Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
+<div class="trend-cards">{cards}</div>
+{neu_html}
+<p style="margin-top:20px"><a class="btn btn-lime" href="{TRENDS_PAGE}">{icon("chart")}Alle Trends mit Quellen</a></p>
+</div></section>"""
+
+
+def gl_aliases():
+    out = []
+    for g in GLOSSAR["begriffe"]:
+        for a in [g["t"]] + g.get("auch", []):
+            out.append((a, g["t"]))
+    return sorted(out, key=lambda x: -len(x[0]))
+
+
+GL_ALIASES = gl_aliases()
+
+
+def gl_autolink(txt, used):
+    """Text escapen und das erste Vorkommen jedes Glossarbegriffs (oder Synonyms) auf der Seite verlinken."""
+    out, slots = html.escape(txt), []
+    for alias, term in GL_ALIASES:
+        if term in used:
+            continue
+        m = re.search(r"(?<![\w-])" + re.escape(html.escape(alias)) + r"(?![\w-])", out)
+        if not m:
+            continue
+        used.add(term)
+        slots.append(f'<a class="gl-link" href="{GLOSSAR_PAGE}#{slug(term)}" title="Im Glossar: {html.escape(term)}">{m.group(0)}</a>')
+        out = out[:m.start()] + f"\x00{len(slots) - 1}\x00" + out[m.end():]
+    return re.sub("\x00(\\d+)\x00", lambda m: slots[int(m.group(1))], out)
+
+
+def build_trends(tools_map, list_secs):
+    stand = de_date(TRENDS["stand"])
+    url = SITE_URL + TRENDS_PAGE
+    n = len(TRENDS["trends"])
+    ids = [t["id"] for t in TRENDS["trends"]]
+    if len(set(ids)) != len(ids):
+        raise SystemExit("data/trends.json: doppelte Trend-ID")
+    links, arts, used = [f'<a href="#radar" data-js-only hidden>{icon("compass")}Radar</a>'], [], set()
+    rollen = {r["id"] for r in TRENDS["rollen"]}
+    for i, t in enumerate(TRENDS["trends"]):
+        if set(t["radar"]) != rollen or not all(v in (0, 1, 2, 3) for v in t["radar"].values()):
+            raise SystemExit(f"Trend '{t['id']}': radar braucht für jede Rolle einen Wert 0 bis 3")
+        for name in t["tools"]:
+            if name not in tools_map:
+                raise SystemExit(f"Trend '{t['id']}': Tool '{name}' nicht in README.de.md gefunden")
+        if not t["quellen"]:
+            raise SystemExit(f"Trend '{t['id']}': keine Quelle")
+        chips = "".join(f'<a class="chip tool" href="{html.escape(tools_map[name]["u"])}" target="_blank" rel="noopener">{favicon(tools_map[name]["u"])}{html.escape(name)}'
+                        f'{NEU_BADGE if name in NEU_NAMES else ""}</a>' for name in t["tools"])
+        chips_html = f'<div class="chips trend-tools"><span class="chips-lbl">Werkzeug dazu:</span>{chips}</div>' if chips else ""
+        quellen = "".join(f'<li><a href="{html.escape(u)}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
+                          for lbl, u, d in t["quellen"])
+        text = "".join(f"<p>{gl_autolink(x, used)}</p>" for x in t["text"])
+        links.append(f'<a href="#{t["id"]}">{icon(t["icon"])}{html.escape(t["label"])}</a>')
+        arts.append(f"""<article class="trend reveal" id="{t['id']}">
+<div class="trend-head"><span class="term-ico">{icon(t["icon"])}</span><div><p class="eyebrow">Trend {i + 1:02d} · {html.escape(t["label"])}</p><h2>{html.escape(t["titel"])}</h2></div></div>
+<div class="trend-text">{text}</div>
+<div class="trend-grid"><div class="fuer-dich"><h3>{icon("user")}Was heißt das für dich?</h3><p>{gl_autolink(t["fuer_dich"], used)}</p></div>
+<div class="schritt"><h3>{icon("check")}Erster Schritt</h3><p>{html.escape(t["erster_schritt"])}</p></div>
+<div class="urteil"><h3>{icon("wrench")}Werkstatt-Urteil</h3><p>{html.escape(t["urteil"])}</p></div></div>
+{chips_html}
+<details class="quellen" data-chrome><summary>{icon("link")}Quellen ({len(t["quellen"])})</summary><ol>{quellen}</ol></details>
+</article>""")
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "Article", "@id": url, "url": url, "headline": TRENDS["titel"], "description": TRENDS["intro"], "inLanguage": "de-DE",
+         "datePublished": TRENDS["stand"], "dateModified": TRENDS["stand"], "mainEntityOfPage": url,
+         "author": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
+         "publisher": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
+         "citation": [u for t in TRENDS["trends"] for _, u, _ in t["quellen"]]},
+        {"@type": "ItemList", "name": TRENDS["titel"], "numberOfItems": n,
+         "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": t["titel"], "url": f"{url}#{t['id']}"} for i, t in enumerate(TRENDS["trends"])]},
+        breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("KI-Trends", url)]),
+    ]}
+    ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+    radar_btns = "".join(f'<button type="button" class="opt" data-rolle="{r["id"]}">{icon(r["icon"])}{html.escape(r["label"])}</button>' for r in TRENDS["rollen"])
+    pages_by_rolle = {e["rolle"]: {"page": e["page"], "h1": e["h1"], "form": e["form_rolle"]} for e in EINSATZ["seiten"]}
+    missing = [r["id"] for r in TRENDS["rollen"] if pages_by_rolle.get(r["id"], {}).get("form") not in ROLLEN_FORM]
+    if missing:
+        raise SystemExit(f"data/einsatz.json: form_rolle fehlt oder unbekannt für Rollen {missing}")
+    radar_js = json.dumps({"rollen": [dict(r, **pages_by_rolle.get(r["id"], {})) for r in TRENDS["rollen"]], "trends": [{"id": t["id"], "label": t["label"], "schritt": t["erster_schritt"], "radar": t["radar"]}
+                                                                for t in TRENDS["trends"]]}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    body = f"""{topbar(False, "trends")}
+<section class="hero tr-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<span aria-current="page">KI-Trends</span></nav>
+<p class="kicker">{icon("chart")} <b>{html.escape(TRENDS["titel"])}</b> · Stand {stand}</p>
+<h1><em>{n} KI-Trends.</em><br>Beim Hersteller nachgelesen.<br>Für die Werkbank übersetzt.</h1>
+<p class="sub">{html.escape(TRENDS["intro"])}</p>
+<div class="ctas"><a class="btn btn-lime" href="#radar" data-js-only hidden>{icon("compass")}Trend-Radar starten</a><a class="btn" href="#{ids[0]}">{icon("chart")}Zum ersten Trend</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div></section>
+<nav class="az tr-nav" aria-label="Trends"><div class="wrap in"><div class="tr-links">{"".join(links)}</div></div></nav>
+<div class="wrap tr-wrap">
+<aside class="tipp tr-method reveal">{kurbel("kb-sm", wink=True)}<p class="eyebrow">So haben wir sortiert</p><p>{html.escape(TRENDS["methode"])}</p></aside>
+<section class="radar" id="radar" hidden><p class="eyebrow">Trend-Radar</p><h2>Welche dieser Trends treffen deine Arbeit?</h2>
+<p class="radar-intro">Wähl, woran du hauptsächlich arbeitest. Das Radar sortiert die Trends nach unserer Einschätzung für diese Rolle und legt dir für die drei wichtigsten einen ersten Handgriff hin.</p>
+<div class="radar-roles" role="group" aria-label="Deine Rolle">{radar_btns}</div>
+<div class="radar-out" aria-live="polite"></div></section>
+{"".join(arts)}
+</div>
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>Trends gelesen. Welcher davon zahlt bei dir ein?</h2>
+<p class="intro">Nicht jede Neuheit gehört in deinen Werkzeugkasten. Schreib Jean, woran du gerade arbeitest, und du erfährst, welcher dieser Trends dir tatsächlich Arbeit abnimmt und welchen du getrost vorbeiziehen lässt.</p>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich hab alle Quellen gelesen. Zweimal. Eine Schraube ist trotzdem übrig.</p></div></div>
+<div>{lead_form("Trends", "Stack-Check (Trends) – KI-Werkstatt")}</div></div>
+</div></section>
+{footer()}
+<script>window.KW_RADAR={radar_js};</script>
+"""
+    desc = (f"{TRENDS['titel']}: {n} KI-Entwicklungen auf Deutsch eingeordnet, von günstigeren Spitzenmodellen über Agenten-Standards bis zum EU AI Act. "
+            "Mit Quellen beim Hersteller und passenden Tools.")
+    (DOCS / TRENDS_PAGE).write_text(page_shell(f"{TRENDS['titel']}: {n} Entwicklungen eingeordnet – KI-Werkstatt", body, desc, url,
+                                               f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+    return TRENDS_PAGE
+
+
+# --------------------------------------------------------------------------- Einsatzgebiete
+RADAR_TXT = ["kannst du auslassen", "am Rande", "lohnt einen Blick", "trifft dich direkt"]
+
+
+def radar_bar(score):
+    on = ' class="on"'
+    return f'<span class="radar-bar" title="{RADAR_TXT[score]}">' + "".join(f'<i{on if j <= score else ""}></i>' for j in (1, 2, 3)) + "</span>"
+
+
+def einsatz_band():
+    tiles = "".join(f"""<a class="einsatz-tile reveal" href="{e['page']}"><span class="term-ico">{icon(e["icon"])}</span>
+<span><b>{html.escape(e["h1"])}</b><small>{html.escape(e["teaser"])}</small><span class="drawer-cta">Ansehen{icon("arrow")}</span></span></a>""" for e in EINSATZ["seiten"])
+    return f"""<section class="band" id="einsatz"><div class="wrap">
+<p class="eyebrow">{html.escape(EINSATZ["titel"])}</p><h2>Sag, wo du arbeitest. Wir zeigen, wo KI anpackt.</h2>
+<p class="intro">Sechs Arbeitsfelder, jedes mit konkreten Aufgaben, passenden Werkzeugen, den Trends, die dort zählen, und den Fragen, die uns dazu am häufigsten erreichen.</p>
+<div class="einsatz-grid">{tiles}</div>
+</div></section>"""
+
+
+def build_einsatz(tools_map, list_secs, sections):
+    rollen = {r["id"]: r for r in TRENDS["rollen"]}
+    kisten = {st["id"]: st for st in STACKS["stacks"]}
+    sec_by_id = {x["id"]: x for x in sections}
+    page_ids = {x["id"] for x in list_secs}
+    terms = {g["t"]: g for g in GLOSSAR["begriffe"]}
+    tasks = {a["id"]: a for a in RECHNER["aufgaben"]}
+    pages = []
+    for e in EINSATZ["seiten"]:
+        where = f"data/einsatz.json/{e['id']}"
+        if e["rolle"] not in rollen:
+            raise SystemExit(f"{where}: Rolle '{e['rolle']}' fehlt in data/trends.json")
+        for a in e["aufgaben"]:
+            for name in a["tools"]:
+                if name not in tools_map:
+                    raise SystemExit(f"{where}: Tool '{name}' nicht in README.de.md gefunden")
+        for k in e["kisten"]:
+            if k not in kisten:
+                raise SystemExit(f"{where}: Werkzeugkiste '{k}' fehlt")
+        for c in e["kategorien"]:
+            if c not in page_ids:
+                raise SystemExit(f"{where}: Schublade '{c}' hat keine eigene Seite")
+        for t in e["glossar"]:
+            if t not in terms:
+                raise SystemExit(f"{where}: Glossarbegriff '{t}' fehlt")
+        if e["rechner"] and e["rechner"] not in tasks:
+            raise SystemExit(f"{where}: Rechner-Aufgabe '{e['rechner']}' fehlt")
+        url = SITE_URL + e["page"]
+        n_tools = len({n for a in e["aufgaben"] for n in a["tools"]})
+
+        def chip(name):
+            t = tools_map[name]
+            return (f'<a class="chip tool" href="{html.escape(t["u"])}" target="_blank" rel="noopener">{favicon(t["u"])}{html.escape(name)}'
+                    f'{NEU_BADGE if name in NEU_NAMES else ""}</a>')
+        auf = "".join(f"""<article class="aufgabe reveal"><span class="n">{i + 1}</span><h3>{html.escape(a["titel"])}</h3><p>{html.escape(a["text"])}</p>
+<div class="chips">{"".join(chip(n) for n in a["tools"])}</div></article>""" for i, a in enumerate(e["aufgaben"]))
+        ranked = sorted(enumerate(TRENDS["trends"]), key=lambda x: (-x[1]["radar"][e["rolle"]], x[0]))[:3]
+        trend_cards = "".join(f"""<a class="trend-card reveal" href="{TRENDS_PAGE}#{t['id']}"><span class="term-ico">{icon(t["icon"])}</span>
+<span><span class="trend-no">Trend {i + 1:02d}</span><b>{html.escape(t["label"])}</b>{radar_bar(t["radar"][e["rolle"]])}</span></a>""" for i, t in ranked)
+        kiste_html = "".join(f'<a class="kiste-ref reveal" href="./#kiste-{k}">{icon(kisten[k]["icon"])}<span><b>{html.escape(kisten[k]["title"])}</b>'
+                             f'<small>{len(kisten[k]["tools"])} Tools, fertig gepackt</small></span>{icon("arrow")}</a>' for k in e["kisten"])
+        kat_chips = "".join(f'<a class="chip cat" href="{cat_page(c)}">{icon(CAT_ICON.get(c, "layers"))}{html.escape(sec_by_id[c]["title"])}</a>' for c in e["kategorien"])
+        gl_chips = "".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(t)}">{icon(terms[t]["icon"])}{html.escape(t)}</a>' for t in e["glossar"])
+        rechner = (f'<a class="btn btn-sm" href="./#rechner">{icon("calc")}Rechner: {html.escape(tasks[e["rechner"]]["label"])}</a>') if e["rechner"] else ""
+        others = "".join(f'<a class="einsatz-mini" href="{o["page"]}">{icon(o["icon"])}{html.escape(o["h1"])}</a>' for o in EINSATZ["seiten"] if o is not e)
+        faq = [tuple(x) for x in e["faq"]]
+        ld = {"@context": "https://schema.org", "@graph": [
+            {"@type": "WebPage", "@id": url, "url": url, "name": e["h1"], "description": e["meta"], "inLanguage": "de-DE",
+             "isPartOf": {"@type": "WebSite", "name": "KI-Werkstatt", "url": SITE_URL}},
+            breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("Einsatzgebiete", SITE_URL + "#einsatz"), (e["h1"], url)]),
+            {"@type": "ItemList", "name": f"Aufgaben: {e['h1']}", "numberOfItems": len(e["aufgaben"]),
+             "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": a["titel"]} for i, a in enumerate(e["aufgaben"])]},
+            faq_ld(faq),
+        ]}
+        ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+        label = rollen[e["rolle"]]["label"]
+        body = f"""{topbar(False, "einsatz")}
+<section class="hero cat-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<a href="./#einsatz">Einsatzgebiete</a>{icon("arrow")}<span aria-current="page">{html.escape(e["h1"])}</span></nav>
+<p class="kicker">{icon(e["icon"])} <b>Einsatzgebiet</b> · {len(e["aufgaben"])} Aufgaben · {n_tools} Tools</p>
+<h1><em>{html.escape(e["h1"])}</em></h1>
+<p class="sub">{html.escape(e["hero"])}</p>
+<div class="ctas"><a class="btn btn-lime" href="#aufgaben">{icon("wrench")}Zu den Aufgaben</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div></section>
+
+<section class="band cat-intro"><div class="wrap intro-grid">
+<div class="intro-text reveal">{"".join(f"<p>{gl_autolink(x, set())}</p>" for x in e["intro"])}</div>
+<aside class="tipp reveal">{kurbel("kb-sm", wink=True)}<p class="eyebrow">Werkstatt-Tipp</p><p>{html.escape(e["tipp"])}</p></aside>
+</div></section>
+
+<section class="band" id="aufgaben"><div class="wrap">
+<p class="eyebrow">Wo KI mit anpackt</p><h2>{len(e["aufgaben"])} Aufgaben, bei denen es sich lohnt: {html.escape(e["h1"])}</h2>
+<div class="aufgaben">{auf}</div>
+</div></section>
+
+<section class="band" id="trends"><div class="wrap">
+<p class="eyebrow">Trend-Radar · {html.escape(label)}</p><h2>Drei Trends mit dem größten Hebel: {html.escape(e["h1"])}</h2>
+<div class="trend-cards">{trend_cards}</div>
+<p style="margin-top:18px"><a class="btn" href="{TRENDS_PAGE}?rolle={e['rolle']}#radar">{icon("compass")}Ganzes Trend-Radar ansehen</a></p>
+</div></section>
+
+<section class="band" id="werkzeug"><div class="wrap">
+<p class="eyebrow">Weiter in der Werkstatt</p><h2>Kisten, Schubladen und Begriffe: {html.escape(e["h1"])}</h2>
+<div class="kisten-refs">{kiste_html}</div>
+<div class="einsatz-more">
+<div><h3>{icon("layers")}Passende Schubladen</h3><div class="chips">{kat_chips}</div></div>
+<div><h3>{icon("abc")}Begriffe zum Nachschlagen</h3><div class="chips">{gl_chips}</div></div>
+{f'<div><h3>{icon("clock")}Zeit nachrechnen</h3>{rechner}</div>' if rechner else ""}
+</div></div></section>
+
+<section class="band faq" id="faq"><div class="wrap">
+<p class="eyebrow">Fragen aus der Werkstatt</p><h2>{html.escape(e["h1"])}: kurz beantwortet</h2>
+<div class="faq-list">{faq_html(faq)}</div>
+</div></section>
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>{html.escape(e["lead_hook"])}</h2>
+<p class="intro">{html.escape(e["lead_text"])}</p>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">{html.escape(e["bubble"])}</p></div></div>
+<div>{lead_form("Einsatz: " + e["h1"], "Stack-Check (" + e["h1"] + ") – KI-Werkstatt", rolle=e["form_rolle"])}</div></div>
+</div></section>
+
+<section class="band" id="weitere"><div class="wrap">
+<p class="eyebrow">Andere Einsatzgebiete</p><div class="einsatz-minis">{others}</div>
+</div></section>
+{footer()}
+"""
+        (DOCS / e["page"]).write_text(page_shell(f"{e['seo_title']} – KI-Werkstatt", body, e["meta"], url,
+                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+        pages.append(e["page"])
+    return pages
+
+
+def build_feed(list_secs):
+    home = tool_home(list_secs)
+    # Nur bereits gestartete Neuzugänge; abgelaufene bleiben als Historie im Feed
+    neu = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) <= date.today()]
+    stamp = max([TRENDS["stand"]] + [t["seit"] for t in neu]) + "T00:00:00Z"
+    x = html.escape
+    entries = []
+    for t in TRENDS["trends"]:
+        u = f"{SITE_URL}{TRENDS_PAGE}#{t['id']}"
+        entries.append(f'<entry><title>{x(t["titel"])}</title><link href="{x(u)}"/><id>{x(u)}</id><updated>{TRENDS["stand"]}T00:00:00Z</updated><summary>{x(t["kurz"])}</summary></entry>')
+    for t in neu:
+        u = SITE_URL + home[t["name"]]
+        entries.append(f'<entry><title>Neu in der Liste: {x(t["name"])}</title><link href="{x(u)}"/><id>{x(SITE_URL)}neu/{slug(t["name"])}</id>'
+                       f'<updated>{t["seit"]}T00:00:00Z</updated><summary>{x(t["notiz"])}</summary></entry>')
+    (DOCS / "feed.xml").write_text(f"""<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="de"><title>KI-Werkstatt: Trends und Neuzugänge</title>
+<link href="{SITE_URL}feed.xml" rel="self"/><link href="{SITE_URL}{TRENDS_PAGE}"/><id>{SITE_URL}feed.xml</id><updated>{stamp}</updated>
+<author><name>KI-Werkstatt</name></author>
+{chr(10).join(entries)}
+</feed>
+""", encoding="utf-8")
+
+
 def csv_safe(v):
     """Zellen, die wie eine Tabellenformel beginnen, bekommen ein führendes Hochkomma (CSV-Injection)."""
     if isinstance(v, str) and v[:1] in ("=", "+", "-", "@", "\t", "\r"):
@@ -1034,7 +1358,7 @@ def build_data(uniq, sections, pages=(), list_secs=()):
         eu, oss, clean = item_meta(it)
         seite = (cat_page(s["id"]) + (f"#{sub['id']}" if sub else "")) if s["id"] in page_ids else f"./#{s['id']}"
         rows.append({"name": it["name"], "url": it["url"], "beschreibung": clean, "kategorie": s["title"], "bereich": sub["title"] if sub else "",
-                     "eu": eu, "open_source": oss, "seite": seite})
+                     "eu": eu, "open_source": oss, "neu": it["name"] in NEU_NAMES, "seite": seite})
     (DOCS / "tools.json").write_text(json.dumps({"gebaut": TODAY, "link_check": LINK_CHECK, "quelle": REPO_URL, "tools": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
     with (DOCS / "tools.csv").open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";")
@@ -1085,6 +1409,9 @@ def main():
     uniq, n_tools, n_cats, list_secs, tools_map = build_index(sections, head_md)
     pages = build_category_pages(list_secs, tools_map)
     pages.append(build_glossar(tools_map, list_secs, sections))
+    pages.append(build_trends(tools_map, list_secs))
+    pages += build_einsatz(tools_map, list_secs, sections)
+    build_feed(list_secs)
     build_subpages(list_secs)
     build_data(uniq, sections, pages, list_secs)
     build_og(n_tools, n_cats)

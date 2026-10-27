@@ -1,0 +1,14 @@
+{
+ "_hinweis": "Neuzugänge der Liste. Jedes Tool muss in README.de.md stehen; die Notiz erscheint nur auf der Startseite und muss eindeutig sein. Badge NEU bleibt 60 Tage ab 'seit'.",
+ "tage": 60,
+ "tools": [
+  {"name": "Mistral Large 4", "seit": "2026-10-27", "trend": "europa", "notiz": "Billionen-Modell aus Paris, in Europa trainiert. Gewichte folgen."},
+  {"name": "Voxtral 3", "seit": "2026-10-27", "trend": "sprache", "notiz": "Hört und spricht Deutsch, inklusive Baukasten für Telefonagenten."},
+  {"name": "FLUX 3 Image Klein", "seit": "2026-10-27", "trend": "bild-video", "notiz": "Offenes Bildmodell, das auf einer Mittelklasse-Grafikkarte läuft."},
+  {"name": "FLUX 3 Video", "seit": "2026-10-27", "trend": "bild-video", "notiz": "Zwanzig Sekunden Clip, Ton gleich inklusive."},
+  {"name": "Agent Skills", "seit": "2026-10-27", "trend": "offene-standards", "notiz": "Das Rezeptbuch für Agenten, jetzt offener Standard."},
+  {"name": "goose", "seit": "2026-10-27", "trend": "offene-standards", "notiz": "Quelloffener Agent für Desktop und Terminal, ohne Anbieterbindung."},
+  {"name": "Google Antigravity", "seit": "2026-10-27", "trend": "agenten-hintergrund", "notiz": "Googles Agenten-Werkbank fürs Programmieren, für Einzelne gratis."},
+  {"name": "Timestral", "seit": "2026-10-27", "trend": "europa", "notiz": "Prognosen für Absatz und Lager, rechnet auf einem normalen Prozessor."}
+ ]
+}

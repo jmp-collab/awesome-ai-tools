@@ -7,7 +7,7 @@
 Die Liste basiert auf [Awesome AI Tools](https://github.com/mahseema/awesome-ai-tools) (MIT-Lizenz). Für den deutschsprachigen Raum haben wir sie auseinandergeschraubt, geputzt und neu sortiert:
 
 - **Ein Satz pro Tool.** Was es kann, wofür es taugt. Keine Werbetexte, die Beschreibungen bleiben sachlich. Gewitzelt wird drumherum.
-- **Link-Check (Stand: 26.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
+- **Link-Check (Stand: 27.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
 - **Namen auf Stand.** Bing Chat heißt Copilot, Metaphor heißt Exa. Aktuelle Standard-Tools sind ergänzt.
 - **DACH-Fokus.** Eigene Abschnitte für Übersetzung, SEO und Automatisierung. Anbieter mit Sitz in der EU tragen ein 🇪🇺. Das ist ein Hinweis auf den Firmensitz, keine Datenschutz-Prüfung. Für DSGVO zählen AVV, Serverstandort und Einstellungen.
 - **PROMPTGOTT-Praxis.** Wo ein Deep Dive zeigt, wie man aus einer Tool-Kategorie Ergebnisse macht, steht ein 💡.
@@ -102,6 +102,7 @@ Zehn Werkzeuge, die bei uns nie in der Schublade verschwinden. Ein Tool pro typi
 - [Nebius](https://nebius.com) - 🇪🇺 KI-Cloud mit GPU-Instanzen und Inferenz-Diensten, Sitz in Amsterdam.
 - [Scaleway](https://www.scaleway.com) - 🇪🇺 Französische Cloud mit GPU-Servern und Inferenz für offene Modelle.
 - [STACKIT](https://www.stackit.de) - 🇪🇺 Souveräne Cloud der Schwarz-Gruppe aus Deutschland mit KI-Modell-Hosting.
+- [Mistral Large 4](https://mistral.ai/news/mistral-large-4/) - 🇪🇺 Großes multimodales Modell von Mistral mit 1 Billion Parametern, davon 52 Milliarden aktiv, in Europa trainiert und betrieben; offene Gewichte sind angekündigt.
 
 ### Chatbots und Assistenten
 
@@ -161,7 +162,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Rytr](https://rytr.me/) - Günstiger KI-Schreibassistent für kurze und mittellange Texte.
 - [Wordtune](https://www.wordtune.com/) - Formuliert Sätze um, kürzt oder erweitert sie.
 - [HyperWrite](https://hyperwriteai.com/) - Schreibassistent von der Idee bis zum fertigen Entwurf.
-- [Nexus AI](https://mynexusai.com/) - Plattform für Texte, Code, Voiceover, Recherche und Bilder.
 - [Moonbeam](https://www.gomoonbeam.com/) - Längere Blogartikel in einem Bruchteil der Zeit.
 - [Copy.ai](https://www.copy.ai/) - Marketing-Texte und GTM-Workflows mit KI.
 - [Anyword](https://anyword.com/) - Werbetexte mit Performance-Vorhersage.
@@ -314,6 +314,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Shotstack Workflows](https://shotstack.io/product/workflows/) - No-Code-Automatisierung für KI-Medienproduktion.
 - [Hyperbrowser](https://hyperbrowser.ai/) - Browser-Infrastruktur für KI-Agenten mit Proxys und Session-Aufzeichnung.
 - [Notte](https://github.com/nottelabs/notte) - Framework für Agenten, die den Browser bedienen. `OSS`
+- [goose](https://github.com/aaif-goose/goose) - Offener KI-Agent als Desktop-App und Kommandozeile, bindet Erweiterungen per MCP an und liegt heute bei der Agentic AI Foundation der Linux Foundation. `OSS`
 
 
 ## Entwickler-Tools und LLMOps
@@ -352,6 +353,8 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Harbor](https://github.com/av/harbor) - LLM-Backends, APIs und Oberflächen mit einem Befehl starten. `OSS`
 - [Petals](https://github.com/bigscience-workshop/petals) - Große Modelle verteilt im BitTorrent-Stil ausführen. `OSS`
 - [Context Data](https://contextdata.ai/) - Datenaufbereitung und ETL für generative KI.
+- [Agent Skills](https://agentskills.io) - Offener Standard für Agenten-Fähigkeiten: ein Ordner mit SKILL.md und Skripten, den über 70 Agenten-Plattformen lesen können.
+- [Timestral](https://mistral.ai/news/timestral/) - 🇪🇺 Kleine Zeitreihen-Modelle von Mistral für Prognosen zu Absatz, Energie oder Sensordaten, laufen ohne Grafikkarte. `OSS`
 
 
 ## Programmieren mit KI
@@ -393,6 +396,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Runcell](https://runcell.dev) - KI-Agent für Jupyter Lab, der Code schreibt, ausführt und Ergebnisse analysiert.
 - [Manifest](https://github.com/mnfst/manifest) - Backend-Alternative zu Supabase für KI-Code-Editoren und Vibe Coding. `OSS`
 - [Code to Flow](https://codetoflow.com) - Macht aus Code interaktive Flussdiagramme.
+- [Google Antigravity](https://antigravity.google/) - Agenten-Plattform von Google für Software-Entwicklung, für einzelne Entwickler kostenlos, auf macOS, Windows und Linux.
 
 
 ## Bilder
@@ -409,6 +413,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Adobe Firefly](https://firefly.adobe.com) - Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.
 - [DALL·E](https://openai.com/dall-e-2/) - Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.
 - [DragGAN](https://github.com/XingangPan/DragGAN) - Bilder per Punkt-Ziehen interaktiv verformen. `OSS`
+- [FLUX 3 Image Klein](https://bfl.ai/blog/flux-3-image-klein) - 🇪🇺 Offenes Bildmodell aus Freiburg mit 5,6 Milliarden Parametern, erzeugt und bearbeitet Bilder bis 4K und läuft schon auf Grafikkarten mit 8 GB.
 
 ### Bild-Dienste
 
@@ -485,6 +490,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Based AI](https://www.basedlabs.ai/) - Intuitive Oberfläche für KI-Videos.
 - [Sisif](https://sisif.ai/) - Aus Text in Sekunden ein Video.
 - [Melies](https://melies.co) - Software für KI-Filmproduktion.
+- [FLUX 3 Video](https://bfl.ai/blog/flux-3-video) - 🇪🇺 Videomodell von Black Forest Labs, erzeugt Clips bis 20 Sekunden mit passendem Ton.
 
 
 ## Audio
@@ -512,6 +518,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [CustomPod.io](https://custompod.io) - Tägliche News-Podcasts nur zu deinen Themen.
 - [EKHOS AI](https://ekhos.ai) - Transkription mit Korrekturfunktionen und Echtzeit-Aufnahme.
 - [Whisper API](https://whisper-api.com) - Transkriptions-API auf Basis von OpenAI Whisper.
+- [Voxtral 3](https://mistral.ai/news/voxtral-3/) - 🇪🇺 Spracherkennung und Sprachausgabe von Mistral, mit Deutsch, Sprechererkennung und einem SDK für Sprachagenten.
 
 ### Musik
 

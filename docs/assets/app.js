@@ -185,7 +185,7 @@
   function attach(fieldId, text, label) {
     var f = document.getElementById(fieldId); if (!f) return false;
     f.value = text || "";
-    var box = document.getElementById(fieldId === "l-merk" ? "l-attach-merk" : "l-attach-rechner");
+    var box = document.getElementById(fieldId.replace("l-", "l-attach-"));
     if (box) { $("span", box).textContent = label || ""; box.classList.toggle("hidden", !text); }
     return true;
   }
@@ -339,10 +339,62 @@
     // Beim Laden mit #begriff: nach dem Aufbau der Seite sicher hinspringen
     var t0 = flash(); if (t0) window.addEventListener("load", function () { t0.scrollIntoView({ block: "start", behavior: "instant" }); });
   }
+
+  /* Trend-Seite: Radar nach Rolle; Ergebnis lässt sich an den Stack-Check hängen */
+  $$("[data-js-only]").forEach(function (el) { el.hidden = false; });
+  var radar = $("#radar");
+  if (radar && window.KW_RADAR) {
+    radar.hidden = false;
+    var RD = window.KW_RADAR, rdOut = $(".radar-out", radar), rdRole = null;
+    var RD_TXT = ["kannst du auslassen", "am Rande", "lohnt einen Blick", "trifft dich direkt"];
+    function rdRank(id) {
+      return RD.trends.map(function (t, i) { return { t: t, s: t.radar[id], i: i }; }).sort(function (a, b) { return b.s - a.s || a.i - b.i; });
+    }
+    function rdRender(id) {
+      rdRole = RD.rollen.filter(function (r) { return r.id === id; })[0];
+      $$(".radar-roles .opt", radar).forEach(function (b) { var on = b.dataset.rolle === id; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+      var ranked = rdRank(id), top = ranked.filter(function (x) { return x.s > 0; }).slice(0, 3);
+      rdOut.innerHTML = '<ol class="radar-list">' + ranked.map(function (x, k) {
+        var bars = ""; for (var j = 1; j <= 3; j++) bars += "<i" + (j <= x.s ? ' class="on"' : "") + "></i>";
+        return '<li class="s' + x.s + (k < top.length ? " top" : "") + '"><a href="#' + escH(x.t.id) + '">' + escH(x.t.label) + '</a><span class="radar-bar" title="' + RD_TXT[x.s] + '">' + bars + "</span><small>" + RD_TXT[x.s] + "</small>" +
+          (k < top.length ? '<p class="radar-step">' + svg("check") + "<span>" + escH(x.t.schritt) + "</span></p>" : "") + "</li>";
+      }).join("") + '</ol><p class="radar-cta"><button type="button" class="btn btn-lime btn-sm" id="radar-send">' + svg("mail") + 'Radar an Jean schicken</button><span>Jean schaut, welche Tools zu deinen drei Trends passen.</span></p>' +
+        (rdRole.page ? '<p class="radar-page"><a href="' + escH(rdRole.page) + '">' + svg("arrow") + escH(rdRole.h1) + ": Aufgaben, Werkzeuge, Fragen</a></p>" : "");
+      $("#radar-send").addEventListener("click", function () {
+        var names = top.map(function (x) { return x.t.label; });
+        var text = "Rolle: " + rdRole.label + "\n" + top.map(function (x, k) { return (k + 1) + ". " + x.t.label + ": " + x.t.schritt; }).join("\n");
+        if (attach("l-radar", text, "Trend-Radar angehängt: " + rdRole.label)) {
+          var sel = $("#l-rolle"); if (sel && rdRole.form) sel.value = rdRole.form; // jede Rolle hat eine Formular-Option (Build prüft das)
+          goLead("Mein Trend-Radar (" + rdRole.label + ") sagt: " + names.join(", ") + ". Welche Tools passen dazu? ");
+        }
+      });
+    }
+    $$(".radar-roles .opt", radar).forEach(function (b) { b.setAttribute("aria-pressed", "false"); b.addEventListener("click", function () { rdRender(b.dataset.rolle); }); });
+    // Einstieg von einer Einsatz-Seite: ki-trends.html?rolle=shop#radar zeigt das Radar gleich für diese Rolle
+    var rdQ = new URLSearchParams(location.search).get("rolle");
+    if (rdQ && RD.rollen.some(function (r) { return r.id === rdQ; })) rdRender(rdQ);
+  }
+
+  /* Trend-Seite: aktiven Trend in der Leiste markieren und sichtbar halten */
+  var trLinks = $$(".tr-links a");
+  if (trLinks.length && "IntersectionObserver" in window) {
+    var io5 = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        trLinks.forEach(function (a) {
+          var on = a.getAttribute("href") === "#" + e.target.id;
+          a.classList.toggle("on", on);
+          if (on) { var bar = a.parentNode; bar.scrollLeft = a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2; }
+        });
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    $$("article.trend").forEach(function (t) { io5.observe(t); });
+  }
+
   /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
   var sp = $("#searchpanel");
   if (sp && q) {
-    var DATA = null, loading = null, spGen = 0, spHits = [], spShown = 0, SP_STEP = 40, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss");
+    var DATA = null, loading = null, spGen = 0, spHits = [], spShown = 0, SP_STEP = 40, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss"), spNeu = $("#sp-neu");
     function spLoad() {
       if (DATA) return Promise.resolve(DATA);
       if (!loading) loading = fetch("tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
@@ -354,7 +406,7 @@
     function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
     function spHide() { spGen++; sp.hidden = true; } // spätere Antworten einer alten Suche verwerfen
     function spRun(keepOpen) {
-      var s = q.value.trim().toLowerCase(), my = ++spGen, filt = spEu.checked || spOss.checked;
+      var s = q.value.trim().toLowerCase(), my = ++spGen, filt = spEu.checked || spOss.checked || spNeu.checked;
       if (!s && !filt) { // ohne Suchwort reicht ein gesetzter Filter
         if (keepOpen === true && !sp.hidden) { spCount.textContent = "Tipp ein Suchwort oder wähl einen Filter."; spList.innerHTML = ""; spEmpty.classList.add("hidden"); }
         else sp.hidden = true;
@@ -363,7 +415,7 @@
       spLoad().then(function (rows) {
         if (my !== spGen) return;
         var words = s ? s.split(/\s+/) : [];
-        var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source); });
+        var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source) && (!spNeu.checked || t.neu); });
         if (s) hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
         spCount.textContent = hits.length + " von " + rows.length + " Tools";
         spHits = hits; spShown = 0; spList.innerHTML = "";
@@ -373,7 +425,7 @@
       }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
     }
     function spRow(t) {
-      var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "");
+      var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "") + (t.neu ? '<span class="badge neu">NEU</span>' : "");
       return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
         '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
     }
@@ -398,12 +450,12 @@
     window.kwPanelRun = spRun;
     var spT; q.addEventListener("input", function () { clearTimeout(spT); spT = setTimeout(spRun, 120); });
     q.addEventListener("focus", function () { if (q.value.trim()) spRun(); });
-    [spEu, spOss].forEach(function (c) { c.addEventListener("change", function () { spRun(true); }); });
+    [spEu, spOss, spNeu].forEach(function (c) { c.addEventListener("change", function () { spRun(true); }); });
     $$("[data-sp]").forEach(function (b) {
       b.addEventListener("click", function (e) {
         e.stopPropagation(); // sonst schließt der Klick-außerhalb-Handler das Panel sofort wieder
         q.value = ""; // "Alle …" heißt alle, nicht die Schnittmenge mit einem alten Suchwort
-        spEu.checked = b.dataset.sp === "eu"; spOss.checked = b.dataset.sp === "oss"; spRun();
+        spEu.checked = b.dataset.sp === "eu"; spOss.checked = b.dataset.sp === "oss"; spNeu.checked = b.dataset.sp === "neu"; spRun();
       });
     });
     $(".close", sp).addEventListener("click", function () { spHide(); q.focus(); });
@@ -415,7 +467,7 @@
      Ohne JavaScript bleibt der normale POST an FormSubmit. */
   var FS_SLOW = 15000, FS_GIVEUP = 60000;
   var FS_FIRST = ["name", "email", "website", "rolle", "projekt", "antworten", "vorschlag", "quelle"]; // Kontakt vor Anhängen
-  var FS_LONG = { merkliste: 600, rechner: 500 };
+  var FS_LONG = { merkliste: 600, rechner: 500, radar: 700 };
   // Gespeicherte Merker erst setzen, wenn die Anfrage sicher raus ist (oder der Mail-Weg gewählt wurde)
   function fsMark(form) {
     if (form.closest("#stickybar")) store.set("kw-bar", "1");
