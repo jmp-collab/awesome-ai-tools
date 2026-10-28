@@ -1559,7 +1559,7 @@ def build_ratgeber(tools_map):
 <section class="rg-extras">
 <div><h3>{icon("wrench")}Werkzeug zum Thema</h3><div class="chips">{tool_chips}</div></div>
 <div><h3>{icon("abc")}Begriffe zum Nachschlagen</h3><div class="chips">{gl_chips}</div></div>
-<div><h3>{icon("layers")}Passende Einsatzgebiete</h3><div class="chips">{einsatz_chips}</div></div>
+<div><h3>{icon("layers")}Passende Einsatzgebiete</h3><div class="chips" data-chrome>{einsatz_chips}</div></div>
 </section>
 <p class="rg-trend">{trend_btn}</p>
 <section id="faq" class="rg-faq"><h2>Häufige Fragen</h2><div class="faq-list">{faq_html(faq)}</div></section>

@@ -932,6 +932,329 @@
    "lead_hook": "Welche Anrufe soll dein Agent übernehmen?",
    "lead_text": "Schick Jean die häufigsten Anrufgründe und dein Telefonsystem. Zurück kommt ein Vorschlag für Anbieter, Ansage und Übergaberegeln, mit dem du außerhalb der Geschäftszeiten sicher startest.",
    "bubble": "Ich geh ran. Und wenn es knifflig wird, hol ich den Chef. Also mich."
+  },
+  {
+   "id": "mcp-agent-skills",
+   "page": "ratgeber-mcp-agent-skills.html",
+   "icon": "puzzle",
+   "h1": "MCP und Agent Skills: Shop, Warenwirtschaft und Wissen an KI-Agenten anschließen",
+   "label": "MCP und Agent Skills",
+   "seo_title": "MCP und Agent Skills erklärt: Shop an KI-Agenten anschließen",
+   "meta": "Was das Model Context Protocol und Agent Skills sind, welche Programme sie unterstützen, welche offiziellen Anschlüsse Shopify, Shopware, Stripe, PayPal und Google liefern, welche Sicherheitsregeln gelten und wie der erste Anschluss in drei Wochen läuft.",
+   "teaser": "Der Stecker für KI-Agenten und das Handbuch dazu: welche Programme MCP sprechen, welche Shop-Anschlüsse es gibt und wie du sie sicher einsetzt.",
+   "hero": "Ein Standard, damit jeder KI-Assistent an deinen Shop kommt. Und eine Anleitung, damit er dort nicht macht, was er will.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "entwicklung",
+    "shop",
+    "buero",
+    "marketing"
+   ],
+   "trend": "offene-standards",
+   "tools": [
+    "Agent Skills",
+    "goose",
+    "Claude",
+    "ChatGPT",
+    "GitHub Copilot",
+    "Cursor",
+    "Zapier",
+    "n8n"
+   ],
+   "glossar": [
+    "MCP",
+    "Agent Skills",
+    "Agent",
+    "Tool Use",
+    "Prompt Injection",
+    "API"
+   ],
+   "faq": [
+    [
+     "Was ist der Unterschied zwischen MCP und Agent Skills?",
+     "MCP regelt den Zugriff: Über einen MCP-Server erreicht ein KI-Assistent einen Dienst wie Shop, Zahlungsanbieter oder Analytics. Ein Skill ist eine Arbeitsanleitung in einer Datei SKILL.md, die dem Agenten sagt, wie er eine Aufgabe erledigen soll."
+    ],
+    [
+     "Welche KI-Programme unterstützen MCP?",
+     "Laut Herstellern unter anderem Claude, ChatGPT, Gemini Enterprise, Microsoft Copilot Studio, GitHub Copilot, VS Code und Cursor. Apple bringt MCP mit macOS 27 in Keynote, Pages und Numbers."
+    ],
+    [
+     "Gibt es MCP-Server für Shopsysteme?",
+     "Ja, etwa von Shopify und seit Version 6.7.11 im Kern von Shopware, dazu Server von Stripe, PayPal und für Google Merchant Center und Analytics. Für andere Systeme helfen Brücken über n8n oder Zapier."
+    ],
+    [
+     "Ist MCP sicher?",
+     "Der Standard selbst verlangt Zustimmung vor Werkzeugaufrufen und verbietet das Weiterreichen fremder Zugangsdaten. Risiken entstehen durch vergiftete Werkzeugbeschreibungen, Prompt Injection und zu weite Rechte. Nutze nur offizielle Server, knappe Rechte und Freigaben für jeden Schreibvorgang."
+    ]
+   ],
+   "quellen": [
+    [
+     "Model Context Protocol: Specification",
+     "https://modelcontextprotocol.io/specification/latest",
+     ""
+    ],
+    [
+     "Model Context Protocol: Architecture",
+     "https://modelcontextprotocol.io/docs/learn/architecture",
+     ""
+    ],
+    [
+     "Model Context Protocol: The 2026-07-28 Specification",
+     "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+     "2026-07-28"
+    ],
+    [
+     "Model Context Protocol: Security Best Practices",
+     "https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices",
+     ""
+    ],
+    [
+     "Model Context Protocol: Registry",
+     "https://modelcontextprotocol.io/registry/about",
+     ""
+    ],
+    [
+     "Agent Skills: Specification",
+     "https://agentskills.io/specification",
+     ""
+    ],
+    [
+     "Anthropic: Donating Agent Skills to the Agentic AI Foundation",
+     "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
+     "2026-10-22"
+    ],
+    [
+     "Linux Foundation: Formation of the Agentic AI Foundation",
+     "https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation",
+     "2025-12-09"
+    ],
+    [
+     "Claude Help Center: Custom connectors using remote MCP",
+     "https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp",
+     ""
+    ],
+    [
+     "OpenAI: Building MCP servers for ChatGPT and API integrations",
+     "https://developers.openai.com/api/docs/guides/custom-mcp-server",
+     ""
+    ],
+    [
+     "Microsoft Learn: Add an existing MCP server to an agent in Copilot Studio",
+     "https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-add-existing-server-to-agent",
+     ""
+    ],
+    [
+     "GitHub Docs: About Model Context Protocol",
+     "https://docs.github.com/en/copilot/concepts/about-mcp",
+     ""
+    ],
+    [
+     "VS Code: MCP servers",
+     "https://code.visualstudio.com/docs/copilot/customization/mcp-servers",
+     ""
+    ],
+    [
+     "Shopify: Agents",
+     "https://shopify.dev/docs/agents",
+     ""
+    ],
+    [
+     "Shopware: MCP Server",
+     "https://developer.shopware.com/docs/products/tools/mcp-server/",
+     ""
+    ],
+    [
+     "Stripe: MCP",
+     "https://docs.stripe.com/mcp",
+     ""
+    ],
+    [
+     "Google: Merchant API MCP",
+     "https://developers.google.com/merchant/api/guides/agentic-tools/merchant-data-mcp",
+     ""
+    ],
+    [
+     "Zapier: MCP",
+     "https://zapier.com/mcp",
+     ""
+    ],
+    [
+     "n8n: MCP Server Trigger",
+     "https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger",
+     ""
+    ],
+    [
+     "OWASP: Top 10 for Agentic Applications 2026",
+     "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+     "2025-12-09"
+    ],
+    [
+     "Microsoft: Protecting against indirect injection attacks in MCP",
+     "https://developer.microsoft.com/blog/protecting-against-indirect-injection-attacks-mcp",
+     "2025-04-28"
+    ],
+    [
+     "Anthropic: Agent Skills overview",
+     "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+     ""
+    ]
+   ],
+   "lead_hook": "Welches System soll dein KI-Assistent zuerst lesen dürfen?",
+   "lead_text": "Schick Jean dein Shopsystem, die Tools im Alltag und eine Aufgabe, die du gern an einen Agenten gibst. Zurück kommt ein Vorschlag für Server, Rechte und den ersten Skill, mit dem ihr sicher startet.",
+   "bubble": "Ich hab Kurbel einen Skill geschrieben. Seitdem fragt er vor jeder Schraube nach."
+  },
+  {
+   "id": "ki-produktbilder-shops",
+   "page": "ratgeber-ki-produktbilder-shops.html",
+   "icon": "image",
+   "h1": "KI-Produktbilder und -Videos für Shops: Regeln, Kennzeichnung, Werkzeuge und Kosten",
+   "label": "KI-Produktbilder für Shops",
+   "seo_title": "KI-Produktbilder: Merchant Center, Amazon, AI Act und Werkzeuge",
+   "meta": "Was Google Merchant Center, Amazon und eBay bei KI-Produktbildern erlauben, welche Metadaten drinbleiben müssen, was AI Act und UWG verlangen, eine Ampel für den Bild-Workflow, Preise von Gemini, OpenAI, FLUX und Firefly und ein Fahrplan.",
+   "teaser": "Welche Metadaten Google verlangt, wann ein KI-Bild ein Deepfake ist, eine Ampel für den Bild-Workflow und was ein Bild wirklich kostet.",
+   "hero": "Ein neuer Hintergrund ist schnell gemacht. Ob das Bild danach noch ehrlich ist und durch den Feed kommt, entscheidet das Kleingedruckte.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "shop",
+    "marketing",
+    "kreativ"
+   ],
+   "trend": "bild-video",
+   "tools": [
+    "PhotoRoom",
+    "Adobe Firefly",
+    "FLUX von Black Forest Labs",
+    "FLUX 3 Image Klein",
+    "Gemini",
+    "RunwayML",
+    "Canva"
+   ],
+   "glossar": [
+    "C2PA und Wasserzeichen",
+    "Deepfake",
+    "EU AI Act",
+    "Diffusionsmodell",
+    "Multimodal",
+    "Prompt"
+   ],
+   "faq": [
+    [
+     "Darf ich KI-Produktbilder in Google Shopping verwenden?",
+     "Ja, Google erlaubt KI-Bilder als Haupt-, Zusatz- und Lifestyle-Bilder. Sie müssen aber die IPTC-Angabe DigitalSourceType mit dem Wert TrainedAlgorithmicMedia enthalten, und diese Metadaten dürfen nicht entfernt werden."
+    ],
+    [
+     "Muss ich ein Produktbild mit neuem KI-Hintergrund kennzeichnen?",
+     "In der Regel nicht sichtbar. Laut Leitlinien der EU-Kommission ist ein echtes Produkt vor einem KI-Hintergrund kein Deepfake, solange die Anzeige nicht irreführt. Anders ist es, wenn das Produkt selbst besser aussieht als in Wirklichkeit. Diese Einschätzung ist keine Rechtsberatung."
+    ],
+    [
+     "Was ist bei Amazon zu beachten?",
+     "Das Hauptbild braucht einen reinweißen Hintergrund, das Produkt füllt mindestens 85 Prozent der Fläche und es muss das tatsächliche Produkt zeigen, keine Grafik. Erzeugte Szenen gehören höchstens in die Zusatzbilder."
+    ],
+    [
+     "Was kostet ein KI-Produktbild?",
+     "Laut Preislisten zwischen weniger als einem Cent und gut 20 Cent pro Bild, je nach Modell und Auflösung. Product Studio im Google Merchant Center ist kostenlos. Teurer als das Bild ist die Zeit für Auswahl und Kontrolle."
+    ]
+   ],
+   "quellen": [
+    [
+     "Google Merchant Center: Richtlinie zu KI-generierten Inhalten",
+     "https://support.google.com/merchants/answer/14743464",
+     ""
+    ],
+    [
+     "Google Merchant Center: Bildlink (image_link)",
+     "https://support.google.com/merchants/answer/6324350",
+     ""
+    ],
+    [
+     "Google Merchant Center: Beschreibung (description)",
+     "https://support.google.com/merchants/answer/6324468",
+     ""
+    ],
+    [
+     "Google Merchant Center: Product Studio",
+     "https://support.google.com/merchants/answer/13708167",
+     ""
+    ],
+    [
+     "Amazon: Product photos",
+     "https://sell.amazon.com/blog/product-photos",
+     "2024-12-05"
+    ],
+    [
+     "Amazon Ads: AI image generation",
+     "https://advertising.amazon.com/resources/whats-new/ai-image-generation-beta",
+     "2024-04-25"
+    ],
+    [
+     "eBay: Picture policy",
+     "https://www.ebay.co.uk/help/policies/listing-policies/picture-policy?id=4370",
+     ""
+    ],
+    [
+     "§ 5 UWG: Irreführende geschäftliche Handlungen",
+     "https://www.gesetze-im-internet.de/uwg_2004/__5.html",
+     ""
+    ],
+    [
+     "EU-Kommission: Leitlinien zu den Transparenzpflichten nach Artikel 50",
+     "https://ai-act-service-desk.ec.europa.eu/sites/default/files/2026-07/guidelines_on_the_implementation_of_the_transparency_obligations_for_certain_ai_systems_under_article_50_of_the_ai_act_bzptwqhk0ikg1dtlddap41psfy_131215.pdf",
+     "2026-07-20"
+    ],
+    [
+     "EU-Kommission: FAQ zu den Transparenzpflichten nach Artikel 50",
+     "https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act",
+     ""
+    ],
+    [
+     "Google: Gemini API Pricing",
+     "https://ai.google.dev/gemini-api/docs/pricing",
+     ""
+    ],
+    [
+     "Google: Imagen in der Gemini API",
+     "https://ai.google.dev/gemini-api/docs/imagen",
+     ""
+    ],
+    [
+     "OpenAI: API Pricing",
+     "https://developers.openai.com/api/docs/pricing",
+     ""
+    ],
+    [
+     "OpenAI Help Center: Provenance signals in OpenAI-generated content",
+     "https://help.openai.com/en/articles/8912793-provenance-signals-in-openai-generated-content",
+     ""
+    ],
+    [
+     "Black Forest Labs: Release notes",
+     "https://docs.bfl.ml/release-notes",
+     ""
+    ],
+    [
+     "Black Forest Labs: C2PA in FLUX-generated images",
+     "https://help.bfl.ai/articles/3705384267-c2pa-in-flux-generated-images",
+     ""
+    ],
+    [
+     "Adobe: Firefly Legal FAQs for Enterprise Customers",
+     "https://www.adobe.com/cc-shared/assets/pdf/enterprise/firefly-legal-faqs-enterprise-customers-2024-06-11.pdf",
+     "2024-06-11"
+    ],
+    [
+     "IPTC: Digital Source Type vocabulary",
+     "http://cv.iptc.org/newscodes/digitalsourcetype/",
+     ""
+    ],
+    [
+     "Content Credentials: Verify",
+     "https://contentcredentials.org/verify",
+     ""
+    ]
+   ],
+   "lead_hook": "Welche Bilder sollen schneller fertig werden?",
+   "lead_text": "Schick Jean deine Bildtypen, das Shopsystem und die Kanäle, in die du lieferst. Zurück kommt ein Vorschlag für Werkzeuge, Ampelregeln und den Metadaten-Check, mit dem deine KI-Bilder durch jeden Feed kommen.",
+   "bubble": "Ich hab das Bild nur aufgeräumt. Der Kratzer ist trotzdem echt."
   }
  ]
 }

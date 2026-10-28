@@ -2712,7 +2712,7 @@
   {
    "name": "Imagen",
    "url": "https://imagen.research.google/",
-   "beschreibung": "Googles Text-zu-Bild-Modell mit hohem Fotorealismus.",
+   "beschreibung": "Googles Text-zu-Bild-Modell mit hohem Fotorealismus, inzwischen nur noch über Googles Cloud-Plattform statt der Gemini-API.",
    "kategorie": "Bilder",
    "bereich": "Bildmodelle",
    "eu": false,
@@ -3230,17 +3230,6 @@
    "name": "Google Veo",
    "url": "https://deepmind.google/models/veo/",
    "beschreibung": "Googles Videomodell für realistische Clips mit Ton.",
-   "kategorie": "Video",
-   "bereich": "",
-   "eu": false,
-   "open_source": false,
-   "neu": false,
-   "seite": "ki-tools-video.html"
-  },
-  {
-   "name": "Sora",
-   "url": "https://openai.com/sora",
-   "beschreibung": "Videomodell von OpenAI für Clips aus Text und Bild.",
    "kategorie": "Video",
    "bereich": "",
    "eu": false,

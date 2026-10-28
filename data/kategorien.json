@@ -92,16 +92,16 @@
  },
  "video": {
   "seo_title": "KI-Video-Tools: Clips generieren, Avatare, Untertitel, Schnitt",
-  "meta": "{n} KI-Tools für Video auf Deutsch erklärt: Google Veo, Sora, Runway, Synthesia, HeyGen, Descript und mehr. Vom generierten Clip bis zum fertig geschnittenen Short.",
+  "meta": "{n} KI-Tools für Video auf Deutsch erklärt: Google Veo, Kling, Runway, Synthesia, HeyGen, Descript und mehr. Vom generierten Clip bis zum fertig geschnittenen Short.",
   "teaser": "Videos aus Text, sprechende Avatare und Tools, die aus einer Stunde Material die drei guten Minuten schneiden.",
   "hero": "Kamera, Licht und Schnittplatz in einer Schublade. Manche Tools erzeugen ganze Clips aus einem Satz, andere machen aus deinem Webinar zehn Shorts.",
   "intro": [
-   "Video-KI gibt es in drei Sorten. Generatoren wie Google Veo, Sora, Kling oder Runway erzeugen Clips aus Text oder Bildern. Avatar-Tools wie Synthesia und HeyGen lassen eine digitale Person sprechen, auch in anderen Sprachen. Und Schnitt-Helfer wie Descript oder Opus Clip bearbeiten Material, das du schon hast.",
+   "Video-KI gibt es in drei Sorten. Generatoren wie Google Veo, Kling, FLUX 3 Video oder Runway erzeugen Clips aus Text oder Bildern. Avatar-Tools wie Synthesia und HeyGen lassen eine digitale Person sprechen, auch in anderen Sprachen. Und Schnitt-Helfer wie Descript oder Opus Clip bearbeiten Material, das du schon hast.",
    "Für Erklärvideos und Schulungen sind Avatare oft der schnellste Weg, für Werbeclips eher die Generatoren. Bei echten Personen gilt: nur mit Einwilligung. Und täuschend echte Darstellungen gehören gekennzeichnet, das verlangt der EU AI Act und ist außerdem einfach anständig."
   ],
   "tipp": "Plane in kurzen Szenen von wenigen Sekunden und setz sie im Schnitt zusammen. Lange Clips am Stück laufen bei den meisten Generatoren irgendwann aus dem Ruder.",
   "faq": [
-   ["Kann KI ein Video komplett aus Text erstellen?", "Ja, Generatoren wie Google Veo, Sora oder Kling erzeugen kurze Clips aus einer Beschreibung, teils sogar mit Ton. Für längere Videos setzt man mehrere Clips hintereinander."],
+   ["Kann KI ein Video komplett aus Text erstellen?", "Ja, Generatoren wie Google Veo, Kling oder FLUX 3 Video erzeugen kurze Clips aus einer Beschreibung, teils sogar mit Ton. Für längere Videos setzt man mehrere Clips hintereinander."],
    ["Wie übersetze ich ein Video mit KI?", "HeyGen übersetzt Videos mit Lippensynchronisation, ElevenLabs vertont sie in anderen Sprachen mit der Originalstimme. Lass das Ergebnis trotzdem von jemandem gegenhören, der die Zielsprache spricht."],
    ["Muss ich KI-Videos kennzeichnen?", "Für Deepfakes, also täuschend echte Darstellungen realer Personen, verlangt der EU AI Act eine Offenlegung. Auch sonst schadet ein kurzer Hinweis nicht, dein Publikum merkt es ohnehin."]
   ],

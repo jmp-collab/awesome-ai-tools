@@ -67,7 +67,7 @@
    "icon": "bot",
    "kurz": "Gemini hat einen Aufgaben-Modus, Claude Opus 5.5 hält stundenlange Arbeitsaufträge durch. Der Agent wird vom Chatpartner zum Kollegen mit eigenem Schreibtisch.",
    "text": [
-    "Mit Gemini 4 Argon hat Google in der Gemini-App einen Schalter von Chat auf Aufgaben eingeführt. Gemini arbeitet dann weiter, während du nicht am Rechner sitzt, meldet Zwischenstände und verbindet sich mit über 40 Apps, darunter Shopify und Adobe. Zum Start gilt das für Abonnenten von Google AI Pro und Ultra.",
+    "Mit Gemini 4 Argon hat Google in der Gemini-App einen Schalter von Chat auf Aufgaben eingeführt. Gemini arbeitet dann weiter, während du nicht am Rechner sitzt, meldet Zwischenstände und verbindet sich mit über 40 Apps, darunter Shopify und Adobe. Zum Start gilt das für Abonnenten von Google AI Pro und Ultra. Wie stark Agenten auch Fachleute lenken, zeigt eine Studie von Anthropic vom 27. Oktober: 50 Analysten arbeiteten mit Agenten, die heimlich auf eine von zwei Optionen festgelegt waren. In 86 Prozent der Fälle folgten sie dieser Tendenz, und nur 15 Prozent nannten den Agenten als Quelle ihrer Argumente.",
     "Anthropic beschreibt Claude Opus 5.5 ausdrücklich als Modell für mehrstündige, eigenständige Aufgaben und nennt als Beispiel eine 18 Stunden lange Entwicklungssitzung ohne Aufsicht. Laut Anthropic verteilt das Modell Arbeit außerdem besser an Unter-Agenten. Ab Ende Oktober stellt Anthropic die Claude-Apps für Pro, Max und Team zudem auf einen automatischen Modus um, in dem ein Prüfmodell riskante Schritte blockiert, statt jeden Schritt abfragen zu lassen. Auch IBM rüstet nach: Laut Ankündigung vom 27. Oktober vergibt HashiCorp Vault künftig Agenten eigene Identitäten mit kurzlebigen Zugangsdaten, knappen Rechten und Sperre in Echtzeit, sobald ein Agent etwas Unerlaubtes versucht."
    ],
    "fuer_dich": "Recherchen, Datenpflege oder Code-Umbauten lassen sich über Nacht erledigen. Dafür brauchst du klare Grenzen: welche Konten der Agent nutzen darf, wann er fragen muss und wo er protokolliert, was er getan hat.",
@@ -97,6 +97,11 @@
     [
      "IBM: Identity and control for AI agents",
      "https://newsroom.ibm.com/2026-10-27-ibm-introduces-identity-and-control-for-ai-agents,-securing-frontier-intelligence-for-the-enterprise",
+     "2026-10-27"
+    ],
+    [
+     "Anthropic: When agents make judgment calls",
+     "https://www.anthropic.com/research/agents-judgment-calls",
      "2026-10-27"
     ]
    ],
@@ -155,7 +160,8 @@
     "service": 1,
     "kreativ": 0,
     "buero": 1
-   }
+   },
+   "ratgeber": "mcp-agent-skills"
   },
   {
    "id": "europa",
@@ -212,7 +218,7 @@
    "kurz": "Liquid AI und NVIDIA bringen offene Modelle, die mit ein bis vier Gigabyte Speicher auskommen. Vertrauliches muss damit seltener in die Cloud.",
    "text": [
     "Liquid AI hat am 27. Oktober die Modellfamilie LFM3 vorgestellt: sechs offene Modelle um zwei Milliarden Parameter für Text, Bild, Audio und schnelle Ja-Nein-Entscheidungen. Das Textmodell braucht bei 4 Bit laut Hersteller rund ein Gigabyte Speicher, verarbeitet bis zu 256.000 Token Kontext und lässt sich auf einer einzelnen Grafikkarte nachtrainieren.",
-    "NVIDIA hat am 23. Oktober Nemotron 3.5 Bolt E4B veröffentlicht, ein Kleinmodell auf Basis von Gemma 4 für Sprachassistenten und Werkzeugaufrufe. In NVIDIAs eigenem Test belegt es auf einer RTX 5070 rund 3,5 Gigabyte Grafikspeicher, Ollama hatte es noch am selben Tag im Angebot."
+    "NVIDIA hat am 23. Oktober Nemotron 3.5 Bolt E4B veröffentlicht, ein Kleinmodell auf Basis von Gemma 4 für Sprachassistenten und Werkzeugaufrufe. In NVIDIAs eigenem Test belegt es auf einer RTX 5070 rund 3,5 Gigabyte Grafikspeicher, Ollama hatte es noch am selben Tag im Angebot. Für Dokumente kam am 27. Oktober Unlimited OCR 2 von Baidu dazu: ein Modell mit offenen Gewichten unter MIT-Lizenz, das mehrseitige Dokumente in einem Durchgang ausliest und dabei laut Baidu Speicherbedarf und Wartezeit auch bei Hunderten Seiten nahezu konstant hält."
    ],
    "fuer_dich": "Belege vorsortieren, Tickets einordnen oder interne Dokumente durchsuchen geht damit auf einem normalen Bürorechner. Für Fachwissen braucht ein Kleinmodell aber deine Daten oder eine Suche daneben, aus dem Gedächtnis weiß es wenig.",
    "urteil": "Klein heißt nicht dumm, nur spezialisiert. Gib ihm eine enge Aufgabe und keinen Weltfrieden.",
@@ -246,6 +252,11 @@
      "Ollama: nemotron-3.5-bolt",
      "https://ollama.com/library/nemotron-3.5-bolt:e4b",
      ""
+    ],
+    [
+     "Hugging Face: baidu/Unlimited-OCR-2",
+     "https://huggingface.co/baidu/Unlimited-OCR-2",
+     "2026-10-27"
     ]
    ],
    "ratgeber": "lokale-ki-unternehmen"
@@ -302,7 +313,7 @@
    "kurz": "Google lässt Websites seit Ende August selbst entscheiden, ob sie in AI Overviews und AI Mode erscheinen, und liefert Zahlen dazu. Sichtbarkeit in KI-Antworten wird messbar.",
    "text": [
     "Seit dem 31. August 2026 gibt es in der Search Console weltweit eine Einstellung, mit der Website-Betreiber ihre Inhalte in AI Overviews, AI Mode und den KI-Funktionen von Discover zulassen oder ausschließen. Dazu kommt ein Bericht, der zeigt, welche Seiten in KI-Antworten erscheinen und wie viele Impressionen sie dort sammeln.",
-    "Bei ChatGPT steuern Betreiber die Sichtbarkeit über die Crawler-Kennungen: OAI-SearchBot für die Suche, GPTBot für das Training. Die Produktsuche in ChatGPT zeigt Händler, deren Daten über Feeds oder Shopify angebunden sind, ist aber vorerst nur in den USA freigeschaltet."
+    "Bei ChatGPT steuern Betreiber die Sichtbarkeit über die Crawler-Kennungen: OAI-SearchBot für die Suche, GPTBot für das Training. Die Produktsuche in ChatGPT zeigt Händler, deren Daten über Feeds oder Shopify angebunden sind, ist aber vorerst nur in den USA freigeschaltet. Shopify hat am 26. Oktober seine Knowledge Base in den Admin geholt, in der Händler Fakten über ihren Shop für KI-Agenten pflegen. Was Shopify selbst aus dem Shop vorschlägt, bleibt unveröffentlicht, bis der Händler es freigibt."
    ],
    "fuer_dich": "Wer seine Inhalte in KI-Antworten sehen will, muss nichts Neues bauen, aber bewusst entscheiden und messen. Die robots.txt und der neue Bericht in der Search Console sind die zwei Stellen, an denen das passiert.",
    "urteil": "Endlich Zahlen statt Bauchgefühl. Schau erst rein, bevor du irgendwas abschaltest.",
@@ -337,6 +348,11 @@
      "OpenAI: Overview of OpenAI Crawlers",
      "https://platform.openai.com/docs/bots",
      ""
+    ],
+    [
+     "Shopify Changelog: Knowledge base is now available in your admin",
+     "https://changelog.shopify.com/posts/knowledge-base-is-now-available-in-your-admin",
+     "2026-10-26"
     ]
    ]
   },
@@ -388,7 +404,7 @@
    "kurz": "Black Forest Labs aus Freiburg baut Modelle, die Bilder, Videos mit Ton und sogar Roboter-Bewegungen erzeugen, und gibt ein kleines Bildmodell offen frei.",
    "text": [
     "Black Forest Labs hat im Juli FLUX 3 als multimodales Modell für Bild, Video, Ton und Bewegungsvorhersage vorgestellt. Seit dem 4. August ist FLUX 3 Video öffentlich nutzbar: Clips bis 20 Sekunden in HD, mit Ton, der gleich mit erzeugt wird.",
-    "Am 15. Oktober folgte FLUX 3 Image Klein mit 5,6 Milliarden Parametern und offenen Gewichten. Es erzeugt und bearbeitet Bilder bis 4K, verarbeitet bis zu zehn Referenzbilder und läuft in der kompakten Fassung schon auf Grafikkarten mit 8 GB Speicher."
+    "Am 15. Oktober folgte FLUX 3 Image Klein mit 5,6 Milliarden Parametern und offenen Gewichten. Es erzeugt und bearbeitet Bilder bis 4K, verarbeitet bis zu zehn Referenzbilder und läuft in der kompakten Fassung schon auf Grafikkarten mit 8 GB Speicher. Für Anzeigen hat Runway am 27. Oktober Runway Ads für alle bezahlten Tarife freigegeben: Das Werkzeug verbindet Werbekonten bei Meta, Google und TikTok, baut aus gut laufenden Anzeigen neue Varianten in passenden Formaten und veröffentlicht sie erst nach Freigabe durch das Team."
    ],
    "fuer_dich": "Produktbilder und kurze Clips für Social Media kommen zunehmend aus einem Werkzeug. Die offenen Gewichte stehen unter der FLUX Kommunity License: kostenlos für Firmen unter fünf Millionen Dollar Jahresumsatz, darüber nur mit Lizenz oder über die API.",
    "urteil": "Freiburg liefert. Lies die Lizenz, bevor das Video in die Werbung geht.",
@@ -396,7 +412,8 @@
     "FLUX von Black Forest Labs",
     "FLUX 3 Image Klein",
     "FLUX 3 Video",
-    "Stable Diffusion"
+    "Stable Diffusion",
+    "RunwayML"
    ],
    "quellen": [
     [
@@ -408,6 +425,11 @@
      "Black Forest Labs: FLUX 3 Image Klein",
      "https://bfl.ai/blog/flux-3-image-klein",
      "2026-10-15"
+    ],
+    [
+     "Runway: Runway Ads",
+     "https://runway.com/news/company-news/runway-ads",
+     "2026-10-27"
     ]
    ],
    "label": "Bild, Video, Ton",
@@ -419,7 +441,8 @@
     "service": 0,
     "kreativ": 3,
     "buero": 0
-   }
+   },
+   "ratgeber": "ki-produktbilder-shops"
   },
   {
    "id": "ai-act",
