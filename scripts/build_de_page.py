@@ -458,8 +458,9 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 {extra_head}
 </head>
 <body>
+<a class="skip" href="#werkbank" data-chrome>Direkt zur Werkbank</a>
 {ICONS}
-{body}
+{body.replace("</header>", '</header><span id="werkbank" tabindex="-1"></span>', 1)}
 <script src="assets/app.js" defer></script>
 </body>
 </html>
@@ -492,6 +493,7 @@ def footer(fab_href="#stack-check"):
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
+<p class="screws" id="screws" hidden></p>
 <p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Seite gebaut am {TODAY}. Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
 </div></footer>
 <button id="totop" type="button" title="Nach oben">{icon("up")}</button>
@@ -535,12 +537,12 @@ def kurbel(cls="", wink=False, label="Kurbel, der Werkstatt-Roboter"):
 
 
 # --------------------------------------------------------------------------- Hans Moritz, der Werkstattmeister
-def hans(cls="", wink=False, label="Hans Moritz, der Werkstattmeister"):
+def hans(cls="", wink=False, label="Hans Moritz, der Werkstattmeister", thumb=False):
     def eye(x, closed=False):
         if closed:
             return f'<path d="M{x-4.5} 61.5q4.5 3 9 0" fill="none" class="hm-ln" stroke-linecap="round"/>'
-        return (f'<ellipse cx="{x}" cy="61" rx="4.8" ry="2.9" fill="#fff"/><circle cx="{x+.4}" cy="61.3" r="2.6" class="hm-iris"/>'
-                f'<circle cx="{x+.4}" cy="61.3" r="1.15" fill="#1b1f26"/><circle cx="{x+1.2}" cy="60.4" r=".6" fill="#fff"/>'
+        return (f'<g class="hm-eye" style="transform-origin:{x}px 61px"><ellipse cx="{x}" cy="61" rx="4.8" ry="2.9" fill="#fff"/><g class="hm-pupil"><circle cx="{x+.4}" cy="61.3" r="2.6" class="hm-iris"/>'
+                f'<circle cx="{x+.4}" cy="61.3" r="1.15" fill="#1b1f26"/><circle cx="{x+1.2}" cy="60.4" r=".6" fill="#fff"/></g></g>'
                 f'<path d="M{x-5.2} 59.6q5.2-2.6 10.4 0" fill="none" class="hm-ln" stroke-width="1.4" stroke-linecap="round"/>'
                 f'<path d="M{x-5} 64.4q5 2 10 0" fill="none" stroke="#d99b7c" stroke-width="1" stroke-linecap="round"/>')
     def bud(x, d):
@@ -570,9 +572,27 @@ def hans(cls="", wink=False, label="Hans Moritz, der Werkstattmeister"):
 <path d="M51 62.5l-3 1.6M89 62.5l3 1.6" stroke="#d99b7c" stroke-width="1" stroke-linecap="round"/>
 <path d="M70 61q-1.5 8-4.5 11q4.5 2.2 9 0" fill="none" stroke="#b9775a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <g fill="#d0865a" opacity=".75"><circle cx="52" cy="69" r=".8"/><circle cx="55.5" cy="71" r=".7"/><circle cx="50" cy="72" r=".6"/><circle cx="86" cy="69" r=".8"/><circle cx="89.5" cy="71.5" r=".7"/><circle cx="84" cy="72" r=".6"/><circle cx="66.5" cy="66" r=".55"/><circle cx="73.5" cy="66.5" r=".55"/></g>
+<g class="hm-lamp" aria-hidden="true"><circle cx="70" cy="37" r="15" class="hm-glow"/><path d="M42.5 45q27.5-11 55 0" fill="none" stroke="#2b2f36" stroke-width="3.2" stroke-linecap="round"/><rect x="63" y="33" width="14" height="9" rx="3" fill="#2b2f36"/><circle cx="70" cy="37.5" r="2.9" fill="#FFF6A8"/></g>
+<g class="hm-hat" aria-hidden="true"><path d="M43 41q2-20 27-21q14 0 23 8q9 7 16-3l3 4q-7 12-17 6q2 4 2 8Z" fill="#C8302C" stroke="#7a1512" stroke-width="1.4" stroke-linejoin="round"/><path d="M41 43q29-9 58 0q1 4-1 7q-28-8-56 0q-2-3-1-7Z" fill="#fff" stroke="#d9d4c8" stroke-width="1"/><circle cx="112" cy="26" r="5" fill="#fff" stroke="#d9d4c8" stroke-width="1"/></g>
 </g>
+{'<g class="hm-thumb"><path d="M104 160q2-22 8-34l9 3q-3 14-3 31Z" class="hm-jacket"/><path d="M110 128q-1-9 3-13h10q3 3 2 8l-1 5q-5 3-14 0Z" class="hm-skin hm-ln"/><path d="M114 115q-1-10 4-12q4 1 2 12" class="hm-skin hm-ln"/><path d="M113 120h10M113 124h10" stroke="#d99b7c" stroke-width="1" stroke-linecap="round"/></g>' if thumb else ''}
 </g>
 </svg>"""
+
+
+def pumpkin():
+    """Kürbis für die Halloween-Woche, sitzt neben Hans im Hero (per CSS nur dann sichtbar)."""
+    return ('<svg class="hm-pumpkin" viewBox="0 0 60 52" aria-hidden="true">'
+            '<path d="M30 12q-2-8 4-11" fill="none" stroke="#4d6b1f" stroke-width="3" stroke-linecap="round"/>'
+            '<ellipse cx="30" cy="31" rx="27" ry="19" fill="#E8761F" stroke="#0E1116" stroke-width="2"/>'
+            '<path d="M30 12q-9 19 0 38M30 12q9 19 0 38M14 15q-6 16 2 33M46 15q6 16-2 33" fill="none" stroke="#B9530E" stroke-width="1.6"/>'
+            '<path d="M19 27l5-4 3 5ZM41 27l-5-4-3 5ZM19 36q11 8 22 0l-4 1-3 3-4-3-4 3-3-3Z" fill="#FFD23F" stroke="#0E1116" stroke-width="1.2" stroke-linejoin="round"/>'
+            '</svg>')
+
+
+def screw_svg():
+    return ('<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="#B9BEC6" stroke="#0E1116" stroke-width="1.6"/>'
+            '<path d="M7.5 12h9M12 7.5v9" stroke="#0E1116" stroke-width="2" stroke-linecap="round"/></svg>')
 
 
 def eu_names(sec, limit=5):
@@ -687,7 +707,7 @@ def build_index(sections, head_md):
 <div class="sp-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Zu diesem Wort hat Kurbel nichts gefunden. Probier ein anderes oder frag direkt beim <a href="#stack-check">Stack-Check</a>.</p></div>
 </div></div>
 <section class="hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
-<div class="hero-hm" aria-hidden="true">{hans("hm-xl", label="")}<p class="bubble">Moin, ich bin Hans Moritz. Erst testen, dann empfehlen.</p></div>
+<div class="hero-hm"><div class="hm-fig">{pumpkin()}<button class="hm-btn" type="button" id="hm-hero" aria-label="Hans Moritz antippen: eine Werkstatt-Weisheit hören">{hans("hm-xl", label="")}</button></div><p class="bubble" id="hm-say" aria-live="polite">Moin, ich bin Hans Moritz. Erst testen, dann empfehlen.</p></div>
 <p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Link-Check {LINK_CHECK}: {LINK_CHECK_N} Links geprüft</p>
 <h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Ohne Zauberstab.</h1>
 <p class="sub">Hier gibt es kein Wundermittel, nur gutes Werkzeug: jedes Tool in einem Satz erklärt, tote Links aussortiert, EU-Anbieter markiert. Dazu Werkzeugkisten für typische Jobs und ein Stack-Finder, der schneller zum Punkt kommt als jedes Beratungsgespräch.</p>
@@ -698,7 +718,8 @@ def build_index(sections, head_md):
 <div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit EU-Sitz</span></div>
 <div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open-Source-Tools</span></div>
 <div class="stat reveal"><b data-count="{N_STACKS}">{N_STACKS}</b><span>Werkzeugkisten</span></div>
-</div></div></section>
+</div>
+<div class="wotd" id="wotd" hidden></div></div></section>
 
 <section class="band" id="favoriten"><div class="wrap">
 <p class="eyebrow">Werkbank-Favoriten</p><h2>Zehn Werkzeuge für den Anfang. Mehr braucht kaum jemand.</h2>
@@ -784,9 +805,10 @@ def build_index(sections, head_md):
 
 def build_subpages(list_secs=()):
     danke = f"""{topbar(False, "sub")}
-<div class="page page-kb"><div class="kb-say kb-hero">{kurbel("kb-lg", wink=True)}<p class="bubble">Ich sortiere solange die Schrauben.</p></div>
+<div class="page page-kb page-danke"><div class="kb-say kb-hero duo">{hans("hm-lg", label="Hans Moritz zeigt den Daumen hoch", thumb=True)}{kurbel("kb-md", wink=True)}<p class="bubble">Angekommen! Kurbel sortiert solange die Schrauben, ich setz schon mal Kaffee auf.</p></div>
 <p class="eyebrow">Angekommen</p><h1>Danke. Deine Anfrage liegt auf der Werkbank.</h1>
-<p>Jean schaut sie sich an und antwortet per Mail, meist innerhalb weniger Tage. Hörst du nichts, wirf einen Blick in den Spam-Ordner, manchmal versteckt sich die Post dort. Oder schreib direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a>.</p>
+<ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine Nachricht selbst, kein Bot und kein Callcenter.</span></li><li><b class="n">2</b><span>Danach legt Jean dir die Werkzeuge hin, die zu deinem Fall passen, mit je einem Satz, warum.</span></li><li><b class="n">3</b><span>Die Antwort kommt per Mail, ohne Verkaufsgespräch und ohne Kleingedrucktes.</span></li></ol>
+<p>Meist dauert das nur wenige Tage. Hörst du nichts, wirf einen Blick in den Spam-Ordner, manchmal versteckt sich die Post dort. Oder schreib direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a>.</p>
 <p><a class="btn btn-lime" href="tools.csv" download>{icon("download")}Die Liste als CSV laden</a> <a class="btn" href="tools.json" download>{icon("download")}JSON</a></p>
 <p>Zum Überbrücken: <a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT</a> zeigt, wie man aus Tools Systeme baut. Und in den <a href="./#werkzeugkisten">Werkzeugkisten</a> liegt schon ein Startpunkt bereit.</p>
 <p><a href="./">Zurück in die Werkstatt</a></p></div>
@@ -802,7 +824,8 @@ def build_subpages(list_secs=()):
 <p>Kurbel hat überall nachgesehen, sogar unter der Werkbank und hinter dem Kaffeeautomaten. Vielleicht hat sich die Adresse verschraubt, vielleicht ist die Seite umgezogen.</p>
 <p>Von hier aus kommst du sicher weiter:</p>
 <div class="chips nf-chips"><a class="chip cat" href="./">{icon("wrench")}Startseite</a>{chips}<a class="chip" href="{GLOSSAR_PAGE}">{icon("abc")}KI-Glossar</a></div>
-<p style="margin-top:22px"><a class="btn btn-lime" href="./#stack-check">{icon("mail")}Jean direkt fragen</a></p></div>
+<p style="margin-top:22px"><a class="btn btn-lime" href="./#stack-check">{icon("mail")}Jean direkt fragen</a> <button type="button" class="btn" id="surprise-btn" hidden>{icon("dice")}Überrasch mich mit einem Tool</button></p>
+<div class="surprise wotd" id="surprise" hidden></div></div>
 <footer><div class="wrap"><p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></div></footer>"""
     (DOCS / "404.html").write_text(absolutize(page_shell("Schublade nicht gefunden – KI-Werkstatt", nf, "Diese Seite gibt es nicht.", SITE_URL + "404.html",
                                                          '<meta name="robots" content="noindex">'), base), encoding="utf-8")
@@ -1555,6 +1578,7 @@ def build_ratgeber(tools_map):
 <aside class="rail" data-chrome><div class="in"><h4>Inhalt</h4>{toc_html}
 <div class="lead-mini"><b>Stack-Check</b><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></aside>
 <article class="content rg-body">
+<div class="print-head" data-chrome>{hans("hm-sm", label="")}<span>KI-Werkstatt · Ratgeber · Stand {de_date(a["stand"])}</span></div>
 {body_html}
 <section class="rg-extras">
 <div><h3>{icon("wrench")}Werkzeug zum Thema</h3><div class="chips">{tool_chips}</div></div>
@@ -1564,6 +1588,13 @@ def build_ratgeber(tools_map):
 <p class="rg-trend">{trend_btn}</p>
 <section id="faq" class="rg-faq"><h2>Häufige Fragen</h2><div class="faq-list">{faq_html(faq)}</div></section>
 <section id="quellen" class="rg-quellen" data-chrome><h2>Quellen</h2><ol>{quellen}</ol></section>
+<section class="rg-done reveal" id="geschafft" data-chrome>{hans("hm-md", label="Hans Moritz zeigt den Daumen hoch", thumb=True)}<div>
+<h2>Geschafft. Respekt.</h2>
+<p>Du hast dich durch {f"{words:,}".replace(",", ".")} Wörter Werkstatt-Wissen gearbeitet. Hol dir einen Kaffee, den hast du dir verdient.</p>
+<div class="row"><span>War das hilfreich?</span><button type="button" class="btn btn-sm" data-hilf="ja">{icon("heart")}Ja</button><button type="button" class="btn btn-sm" data-hilf="nein">{icon("x")}Eher nicht</button>
+<button type="button" class="btn btn-sm" data-share>{icon("share")}Weitersagen</button><button type="button" class="btn btn-sm" data-print>{icon("print")}Für die Werkstattwand drucken</button></div>
+<p class="hilf-a" aria-live="polite"></p></div></section>
+<p class="print-foot" data-chrome>Ausgedruckt aus der KI-Werkstatt. Die aktuelle Fassung steht unter {url}</p>
 </article>
 </div>
 

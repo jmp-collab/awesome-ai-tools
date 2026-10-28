@@ -44,6 +44,20 @@ Die Werkstatt ist nicht PROMPTGOTT. PROMPTGOTT liefert die Praxis mit Haltung un
 
 **Kurbel** ist sein Werkstatt-Roboter. Hilfsbereit, gründlich, leicht schusselig: Nach jeder Reparatur bleibt eine Schraube übrig, und niemand weiß, wohin sie gehört. Kurbel taucht dort auf, wo sonst Leere wäre: auf der 404-Seite, auf der Dankeseite, bei leeren Suchergebnissen und neben dem Stack-Check. Kurbel spricht kurz und freundlich, nie in Großbuchstaben.
 
+## Liebevolle Details
+
+Kleine Überraschungen, die nie im Weg stehen, nichts zählen und ohne JavaScript einfach fehlen:
+
+- **Hans grüßt je nach Tageszeit**, erkennt Wiederkehrer und hat zur Saison Kürbis, Mütze oder Silvesterfunken dabei.
+- **Hans blinzelt, schaut dem Mauszeiger nach** und erzählt per Klick eine Werkstatt-Weisheit. Im Dunkelmodus trägt er eine Stirnlampe.
+- **Kurbels Schraubenjagd:** Auf sieben Seitenarten liegt je eine verlorene Schraube. Wer alle findet, bekommt den Meisterbrief in Schraubensuche.
+- **„moin“ tippen** wird mit einem Gruß und Funken belohnt. In der Browser-Konsole wartet ein Hallo für Neugierige.
+- **Werkzeug des Tages** auf der Startseite, für alle gleich, jeden Tag ein anderes.
+- **Ratgeber:** gelesene Kapitel bekommen einen Haken, Wiederkehrer ein „Weiterlesen bei“, am Ende eine Geschafft-Karte mit Daumen hoch, „War das hilfreich?“, Weitersagen und eine Druckansicht für die Werkstattwand.
+- **Formular:** Hans macht beim Schreiben Mut. Die Danke-Seite zeigt Hans und Kurbel und erklärt in drei Schritten, was jetzt passiert.
+- **404:** Kurbel hat statt der Seite ein zufälliges Tool gefunden.
+- **Barrierefrei:** Skip-Link „Direkt zur Werkbank“, sichtbarer Fokus in Lime, alle Animationen aus bei reduzierter Bewegung.
+
 ## Running Gags
 
 - **Die übrige Schraube.** Kurbels Markenzeichen.

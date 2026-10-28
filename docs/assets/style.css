@@ -492,6 +492,93 @@ html:has(.az){scroll-padding-top:calc(var(--top) + 76px)}
 .hero-hm .hans{width:210px;height:240px}.hero-hm .bubble{order:-1;margin:0 40px 8px 0;border-radius:16px 16px 4px 16px}.float.f1{display:none}}
 @media (prefers-reduced-motion:reduce){.hans .hm-bob{animation:none}}
 
+/* Liebevolle Details: Hans lebt */
+.hans .hm-lamp,.hans .hm-hat{display:none}
+.hans .hm-glow{fill:#FFF6A8;opacity:.28}
+:root[data-theme="dark"] .hans .hm-lamp{display:inline}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hans .hm-lamp{display:inline}}
+.season-xmas .hans .hm-hat{display:inline}.season-xmas .hans .hm-lamp{display:none!important}
+.hans .hm-eye{animation:hmBlink 6.5s infinite}
+.hans .hm-eye + .hm-eye{animation-delay:.03s}
+@keyframes hmBlink{0%,95%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.hans .hm-pupil{transition:transform .25s ease-out}
+.hm-btn{all:unset;cursor:pointer;display:block;border-radius:16px;line-height:0}
+.hm-btn:focus-visible{outline:3px solid var(--lime);outline-offset:4px}
+.hm-btn.wave .hans{animation:hmWave .6s ease-in-out}
+@keyframes hmWave{25%{transform:rotate(-6deg)}50%{transform:rotate(5deg)}75%{transform:rotate(-3deg)}}
+.hm-pumpkin{display:none;position:absolute;width:38px;height:34px;left:-8px;bottom:0;z-index:1}
+.season-halloween .hm-pumpkin{display:block}
+.hero-hm .hm-fig{position:relative}
+@media (min-width:1100px){.hm-pumpkin{width:70px;height:62px;left:-48px;bottom:6px}}
+
+/* Werkzeug des Tages */
+.wotd{display:flex;gap:14px;align-items:center;margin-top:18px;background:var(--card);border:1.5px dashed var(--line);border-radius:var(--r);padding:12px 14px;max-width:640px}
+.wotd img{width:28px;height:28px;border-radius:6px;flex:none}
+.wotd .k{font:600 11px var(--font-m);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.wotd b a{color:var(--fg)}
+.wotd p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+
+/* Schraubenjagd */
+.screw{all:unset;cursor:pointer;display:inline-block;width:18px;height:18px;vertical-align:middle;margin-left:8px;opacity:.55;transition:transform .3s,opacity .3s}
+.screw svg{width:100%;height:100%}
+.screw:hover,.screw:focus-visible{opacity:1;transform:rotate(90deg) scale(1.25)}
+.screw:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:50%}
+.screw.got{animation:screwGot .7s ease-in forwards}
+@keyframes screwGot{30%{transform:rotate(180deg) scale(1.6);opacity:1}100%{transform:rotate(540deg) scale(0) translateY(-40px);opacity:0}}
+.screws{display:flex;align-items:center;gap:8px;font:600 13px var(--font-m);color:var(--muted)}
+.screws svg{width:16px;height:16px}
+.screws.meister{color:var(--accent)}
+
+/* Funken und Hinweise */
+.spark{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:200;background:var(--lime);will-change:transform,opacity}
+.spark.s2{background:#fff;border:1px solid var(--ink)}.spark.s3{background:var(--steel);border-radius:50%}
+.kw-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;z-index:210;background:var(--ink);color:#fff;border:1.5px solid var(--lime);border-radius:14px;padding:10px 16px;font:600 14.5px var(--font-b);max-width:min(92vw,460px);box-shadow:var(--shadow);transition:opacity .25s,transform .25s;pointer-events:none}
+.kw-toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Ratgeber: gelesen, weiterlesen, geschafft */
+.rail a.read::after{content:"";margin-left:auto;width:14px;height:14px;flex:none;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12l4 4 8-8' fill='none' stroke='%230E1116' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.resume{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;background:color-mix(in srgb,var(--lime) 22%,var(--card));border-radius:999px;padding:6px 12px;color:var(--fg);text-decoration:none}
+.rg-done{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;margin:40px 0 0;padding:20px;border-radius:var(--r);background:color-mix(in srgb,var(--lime) 14%,var(--card));border:1.5px solid var(--line)}
+.rg-done h2{margin:0 0 6px;font-size:22px}.rg-done p{margin:0 0 10px}
+.rg-done .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rg-done .hilf-a{margin:10px 0 0;font-size:14.5px}
+.rg-done .hans{width:110px;height:126px}
+@media (max-width:560px){.rg-done{grid-template-columns:1fr}.rg-done .hans{width:90px;height:103px}}
+
+/* Danke-Seite */
+.duo{display:flex;align-items:flex-end;gap:6px;margin:0 0 18px}
+.duo .hans{width:150px;height:171px}
+.steps-mini{list-style:none;padding:0;margin:18px 0;display:grid;gap:10px;max-width:620px}
+.steps-mini li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.steps-mini b.n{font:700 13px var(--font-m);background:var(--lime);color:var(--ink);border-radius:8px;padding:2px 7px;flex:none}
+
+/* 404: Überrasch mich */
+.surprise{margin-top:14px;max-width:560px}
+
+/* Barrierefreiheit: Skip-Link und Fokus */
+.skip{position:absolute;left:12px;top:-60px;z-index:300;background:var(--lime);color:var(--ink);font:700 14px var(--font-b);padding:10px 14px;border-radius:10px;text-decoration:none;transition:top .15s}
+.skip:focus{top:10px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+#werkbank{display:block;height:0;outline:none}
+
+@media (prefers-reduced-motion:reduce){.hans .hm-eye,.hm-btn.wave .hans,.screw.got{animation:none}.hans .hm-pupil{transition:none}.screw.got{opacity:0}}
+
+/* Für die Werkstattwand: Druckansicht */
+@media print{
+  body{background:#fff!important;background-image:none!important;color:#000;font-size:11.5pt}
+  .layout,.rg-layout{display:block!important;padding:0!important}.rg-body{max-width:none!important;width:auto!important}
+  .hero{padding:0 0 10px!important;border:0}
+  .topbar,.fab,#totop,.stickybar,.merk-pill,.merk,.rail,.lead,footer,.kb-say,.rg-extras .btn,.rg-done .row,.hilf-a,.skip,.searchpanel,.hero-art,.ctas,.resume,.kw-toast,.spark,.screw{display:none!important}
+  .print-head{display:flex!important;align-items:center;gap:12px;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:14px;font:600 10pt var(--font-m)}
+  .print-head .hans{width:46px;height:53px}
+  .rg-body a[href^="http"]::after{content:" (" attr(href) ")";font-size:8.5pt;color:#444;word-break:break-all}
+  .rg-body ol>li::marker{content:"☐  "}
+  .rg-done{border:1px solid #000;background:none;break-inside:avoid}
+  h2,h3{break-after:avoid}table,.rg-box{break-inside:avoid}
+  .print-foot{display:block!important;margin-top:24px;border-top:1px solid #000;padding-top:8px;font-size:9pt}
+}
+.print-head,.print-foot{display:none}
+
 /* Formular-Status */
 .form-status{margin-top:12px;font-size:14px;border-radius:10px;padding:10px 12px}
 .form-status.busy{background:#F4F3EE;color:#5B616B}

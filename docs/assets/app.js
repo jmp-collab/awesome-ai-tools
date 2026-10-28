@@ -550,4 +550,236 @@
         unknown("Die Verbindung zum Formulardienst ist abgebrochen. Ob die Anfrage angekommen ist, wissen wir deshalb nicht.");
       });
   }, true);
+  (function () {
+
+  /* ---------------------------------------------------------------- Liebevolle Details */
+  // Basis-URL aus dem eigenen Skript-Pfad, damit tools.json auch auf der 404-Seite (beliebige Tiefe) gefunden wird
+  var BASE = (document.currentScript && document.currentScript.src || "").replace(/assets\/app\.js.*$/, "") || "./";
+  var toolsP = null;
+  function tools() {
+    if (!toolsP) toolsP = fetch(BASE + "tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) { return j.tools; });
+    return toolsP;
+  }
+  function hostIcon(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
+
+  // Hinweis unten am Rand, für Bildschirmleser per aria-live
+  var toastEl, toastT;
+  function toast(msg) {
+    if (!toastEl) { toastEl = document.createElement("div"); toastEl.className = "kw-toast"; toastEl.setAttribute("role", "status"); toastEl.setAttribute("aria-live", "polite"); document.body.appendChild(toastEl); }
+    toastEl.textContent = msg; toastEl.classList.add("show");
+    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("show"); }, 3600);
+  }
+
+  // Funkenregen in Lime, Weiß und Stahl; bei reduzierter Bewegung bleibt es beim Hinweis
+  function sparks(x, y, n) {
+    if (reduce || !document.body.animate) return;
+    x = x == null ? innerWidth / 2 : x; y = y == null ? innerHeight / 3 : y; n = n || 28;
+    for (var i = 0; i < n; i++) {
+      var s = document.createElement("i");
+      s.className = "spark" + (i % 3 === 1 ? " s2" : i % 3 === 2 ? " s3" : "");
+      s.style.left = x + "px"; s.style.top = y + "px";
+      document.body.appendChild(s);
+      var a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 140;
+      var dx = Math.cos(a) * d, dy = Math.sin(a) * d - 40;
+      var anim = s.animate([
+        { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+        { transform: "translate(" + dx + "px," + (dy + 160) + "px) rotate(" + (Math.random() * 540) + "deg)", opacity: 0 }
+      ], { duration: 900 + Math.random() * 700, easing: "cubic-bezier(.2,.7,.4,1)" });
+      anim.onfinish = (function (el) { return function () { el.remove(); }; })(s);
+    }
+  }
+  function sparksAt(el, n) { if (!el) return sparks(null, null, n); var r = el.getBoundingClientRect(); sparks(r.left + r.width / 2, r.top + r.height / 2, n); }
+
+  var heroBtn = $("#hm-hero"), say = $("#hm-say");
+
+  // 1 Tageszeit-Gruß, Wiedersehen und Saison
+  var now = new Date(), h = now.getHours(), m = now.getMonth() + 1, d = now.getDate();
+  var season = (m === 10 && d >= 25) || (m === 11 && d <= 2) ? "halloween" : (m === 12 && d <= 26) ? "xmas" : ((m === 12 && d === 31) || (m === 1 && d === 1)) ? "nye" : "";
+  if (season) root.classList.add("season-" + season);
+  var seen = store.get("kw-seen");
+  store.set("kw-seen", String(Date.now()));
+  if (say) {
+    var greet;
+    if (season === "halloween") greet = "Moin. Der Kürbis ist von Kurbel. Gruselig ist hier nur der Linkfriedhof, und den haben wir geleert.";
+    else if (season === "xmas") greet = "Moin! Die Mütze war Kurbels Idee. Ich trag sie trotzdem gern.";
+    else if (season === "nye") greet = "Frohes Neues! Gute Vorsätze? Automatisier zuerst das Langweiligste.";
+    else if (h >= 22 || h < 5) greet = "Nachtschicht? Die Tools laufen morgen auch noch. Aber gut, ich bleib wach.";
+    else if (h < 11) greet = seen ? "Moin, schön, dass du wieder da bist. Kaffee steht schon." : "Moin! Ich bin Hans Moritz. Erst Kaffee, dann Kabel.";
+    else if (h < 14) greet = "Mahlzeit! Ich bin Hans Moritz. Kurz was nachschlagen in der Mittagspause?";
+    else if (h < 18) greet = seen ? "Na, wieder da? Ich hab die Schubladen extra aufgeräumt." : say.textContent;
+    else greet = "Feierabend in Sicht. Such dir noch ein Werkzeug aus, ich halt die Tür auf.";
+    say.textContent = greet;
+  }
+  if (season === "nye") setTimeout(function () { sparksAt(heroBtn, 40); }, 600);
+
+  // 4 Werkstatt-Weisheiten per Klick auf Hans
+  var WISDOM = ["Erst Kaffee, dann Kabel.", "Das beste Tool ist das, das du morgen noch benutzt.", "Automatisier zuerst das Langweiligste. Das spart am meisten.",
+    "Ein Prompt ist wie eine Bestellung an der Theke: je genauer, desto besser das Essen.", "Tote Links sind keine Tools.", "Panzertape hält erstaunlich lange. Ein Backup hält länger.",
+    "Klingt die KI sehr sicher, frag nach der Quelle.", "Kein Zauberstab. Werkzeug.", "Lieber ein Werkzeug richtig als zehn halb.",
+    "Kurbel sagt, die übrige Schraube gehört so. Ich glaub ihm kein Wort.", "Wer fragt, bevor er klickt, muss seltener aufräumen."];
+  var wi = Math.floor(Math.random() * WISDOM.length);
+  if (heroBtn && say) heroBtn.addEventListener("click", function () {
+    wi = (wi + 1) % WISDOM.length; say.textContent = WISDOM[wi];
+    heroBtn.classList.remove("wave"); void heroBtn.offsetWidth; heroBtn.classList.add("wave");
+  });
+  if (tbtn && say) tbtn.addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark";
+    say.textContent = dark ? "Licht aus, Stirnlampe an. Ich seh trotzdem alles." : "Ah, Licht. Jetzt seh ich auch die Krümel auf der Werkbank.";
+  });
+
+  // 3 Hans schaut dem Mauszeiger hinterher (nur mit Maus und ohne reduzierte Bewegung)
+  if (heroBtn && !reduce && window.matchMedia("(pointer: fine)").matches) {
+    var pupils = $$(".hm-pupil", heroBtn), pend = false, mx = 0, my = 0;
+    document.addEventListener("mousemove", function (e) {
+      mx = e.clientX; my = e.clientY; if (pend) return; pend = true;
+      requestAnimationFrame(function () {
+        pend = false; var r = heroBtn.getBoundingClientRect(); if (!r.width) return;
+        var cx = r.left + r.width / 2, cy = r.top + r.height * .38, dx = mx - cx, dy = my - cy, len = Math.sqrt(dx * dx + dy * dy) || 1, k = Math.min(1, len / 300);
+        var tx = (dx / len) * 1.6 * k, ty = (dy / len) * 1.1 * k;
+        pupils.forEach(function (p) { p.style.transform = "translate(" + tx.toFixed(2) + "px," + ty.toFixed(2) + "px)"; });
+      });
+    }, { passive: true });
+  }
+
+  // 7 Werkzeug des Tages: jeden Tag ein anderes, für alle gleich
+  var wotd = $("#wotd");
+  if (wotd) tools().then(function (list) {
+    if (!list.length) return;
+    var day = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+    var t = list[(day * 37) % list.length];
+    wotd.innerHTML = hostIcon(t.url) + '<div><span class="k">Hans’ Werkzeug des Tages</span><br><b><a href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + '</a></b>' +
+      '<p>' + escH(t.beschreibung) + ' <a href="' + escH(t.seite) + '">Zur Schublade</a></p><p>Morgen liegt ein anderes auf der Werkbank.</p></div>';
+    wotd.hidden = false;
+  }).catch(function () {});
+
+  // 8 Schraubenjagd: Kurbel hat auf sieben Seitenarten je eine Schraube verloren
+  var path = location.pathname.split("/").pop() || "index.html";
+  var ptype = document.title.indexOf("nicht gefunden") > -1 ? "verlaufen" : /^index\.html$|^$/.test(path) ? "start" : /^ki-tools-/.test(path) ? "schublade" : /^ki-(fuer|im)-/.test(path) ? "einsatz" : /^ratgeber-/.test(path) ? "ratgeber" :
+    path === "ki-trends.html" ? "trends" : path === "ki-glossar.html" ? "glossar" : "";
+  var SPOT = { start: "#faq h2", schublade: ".tipp .eyebrow", einsatz: ".tipp .eyebrow", ratgeber: "#quellen h2", trends: ".tr-method .eyebrow", glossar: "h1", verlaufen: ".page h1" };
+  var SCREW = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="#B9BEC6" stroke="#0E1116" stroke-width="1.6"/><path d="M7.5 12h9M12 7.5v9" stroke="#0E1116" stroke-width="2" stroke-linecap="round"/></svg>';
+  var ALL = ["start", "schublade", "einsatz", "ratgeber", "trends", "glossar", "verlaufen"];
+  function got() { try { var v = JSON.parse(store.get("kw-screws") || "[]"); return Array.isArray(v) ? v.filter(function (x) { return ALL.indexOf(x) > -1; }) : []; } catch (e) { return []; } }
+  function screwsRender() {
+    var box = $("#screws"), g = got(); if (!box || !g.length) return;
+    box.hidden = false;
+    box.classList.toggle("meister", g.length === ALL.length);
+    box.innerHTML = SCREW + (g.length === ALL.length ? "Meisterbrief in Schraubensuche: alle " + ALL.length + " Schrauben von Kurbel gefunden." : "Kurbels verlorene Schrauben: " + g.length + " von " + ALL.length + " gefunden. Die anderen liegen auf anderen Seiten.");
+  }
+  screwsRender();
+  if (ptype && got().indexOf(ptype) < 0) {
+    var spot = null; SPOT[ptype].split(", ").some(function (sel) { spot = $(sel); return !!spot; });
+    if (spot) {
+      var sb = document.createElement("button"); sb.type = "button"; sb.className = "screw"; sb.innerHTML = SCREW;
+      sb.setAttribute("aria-label", "Eine verlorene Schraube von Kurbel aufheben"); sb.title = "Nanu, eine Schraube?";
+      spot.appendChild(sb);
+      sb.addEventListener("click", function () {
+        var g = got(); if (g.indexOf(ptype) < 0) g.push(ptype); store.set("kw-screws", JSON.stringify(g));
+        sparksAt(sb, g.length === ALL.length ? 60 : 14); sb.classList.add("got"); sb.disabled = true;
+        setTimeout(function () { sb.remove(); }, 800);
+        toast(g.length === ALL.length ? "Alle " + ALL.length + " Schrauben gefunden! Kurbel hat zum ersten Mal nichts übrig. Er ist sprachlos." :
+          "Schraube " + g.length + " von " + ALL.length + " gefunden. Kurbel ist gerührt.");
+        screwsRender();
+      });
+    }
+  }
+
+  // 10 „moin“ tippen, irgendwo außerhalb von Eingabefeldern
+  var typed = "";
+  document.addEventListener("keydown", function (e) {
+    var t = e.target; if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (!e.key || e.key.length !== 1) return;
+    typed = (typed + e.key.toLowerCase()).slice(-4);
+    if (typed === "moin") { typed = ""; toast("Moin zurück! Schön, dass du da bist. Hans"); sparksAt(heroBtn, 30); if (say) say.textContent = "Moin! Du hast das Zauberwort gefunden. Es heißt einfach: Moin."; }
+  });
+
+  // 11 Hans macht beim Schreiben im Formular Mut
+  $$("textarea#l-proj").forEach(function (ta) {
+    var lead = ta.closest(".lead"), b = lead && $(".kb-say .bubble", lead); if (!b) return;
+    var orig = b.textContent, last = -1;
+    ta.addEventListener("input", function () {
+      var n = ta.value.trim().length, lvl = n === 0 ? 0 : n < 40 ? 1 : n < 140 ? 2 : n < 320 ? 3 : 4;
+      if (lvl === last) return; last = lvl;
+      b.textContent = ["", "Guter Anfang. Erzähl ruhig mehr.", "Sehr gut, damit kann Jean schon arbeiten.", "Jetzt wird es richtig gut. Werkzeuge? Probleme? Alles rein.", "Perfekt. So eine Anfrage liest Jean am liebsten."][lvl] || orig;
+    });
+  });
+
+  // 12 Danke-Seite: einmal Funken zum Empfang
+  if ($(".page-danke")) setTimeout(function () { sparksAt($(".page-danke .hans"), 36); }, 400);
+
+  // 13 Ratgeber: gelesene Kapitel abhaken und beim nächsten Besuch zum Weiterlesen anbieten
+  var rgBody = $(".rg-body");
+  if (rgBody) {
+    var heads = $$(".rg-body > h2[id]"), rk = "kw-read:" + path, best = parseInt(store.get(rk) || "0", 10) || 0;
+    var rail = function (id) { return $(".rail a[href='#" + id + "']"); };
+    function mark(i) { for (var j = 0; j < i && j < heads.length; j++) { var a = rail(heads[j].id); if (a) a.classList.add("read"); } }
+    mark(best);
+    if (best > 0 && best < heads.length) {
+      var ctas = $(".hero .ctas") || $(".hero");
+      if (ctas) { var rs = document.createElement("a"); rs.className = "resume"; rs.href = "#" + heads[best].id; rs.innerHTML = svg("bookmark") + "Weiterlesen bei: " + escH(heads[best].textContent); ctas.insertAdjacentElement("afterend", rs); }
+    }
+    var rq = false;
+    window.addEventListener("scroll", function () {
+      if (rq) return; rq = true;
+      requestAnimationFrame(function () {
+        rq = false; var n = 0;
+        heads.forEach(function (hd, i) { var nx = heads[i + 1] || $("#faq"); if (nx && nx.getBoundingClientRect().top < innerHeight * .5) n = i + 1; });
+        if (n > best) { best = n; store.set(rk, String(best)); mark(best); }
+      });
+    }, { passive: true });
+
+    // 14 Geschafft-Karte: Funken, wenn sie zum ersten Mal ins Bild kommt
+    var done = $("#geschafft");
+    if (done && "IntersectionObserver" in window) {
+      var io6 = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { sparksAt($(".hans", done), 24); io6.disconnect(); } }); }, { threshold: .6 });
+      io6.observe(done);
+    }
+    // 15 War das hilfreich? Gezählt wird nichts, die Antwort bleibt im Browser
+    var hk = "kw-hilf:" + path, ans = $(".hilf-a");
+    function hilf(v) {
+      if (!ans) return;
+      if (v === "ja") ans.textContent = "Das freut uns sehr. Hans hat es sich ins Werkstattbuch geschrieben. Gezählt wird übrigens nichts.";
+      else if (v === "nein") ans.innerHTML = "Danke für die Ehrlichkeit. Was hat gefehlt? <a href=\"mailto:" + escH(($("form[action^='https://formsubmit.co/']") || { action: "" }).action.replace("https://formsubmit.co/", "")) +
+        "?subject=" + encodeURIComponent("Feedback zum Ratgeber: " + document.title) + "\">Schreib es Jean in zwei Sätzen</a>, die nächste Fassung wird besser.";
+      $$("[data-hilf]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.hilf === v ? "true" : "false"); });
+    }
+    if (store.get(hk)) hilf(store.get(hk));
+    $$("[data-hilf]").forEach(function (b) { b.addEventListener("click", function () { store.set(hk, b.dataset.hilf); hilf(b.dataset.hilf); if (b.dataset.hilf === "ja") sparksAt(b, 16); }); });
+    // 16 Für die Werkstattwand drucken
+    $$("[data-print]").forEach(function (b) { b.addEventListener("click", function () { window.print(); }); });
+    // 17 Weitersagen: Teilen-Menü des Geräts oder Link in die Zwischenablage
+    $$("[data-share]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var url = location.href.split("#")[0], title = document.title;
+        if (navigator.share) { navigator.share({ title: title, url: url }).catch(function () {}); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { toast("Link kopiert. Weitersagen ist das schönste Lob für die Werkstatt."); }, function () { toast("Kopieren ging nicht. Der Link steht oben in der Adresszeile."); });
+        else toast("Der Link steht oben in der Adresszeile.");
+      });
+    });
+  }
+
+  // 20 404: Überrasch mich mit einem zufälligen Tool
+  var sBtn = $("#surprise-btn"), sBox = $("#surprise");
+  if (sBtn && sBox) {
+    sBtn.hidden = false;
+    sBtn.addEventListener("click", function () {
+      tools().then(function (list) {
+        var t = list[Math.floor(Math.random() * list.length)];
+        sBox.innerHTML = hostIcon(t.url) + '<div><span class="k">Kurbel hat stattdessen das hier gefunden</span><br><b><a href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + '</a></b><p>' + escH(t.beschreibung) + ' <a href="' + escH(BASE + t.seite.replace(/^\.\//, "")) + '">Zur Schublade</a></p></div>';
+        sBox.hidden = false; sBtn.lastChild.textContent = "Noch eins"; sparksAt(sBtn, 12);
+      }).catch(function () { toast("Die Schublade klemmt gerade. Versuch es gleich noch mal."); });
+    });
+  }
+
+  // 19 Skip-Link: Fokus wirklich auf den Inhalt setzen
+  var skip = $(".skip"), wb = $("#werkbank");
+  if (skip && wb) skip.addEventListener("click", function () { setTimeout(function () { wb.focus(); }, 0); });
+
+  // 18 Für alle, die unter die Haube schauen
+  try {
+    console.log("%c KI-Werkstatt %c Moin! Schön, dass du unter die Haube schaust. Hans Moritz und Kurbel sagen Hallo. Tipp: Tipp mal „moin“ auf der Seite. Und es liegen sieben Schrauben herum.",
+      "background:#D7FF3C;color:#0E1116;font-weight:700;padding:3px 6px;border-radius:4px", "color:inherit");
+  } catch (e) {}
+
+  })();
 })();
