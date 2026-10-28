@@ -114,7 +114,7 @@
    "kurz": "MCP, Agent Skills und der Agent goose liegen jetzt bei einer neutralen Stiftung der Linux Foundation. Was du einmal für einen Agenten baust, läuft zunehmend auch beim nächsten.",
    "text": [
     "Am 22. Oktober hat Anthropic den Standard Agent Skills an die Agentic AI Foundation übergeben, die unter dem Dach der Linux Foundation arbeitet. Ein Skill ist ein Ordner mit einer Datei SKILL.md und optionalen Skripten. Laut Anthropic haben ihn bereits über 70 Agenten-Plattformen eingebaut, darunter ChatGPT, Cursor, GitHub Copilot und VS Code.",
-    "Dieselbe Stiftung verwaltet schon das Model Context Protocol und den quelloffenen Agenten goose, den Block eingebracht hat. Damit liegen die drei wichtigsten Bausteine für Agenten, also Werkzeuganschluss, Fachwissen und Laufzeit, bei einer herstellerneutralen Stelle."
+    "Dieselbe Stiftung verwaltet schon das Model Context Protocol und den quelloffenen Agenten goose, den Block eingebracht hat. Damit liegen die drei wichtigsten Bausteine für Agenten, also Werkzeuganschluss, Fachwissen und Laufzeit, bei einer herstellerneutralen Stelle. Auch Apple setzt auf MCP: Laut Apple sollen externe KI-Agenten ab November Inhalte in Keynote, Pages und Numbers lesen, bearbeiten und Abläufe automatisieren können, vorausgesetzt macOS 27 und ein Abo von Apple Creator Studio."
    ],
    "fuer_dich": "Baue Anbindungen an Shop, Warenwirtschaft oder Wiki als MCP-Server und Arbeitsanleitungen als Skills. So wechselst du den KI-Anbieter, ohne alles neu zu verdrahten.",
    "urteil": "Standards sind langweilig. Genau deshalb sparen sie dir später Geld und Nerven.",
@@ -134,6 +134,11 @@
      "goose auf GitHub (Agentic AI Foundation)",
      "https://github.com/aaif-goose/goose",
      ""
+    ],
+    [
+     "Apple: Apple Creator Studio adds powerful new AI features",
+     "https://www.apple.com/newsroom/2026/10/apple-creator-studio-adds-powerful-new-ai-features-and-even-more-creative-tools/",
+     "2026-10-27"
     ]
    ],
    "label": "Offene Standards",
@@ -185,7 +190,8 @@
     "service": 2,
     "kreativ": 1,
     "buero": 3
-   }
+   },
+   "ratgeber": "datenschutz-ki-tools"
   },
   {
    "id": "lokal",

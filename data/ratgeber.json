@@ -428,6 +428,234 @@
    "lead_hook": "Welche Aufgabe soll dein erster Agent übernehmen?",
    "lead_text": "Beschreib Jean den Ablauf, der euch jede Woche Zeit frisst, und welche Systeme daran hängen. Zurück kommt ein Vorschlag für Werkzeug, Rechte und Freigaben, mit dem ihr sicher startet.",
    "bubble": "Ich frage vor jedem Löschen. Auch vor dem Löschen meiner eigenen Fragen."
+  },
+  {
+   "id": "datenschutz-ki-tools",
+   "page": "ratgeber-datenschutz-ki-tools.html",
+   "icon": "lock",
+   "h1": "Datenschutz bei KI-Tools: Training, Datenstandort und AVV für Firmen im Klartext",
+   "label": "Datenschutz bei KI-Tools",
+   "seo_title": "Datenschutz bei KI-Tools: Training abschalten, AVV, Datenstandort",
+   "meta": "Was die Datenschutzkonferenz beim KI-Einsatz erwartet, wie OpenAI, Anthropic, Google, Mistral und DeepL mit Eingaben umgehen, was Datenstandort Europa abdeckt, zehn Fragen an jeden Anbieter und eine Regelseite fürs Team.",
+   "teaser": "Business-Tarif oder Privat-Abo, Trainingsschalter, Datenstandort und Vertrag: was die Aufsicht erwartet und welche zehn Fragen du jedem Anbieter stellst.",
+   "hero": "Dasselbe Modell, zwei Tarife, zwei völlig verschiedene Antworten auf die Frage, was mit deinen Daten passiert. Hier steht, worauf es ankommt.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "buero",
+    "service",
+    "shop",
+    "marketing"
+   ],
+   "trend": "europa",
+   "tools": [
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Le Chat von Mistral",
+    "DeepL Übersetzer",
+    "Ollama",
+    "LM Studio",
+    "Open WebUI"
+   ],
+   "glossar": [
+    "DSGVO",
+    "AVV",
+    "Lokales Modell",
+    "RAG",
+    "Prompt",
+    "Agent"
+   ],
+   "faq": [
+    [
+     "Darf ich ChatGPT, Claude oder Gemini im Unternehmen mit Kundendaten nutzen?",
+     "Mit einem Business-Tarif oder der API, einem Vertrag zur Auftragsverarbeitung, einer Rechtsgrundlage und klaren internen Regeln ist das in vielen Fällen möglich. Private und kostenlose Konten sind dafür in aller Regel ungeeignet. Diese Einschätzung ist keine Rechtsberatung."
+    ],
+    [
+     "Trainieren die Anbieter mit meinen Eingaben?",
+     "In den Business-Angeboten von OpenAI, Anthropic und Google laut eigener Auskunft nicht, solange du nicht zustimmst. Bei privaten und kostenlosen Konten ist Training teils voreingestellt oder eine Wahl beim Einrichten. Achtung beim Feedback-Knopf: Bewertete Gespräche dürfen einige Anbieter auch im Firmentarif nutzen."
+    ],
+    [
+     "Reicht es, Namen aus dem Prompt zu löschen?",
+     "Oft nicht. Die Datenschutzkonferenz weist darauf hin, dass sich eine Person auch aus dem Zusammenhang erkennen lässt, etwa aus Betrieb, Funktion und Zeitpunkt einer Anfrage."
+    ],
+    [
+     "Heißt Datenstandort Europa, dass alle Daten in der EU bleiben?",
+     "Nicht unbedingt. Bei OpenAI etwa gilt die Zusage für Inhalte wie Prompts und Dateien, nicht für Kontodaten, Rechnungsdaten und Protokolle ohne Inhalt. Prüf außerdem Vertragspartner und Unterauftragnehmer."
+    ]
+   ],
+   "quellen": [
+    [
+     "Datenschutzkonferenz: Orientierungshilfe Künstliche Intelligenz und Datenschutz",
+     "https://www.datenschutzkonferenz-online.de/media/oh/20240506_DSK_Orientierungshilfe_KI_und_Datenschutz.pdf",
+     "2024-05-06"
+    ],
+    [
+     "Datenschutzkonferenz: Übersicht der Orientierungshilfen, unter anderem TOM bei KI-Systemen und RAG",
+     "https://www.datenschutzkonferenz-online.de/orientierungshilfen.html",
+     ""
+    ],
+    [
+     "OpenAI: Enterprise privacy",
+     "https://openai.com/enterprise-privacy/",
+     ""
+    ],
+    [
+     "OpenAI: Business data privacy, security, and compliance",
+     "https://openai.com/business-data/",
+     ""
+    ],
+    [
+     "OpenAI Help Center: Data residency and inference residency for ChatGPT",
+     "https://help.openai.com/en/articles/9903489-eu-data-residency",
+     ""
+    ],
+    [
+     "OpenAI: Introducing data residency in Europe",
+     "https://openai.com/index/introducing-data-residency-in-europe/",
+     "2025-02-05"
+    ],
+    [
+     "Anthropic Privacy Center: Is my data used for model training? (kommerzielle Produkte)",
+     "https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training",
+     ""
+    ],
+    [
+     "Anthropic: Updates to Consumer Terms and Privacy Policy",
+     "https://www.anthropic.com/news/updates-to-our-consumer-terms",
+     "2025-08-28"
+    ],
+    [
+     "Anthropic Privacy Center: How do I change my model improvement privacy settings?",
+     "https://privacy.claude.com/en/articles/12109829-how-do-i-change-my-model-improvement-privacy-settings",
+     ""
+    ],
+    [
+     "Google: Generative AI in Google Workspace Privacy Hub",
+     "https://knowledge.workspace.google.com/admin/generative-ai/generative-ai-in-google-workspace-privacy-hub",
+     ""
+    ],
+    [
+     "Google Workspace: Generative AI Security, Compliance and Privacy",
+     "https://workspace.google.com/security/ai-privacy/",
+     ""
+    ],
+    [
+     "Mistral Help Center: Do you use my user data to train your AI models?",
+     "https://help.mistral.ai/en/articles/347617-do-you-use-my-user-data-to-train-your-artificial-intelligence-models",
+     ""
+    ],
+    [
+     "Mistral Help Center: Can I opt out of my input or output data being used for training?",
+     "https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training",
+     "2026-09-03"
+    ],
+    [
+     "DeepL: Datenschutzerklärung",
+     "https://www.deepl.com/en/privacy",
+     ""
+    ],
+    [
+     "Cloudflare: Cross-request KV cache exposure in the GLM-5.3 Workers AI model",
+     "https://blog.cloudflare.com/kv-cache-exposure-remediation/",
+     "2026-10-26"
+    ]
+   ],
+   "lead_hook": "Welche KI-Tools nutzt dein Team wirklich?",
+   "lead_text": "Schick Jean die Liste eurer KI-Tools und wofür ihr sie einsetzt. Zurück kommt eine Einschätzung, welche Tarife passen, wo der Trainingsschalter sitzt und welche Fragen ihr den Anbietern noch stellen solltet. Keine Rechtsberatung, aber eine klare Ordnung.",
+   "bubble": "Ich vergesse gern. Leider nur, wenn mir das jemand vertraglich erlaubt."
+  },
+  {
+   "id": "ki-uebersetzung-shops",
+   "page": "ratgeber-ki-uebersetzung-shops.html",
+   "icon": "globe",
+   "h1": "KI-Übersetzung für Shops und Websites: Qualität, Glossar, hreflang und Kosten",
+   "label": "KI-Übersetzung für Shops",
+   "seo_title": "KI-Übersetzung für Shops: Glossar, hreflang, SEO und Kosten",
+   "meta": "Wie Shops und Websites mit DeepL, ChatGPT, Claude oder Gemini mehrsprachig werden: was Google zu übersetzten Seiten sagt, eigene URLs und hreflang, Glossare, welche Seiten Menschen prüfen sollten, Kosten pro Sprache und ein Fahrplan in vier Wochen.",
+   "teaser": "Was Google zu maschinell übersetzten Seiten sagt, wie hreflang richtig sitzt, warum das Glossar das halbe Projekt ist und was eine Sprache wirklich kostet.",
+   "hero": "Die Maschine übersetzt in Minuten. Ob daraus Kunden in Amsterdam, Stockholm oder Mailand werden, entscheiden Glossar, Prüfung und Technik.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "shop",
+    "marketing",
+    "entwicklung",
+    "kreativ"
+   ],
+   "tools": [
+    "DeepL Übersetzer",
+    "DeepL Write",
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Le Chat von Mistral",
+    "GPT for Sheets and Docs"
+   ],
+   "glossar": [
+    "LLM",
+    "Prompt",
+    "Token",
+    "Kontextfenster",
+    "API",
+    "Halluzination"
+   ],
+   "faq": [
+    [
+     "Straft Google maschinell übersetzte Seiten ab?",
+     "Nicht pauschal. Laut den Spamrichtlinien ist das massenhafte automatische Übersetzen problematisch, wenn dabei wenig Mehrwert entsteht. Vollständige, geprüfte Seiten in der Sprache der Kunden sind dagegen genau das, was Google für mehrsprachige Seiten empfiehlt."
+    ],
+    [
+     "Gelten übersetzte Seiten als Duplicate Content?",
+     "Laut Google nur, wenn der Hauptinhalt unübersetzt bleibt. Wer nur Navigation und Fußzeile übersetzt, erzeugt Dubletten; wer den Inhalt übersetzt, nicht."
+    ],
+    [
+     "DeepL oder ein großes Sprachmodell?",
+     "DeepL bringt Glossare, Dateiübersetzung und Verarbeitung im Europäischen Wirtschaftsraum mit. Große Sprachmodelle passen den Ton freier an und lassen sich mit Anweisungen steuern. Viele Shops testen beide an denselben 50 Seiten und entscheiden dann nach Ergebnis."
+    ],
+    [
+     "Muss ich hreflang auf jeder Seite einbauen?",
+     "Du brauchst die Angaben für jede Seite mit Sprachversionen, kannst sie aber statt im HTML auch gesammelt in der Sitemap pflegen. Google behandelt beide Wege gleich, wichtig sind gegenseitige Verweise und vollständige URLs."
+    ]
+   ],
+   "quellen": [
+    [
+     "Google Search Central: Managing multi-regional and multilingual sites",
+     "https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites",
+     ""
+    ],
+    [
+     "Google Search Central: Tell Google about localized versions of your page",
+     "https://developers.google.com/search/docs/specialty/international/localized-versions",
+     ""
+    ],
+    [
+     "Google Search Central: Spam policies, Scaled content abuse",
+     "https://developers.google.com/search/docs/essentials/spam-policies",
+     ""
+    ],
+    [
+     "DeepL: Pro-Tarife und Funktionen",
+     "https://www.deepl.com/en/pro",
+     ""
+    ],
+    [
+     "DeepL: API",
+     "https://www.deepl.com/en/pro-api",
+     ""
+    ],
+    [
+     "DeepL: Datenschutzerklärung, Abschnitte zu Free und Pro",
+     "https://www.deepl.com/en/privacy",
+     ""
+    ],
+    [
+     "DeepL Help Center: Infrastructure and data protection",
+     "https://support.deepl.com/hc/en-us/articles/26380849099932-DeepL-infrastructure-and-data-protection",
+     ""
+    ]
+   ],
+   "lead_hook": "In welche Sprache soll dein Shop als Nächstes?",
+   "lead_text": "Schick Jean Zielmarkt, Shopsystem und ungefähre Seitenzahl. Zurück kommt ein Vorschlag für URL-Aufbau, Werkzeug, Glossar und Prüfstufen, mit dem die erste Sprache in vier Wochen online geht.",
+   "bubble": "Ich übersetze alles. Außer Markennamen. Die stehen in meinem Glossar unter Finger weg."
   }
  ]
 }
