@@ -245,7 +245,7 @@ Code to Flow;https://codetoflow.com;Macht aus Code interaktive Flussdiagramme.;P
 Google Antigravity;https://antigravity.google/;Agenten-Plattform von Google für Software-Entwicklung, für einzelne Entwickler kostenlos, auf macOS, Windows und Linux.;Programmieren mit KI;;nein;nein;ja;ki-tools-programmieren-mit-ki.html
 Midjourney;https://www.midjourney.com/;Bildgenerator mit markantem, künstlerischem Stil.;Bilder;Bildmodelle;nein;nein;nein;ki-tools-bilder.html#bildmodelle
 Stable Diffusion;https://huggingface.co/CompVis/stable-diffusion-v1-4;Offenes Text-zu-Bild-Modell von Stability AI, lokal ausführbar.;Bilder;Bildmodelle;nein;ja;nein;ki-tools-bilder.html#bildmodelle
-Imagen;https://imagen.research.google/;Googles Text-zu-Bild-Modell mit hohem Fotorealismus.;Bilder;Bildmodelle;nein;nein;nein;ki-tools-bilder.html#bildmodelle
+Imagen;https://imagen.research.google/;Googles Text-zu-Bild-Modell mit hohem Fotorealismus, inzwischen nur noch über Googles Cloud-Plattform statt der Gemini-API.;Bilder;Bildmodelle;nein;nein;nein;ki-tools-bilder.html#bildmodelle
 Ideogram;https://ideogram.ai;Bildgenerator, der besonders gut lesbare Schrift in Bildern erzeugt.;Bilder;Bildmodelle;nein;nein;nein;ki-tools-bilder.html#bildmodelle
 Adobe Firefly;https://firefly.adobe.com;Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.;Bilder;Bildmodelle;nein;nein;nein;ki-tools-bilder.html#bildmodelle
 DALL·E;https://openai.com/dall-e-2/;Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.;Bilder;Bildmodelle;nein;nein;nein;ki-tools-bilder.html#bildmodelle
@@ -293,7 +293,6 @@ Stable Diffusion Models;https://rentry.org/sdmodels;Umfangreiche Liste von Stabl
 Stable Horde;https://stablehorde.net/;Verteiltes Community-Cluster für Stable Diffusion.;Bilder;Modell-Bibliotheken und Stable-Diffusion-Ressourcen;nein;nein;nein;ki-tools-bilder.html#modell-bibliotheken-und-stable-diffusion-ressourcen
 Hugging Face Diffusion Models Course;https://github.com/huggingface/diffusion-models-class;Kostenloser Kurs zu Diffusionsmodellen in Python.;Bilder;Modell-Bibliotheken und Stable-Diffusion-Ressourcen;nein;ja;nein;ki-tools-bilder.html#modell-bibliotheken-und-stable-diffusion-ressourcen
 Google Veo;https://deepmind.google/models/veo/;Googles Videomodell für realistische Clips mit Ton.;Video;;nein;nein;nein;ki-tools-video.html
-Sora;https://openai.com/sora;Videomodell von OpenAI für Clips aus Text und Bild.;Video;;nein;nein;nein;ki-tools-video.html
 Kling AI;https://app.klingai.com/global/;Bild- und Videogenerierung mit sehr flüssiger Bewegung.;Video;;nein;nein;nein;ki-tools-video.html
 RunwayML;https://runwayml.com/;Kreativ-Suite für KI-Video, Bearbeitung und Effekte.;Video;;nein;nein;nein;ki-tools-video.html
 Luma Dream Machine;https://lumalabs.ai;Videos aus Text und Bildern mit realistischer Physik.;Video;;nein;nein;nein;ki-tools-video.html

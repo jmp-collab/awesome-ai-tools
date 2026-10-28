@@ -411,7 +411,7 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [FLUX von Black Forest Labs](https://bfl.ai) - 🇪🇺 Bildmodelle aus Freiburg, stark bei Fotorealismus, Text im Bild und Bildbearbeitung.
 - [Midjourney](https://www.midjourney.com/) - Bildgenerator mit markantem, künstlerischem Stil.
 - [Stable Diffusion](https://huggingface.co/CompVis/stable-diffusion-v1-4) - Offenes Text-zu-Bild-Modell von Stability AI, lokal ausführbar. `OSS`
-- [Imagen](https://imagen.research.google/) - Googles Text-zu-Bild-Modell mit hohem Fotorealismus.
+- [Imagen](https://imagen.research.google/) - Googles Text-zu-Bild-Modell mit hohem Fotorealismus, inzwischen nur noch über Googles Cloud-Plattform statt der Gemini-API.
 - [Ideogram](https://ideogram.ai) - Bildgenerator, der besonders gut lesbare Schrift in Bildern erzeugt.
 - [Adobe Firefly](https://firefly.adobe.com) - Bildgenerierung von Adobe, trainiert auf lizenzierten Inhalten, integriert in Photoshop.
 - [DALL·E](https://openai.com/dall-e-2/) - Bildmodell von OpenAI, heute direkt in ChatGPT nutzbar.
@@ -477,7 +477,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 ## Video
 
 - [Google Veo](https://deepmind.google/models/veo/) - Googles Videomodell für realistische Clips mit Ton.
-- [Sora](https://openai.com/sora) - Videomodell von OpenAI für Clips aus Text und Bild.
 - [Kling AI](https://app.klingai.com/global/) - Bild- und Videogenerierung mit sehr flüssiger Bewegung.
 - [RunwayML](https://runwayml.com/) - Kreativ-Suite für KI-Video, Bearbeitung und Effekte.
 - [Luma Dream Machine](https://lumalabs.ai) - Videos aus Text und Bildern mit realistischer Physik.
