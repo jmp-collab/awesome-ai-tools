@@ -1,4 +1,4 @@
-> **Kurz gesagt:** Seit dem 2. August 2026 gelten die Transparenzpflichten aus Artikel 50 des EU AI Act. Wer einen Chatbot betreibt, muss ihn als KI zu erkennen geben. Wer täuschend echte Bilder, Videos oder Töne veröffentlicht, muss sie kennzeichnen. KI-Texte zu Themen von öffentlichem Interesse brauchen ein Label, außer ein Mensch hat sie geprüft und trägt die redaktionelle Verantwortung. Produkttexte, freigestellte Produktfotos und KI-Übersetzungen sind in den meisten Fällen nicht betroffen. Wo die Grenze genau verläuft, steht unten mit Beispielen.
+> **Kurz gesagt:** Seit dem 2. August 2026 gelten die Transparenzpflichten aus Artikel 50 des EU AI Act. Chatbots müssen sich als KI zu erkennen geben, dafür sorgen muss der Anbieter, der den Bot entwickelt oder unter eigenem Namen anbietet. Wer täuschend echte Bilder, Videos oder Töne veröffentlicht, muss sie kennzeichnen. KI-Texte zu Themen von öffentlichem Interesse brauchen ein Label, außer ein Mensch hat sie geprüft und trägt die redaktionelle Verantwortung. Produkttexte, freigestellte Produktfotos und KI-Übersetzungen sind in den meisten Fällen nicht betroffen. Wo die Grenze genau verläuft, steht unten mit Beispielen.
 
 Dieser Ratgeber fasst die Seiten der EU-Kommission und die Auswertungen zweier Wirtschaftskanzleien zusammen. Er ist keine Rechtsberatung. Wenn bei dir viel Geld oder viel Reichweite an einer Kampagne hängt, lass den Einzelfall von jemandem prüfen, der dafür haftet.
 
@@ -8,22 +8,24 @@ Der AI Act ist seit August 2024 in Kraft, wird aber in Etappen anwendbar. Die Ve
 
 Artikel 50 enthält vier Pflichten:
 
-1. **Chatbots und Agenten offenlegen:** Wer mit einem KI-System spricht, muss das erfahren, sofern es nicht ohnehin offensichtlich ist.
+1. **Chatbots und Agenten offenlegen:** Anbieter müssen Systeme, die direkt mit Menschen sprechen, so bauen, dass die Menschen erfahren, dass sie mit einer KI sprechen, sofern das nicht ohnehin offensichtlich ist.
 2. **Maschinenlesbar markieren:** Anbieter generativer Systeme müssen deren Ausgaben so kennzeichnen, dass Software sie als künstlich erzeugt erkennt.
 3. **Über Emotionserkennung informieren:** Wer Systeme zur Emotionserkennung oder biometrischen Kategorisierung einsetzt, muss die betroffenen Personen darüber informieren.
 4. **Deepfakes und bestimmte Texte labeln:** Betreiber müssen täuschend echte Bilder, Videos und Töne sowie KI-Texte zu Themen von öffentlichem Interesse sichtbar kennzeichnen.
 
-Für die meisten Shops, Agenturen und Creator sind Nummer eins und vier die entscheidenden. Nummer zwei landet bei den Tool-Herstellern, Nummer drei betrifft nur wenige Spezialfälle.
+Als Betreiber trifft dich direkt vor allem Nummer vier. Nummer eins und zwei sind Pflichten der Anbieter, sie werden aber zu deinen, sobald du einen Bot oder ein Tool unter eigenem Namen anbietest. Nummer drei betrifft nur wenige Spezialfälle.
 
 ## Anbieter oder Betreiber: Welche Rolle hast du?
 
 Der AI Act unterscheidet zwischen Anbietern, die ein KI-System entwickeln und unter eigenem Namen anbieten, und Betreibern, die ein solches System beruflich einsetzen. Wer in Midjourney, Canva oder einem Chat-Assistenten Bilder und Texte erzeugt, ist in aller Regel Betreiber. Wer ein eigenes Tool baut und es Kunden zur Verfügung stellt, wird zum Anbieter, auch wenn darunter ein fremdes Modell arbeitet.
 
-Die Unterscheidung entscheidet, welche Pflichten dich treffen. Die maschinenlesbare Markierung nach Absatz 2 ist Sache der Anbieter. Die sichtbare Kennzeichnung nach Absatz 4 ist Sache der Betreiber. Plattformen und Hoster, die fremde KI-Inhalte nur verbreiten, sind nach den finalen Leitlinien der Kommission keine Betreiber, solange sie keine Kontrolle über das KI-System haben. Ein Label anzuzeigen macht eine Plattform noch nicht zum Betreiber.
+Die Unterscheidung entscheidet, welche Pflichten dich treffen. Die Offenlegung von Chatbots nach Absatz 1 und die maschinenlesbare Markierung nach Absatz 2 sind Sache der Anbieter. Die sichtbare Kennzeichnung nach Absatz 4 ist Sache der Betreiber. Plattformen und Hoster, die fremde KI-Inhalte nur verbreiten, sind nach den finalen Leitlinien der Kommission keine Betreiber, solange sie keine Kontrolle über das KI-System haben. Ein Label anzuzeigen macht eine Plattform noch nicht zum Betreiber.
 
 ## Chatbots und KI-Agenten
 
-Ein Chat-Widget im Shop, ein Telefonagent an der Hotline oder ein E-Mail-Assistent, der selbstständig antwortet: Alle müssen sich als KI zu erkennen geben, wenn das für die Menschen auf der anderen Seite nicht schon klar ist. Praktisch heißt das ein kurzer, gut sichtbarer Hinweis zu Beginn des Gesprächs und kein Fantasiename, der einen echten Mitarbeiter vortäuscht.
+Ein Chat-Widget im Shop, ein Telefonagent an der Hotline oder ein E-Mail-Assistent, der selbstständig antwortet: Alle müssen sich als KI zu erkennen geben, wenn das für die Menschen auf der anderen Seite nicht schon klar ist. Rechtlich liegt diese Pflicht beim Anbieter. Er muss das System so bauen, dass der Hinweis laut Kommission ab der ersten Interaktion klar erkennbar und barrierefrei erscheint.
+
+Kaufst du ein fertiges Widget oder einen Telefonagenten ein, bist du Betreiber. Dann muss der Hinweis vom Hersteller kommen, und deine Aufgabe ist, ihn eingeschaltet zu lassen und nicht mit einem Fantasienamen zu entwerten, der einen echten Mitarbeiter vortäuscht. Baust du den Bot selbst oder bietest ihn unter eigenem Namen an, wirst du selbst zum Anbieter und trägst die Pflicht direkt.
 
 Die finalen Leitlinien vom 20. Juli 2026 gehen bei Agenten weiter als der Entwurf. Ein Agent soll nicht nur sagen, dass er eine KI ist, sondern auch, in wessen Auftrag er handelt. Bei Systemen aus mehreren Agenten verlangt die Kommission den Hinweis an den entscheidenden Stellen, etwa bei Freigaben, Berichten und Bestätigungen. Wer Agenten baut, sollte diese Offenlegung deshalb gleich in die Architektur einplanen und nicht später in einen Prompt kleben.
 
@@ -82,7 +84,7 @@ Die Kommission ermutigt dazu, ältere Inhalte trotzdem zu kennzeichnen, erwartet
 ## Checkliste für dein Team
 
 1. **Inventur machen:** Wo entstehen bei euch Bilder, Videos, Stimmen oder Texte mit KI, und wo spricht ein Bot mit Kunden? Eine einfache Tabelle reicht.
-2. **Bots offenlegen:** Chat-Widget, Telefonagent und Mail-Assistent bekommen einen klaren Hinweis am Anfang, Agenten zusätzlich die Angabe, für wen sie handeln.
+2. **Bots prüfen:** Zeigen Chat-Widget, Telefonagent und Mail-Assistent gleich zu Beginn, dass eine KI antwortet? Bei gekauften Tools ist das Pflicht des Herstellers, bei selbst gebauten deine. Lass den Hinweis in jedem Fall aktiv.
 3. **Bildregel festlegen:** Hintergrund tauschen geht ohne Label. Realistische Menschen, Orte, Ereignisse oder ein geschöntes Produkt bekommen eins.
 4. **Textfreigabe dokumentieren:** Für Texte zu öffentlichen Themen eine verantwortliche Person benennen und die Prüfung festhalten, sonst sichtbar kennzeichnen.
 5. **Markierungen schützen:** Keine Exportwege nutzen, die Metadaten bewusst entfernen, und das auch von Dienstleistern verlangen.
@@ -94,7 +96,7 @@ Diese acht Punkte passen auf eine Seite und kosten einen Nachmittag. Das ist deu
 
 ## Was das für Shops, Marketing und Creator konkret heißt
 
-**Online-Shops** müssen vor allem den Chatbot offenlegen und bei KI-Produktbildern aufpassen, dass sie nichts schöner zeigen, als es ist. Produkttexte, Übersetzungen und freigestellte Fotos bleiben in der Regel ohne Label. Mehr zum Werkzeug dafür steht auf der Seite [KI für Online-Shops](ki-fuer-online-shops.html).
+**Online-Shops** sollten vor allem prüfen, dass ihr Chatbot sich als KI zu erkennen gibt, und bei KI-Produktbildern aufpassen, dass sie nichts schöner zeigen, als es ist. Produkttexte, Übersetzungen und freigestellte Fotos bleiben in der Regel ohne Label. Mehr zum Werkzeug dafür steht auf der Seite [KI für Online-Shops](ki-fuer-online-shops.html).
 
 **Marketing-Teams** sollten jede Kampagne mit KI-Menschen oder KI-Stimmen von Anfang an mit Kennzeichnung planen, weil die Kreativ-Ausnahme bei Werbung kaum greift. Bei Blogartikeln zu gesellschaftlichen Themen hilft eine dokumentierte Freigabe. Werkzeuge und Fragen dazu findest du unter [KI im Marketing](ki-im-marketing.html).
 

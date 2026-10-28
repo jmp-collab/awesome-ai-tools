@@ -349,12 +349,12 @@
    "id": "ai-act",
    "titel": "EU AI Act: Hochrisiko später, Kennzeichnung jetzt",
    "icon": "shield",
-   "kurz": "Die EU hat die Pflichten für Hochrisiko-Systeme verschoben, aber die Transparenzpflichten nicht. Wer Chatbots betreibt oder KI-Inhalte veröffentlicht, ist schon dran.",
+   "kurz": "Die EU hat die Pflichten für Hochrisiko-Systeme verschoben, aber die Transparenzpflichten nicht. Chatbots müssen sich als KI zeigen, täuschend echte KI-Inhalte brauchen ein Label.",
    "text": [
     "Die Verordnung (EU) 2026/1744, der sogenannte Digital Omnibus zur KI, ist am 24. Juli 2026 im Amtsblatt erschienen und am 27. Juli in Kraft getreten. Sie verschiebt die Pflichten für eigenständige Hochrisiko-Systeme nach Anhang III auf den 2. Dezember 2027 und für Hochrisiko-KI in Produkten nach Anhang I auf den 2. August 2028.",
     "Unverändert gelten die Transparenzpflichten seit dem 2. August 2026. Ab dem 2. Dezember 2026 kommen gezielte Verbote für generative Systeme hinzu, die nicht einvernehmliche intime Bilder oder Darstellungen von Kindesmissbrauch erzeugen."
    ],
-   "fuer_dich": "Kennzeichne Chatbots und täuschend echte KI-Inhalte schon jetzt. Wenn du KI etwa zum Sortieren von Bewerbungen einsetzt, hast du bis Dezember 2027 Zeit für die Hochrisiko-Pflichten. Diese Zusammenfassung ist keine Rechtsberatung.",
+   "fuer_dich": "Achte darauf, dass deine Chatbots sich als KI zu erkennen geben, und kennzeichne täuschend echte KI-Inhalte schon jetzt. Wenn du KI etwa zum Sortieren von Bewerbungen einsetzt, hast du bis Dezember 2027 Zeit für die Hochrisiko-Pflichten. Diese Zusammenfassung ist keine Rechtsberatung.",
    "urteil": "Mehr Zeit für die schweren Fälle, keine Schonfrist fürs Kennzeichnen.",
    "tools": [],
    "quellen": [

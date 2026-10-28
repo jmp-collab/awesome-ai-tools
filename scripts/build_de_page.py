@@ -1066,7 +1066,7 @@ def neu_band(list_secs):
     neu_html = f"""<div class="neu-box reveal"><h3>{icon("plus")}Frisch in den Schubladen</h3><ul class="neu-list">{neu}</ul></div>""" if neu else ""
     return f"""<section class="band" id="neu-und-trends"><div class="wrap">
 <p class="eyebrow">Neu &amp; im Trend · Stand {de_date(TRENDS["stand"])}</p><h2>Was diesen Herbst in der Werkstatt angekommen ist</h2>
-<p class="intro">{ZAHLWORT[len(TRENDS["trends"])]} Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
+<p class="intro">{ZAHLWORT.get(len(TRENDS["trends"]), str(len(TRENDS["trends"])))} Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
 <div class="trend-cards">{cards}</div>
 {neu_html}
 <p style="margin-top:20px"><a class="btn btn-lime" href="{TRENDS_PAGE}">{icon("chart")}Alle Trends mit Quellen</a></p>

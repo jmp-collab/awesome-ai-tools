@@ -1,9 +1,9 @@
 {
  "date": "2026-10-28",
- "urls_sha256": "592b1c3ad32609deb31611449dffbff0b7916d46fd9f4f27a63d14029c798219",
- "checked": 464,
- "ok": 464,
- "bot_protected": 86,
+ "urls_sha256": "2cce6c0d1148dc46781657a45ac23f48eb1ebae248ddc314f9bcb11c122ed355",
+ "checked": 465,
+ "ok": 465,
+ "bot_protected": 85,
  "dead": {},
  "method": "HTTP HEAD, bei Nicht-OK (auch 405) GET; 2xx/3xx und Bot-Schutz (401/403/429) gelten als erreichbar"
 }
