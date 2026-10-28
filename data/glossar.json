@@ -255,7 +255,12 @@
     "Perplexity"
    ],
    "cat": "text-und-sprache",
-   "spruch": "Der Bibliothekar, der dir die Antwort vorliest und die Bücher gleich danebenlegt."
+   "spruch": "Der Bibliothekar, der dir die Antwort vorliest und die Bücher gleich danebenlegt.",
+   "auch": [
+    "Antwortmaschine",
+    "Antwortmaschinen",
+    "KI-Suchen"
+   ]
   },
   {
    "t": "Kontextfenster",
@@ -284,7 +289,11 @@
     "Llama"
    ],
    "cat": "text-und-sprache",
-   "spruch": "Die Autovervollständigung, die zur Uni gegangen ist."
+   "spruch": "Die Autovervollständigung, die zur Uni gegangen ist.",
+   "auch": [
+    "Sprachmodell",
+    "Sprachmodelle"
+   ]
   },
   {
    "t": "Lokales Modell",

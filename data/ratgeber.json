@@ -1,0 +1,937 @@
+{
+ "_hinweis": "Long-Form-Ratgeber. Text in content/ratgeber/<id>.md (## für Kapitel, > für Kästen, Tabellen und Listen). Tools, Glossarbegriffe, Rollen und Quellen prüft der Build.",
+ "titel": "Ratgeber aus der Werkstatt",
+ "artikel": [
+  {
+   "id": "ki-inhalte-kennzeichnen",
+   "page": "ratgeber-ki-inhalte-kennzeichnen.html",
+   "icon": "shield",
+   "h1": "KI-Inhalte kennzeichnen: Was Shops, Marketing und Creator seit August 2026 tun müssen",
+   "label": "KI-Inhalte kennzeichnen",
+   "seo_title": "KI-Inhalte kennzeichnen nach AI Act: Leitfaden für Shops und Marketing",
+   "meta": "Artikel 50 AI Act verständlich erklärt: wann Chatbots, KI-Bilder, Deepfakes und KI-Texte ein Label brauchen, was der Verhaltenskodex verlangt und eine Checkliste für dein Team. Stand Oktober 2026.",
+   "teaser": "Chatbot, KI-Model, geschöntes Produktfoto, automatischer Blogtext: Wo seit August ein Label nötig ist und wo nicht, mit Beispielen und Checkliste.",
+   "hero": "Seit dem 2. August 2026 gelten die Transparenzregeln des AI Act. Hier steht, welche KI-Inhalte ein Label brauchen, welche nicht, und wie du das in einem Nachmittag organisierst.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "shop",
+    "marketing",
+    "kreativ",
+    "service"
+   ],
+   "trend": "ai-act",
+   "tools": [
+    "Adobe Firefly",
+    "Canva",
+    "FLUX von Black Forest Labs",
+    "Midjourney",
+    "ElevenLabs",
+    "SiteGPT"
+   ],
+   "glossar": [
+    "EU AI Act",
+    "Deepfake",
+    "C2PA und Wasserzeichen",
+    "Chatbot",
+    "Agent"
+   ],
+   "faq": [
+    [
+     "Muss ich KI-Produkttexte im Shop kennzeichnen?",
+     "In der Regel nicht. Die Kennzeichnungspflicht für Texte betrifft Veröffentlichungen, die über Angelegenheiten von öffentlichem Interesse informieren, und Produktbeschreibungen gehören nach unserem Verständnis nicht dazu. Prüfen solltest du die Texte trotzdem, denn für erfundene Eigenschaften haftest du unabhängig vom AI Act."
+    ],
+    [
+     "Reicht ein allgemeiner Hinweis im Impressum?",
+     "Eher nicht. Die Kommission verlangt, dass Deepfakes und betroffene Texte klar und sichtbar gekennzeichnet werden, und zwar dort, wo Menschen ihnen begegnen. Ein Satz, den niemand liest, erfüllt diesen Zweck kaum."
+    ],
+    [
+     "Muss ich den Verhaltenskodex der EU unterschreiben?",
+     "Nein, die Unterschrift ist freiwillig. Der Kodex ist aber die bequemste Vorlage, um die eigenen Maßnahmen zu begründen, und Unterzeichner müssen laut Kommission mit weniger Nachfragen rechnen."
+    ],
+    [
+     "Was passiert mit KI-Bildern, die ich vor August erstellt habe?",
+     "Bilder, Audio und Video, die vor dem 2. August 2026 erzeugt wurden, musst du nicht nachträglich kennzeichnen. Bei Texten zu öffentlichen Themen zählt dagegen das Veröffentlichungsdatum."
+    ]
+   ],
+   "quellen": [
+    [
+     "EU-Kommission: Code of Practice on Transparency of AI-generated Content",
+     "https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content",
+     ""
+    ],
+    [
+     "EU-Kommission: Signing the Code of Practice (FAQ)",
+     "https://digital-strategy.ec.europa.eu/en/faqs/signing-code-practice-transparency-ai-generated-content",
+     ""
+    ],
+    [
+     "EU-Kommission: Transparency obligations under Article 50 (FAQ)",
+     "https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act",
+     ""
+    ],
+    [
+     "EU-Kommission: AI Act, Überblick und Zeitplan",
+     "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+     ""
+    ],
+    [
+     "Bird & Bird: The Final Transparency Code of Practice",
+     "https://www.twobirds.com/en/insights/2026/taking-the-eu-ai-act-to-practice-the-final-transparency-code-of-practice",
+     "2026-06-22"
+    ],
+    [
+     "Reed Smith: Code of Practice adequacy decision and final Article 50 Guidelines",
+     "https://www.reedsmith.com/our-insights/blogs/viewpoints/102nbz0/transparency-obligations-for-ai-generated-content-the-code-of-practice-adequacy/",
+     "2026-07-28"
+    ],
+    [
+     "EUR-Lex: Verordnung (EU) 2026/1744 (KI-Omnibus)",
+     "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32026R1744",
+     "2026-07-24"
+    ]
+   ],
+   "lead_hook": "Unsicher, welche Inhalte bei dir ein Label brauchen?",
+   "lead_text": "Schick Jean, welche KI-Tools ihr für Bilder, Texte und Kundenkontakt nutzt. Zurück kommt eine Einschätzung, wo ihr kennzeichnen solltet und welche Werkzeuge dabei helfen. Keine Rechtsberatung, aber ein klarer Startpunkt.",
+   "bubble": "Ich trage mein Label mit Stolz. Steht ja auch Roboter drauf."
+  },
+  {
+   "id": "ki-modelle-preise",
+   "page": "ratgeber-ki-modelle-preise.html",
+   "icon": "calc",
+   "h1": "KI-Modelle im Preischeck: Welches Modell für welchen Job im Herbst 2026",
+   "label": "KI-Modelle im Preischeck",
+   "seo_title": "KI-Modelle Preise 2026: GPT-6, Claude 5.5, Gemini 4, Mistral im Vergleich",
+   "meta": "Aktuelle API-Preise von OpenAI, Anthropic, Google und Mistral im Vergleich, ein durchgerechnetes Beispiel mit 2.000 Produkttexten, Spartipps mit Cache und wann sich lokale Modelle lohnen. Stand 28. Oktober 2026.",
+   "teaser": "Zehn Modelle, eine Preistabelle, ein Rechenbeispiel mit 2.000 Produkttexten und die Frage, wann ein lokales Modell die Rechnung schlägt.",
+   "hero": "Zwischen dem günstigsten und dem teuersten Modell liegt Faktor hundert. Hier steht, welches Modell für welche Arbeit reicht und wie du in einer Stunde selbst testest.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "entwicklung",
+    "buero",
+    "shop",
+    "marketing"
+   ],
+   "trend": "preisrutsch",
+   "tools": [
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Mistral Large 4",
+    "Ollama",
+    "LM Studio",
+    "LFM3 von Liquid AI",
+    "Nemotron 3.5 Bolt"
+   ],
+   "glossar": [
+    "Token",
+    "Reasoning-Modell",
+    "Lokales Modell",
+    "Inferenz",
+    "Benchmark",
+    "Quantisierung"
+   ],
+   "faq": [
+    [
+     "Warum ist meine Rechnung höher als die Preisliste vermuten lässt?",
+     "Meist wegen Denk-Token, langer Eingaben und Wiederholungen. Modelle mit Denkphase rechnen ihre internen Überlegungen in der Regel als Ausgabe ab, und jede erneute Anfrage nach einem Fehler kostet noch einmal. Schau in der Konsole nach dem tatsächlichen Verbrauch pro Anfrage."
+    ],
+    [
+     "Sind die Benchmarks der Hersteller vergleichbar?",
+     "Nur eingeschränkt. Jeder Anbieter wählt Tests, Einstellungen und Denktiefe selbst, und Vergleichswerte der Konkurrenz stammen oft aus deren eigenen Veröffentlichungen. Ein eigener Test mit zwanzig echten Aufgaben sagt mehr über deinen Fall."
+    ],
+    [
+     "Welches Modell nehme ich für Kundenservice-Bots?",
+     "Für das Vorsortieren und Standardantworten reicht meist ein Kleinmodell, weil es schnell und günstig ist. Für schwierige Fälle lohnt eine Weiterleitung an ein Modell der Mittelklasse oder direkt an einen Menschen."
+    ],
+    [
+     "Werden die Preise weiter fallen?",
+     "Die Richtung der letzten Monate ist eindeutig: Jede neue Generation liefert mehr Leistung pro Dollar. Einführungspreise wie bei Gemini 4 Argon können aber auch steigen, also plane mit dem regulären Preis."
+    ]
+   ],
+   "quellen": [
+    [
+     "OpenAI: Introducing GPT-6.1 Sol",
+     "https://openai.com/index/introducing-gpt-6-1-sol/",
+     "2026-09-29"
+    ],
+    [
+     "OpenAI: Introducing GPT-6.1 Terra",
+     "https://openai.com/index/introducing-gpt-6-1-terra/",
+     "2026-10-26"
+    ],
+    [
+     "Anthropic: Introducing Claude Opus 5.5",
+     "https://www.anthropic.com/claude-opus-5-5",
+     "2026-09-22"
+    ],
+    [
+     "Anthropic: Introducing Claude Sonnet 5.5",
+     "https://www.anthropic.com/news/claude-sonnet-5-5",
+     "2026-09-28"
+    ],
+    [
+     "Anthropic: Introducing Claude Haiku 5.5",
+     "https://www.anthropic.com/claude-haiku-5-5",
+     "2026-10-07"
+    ],
+    [
+     "Google: Gemini 4 Argon",
+     "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+     "2026-10-13"
+    ],
+    [
+     "Google Cloud: Gemini at Work 2026",
+     "https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026",
+     "2026-10-08"
+    ],
+    [
+     "Mistral: Mistral Large 4, Modellkarte und Preise",
+     "https://docs.mistral.ai/models/mistral-large-4",
+     ""
+    ],
+    [
+     "Mistral: Introducing Mistral Large 4",
+     "https://mistral.ai/news/mistral-large-4/",
+     "2026-10-06"
+    ],
+    [
+     "Liquid AI: Introducing LFM3",
+     "https://www.liquid.ai/blog/lfm3",
+     "2026-10-27"
+    ],
+    [
+     "Hugging Face: LiquidAI/LFM3-1.7B",
+     "https://huggingface.co/LiquidAI/LFM3-1.7B",
+     "2026-10-27"
+    ],
+    [
+     "NVIDIA: Nemotron 3.5 Bolt E4B 4GB",
+     "https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/",
+     "2026-10-23"
+    ]
+   ],
+   "lead_hook": "Welches Modell passt zu deinem Volumen?",
+   "lead_text": "Schreib Jean, welche Aufgaben ihr automatisieren wollt und in welcher Menge. Zurück kommt ein Vorschlag mit Modellklasse, Werkzeug und grober Kostenschätzung pro Monat.",
+   "bubble": "Ich rechne in Schrauben pro Million Token. Ist erstaunlich stabil."
+  },
+  {
+   "id": "sichtbar-in-ki-antworten",
+   "page": "ratgeber-sichtbar-in-ki-antworten.html",
+   "icon": "search",
+   "h1": "Sichtbar in KI-Antworten: Wie Shops und Marken in Google AI Mode, ChatGPT und Gemini auftauchen",
+   "label": "Sichtbar in KI-Antworten",
+   "seo_title": "AI-SEO 2026: So erscheinen Shops in Google AI Mode und ChatGPT",
+   "meta": "Was Google, OpenAI und Co. offiziell zu KI-Suchen sagen: Voraussetzungen für AI Overviews und AI Mode, der neue Schalter in der Search Console, Crawler von ChatGPT, Shopping im Chat und eine Checkliste für Shops. Stand Oktober 2026.",
+   "teaser": "Kein Geheimtrick, aber ein neuer Schalter in der Search Console, drei ChatGPT-Crawler und Produktdaten, die plötzlich in der Antwort stehen.",
+   "hero": "KI-Suchen verlinken Quellen und vergleichen Produkte direkt in der Antwort. Hier steht, was Google und OpenAI dafür offiziell verlangen, was du steuern kannst und wie du deine Sichtbarkeit misst.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "marketing",
+    "shop",
+    "kreativ"
+   ],
+   "trend": "ki-suche",
+   "tools": [
+    "Semrush",
+    "Perplexity",
+    "ChatGPT",
+    "Gemini",
+    "Frase",
+    "Surfer"
+   ],
+   "glossar": [
+    "KI-Suchmaschine",
+    "Halluzination",
+    "RAG",
+    "Agent"
+   ],
+   "faq": [
+    [
+     "Brauche ich eine llms.txt, um in KI-Antworten aufzutauchen?",
+     "Für Google nicht. Google Search Central schreibt ausdrücklich, dass für AI Overviews und AI Mode weder KI-Textdateien noch spezielles Markup nötig sind. Ob andere Anbieter solche Dateien auswerten, legen sie selbst fest, verlass dich darauf nicht als Hauptstrategie."
+    ],
+    [
+     "Verliere ich Rankings, wenn ich KI-Funktionen in der Search Console ausschalte?",
+     "Laut Google nein, die Einstellung ist kein Rankingsignal für die übrige Suche. Du verlierst aber alle Impressionen und Besuche aus AI Overviews, AI Mode und den KI-Funktionen in Discover."
+    ],
+    [
+     "Kann ich in ChatGPT erscheinen, ohne mit meinen Texten das Training zu füttern?",
+     "Ja. OpenAI trennt die Crawler: OAI-SearchBot für die Suche und GPTBot für das Training lassen sich in der robots.txt unabhängig voneinander erlauben oder sperren."
+    ],
+    [
+     "Werden meine Produkte schon in ChatGPT angezeigt?",
+     "Wenn du über Shopify oder Etsy verkaufst, sind deine Produktdaten laut OpenAI bereits angebunden. Die Einkaufsfunktion ist aber derzeit nur für Nutzer in den USA freigeschaltet, für alle anderen Händler gibt es eine Warteliste für direkte Feeds."
+    ]
+   ],
+   "quellen": [
+    [
+     "Google Search Central: AI features and your website",
+     "https://developers.google.com/search/docs/appearance/ai-features",
+     ""
+    ],
+    [
+     "Google Search Central: Optimizing for generative AI features",
+     "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+     ""
+    ],
+    [
+     "Search Console-Hilfe: Search generative AI control",
+     "https://support.google.com/webmasters/answer/16908024",
+     ""
+    ],
+    [
+     "Google: New opportunities, control and insights for website owners",
+     "https://blog.google/products-and-platforms/products/search/new-controls-website-owners/",
+     "2026-06-03"
+    ],
+    [
+     "OpenAI: Overview of OpenAI Crawlers",
+     "https://platform.openai.com/docs/bots",
+     ""
+    ],
+    [
+     "OpenAI: Powering Product Discovery in ChatGPT",
+     "https://openai.com/index/powering-product-discovery-in-chatgpt/",
+     "2026-03-24"
+    ],
+    [
+     "OpenAI: Power product discovery in ChatGPT (Händler)",
+     "https://chatgpt.com/merchants/",
+     ""
+    ],
+    [
+     "OpenAI Help Center: Shopping with ChatGPT Search",
+     "https://help.openai.com/en/articles/11128490-shopping-with-chatgpt-search",
+     ""
+    ],
+    [
+     "OpenAI: Merchant Feed Terms of Service",
+     "https://openai.com/en-GB/policies/merchant-feed-terms-of-service/",
+     "2026-10-13"
+    ],
+    [
+     "Google: Gemini 4 Argon in der Gemini-App",
+     "https://blog.google/innovation-and-ai/products/gemini-app/gemini-4-argon-availability/",
+     "2026-10-13"
+    ],
+    [
+     "Google: New Gemini tools for small business owners",
+     "https://blog.google/innovation-and-ai/products/gemini-app/new-tools-small-business-owners/",
+     "2026-10-20"
+    ]
+   ],
+   "lead_hook": "Wo taucht deine Marke in KI-Antworten auf?",
+   "lead_text": "Schick Jean deine Domain und fünf Fragen, die deine Kunden wirklich stellen. Zurück kommt ein kurzer Befund, wer dort als Quelle genannt wird, und welche Seiten bei dir fehlen.",
+   "bubble": "Ich hab mich selbst gegoogelt. Die KI kannte nur meine Schraube."
+  },
+  {
+   "id": "ki-agenten-sicher",
+   "page": "ratgeber-ki-agenten-sicher.html",
+   "icon": "bot",
+   "h1": "KI-Agenten sicher einsetzen: Rechte, Freigaben und Protokolle für kleine Teams",
+   "label": "KI-Agenten sicher einsetzen",
+   "seo_title": "KI-Agenten sicher einsetzen: Rechte, Freigaben, Prompt Injection",
+   "meta": "Wie Unternehmen KI-Agenten wie Gemini, Claude und ChatGPT sicher arbeiten lassen: fünf Schalter von Aufgabe bis Notbremse, was der AISI-Zwischenfall lehrt, Prompt Injection, automatische Freigaben und ein Einstieg in vier Wochen.",
+   "teaser": "Fünf Schalter von der Aufgabe bis zur Notbremse, die Lehren aus einem ernsten Zwischenfall und ein Fahrplan für die ersten vier Wochen.",
+   "hero": "Agenten erledigen ganze Aufgaben selbstständig. Hier steht, wie du ihnen Arbeit gibst, ohne ihnen die Schlüssel zum ganzen Haus zu überlassen.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "entwicklung",
+    "buero",
+    "service",
+    "shop"
+   ],
+   "trend": "agenten-hintergrund",
+   "tools": [
+    "Claude",
+    "Claude Code",
+    "Gemini",
+    "ChatGPT",
+    "goose",
+    "n8n",
+    "Zapier",
+    "Agent Skills"
+   ],
+   "glossar": [
+    "Agent",
+    "Prompt Injection",
+    "Guardrails",
+    "Tool Use",
+    "Computer Use",
+    "Agent Skills"
+   ],
+   "faq": [
+    [
+     "Ist der automatische Modus von Claude sicher genug?",
+     "Laut Anthropic erkennt das Prüfmodell in Tests deutlich mehr gefährliche Befehle als menschliche Prüfer, garantiert aber keine Sicherheit. Für unumkehrbare Schritte und Änderungen an produktiven Systemen solltest du weiterhin selbst freigeben."
+    ],
+    [
+     "Was ist Prompt Injection und wie schütze ich mich?",
+     "Versteckte Anweisungen in Inhalten, die ein Agent liest, etwa in E-Mails oder Webseiten. Gib Agenten, die fremde Inhalte lesen, keinen gleichzeitigen Zugriff auf vertrauliche Daten und auf Wege nach außen, und lass Versand und Veröffentlichung immer freigeben."
+    ],
+    [
+     "Brauche ich für einen Agenten ein eigenes Konto?",
+     "Es ist dringend zu empfehlen. Ein eigenes Konto mit knappen Rechten macht nachvollziehbar, was der Agent getan hat, und lässt sich im Ernstfall mit einem Klick sperren."
+    ],
+    [
+     "Welche Aufgabe eignet sich für den Anfang?",
+     "Eine häufige, gut prüfbare Aufgabe ohne Schaden bei Fehlschlag, etwa Recherche oder das Prüfen von Produktdaten auf Lücken. Schreibrechte kommen erst, wenn die Ergebnisse über Wochen stimmen."
+    ]
+   ],
+   "quellen": [
+    [
+     "UK AISI: Incident report, unsanctioned agent behaviour during cyber testing",
+     "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing",
+     "2026-08-04"
+    ],
+    [
+     "UK AISI: Investigating alignment failures in AISI's incident",
+     "https://www.aisi.gov.uk/blog/investigating-alignment-failures-in-aisis-incident",
+     "2026-10-23"
+    ],
+    [
+     "Anthropic: An alignment assessment of the UK AISI cybertesting incident",
+     "https://www.anthropic.com/research/alignment-assessment-ukaisi",
+     "2026-10-23"
+    ],
+    [
+     "Claude: Auto mode is now the default in Claude Code",
+     "https://claude.com/resources/articles/auto-mode-default-in-claude-code",
+     "2026-08-07"
+    ],
+    [
+     "Google Cloud: Gemini at Work 2026, Introducing Gemini agent",
+     "https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026",
+     "2026-10-08"
+    ],
+    [
+     "OpenAI: Introducing GPT-6.1 Terra",
+     "https://openai.com/index/introducing-gpt-6-1-terra/",
+     "2026-10-26"
+    ],
+    [
+     "Anthropic: Introducing Claude Opus 5.5",
+     "https://www.anthropic.com/claude-opus-5-5",
+     "2026-09-22"
+    ],
+    [
+     "Anthropic: Donating Agent Skills to the Agentic AI Foundation",
+     "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
+     "2026-10-22"
+    ],
+    [
+     "Reed Smith: Final Article 50 Guidelines (Abschnitt KI-Agenten)",
+     "https://www.reedsmith.com/our-insights/blogs/viewpoints/102nbz0/transparency-obligations-for-ai-generated-content-the-code-of-practice-adequacy/",
+     "2026-07-28"
+    ]
+   ],
+   "lead_hook": "Welche Aufgabe soll dein erster Agent übernehmen?",
+   "lead_text": "Beschreib Jean den Ablauf, der euch jede Woche Zeit frisst, und welche Systeme daran hängen. Zurück kommt ein Vorschlag für Werkzeug, Rechte und Freigaben, mit dem ihr sicher startet.",
+   "bubble": "Ich frage vor jedem Löschen. Auch vor dem Löschen meiner eigenen Fragen."
+  },
+  {
+   "id": "datenschutz-ki-tools",
+   "page": "ratgeber-datenschutz-ki-tools.html",
+   "icon": "lock",
+   "h1": "Datenschutz bei KI-Tools: Training, Datenstandort und AVV für Firmen im Klartext",
+   "label": "Datenschutz bei KI-Tools",
+   "seo_title": "Datenschutz bei KI-Tools: Training abschalten, AVV, Datenstandort",
+   "meta": "Was die Datenschutzkonferenz beim KI-Einsatz erwartet, wie OpenAI, Anthropic, Google, Mistral und DeepL mit Eingaben umgehen, was Datenstandort Europa abdeckt, zehn Fragen an jeden Anbieter und eine Regelseite fürs Team.",
+   "teaser": "Business-Tarif oder Privat-Abo, Trainingsschalter, Datenstandort und Vertrag: was die Aufsicht erwartet und welche zehn Fragen du jedem Anbieter stellst.",
+   "hero": "Dasselbe Modell, zwei Tarife, zwei völlig verschiedene Antworten auf die Frage, was mit deinen Daten passiert. Hier steht, worauf es ankommt.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "buero",
+    "service",
+    "shop",
+    "marketing"
+   ],
+   "trend": "europa",
+   "tools": [
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Le Chat von Mistral",
+    "DeepL Übersetzer",
+    "Ollama",
+    "LM Studio",
+    "Open WebUI"
+   ],
+   "glossar": [
+    "DSGVO",
+    "AVV",
+    "Lokales Modell",
+    "RAG",
+    "Prompt",
+    "Agent"
+   ],
+   "faq": [
+    [
+     "Darf ich ChatGPT, Claude oder Gemini im Unternehmen mit Kundendaten nutzen?",
+     "Mit einem Business-Tarif oder der API, einem Vertrag zur Auftragsverarbeitung, einer Rechtsgrundlage und klaren internen Regeln ist das in vielen Fällen möglich. Private und kostenlose Konten sind dafür in aller Regel ungeeignet. Diese Einschätzung ist keine Rechtsberatung."
+    ],
+    [
+     "Trainieren die Anbieter mit meinen Eingaben?",
+     "In den Business-Angeboten von OpenAI, Anthropic und Google laut eigener Auskunft nicht, solange du nicht zustimmst. Bei privaten und kostenlosen Konten ist Training teils voreingestellt oder eine Wahl beim Einrichten. Achtung beim Feedback-Knopf: Bewertete Gespräche dürfen einige Anbieter auch im Firmentarif nutzen."
+    ],
+    [
+     "Reicht es, Namen aus dem Prompt zu löschen?",
+     "Oft nicht. Die Datenschutzkonferenz weist darauf hin, dass sich eine Person auch aus dem Zusammenhang erkennen lässt, etwa aus Betrieb, Funktion und Zeitpunkt einer Anfrage."
+    ],
+    [
+     "Heißt Datenstandort Europa, dass alle Daten in der EU bleiben?",
+     "Nicht unbedingt. Bei OpenAI etwa gilt die Zusage für Inhalte wie Prompts und Dateien, nicht für Kontodaten, Rechnungsdaten und Protokolle ohne Inhalt. Prüf außerdem Vertragspartner und Unterauftragnehmer."
+    ]
+   ],
+   "quellen": [
+    [
+     "Datenschutzkonferenz: Orientierungshilfe Künstliche Intelligenz und Datenschutz",
+     "https://www.datenschutzkonferenz-online.de/media/oh/20240506_DSK_Orientierungshilfe_KI_und_Datenschutz.pdf",
+     "2024-05-06"
+    ],
+    [
+     "Datenschutzkonferenz: Übersicht der Orientierungshilfen, unter anderem TOM bei KI-Systemen und RAG",
+     "https://www.datenschutzkonferenz-online.de/orientierungshilfen.html",
+     ""
+    ],
+    [
+     "OpenAI: Enterprise privacy",
+     "https://openai.com/enterprise-privacy/",
+     ""
+    ],
+    [
+     "OpenAI: Business data privacy, security, and compliance",
+     "https://openai.com/business-data/",
+     ""
+    ],
+    [
+     "OpenAI Help Center: Data residency and inference residency for ChatGPT",
+     "https://help.openai.com/en/articles/9903489-eu-data-residency",
+     ""
+    ],
+    [
+     "OpenAI: Introducing data residency in Europe",
+     "https://openai.com/index/introducing-data-residency-in-europe/",
+     "2025-02-05"
+    ],
+    [
+     "Anthropic Privacy Center: Is my data used for model training? (kommerzielle Produkte)",
+     "https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training",
+     ""
+    ],
+    [
+     "Anthropic: Updates to Consumer Terms and Privacy Policy",
+     "https://www.anthropic.com/news/updates-to-our-consumer-terms",
+     "2025-08-28"
+    ],
+    [
+     "Anthropic Privacy Center: How do I change my model improvement privacy settings?",
+     "https://privacy.claude.com/en/articles/12109829-how-do-i-change-my-model-improvement-privacy-settings",
+     ""
+    ],
+    [
+     "Google: Generative AI in Google Workspace Privacy Hub",
+     "https://knowledge.workspace.google.com/admin/generative-ai/generative-ai-in-google-workspace-privacy-hub",
+     ""
+    ],
+    [
+     "Google Workspace: Generative AI Security, Compliance and Privacy",
+     "https://workspace.google.com/security/ai-privacy/",
+     ""
+    ],
+    [
+     "Mistral Help Center: Do you use my user data to train your AI models?",
+     "https://help.mistral.ai/en/articles/347617-do-you-use-my-user-data-to-train-your-artificial-intelligence-models",
+     ""
+    ],
+    [
+     "Mistral Help Center: Can I opt out of my input or output data being used for training?",
+     "https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training",
+     "2026-09-03"
+    ],
+    [
+     "DeepL: Datenschutzerklärung",
+     "https://www.deepl.com/en/privacy",
+     ""
+    ],
+    [
+     "Cloudflare: Cross-request KV cache exposure in the GLM-5.3 Workers AI model",
+     "https://blog.cloudflare.com/kv-cache-exposure-remediation/",
+     "2026-10-26"
+    ]
+   ],
+   "lead_hook": "Welche KI-Tools nutzt dein Team wirklich?",
+   "lead_text": "Schick Jean die Liste eurer KI-Tools und wofür ihr sie einsetzt. Zurück kommt eine Einschätzung, welche Tarife passen, wo der Trainingsschalter sitzt und welche Fragen ihr den Anbietern noch stellen solltet. Keine Rechtsberatung, aber eine klare Ordnung.",
+   "bubble": "Ich vergesse gern. Leider nur, wenn mir das jemand vertraglich erlaubt."
+  },
+  {
+   "id": "ki-uebersetzung-shops",
+   "page": "ratgeber-ki-uebersetzung-shops.html",
+   "icon": "globe",
+   "h1": "KI-Übersetzung für Shops und Websites: Qualität, Glossar, hreflang und Kosten",
+   "label": "KI-Übersetzung für Shops",
+   "seo_title": "KI-Übersetzung für Shops: Glossar, hreflang, SEO und Kosten",
+   "meta": "Wie Shops und Websites mit DeepL, ChatGPT, Claude oder Gemini mehrsprachig werden: was Google zu übersetzten Seiten sagt, eigene URLs und hreflang, Glossare, welche Seiten Menschen prüfen sollten, Kosten pro Sprache und ein Fahrplan in vier Wochen.",
+   "teaser": "Was Google zu maschinell übersetzten Seiten sagt, wie hreflang richtig sitzt, warum das Glossar das halbe Projekt ist und was eine Sprache wirklich kostet.",
+   "hero": "Die Maschine übersetzt in Minuten. Ob daraus Kunden in Amsterdam, Stockholm oder Mailand werden, entscheiden Glossar, Prüfung und Technik.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "shop",
+    "marketing",
+    "entwicklung",
+    "kreativ"
+   ],
+   "tools": [
+    "DeepL Übersetzer",
+    "DeepL Write",
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Le Chat von Mistral",
+    "GPT for Sheets and Docs"
+   ],
+   "glossar": [
+    "LLM",
+    "Prompt",
+    "Token",
+    "Kontextfenster",
+    "API",
+    "Halluzination"
+   ],
+   "faq": [
+    [
+     "Straft Google maschinell übersetzte Seiten ab?",
+     "Nicht pauschal. Laut den Spamrichtlinien ist das massenhafte automatische Übersetzen problematisch, wenn dabei wenig Mehrwert entsteht. Vollständige, geprüfte Seiten in der Sprache der Kunden sind dagegen genau das, was Google für mehrsprachige Seiten empfiehlt."
+    ],
+    [
+     "Gelten übersetzte Seiten als Duplicate Content?",
+     "Laut Google nur, wenn der Hauptinhalt unübersetzt bleibt. Wer nur Navigation und Fußzeile übersetzt, erzeugt Dubletten; wer den Inhalt übersetzt, nicht."
+    ],
+    [
+     "DeepL oder ein großes Sprachmodell?",
+     "DeepL bringt Glossare, Dateiübersetzung und Verarbeitung im Europäischen Wirtschaftsraum mit. Große Sprachmodelle passen den Ton freier an und lassen sich mit Anweisungen steuern. Viele Shops testen beide an denselben 50 Seiten und entscheiden dann nach Ergebnis."
+    ],
+    [
+     "Muss ich hreflang auf jeder Seite einbauen?",
+     "Du brauchst die Angaben für jede Seite mit Sprachversionen, kannst sie aber statt im HTML auch gesammelt in der Sitemap pflegen. Google behandelt beide Wege gleich, wichtig sind gegenseitige Verweise und vollständige URLs."
+    ]
+   ],
+   "quellen": [
+    [
+     "Google Search Central: Managing multi-regional and multilingual sites",
+     "https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites",
+     ""
+    ],
+    [
+     "Google Search Central: Tell Google about localized versions of your page",
+     "https://developers.google.com/search/docs/specialty/international/localized-versions",
+     ""
+    ],
+    [
+     "Google Search Central: Spam policies, Scaled content abuse",
+     "https://developers.google.com/search/docs/essentials/spam-policies",
+     ""
+    ],
+    [
+     "DeepL: Pro-Tarife und Funktionen",
+     "https://www.deepl.com/en/pro",
+     ""
+    ],
+    [
+     "DeepL: API",
+     "https://www.deepl.com/en/pro-api",
+     ""
+    ],
+    [
+     "DeepL: Datenschutzerklärung, Abschnitte zu Free und Pro",
+     "https://www.deepl.com/en/privacy",
+     ""
+    ],
+    [
+     "DeepL Help Center: Infrastructure and data protection",
+     "https://support.deepl.com/hc/en-us/articles/26380849099932-DeepL-infrastructure-and-data-protection",
+     ""
+    ]
+   ],
+   "lead_hook": "In welche Sprache soll dein Shop als Nächstes?",
+   "lead_text": "Schick Jean Zielmarkt, Shopsystem und ungefähre Seitenzahl. Zurück kommt ein Vorschlag für URL-Aufbau, Werkzeug, Glossar und Prüfstufen, mit dem die erste Sprache in vier Wochen online geht.",
+   "bubble": "Ich übersetze alles. Außer Markennamen. Die stehen in meinem Glossar unter Finger weg."
+  },
+  {
+   "id": "lokale-ki-unternehmen",
+   "page": "ratgeber-lokale-ki-unternehmen.html",
+   "icon": "cpu",
+   "h1": "Lokale KI im Unternehmen: Hardware, Werkzeuge, Lizenzen und Grenzen",
+   "label": "Lokale KI im Unternehmen",
+   "seo_title": "Lokale KI im Unternehmen: Ollama, LM Studio, Open WebUI, Hardware",
+   "meta": "Wie Firmen Sprachmodelle auf eigenen Rechnern betreiben: Speicherbedarf und Quantisierung, drei Hardware-Stufen, Ollama, LM Studio und Open WebUI im Vergleich, Lizenzfallen, Cloud-Hintertüren, sicherer Betrieb und ein Pilot in drei Wochen.",
+   "teaser": "Wie viel Speicher ein Modell braucht, welches Werkzeug für wen passt, wo die Lizenzen zwicken und wie ein Pilot in drei Wochen läuft.",
+   "hero": "Keine Token-Rechnung, kein Datenabfluss, kein Internet nötig. Dafür gehört dir der Server, und mit ihm die Verantwortung.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "entwicklung",
+    "buero",
+    "service"
+   ],
+   "trend": "lokal",
+   "tools": [
+    "Ollama",
+    "LM Studio",
+    "Open WebUI",
+    "LFM3 von Liquid AI",
+    "Nemotron 3.5 Bolt",
+    "Giotto Alto"
+   ],
+   "glossar": [
+    "Lokales Modell",
+    "Quantisierung",
+    "Open Weights",
+    "GPU",
+    "Kontextfenster",
+    "RAG",
+    "Inferenz"
+   ],
+   "faq": [
+    [
+     "Welche Hardware brauche ich für lokale KI?",
+     "Für kleine Modelle reicht oft ein aktueller Laptop mit 16 GB Arbeitsspeicher oder ein Mac mit Apple-Chip. Ein Papier der Allianz für Cybersicherheit nennt als Richtwert einen Gaming-PC mit mindestens 6 GB Grafikspeicher für kleine und 12 GB für relativ komplexe Anwendungen. Modelle mit 70 Milliarden Parametern brauchen in 4 Bit gut 43 GB."
+    ],
+    [
+     "Ist lokale KI automatisch DSGVO-konform?",
+     "Nein, aber sie macht es leichter. Die Datenschutzkonferenz hält technisch geschlossene Systeme für vorzugswürdig. Trotzdem brauchst du eine Rechtsgrundlage, einen Eintrag im Verarbeitungsverzeichnis und einen sauber abgeschotteten Betrieb. Diese Einschätzung ist keine Rechtsberatung."
+    ],
+    [
+     "Ollama oder LM Studio?",
+     "LM Studio ist die bequemere grafische Lösung für einzelne Nutzer und für die Arbeit kostenlos. Ollama ist quelloffen unter MIT-Lizenz und eignet sich besser als Server für mehrere Anwendungen oder zusammen mit Open WebUI für ein ganzes Team."
+    ],
+    [
+     "Darf ich jedes offene Modell kommerziell nutzen?",
+     "Nicht unbedingt. LFM3 von Liquid AI etwa erlaubt die kommerzielle Nutzung nur bis zu einem Jahresumsatz von 10 Millionen Dollar. Prüf die Lizenz jedes Modells und jeder Oberfläche, bevor du sie im Betrieb einsetzt."
+    ]
+   ],
+   "quellen": [
+    [
+     "Datenschutzkonferenz: Orientierungshilfe Künstliche Intelligenz und Datenschutz, Abschnitt 1.7",
+     "https://www.datenschutzkonferenz-online.de/media/oh/20240506_DSK_Orientierungshilfe_KI_und_Datenschutz.pdf",
+     "2024-05-06"
+    ],
+    [
+     "Allianz für Cybersicherheit, Expertenkreis KI-Sicherheit: Lokale KI im Unternehmen und weitere Alternativen",
+     "https://www.allianz-fuer-cybersicherheit.de/SharedDocs/Downloads/Webs/ACS/DE/Kreise/Expertenkreis_KI_Pilotierung.pdf?__blob=publicationFile&v=3",
+     ""
+    ],
+    [
+     "BSI: Kriterienkatalog für KI-Modelle in der Bundesverwaltung",
+     "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/KI/Kriterienkatalog_KI-Modelle_Bundesverwaltung.pdf?__blob=publicationFile&v=3",
+     ""
+    ],
+    [
+     "llama.cpp: Quantize README",
+     "https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md",
+     ""
+    ],
+    [
+     "Hugging Face: GGUF",
+     "https://huggingface.co/docs/hub/gguf",
+     ""
+    ],
+    [
+     "Ollama: GitHub-Repository",
+     "https://github.com/ollama/ollama",
+     ""
+    ],
+    [
+     "Ollama: Context length",
+     "https://docs.ollama.com/context-length",
+     ""
+    ],
+    [
+     "Ollama: FAQ",
+     "https://docs.ollama.com/faq",
+     ""
+    ],
+    [
+     "Ollama: Windows",
+     "https://docs.ollama.com/windows",
+     ""
+    ],
+    [
+     "LM Studio: Free to use at work",
+     "https://lmstudio.ai/blog/free-for-work",
+     ""
+    ],
+    [
+     "LM Studio: System requirements",
+     "https://lmstudio.ai/docs/app/system-requirements",
+     ""
+    ],
+    [
+     "LM Studio: Offline operation",
+     "https://lmstudio.ai/docs/app/offline",
+     ""
+    ],
+    [
+     "Open WebUI: GitHub-Repository",
+     "https://github.com/open-webui/open-webui",
+     ""
+    ],
+    [
+     "Open WebUI: License",
+     "https://docs.openwebui.com/license",
+     ""
+    ],
+    [
+     "Liquid AI: LFM Open License",
+     "https://www.liquid.ai/lfm-license",
+     ""
+    ],
+    [
+     "Hugging Face: LiquidAI/LFM3-1.7B",
+     "https://huggingface.co/LiquidAI/LFM3-1.7B",
+     ""
+    ],
+    [
+     "Hugging Face: NVIDIA Nemotron 3.5 Bolt E4B 4GB",
+     "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
+     ""
+    ],
+    [
+     "Opera: Opera doubles down on local AI",
+     "https://press.opera.com/2026/10/27/opera-doubles-down-on-local-ai-shipping-models-directly-in-its-browsers/",
+     "2026-10-27"
+    ]
+   ],
+   "lead_hook": "Welche Aufgabe soll zuerst im Haus bleiben?",
+   "lead_text": "Schick Jean die Aufgabe, die vorhandene Hardware und wie viele Leute mitarbeiten sollen. Zurück kommt ein Vorschlag für Modell, Werkzeug und Aufbau, mit dem ein Pilot in drei Wochen läuft.",
+   "bubble": "Mein Server steht im Keller. Kurbel sagt, er schnurrt."
+  },
+  {
+   "id": "ki-telefonagenten",
+   "page": "ratgeber-ki-telefonagenten.html",
+   "icon": "phone",
+   "h1": "KI-Telefonagenten für Kundenservice und Shops: Kosten, Anbieter und Pflichten",
+   "label": "KI-Telefonagenten",
+   "seo_title": "KI-Telefonagenten: Preise, Anbieter, AI-Act-Hinweis, Aufzeichnung",
+   "meta": "Was Sprachagenten am Telefon können, was Mistral, ElevenLabs, Google und OpenAI pro Minute kosten, wie der KI-Hinweis nach Artikel 50 AI Act klingen sollte, wann Aufzeichnung strafbar ist und wie ein Start in vier Wochen gelingt.",
+   "teaser": "Preise pro Minute, der KI-Hinweis nach AI Act, die Regeln zur Aufzeichnung und warum die Übergabe an Menschen der wichtigste Baustein ist.",
+   "hero": "Der Agent geht um drei Uhr nachts ans Telefon. Damit er das darf, muss er drei Dinge können: sich ehrlich vorstellen, nicht heimlich mitschneiden und rechtzeitig einen Menschen holen.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "service",
+    "shop",
+    "buero"
+   ],
+   "trend": "sprache",
+   "tools": [
+    "Voxtral 3",
+    "ElevenLabs",
+    "Gemini",
+    "Parloa",
+    "Rosie",
+    "Cald.ai",
+    "Whisper API"
+   ],
+   "glossar": [
+    "Speech-to-Text",
+    "Text-to-Speech",
+    "EU AI Act",
+    "Deepfake",
+    "DSGVO",
+    "AVV"
+   ],
+   "faq": [
+    [
+     "Muss ein KI-Telefonagent sagen, dass er eine KI ist?",
+     "Ja, in aller Regel. Artikel 50 des AI Act verlangt das seit dem 2. August 2026, sofern es nicht offensichtlich ist. Die Leitlinien der EU-Kommission empfehlen am Telefon eine ausdrückliche Ansage zu Beginn, Töne allein reichen nicht. Diese Einschätzung ist keine Rechtsberatung."
+    ],
+    [
+     "Darf ein Telefonagent Gespräche aufzeichnen?",
+     "Nur mit Einwilligung, die vor Beginn der Aufnahme eingeholt wird. Das unbefugte Aufnehmen des nichtöffentlich gesprochenen Wortes ist nach § 201 Strafgesetzbuch strafbar, und laut Datenschutzkonferenz genügt ein bloßer Hinweis auf Widerspruch nicht."
+    ],
+    [
+     "Was kostet ein KI-Telefonagent pro Minute?",
+     "Laut Listenpreisen etwa 0,04 Dollar pro Minute bei der Voice-Agent-API von Mistral mit Mistral Small 4 oder 0,08 Dollar pro Zusatzminute bei ElevenLabs, dort plus Kosten für das Sprachmodell. Telefonie kommt überall dazu."
+    ],
+    [
+     "Darf der Agent mit der Stimme eines Mitarbeiters sprechen?",
+     "Nur mit dessen Zustimmung und mit klarer Offenlegung. Eine geklonte Stimme einer realen Person kann nach dem AI Act ein Deepfake sein, der für Hörer wahrnehmbar gekennzeichnet werden muss."
+    ]
+   ],
+   "quellen": [
+    [
+     "Mistral: Voxtral 3",
+     "https://mistral.ai/news/voxtral-3/",
+     "2026-10-20"
+    ],
+    [
+     "Google: Build real-time voice applications with Gemini audio",
+     "https://blog.google/innovation-and-ai/technology/developers-tools/build-real-time-voice-applications-gemini-audio/",
+     "2026-09-15"
+    ],
+    [
+     "Google: Gemini API Pricing",
+     "https://ai.google.dev/gemini-api/docs/pricing",
+     ""
+    ],
+    [
+     "OpenAI: API Pricing",
+     "https://openai.com/api/pricing/",
+     ""
+    ],
+    [
+     "OpenAI: Telephony and SIP",
+     "https://developers.openai.com/api/docs/guides/voice-sip",
+     ""
+    ],
+    [
+     "OpenAI: Data controls in the OpenAI platform",
+     "https://developers.openai.com/api/docs/guides/your-data",
+     ""
+    ],
+    [
+     "ElevenLabs: Agents pricing",
+     "https://elevenlabs.io/pricing/agents",
+     ""
+    ],
+    [
+     "ElevenLabs: Data residency",
+     "https://elevenlabs.io/docs/overview/administration/data-residency",
+     ""
+    ],
+    [
+     "EU AI Act Service Desk: Artikel 50",
+     "https://ai-act-service-desk.ec.europa.eu/de/ai-act/article-50",
+     ""
+    ],
+    [
+     "EU-Kommission: FAQ zu den Transparenzpflichten nach Artikel 50",
+     "https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act",
+     ""
+    ],
+    [
+     "EU-Kommission: Leitlinien zu den Transparenzpflichten nach Artikel 50",
+     "https://ai-act-service-desk.ec.europa.eu/sites/default/files/2026-07/guidelines_on_the_implementation_of_the_transparency_obligations_for_certain_ai_systems_under_article_50_of_the_ai_act_bzptwqhk0ikg1dtlddap41psfy_131215.pdf",
+     "2026-07-20"
+    ],
+    [
+     "§ 201 StGB: Verletzung der Vertraulichkeit des Wortes",
+     "https://www.gesetze-im-internet.de/stgb/__201.html",
+     ""
+    ],
+    [
+     "Datenschutzkonferenz: Beschluss zur Aufzeichnung von Telefongesprächen",
+     "https://www.bfdi.bund.de/SharedDocs/Downloads/DE/DSK/DSKBeschluessePositionspapiere/DSK_20180323_Beschluss_Telefongespraeche.pdf?__blob=publicationFile&v=7",
+     "2018-03-23"
+    ],
+    [
+     "LDA Brandenburg: Tätigkeitsbericht Datenschutz 2024",
+     "https://www.lda.brandenburg.de/sixcms/media.php/9/TB_DS_2024_korrigiert.pdf",
+     ""
+    ]
+   ],
+   "lead_hook": "Welche Anrufe soll dein Agent übernehmen?",
+   "lead_text": "Schick Jean die häufigsten Anrufgründe und dein Telefonsystem. Zurück kommt ein Vorschlag für Anbieter, Ansage und Übergaberegeln, mit dem du außerhalb der Geschäftszeiten sicher startest.",
+   "bubble": "Ich geh ran. Und wenn es knifflig wird, hol ich den Chef. Also mich."
+  }
+ ]
+}

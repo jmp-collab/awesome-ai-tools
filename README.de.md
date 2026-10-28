@@ -7,7 +7,7 @@
 Gebaut für den deutschsprachigen Raum, auseinandergeschraubt, geputzt und nach Aufgaben sortiert:
 
 - **Ein Satz pro Tool.** Was es kann, wofür es taugt. Keine Werbetexte, die Beschreibungen bleiben sachlich. Gewitzelt wird drumherum.
-- **Link-Check (Stand: 27.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
+- **Link-Check (Stand: 28.10.2026).** Tote Tools (404, Serverfehler, Domain weg) sind raus. Affiliate- und Referral-Parameter bei Tool-Links auch; nur Links zu PROMPTGOTT tragen UTM-Parameter.
 - **Namen auf Stand.** Bing Chat heißt Copilot, Metaphor heißt Exa. Aktuelle Standard-Tools sind ergänzt.
 - **DACH-Fokus.** Eigene Abschnitte für Übersetzung, SEO und Automatisierung. Anbieter mit Sitz in der EU tragen ein 🇪🇺. Das ist ein Hinweis auf den Firmensitz, keine Datenschutz-Prüfung. Für DSGVO zählen AVV, Serverstandort und Einstellungen.
 - **PROMPTGOTT-Praxis.** Wo ein Deep Dive zeigt, wie man aus einer Tool-Kategorie Ergebnisse macht, steht ein 💡.
@@ -103,6 +103,9 @@ Zehn Werkzeuge, die bei uns nie in der Schublade verschwinden. Ein Tool pro typi
 - [Scaleway](https://www.scaleway.com) - 🇪🇺 Französische Cloud mit GPU-Servern und Inferenz für offene Modelle.
 - [STACKIT](https://www.stackit.de) - 🇪🇺 Souveräne Cloud der Schwarz-Gruppe aus Deutschland mit KI-Modell-Hosting.
 - [Mistral Large 4](https://mistral.ai/news/mistral-large-4/) - 🇪🇺 Großes multimodales Modell von Mistral mit 1 Billion Parametern, davon 52 Milliarden aktiv, in Europa trainiert und betrieben; offene Gewichte sind angekündigt.
+- [LFM3 von Liquid AI](https://www.liquid.ai/blog/lfm3) - Familie offener Kleinmodelle für Text, Bild, Audio und Entscheidungen im 2-Milliarden-Bereich; das Textmodell braucht bei 4 Bit rund 1 GB Speicher.
+- [Nemotron 3.5 Bolt](https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/) - Offenes Kleinmodell von NVIDIA für lokale Sprach- und Geräteassistenten mit Werkzeugaufrufen, läuft laut NVIDIA mit rund 4 GB Grafikspeicher und über Ollama.
+- [Giotto Alto](https://www.giotto.ai/) - Reasoning-Modell aus Lausanne, kostenlos im europäisch gehosteten Chat, dazu dedizierte Cloud in der Schweiz oder EU und Betrieb im eigenen Rechenzentrum.
 
 ### Chatbots und Assistenten
 
@@ -431,7 +434,6 @@ Für alle, die Daten nicht in eine Cloud geben wollen oder dürfen.
 - [Patience.ai](https://www.patience.ai/) - App für Bilder mit Stable Diffusion.
 - [GenShare](https://www.genshare.io/) - Kostenlos Kunst generieren und teilen.
 - [Playground AI](https://playgroundai.com/) - Kostenloser Bildgenerator für Social Posts, Poster und Logos.
-- [PhotoGuruAI](https://photoguruai.com/) - Professionelle KI-Bewerbungsfotos in vielen Stilen.
 - [Avatar AI](https://avatarai.me/) - Eigene KI-Avatare erstellen.
 - [RunDiffusion](https://rundiffusion.com/) - Cloud-Arbeitsplatz für KI-Kunst.
 - [Human Generator](https://generated.photos/human-generator) - Realistische Fotos von Menschen, die es nicht gibt.

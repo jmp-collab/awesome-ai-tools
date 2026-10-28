@@ -288,7 +288,7 @@
    "hero": "Paketstatus, Öffnungszeiten, Rücksendeetikett: Solche Fragen beantwortet ein Bot. Die Beschwerde mit Vorgeschichte bleibt beim Menschen, und hier steht, wie du die Grenze sauber ziehst.",
    "intro": [
     "Im Kundenservice zahlt sich KI am schnellsten aus, weil sich Fragen so oft wiederholen. Ein Bot, der deine Hilfeseiten kennt, beantwortet die Standardfälle rund um die Uhr. Mit Sprachmodellen in Echtzeit gilt das inzwischen auch am Telefon.",
-    "Der Haken liegt an den Rändern: falsche Auskünfte zu Fristen, Kunden, die einfach einen Menschen wollen, und Daten, die nicht überall hin dürfen. Plan deshalb einen klaren Übergabeweg ein und gib den Bot als Bot zu erkennen. Das verlangt seit August 2026 auch der EU AI Act."
+    "Der Haken liegt an den Rändern: falsche Auskünfte zu Fristen, Kunden, die einfach einen Menschen wollen, und Daten, die nicht überall hin dürfen. Plan deshalb einen klaren Übergabeweg ein und lass den Bot als Bot erkennbar. Seit August 2026 verlangt der EU AI Act, dass Anbieter ihre Bots so bauen, also lass diesen Hinweis bei gekauften Lösungen eingeschaltet."
    ],
    "aufgaben": [
     {
@@ -349,7 +349,7 @@
    "faq": [
     [
      "Muss ein Chatbot sagen, dass er ein Bot ist?",
-     "Ja. Nach dem EU AI Act müssen Menschen erfahren, dass sie mit einer KI sprechen, sofern das nicht ohnehin offensichtlich ist. Ein kurzer Hinweis zu Beginn des Chats oder Anrufs reicht in der Regel."
+     "Ja. Nach dem EU AI Act müssen Menschen erfahren, dass sie mit einer KI sprechen, sofern das nicht ohnehin offensichtlich ist. Die Pflicht trifft den Anbieter des Bots; wer eine fertige Lösung einsetzt, sollte prüfen, dass der Hinweis zu Beginn des Chats oder Anrufs aktiv ist."
     ],
     [
      "Was passiert, wenn der Bot falsche Auskünfte gibt?",

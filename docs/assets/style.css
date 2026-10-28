@@ -470,6 +470,28 @@ html:has(.az){scroll-padding-top:calc(var(--top) + 76px)}
 .sp-list li{position:relative;padding-right:44px}
 .sp-filters{display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 24px}
 
+/* Hans Moritz, der Werkstattmeister */
+.hans{flex:none;overflow:visible;--hm-line:var(--fg)}
+.hans .hm-ln{stroke:var(--hm-line);stroke-width:2}
+.hans .hm-skin{fill:#F3C9AE}
+.hans .hm-buzz{fill:#D9813F;opacity:.28}
+.hans .hm-beard{fill:#CF6A2C}.hans .hm-beard-d{fill:#B4521C}
+.hans .hm-iris{fill:#6F8A99}
+.hans .hm-jacket{fill:#1F3175;stroke:var(--hm-line);stroke-width:2}
+.hans .hm-collar{fill:#182760;stroke:var(--hm-line);stroke-width:1.6}
+.hans .hm-bud{fill:#fff;stroke:var(--hm-line);stroke-width:1.1}
+.hans.hm-sm{width:64px;height:73px}.hans.hm-md{width:100px;height:114px}.hans.hm-lg{width:150px;height:171px}.hans.hm-xl{width:210px;height:240px}
+.hans .hm-bob{animation:hmBob 3.6s ease-in-out infinite;transform-origin:70px 160px}
+@keyframes hmBob{50%{transform:translateY(-2px) rotate(1.5deg)}}
+.lead .hans{--hm-line:var(--ink)}
+.hm-say .kurbel{margin-left:-18px}
+.hero-hm{display:flex;align-items:flex-end;gap:10px;margin:-8px 0 14px}
+.hero-hm .hans{width:84px;height:96px}
+.hero-hm .bubble{margin:0 0 30px}
+@media (min-width:1100px){.hero-hm{position:absolute;right:16px;top:-8px;flex-direction:column;align-items:flex-end;gap:0;margin:0}
+.hero-hm .hans{width:210px;height:240px}.hero-hm .bubble{order:-1;margin:0 40px 8px 0;border-radius:16px 16px 4px 16px}.float.f1{display:none}}
+@media (prefers-reduced-motion:reduce){.hans .hm-bob{animation:none}}
+
 /* Formular-Status */
 .form-status{margin-top:12px;font-size:14px;border-radius:10px;padding:10px 12px}
 .form-status.busy{background:#F4F3EE;color:#5B616B}
@@ -563,3 +585,26 @@ form button[type=submit][disabled]{opacity:.6;cursor:wait}
 .einsatz-mini{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);text-decoration:none;font-weight:600}
 .einsatz-mini .ico{width:16px;height:16px;color:var(--accent)}.einsatz-mini:hover{border-color:var(--accent)}
 .radar-page{margin:10px 0 0}.radar-page a{display:inline-flex;align-items:center;gap:6px;font-weight:700}.radar-page .ico{width:15px;height:15px}
+
+/* Ratgeber (Long-Form) */
+.rg-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr));gap:14px}
+.rg-card{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--lime);border-radius:16px;padding:18px;text-decoration:none;color:var(--fg);box-shadow:var(--shadow);transition:border-color .2s,transform .2s}
+.rg-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.rg-card b{display:block;font:700 20px/1.25 var(--font-d);margin:4px 0 6px}
+.rg-card small{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;margin-bottom:8px}
+.rg-hero h1{font-size:clamp(30px,4.6vw,58px);line-height:1.08;max-width:22ch}
+.layout.rg-layout{padding:32px 16px 40px}
+.rg-body{max-width:760px;font-size:17px;line-height:1.7}
+.rg-body>p,.rg-body li{max-width:70ch}
+.rg-body h2{font-size:clamp(24px,3vw,32px);margin:42px 0 12px;line-height:1.2}
+.rg-body h3{font-size:19px;margin:28px 0 8px}
+.rg-body ul.plain,.rg-body ol.plain{padding-left:22px}.rg-body li{margin:6px 0}
+.rg-body .table{margin:18px 0;overflow-x:auto}.rg-body table{font-size:15px}
+.rg-box{display:flex;gap:12px;align-items:flex-start;background:color-mix(in srgb,var(--lime) 18%,var(--card));border:1px solid color-mix(in srgb,var(--lime) 60%,var(--line));border-radius:16px;padding:16px 18px;margin:0 0 22px}
+.rg-box .ico{width:20px;height:20px;flex:none;margin-top:4px;color:var(--accent)}.rg-box p{margin:0;font-size:16.5px}
+.rg-extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px;margin:40px 0 0;padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.rg-extras h3{margin:0 0 10px;font-size:16px;display:flex;align-items:center;gap:8px}.rg-extras h3 .ico{color:var(--accent)}
+.rg-trend{margin:18px 0 0}.rg-link{margin:14px 0 0}
+.rg-faq h2,.rg-quellen h2{font-size:26px;margin:42px 0 10px}
+.rg-quellen ol{padding-left:22px;color:var(--muted);font-size:15px}.rg-quellen li{margin:6px 0}.rg-quellen a{color:var(--fg);word-break:break-word}
+.gl-link{color:inherit}
