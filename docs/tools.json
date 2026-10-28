@@ -301,6 +301,17 @@
    "seite": "ki-tools-text-und-sprache.html#sprachmodelle-und-apis"
   },
   {
+   "name": "Giotto Alto",
+   "url": "https://www.giotto.ai/",
+   "beschreibung": "Reasoning-Modell aus Lausanne, kostenlos im europäisch gehosteten Chat, dazu dedizierte Cloud in der Schweiz oder EU und Betrieb im eigenen Rechenzentrum.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false,
+   "neu": true,
+   "seite": "ki-tools-text-und-sprache.html#sprachmodelle-und-apis"
+  },
+  {
    "name": "Gemini",
    "url": "https://gemini.google.com",
    "beschreibung": "Googles Assistent, eng verzahnt mit Gmail, Docs und Drive.",

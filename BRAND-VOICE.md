@@ -38,9 +38,11 @@ Die Werkstatt ist nicht PROMPTGOTT. PROMPTGOTT liefert die Praxis mit Haltung un
 | LOL, KI macht jetzt alles 🤖🔥🚀 | Automatisiere zuerst den langweiligsten Ablauf. Der spart mehr und geht seltener kaputt. |
 | Haha, wer das nicht nutzt, ist selbst schuld. | Wer das nicht braucht, hat vermutlich schon ein besseres Werkzeug. Auch gut. |
 
-## Maskottchen: Kurbel
+## Maskottchen: Hans Moritz und Kurbel
 
-Kurbel ist der Werkstatt-Roboter. Hilfsbereit, gründlich, leicht schusselig: Nach jeder Reparatur bleibt eine Schraube übrig, und niemand weiß, wohin sie gehört. Kurbel taucht dort auf, wo sonst Leere wäre: auf der 404-Seite, auf der Dankeseite, bei leeren Suchergebnissen und neben dem Stack-Check. Kurbel spricht kurz und freundlich, nie in Großbuchstaben.
+**Hans Moritz** ist der Werkstattmeister. Glatze mit rotem Kurzhaar-Schimmer, roter Vollbart, Sommersprossen, weiße Earbuds im Ohr, navyblaue Trainingsjacke und eine Umhängetasche, in der immer noch ein Werkzeug steckt. Er probiert jedes Tool aus, bevor es in eine Schublade darf, und sagt dir in einem Satz, wofür es taugt. Hans Moritz steht im Hero der Startseite und spricht in den Sprechblasen neben Stack-Check und Lead-Formularen: ruhig, trocken, freundlich, gern mit einem „Moin“, nie marktschreierisch.
+
+**Kurbel** ist sein Werkstatt-Roboter. Hilfsbereit, gründlich, leicht schusselig: Nach jeder Reparatur bleibt eine Schraube übrig, und niemand weiß, wohin sie gehört. Kurbel taucht dort auf, wo sonst Leere wäre: auf der 404-Seite, auf der Dankeseite, bei leeren Suchergebnissen und neben dem Stack-Check. Kurbel spricht kurz und freundlich, nie in Großbuchstaben.
 
 ## Running Gags
 
@@ -69,6 +71,7 @@ Tool-Listen mit 10.000 Einträgen, die niemand geprüft hat. Buzzword-Marketing.
 - **Textur:** Raster und Maßlinien wie Millimeterpapier auf der Werkbank.
 - **Icons:** 1,75 px Strich, runde Enden, keine Füllungen.
 - **Kategorie-Grafiken:** Abstrakte Werkzeug-Silhouetten auf Verlauf, nummeriert wie Schubladen.
+- **Hans Moritz:** flache Figur mit Kontur in Werkstatt-Schwarz, Hauttöne, Rot für Bart, Navy für die Jacke, ein Lime-Abzeichen auf der Brust. Läuft als Inline-SVG aus `scripts/build_de_page.py` (`hans()`), keine Fotovorlage im Repo.
 - **Kurbel:** Strichzeichnung im Icon-Stil, Lime als einzige Füllfarbe, eine Antenne mit Funken.
 - **Bewegung:** Nur mit Zweck. Fortschrittsbalken, Reveal beim Scrollen, Parallax im Hero. Alles aus bei `prefers-reduced-motion`.
 

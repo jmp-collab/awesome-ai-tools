@@ -61,6 +61,12 @@
    "seit": "2026-10-28",
    "trend": "lokal",
    "notiz": "NVIDIAs Sprachassistent zum Selberhosten, startet per Ollama mit einem Befehl."
+  },
+  {
+   "name": "Giotto Alto",
+   "seit": "2026-10-28",
+   "trend": "europa",
+   "notiz": "Schweizer Denkmodell, das du auch im eigenen Rechenzentrum laufen lassen kannst."
   }
  ]
 }

@@ -470,6 +470,28 @@ html:has(.az){scroll-padding-top:calc(var(--top) + 76px)}
 .sp-list li{position:relative;padding-right:44px}
 .sp-filters{display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 24px}
 
+/* Hans Moritz, der Werkstattmeister */
+.hans{flex:none;overflow:visible;--hm-line:var(--fg)}
+.hans .hm-ln{stroke:var(--hm-line);stroke-width:2}
+.hans .hm-skin{fill:#F3C9AE}
+.hans .hm-buzz{fill:#D9813F;opacity:.28}
+.hans .hm-beard{fill:#CF6A2C}.hans .hm-beard-d{fill:#B4521C}
+.hans .hm-iris{fill:#6F8A99}
+.hans .hm-jacket{fill:#1F3175;stroke:var(--hm-line);stroke-width:2}
+.hans .hm-collar{fill:#182760;stroke:var(--hm-line);stroke-width:1.6}
+.hans .hm-bud{fill:#fff;stroke:var(--hm-line);stroke-width:1.1}
+.hans.hm-sm{width:64px;height:73px}.hans.hm-md{width:100px;height:114px}.hans.hm-lg{width:150px;height:171px}.hans.hm-xl{width:210px;height:240px}
+.hans .hm-bob{animation:hmBob 3.6s ease-in-out infinite;transform-origin:70px 160px}
+@keyframes hmBob{50%{transform:translateY(-2px) rotate(1.5deg)}}
+.lead .hans{--hm-line:var(--ink)}
+.hm-say .kurbel{margin-left:-18px}
+.hero-hm{display:flex;align-items:flex-end;gap:10px;margin:-8px 0 14px}
+.hero-hm .hans{width:84px;height:96px}
+.hero-hm .bubble{margin:0 0 30px}
+@media (min-width:1100px){.hero-hm{position:absolute;right:16px;top:-8px;flex-direction:column;align-items:flex-end;gap:0;margin:0}
+.hero-hm .hans{width:210px;height:240px}.hero-hm .bubble{order:-1;margin:0 40px 8px 0;border-radius:16px 16px 4px 16px}.float.f1{display:none}}
+@media (prefers-reduced-motion:reduce){.hans .hm-bob{animation:none}}
+
 /* Formular-Status */
 .form-status{margin-top:12px;font-size:14px;border-radius:10px;padding:10px 12px}
 .form-status.busy{background:#F4F3EE;color:#5B616B}

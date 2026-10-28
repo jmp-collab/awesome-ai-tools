@@ -534,6 +534,47 @@ def kurbel(cls="", wink=False, label="Kurbel, der Werkstatt-Roboter"):
 </svg>"""
 
 
+# --------------------------------------------------------------------------- Hans Moritz, der Werkstattmeister
+def hans(cls="", wink=False, label="Hans Moritz, der Werkstattmeister"):
+    def eye(x, closed=False):
+        if closed:
+            return f'<path d="M{x-4.5} 61.5q4.5 3 9 0" fill="none" class="hm-ln" stroke-linecap="round"/>'
+        return (f'<ellipse cx="{x}" cy="61" rx="4.8" ry="2.9" fill="#fff"/><circle cx="{x+.4}" cy="61.3" r="2.6" class="hm-iris"/>'
+                f'<circle cx="{x+.4}" cy="61.3" r="1.15" fill="#1b1f26"/><circle cx="{x+1.2}" cy="60.4" r=".6" fill="#fff"/>'
+                f'<path d="M{x-5.2} 59.6q5.2-2.6 10.4 0" fill="none" class="hm-ln" stroke-width="1.4" stroke-linecap="round"/>'
+                f'<path d="M{x-5} 64.4q5 2 10 0" fill="none" stroke="#d99b7c" stroke-width="1" stroke-linecap="round"/>')
+    def bud(x, d):
+        return (f'<ellipse cx="{x}" cy="64.5" rx="3.6" ry="3.2" class="hm-bud"/>'
+                f'<rect x="{x-1.5}" y="65.5" width="3" height="9.5" rx="1.5" class="hm-bud"/>')
+    return f"""<svg class="hans {cls}" viewBox="0 0 140 160" role="img" aria-label="{html.escape(label)}">
+<g class="hm-bob">
+<path class="hm-jacket" d="M8 160q2-30 30-40l18-6h28l18 6q28 10 30 40Z"/>
+<path d="M44 116q-22 6-28 30M96 116q22 6 28 30" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+<path class="hm-skin" d="M57 92h26v20H57Z"/>
+<path class="hm-collar" d="M52 103q18 7 36 0l3 15q-21 9-42 0Z"/>
+<path d="M70 108v52" stroke="#c9ced8" stroke-width="1.6"/><rect x="68" y="109" width="4" height="7" rx="1.5" fill="#c9ced8"/>
+<g transform="translate(52 130) rotate(-8)"><rect x="-7" y="-7" width="14" height="14" rx="3.5" fill="#D7FF3C"/><path d="M-3.5 3.5 3.5-3.5M-.5-3.5h4v4" fill="none" stroke="#0E1116" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<path d="M106 117 38 160" stroke="#14171c" stroke-width="8"/>
+<path d="M44 160q-2-12 10-18l6 7q-8 4-8 11" fill="#efe6cf" stroke="#14171c" stroke-width="1.4"/>
+<g class="hm-head">
+<ellipse class="hm-skin hm-ln" cx="37.5" cy="66" rx="5.5" ry="8.5"/><ellipse class="hm-skin hm-ln" cx="102.5" cy="66" rx="5.5" ry="8.5"/>
+<path class="hm-skin hm-ln" d="M41 62q-1-36 29-37q30 1 29 37q0 14-4 22H45q-4-8-4-22Z"/>
+{bud(37.5, -1)}{bud(102.5, 1)}
+<path class="hm-buzz" d="M42 52q2-25 28-26q26 1 28 26q-9-16-28-17q-19 1-28 16Z"/>
+<path d="M57 40q13-3 26 0M60 45q10-2 20 0" fill="none" stroke="#d99b7c" stroke-width="1" stroke-linecap="round"/>
+<path class="hm-beard" d="M41 60q-1 27 12 39q8 7 17 7t17-7q13-12 12-39q-3 12-10 17q-7-4-19-4t-19 4q-7-5-10-17Z"/>
+<path class="hm-beard-d" d="M54 81q8-7 16-5q8-2 16 5q-8 3-16 1q-8 2-16-1Z"/>
+<path d="M60 86.5q10 5.5 20-1" fill="none" stroke="#7a2f12" stroke-width="1.9" stroke-linecap="round"/>
+<path d="M49.5 54q7.5-3.8 14-.6M76.5 53.4q6.5-3.2 14 .6" fill="none" stroke="#c8642a" stroke-width="2.5" stroke-linecap="round"/>
+{eye(58)}{eye(82, wink)}
+<path d="M51 62.5l-3 1.6M89 62.5l3 1.6" stroke="#d99b7c" stroke-width="1" stroke-linecap="round"/>
+<path d="M70 61q-1.5 8-4.5 11q4.5 2.2 9 0" fill="none" stroke="#b9775a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#d0865a" opacity=".75"><circle cx="52" cy="69" r=".8"/><circle cx="55.5" cy="71" r=".7"/><circle cx="50" cy="72" r=".6"/><circle cx="86" cy="69" r=".8"/><circle cx="89.5" cy="71.5" r=".7"/><circle cx="84" cy="72" r=".6"/><circle cx="66.5" cy="66" r=".55"/><circle cx="73.5" cy="66.5" r=".55"/></g>
+</g>
+</g>
+</svg>"""
+
+
 def eu_names(sec, limit=5):
     names = [it["name"] for it in sec_items(sec) if item_meta(it)[0]]
     if not names:
@@ -626,7 +667,8 @@ def build_index(sections, head_md):
         ("Was bedeutet das EU-Zeichen bei einem Tool?", "Der Anbieter hat seinen Firmensitz in der EU. Das ist ein Hinweis, keine Datenschutz-Prüfung. Für die DSGVO zählen Auftragsverarbeitungsvertrag, Serverstandort und Einstellungen."),
         ("Wie prüft ihr die Tools?", f"Jeder Link wird per HTTP abgefragt, zuletzt am {LINK_CHECK}. Tote Links, Serverfehler und verschwundene Domains fliegen raus. Bot-Schutz gilt als erreichbar, denn dahinter steckt fast immer eine echte Seite."),
         ("Was kostet der Stack-Check?", "Nichts. Du schreibst, was du baust, und bekommst einen Vorschlag per Mail. Keine Beratungsstunde, kein Vertrag, kein Newsletter-Abo durch die Hintertür."),
-        ("Wer ist Kurbel?", "Unser Werkstatt-Roboter. Hilfsbereit, gründlich und leicht schusselig, denn nach jeder Reparatur bleibt eine Schraube übrig. Du triffst Kurbel überall dort, wo es sonst leer wäre."),
+        ("Wer ist Hans Moritz?", "Der Werkstattmeister der KI-Werkstatt: Glatze, roter Vollbart, Trainingsjacke, Earbuds im Ohr. Hans Moritz probiert jedes Werkzeug aus, bevor es in eine Schublade darf, und sagt dir in einem Satz, wofür es taugt."),
+        ("Wer ist Kurbel?", "Der Werkstatt-Roboter von Hans Moritz. Hilfsbereit, gründlich und leicht schusselig, denn nach jeder Reparatur bleibt eine Schraube übrig. Du triffst Kurbel überall dort, wo es sonst leer wäre."),
     ]
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebPage", "@id": SITE_URL, "url": SITE_URL, "name": TITLE, "description": DESCRIPTION, "inLanguage": "de-DE",
@@ -645,6 +687,7 @@ def build_index(sections, head_md):
 <div class="sp-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Zu diesem Wort hat Kurbel nichts gefunden. Probier ein anderes oder frag direkt beim <a href="#stack-check">Stack-Check</a>.</p></div>
 </div></div>
 <section class="hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<div class="hero-hm" aria-hidden="true">{hans("hm-xl", label="")}<p class="bubble">Moin, ich bin Hans Moritz. Erst testen, dann empfehlen.</p></div>
 <p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Link-Check {LINK_CHECK}: {LINK_CHECK_N} Links geprüft</p>
 <h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Ohne Zauberstab.</h1>
 <p class="sub">Hier gibt es kein Wundermittel, nur gutes Werkzeug: jedes Tool in einem Satz erklärt, tote Links aussortiert, EU-Anbieter markiert. Dazu Werkzeugkisten für typische Jobs und ein Stack-Finder, der schneller zum Punkt kommt als jedes Beratungsgespräch.</p>
@@ -725,7 +768,7 @@ def build_index(sections, head_md):
 <li>{icon("check")}<span><b>Was wir nicht versprechen:</b> Preise oder DSGVO-Freigaben. Die prüfst du beim Anbieter.</span></li>
 <li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
 </ul>
-<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich halte solange die Schraube fest.</p></div></div>
+<div class="kb-say hm-say">{hans("hm-md")}{kurbel("kb-sm", wink=True)}<p class="bubble">Ich such dir das Werkzeug raus. Kurbel hält solange die Schraube fest.</p></div></div>
 <div>{lead_form("Hauptformular", "Stack-Check – KI-Werkstatt")}</div></div>
 </div></section>
 
@@ -1027,7 +1070,7 @@ def build_glossar(tools_map, list_secs, sections):
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>Vokabeln sitzen. Und welches Tool jetzt?</h2>
 <p class="intro">Wer weiß, was ein Token ist, stellt die besseren Fragen. Stell eine davon Jean und bekomm ein Setup, das zu deinem Vorhaben passt.</p>
-<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich hab das Glossar übrigens auswendig gelernt. Fast.</p></div></div>
+<div class="kb-say">{hans("hm-md")}<p class="bubble">Ich hab das Glossar übrigens auswendig gelernt. Fast.</p></div></div>
 <div>{lead_form("Glossar", "Stack-Check (Glossar) – KI-Werkstatt")}</div></div>
 </div></section>
 {footer()}
@@ -1173,7 +1216,7 @@ def build_trends(tools_map, list_secs):
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>Trends gelesen. Welcher davon zahlt bei dir ein?</h2>
 <p class="intro">Nicht jede Neuheit gehört in deinen Werkzeugkasten. Schreib Jean, woran du gerade arbeitest, und du erfährst, welcher dieser Trends dir tatsächlich Arbeit abnimmt und welchen du getrost vorbeiziehen lässt.</p>
-<div class="kb-say">{kurbel("kb-md")}<p class="bubble">Ich hab alle Quellen gelesen. Zweimal. Eine Schraube ist trotzdem übrig.</p></div></div>
+<div class="kb-say">{hans("hm-md")}<p class="bubble">Ich hab alle Quellen gelesen. Zweimal. Eine Schraube ist trotzdem übrig.</p></div></div>
 <div>{lead_form("Trends", "Stack-Check (Trends) – KI-Werkstatt")}</div></div>
 </div></section>
 {footer()}
@@ -1305,7 +1348,7 @@ def build_einsatz(tools_map, list_secs, sections):
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>{html.escape(e["lead_hook"])}</h2>
 <p class="intro">{html.escape(e["lead_text"])}</p>
-<div class="kb-say">{kurbel("kb-md")}<p class="bubble">{html.escape(e["bubble"])}</p></div></div>
+<div class="kb-say">{hans("hm-md")}<p class="bubble">{html.escape(e["bubble"])}</p></div></div>
 <div>{lead_form("Einsatz: " + e["h1"], "Stack-Check (" + e["h1"] + ") – KI-Werkstatt", rolle=e["form_rolle"])}</div></div>
 </div></section>
 
@@ -1528,7 +1571,7 @@ def build_ratgeber(tools_map):
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>{html.escape(a["lead_hook"])}</h2>
 <p class="intro">{html.escape(a["lead_text"])}</p>
-<div class="kb-say">{kurbel("kb-md")}<p class="bubble">{html.escape(a["bubble"])}</p></div></div>
+<div class="kb-say">{hans("hm-md")}<p class="bubble">{html.escape(a["bubble"])}</p></div></div>
 <div>{lead_form("Ratgeber: " + a["label"], "Stack-Check (Ratgeber " + a["label"] + ") – KI-Werkstatt")}</div></div>
 </div></section>
 

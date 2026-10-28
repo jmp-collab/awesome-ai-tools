@@ -68,7 +68,7 @@
    "kurz": "Gemini hat einen Aufgaben-Modus, Claude Opus 5.5 hält stundenlange Arbeitsaufträge durch. Der Agent wird vom Chatpartner zum Kollegen mit eigenem Schreibtisch.",
    "text": [
     "Mit Gemini 4 Argon hat Google in der Gemini-App einen Schalter von Chat auf Aufgaben eingeführt. Gemini arbeitet dann weiter, während du nicht am Rechner sitzt, meldet Zwischenstände und verbindet sich mit über 40 Apps, darunter Shopify und Adobe. Zum Start gilt das für Abonnenten von Google AI Pro und Ultra.",
-    "Anthropic beschreibt Claude Opus 5.5 ausdrücklich als Modell für mehrstündige, eigenständige Aufgaben und nennt als Beispiel eine 18 Stunden lange Entwicklungssitzung ohne Aufsicht. Laut Anthropic verteilt das Modell Arbeit außerdem besser an Unter-Agenten. Ab Ende Oktober stellt Anthropic die Claude-Apps für Pro, Max und Team zudem auf einen automatischen Modus um, in dem ein Prüfmodell riskante Schritte blockiert, statt jeden Schritt abfragen zu lassen."
+    "Anthropic beschreibt Claude Opus 5.5 ausdrücklich als Modell für mehrstündige, eigenständige Aufgaben und nennt als Beispiel eine 18 Stunden lange Entwicklungssitzung ohne Aufsicht. Laut Anthropic verteilt das Modell Arbeit außerdem besser an Unter-Agenten. Ab Ende Oktober stellt Anthropic die Claude-Apps für Pro, Max und Team zudem auf einen automatischen Modus um, in dem ein Prüfmodell riskante Schritte blockiert, statt jeden Schritt abfragen zu lassen. Auch IBM rüstet nach: Laut Ankündigung vom 27. Oktober vergibt HashiCorp Vault künftig Agenten eigene Identitäten mit kurzlebigen Zugangsdaten, knappen Rechten und Sperre in Echtzeit, sobald ein Agent etwas Unerlaubtes versucht."
    ],
    "fuer_dich": "Recherchen, Datenpflege oder Code-Umbauten lassen sich über Nacht erledigen. Dafür brauchst du klare Grenzen: welche Konten der Agent nutzen darf, wann er fragen muss und wo er protokolliert, was er getan hat.",
    "urteil": "Ein Agent am langen Seil ist praktisch. Gib ihm trotzdem ein Seil.",
@@ -93,6 +93,11 @@
      "Claude: Auto mode is now the default in Claude Code (Update vom 22.10.)",
      "https://claude.com/resources/articles/auto-mode-default-in-claude-code",
      "2026-10-22"
+    ],
+    [
+     "IBM: Identity and control for AI agents",
+     "https://newsroom.ibm.com/2026-10-27-ibm-introduces-identity-and-control-for-ai-agents,-securing-frontier-intelligence-for-the-enterprise",
+     "2026-10-27"
     ]
    ],
    "label": "Agenten im Hintergrund",
@@ -159,7 +164,7 @@
    "kurz": "Mistral bringt ein Modell mit einer Billion Parametern, trainiert in Europa, und eröffnet einen Standort in München. Für Firmen mit Datenbedenken wird die EU-Option ernst.",
    "text": [
     "Am 6. Oktober hat Mistral eine öffentliche Vorschau von Mistral Large 4 gestartet: ein multimodales Modell mit einer Billion Parametern, von denen pro Anfrage 52 Milliarden arbeiten. Trainiert wurde es nach Angaben von Mistral in eigenen Rechenzentren in Europa, ein europäischer Betrieb aus einer Hand ist Teil des Angebots. Die Gewichte will Mistral bis Ende Oktober veröffentlichen.",
-    "Schon Ende September hat Mistral einen Standort in München eröffnet, mit Forschung zu Industrie- und Physik-KI und Partnern wie BMW, Siemens Energy und der TU München. Dazu kommt laut Mistral eine Finanzierungsrunde über drei Milliarden Euro im September."
+    "Schon Ende September hat Mistral einen Standort in München eröffnet, mit Forschung zu Industrie- und Physik-KI und Partnern wie BMW, Siemens Energy und der TU München. Dazu kommt laut Mistral eine Finanzierungsrunde über drei Milliarden Euro im September. Aus der Schweiz kommt seit dem 27. Oktober Giotto: Das Reasoning-Modell Alto ist im europäisch gehosteten Chat kostenlos nutzbar, Solo läuft auf einer einzigen Grafikkarte. Firmen können beide in einer dedizierten Cloud in der Schweiz oder der EU mieten oder über Integratoren im eigenen Rechenzentrum betreiben."
    ],
    "fuer_dich": "Wer Kundendaten nicht über den Atlantik schicken will, hat jetzt eine starke Alternative mit Betrieb in Europa. Der Firmensitz ersetzt trotzdem keinen Auftragsverarbeitungsvertrag und keinen Blick in die Einstellungen.",
    "urteil": "Endlich ein europäisches Modell, bei dem man nicht nur aus Lokalpatriotismus klatscht. Die Benchmarks sind Herstellerangaben, also selbst testen.",
@@ -167,7 +172,8 @@
     "Mistral Large 4",
     "Mistral AI",
     "Le Chat von Mistral",
-    "Aleph Alpha"
+    "Aleph Alpha",
+    "Giotto Alto"
    ],
    "quellen": [
     [
@@ -179,6 +185,11 @@
      "Mistral: Hallo, Deutschland!",
      "https://mistral.ai/news/hallo-deutschland/",
      "2026-09-28"
+    ],
+    [
+     "Giotto: Launch der Modellfamilie Alto und Solo (Pressemitteilung)",
+     "https://www.eqs-news.com/news/corporate-news/giotto-launches-sovereign-ai-family-to-make-ai-public-infrastructure/165f1e84-de97-428b-b77a-9e3c65dd5b57_en",
+     "2026-10-27"
     ]
    ],
    "label": "Europa holt auf",
@@ -236,7 +247,8 @@
      "https://ollama.com/library/nemotron-3.5-bolt:e4b",
      ""
     ]
-   ]
+   ],
+   "ratgeber": "lokale-ki-unternehmen"
   },
   {
    "id": "browser",
@@ -245,7 +257,7 @@
    "kurz": "Firefox bekommt einen Assistenten mit Mistral-Modellen, die Claude-Werkzeuge können Browser steuern. Die KI sieht künftig, was in deinen Tabs steht.",
    "text": [
     "Mozilla und Mistral haben im September angekündigt, dass Firefox Smart Window, der KI-Assistent im Browser, mit Mistral-Modellen läuft. Er hilft bei komplexen Suchen und findet Dinge anhand der offenen Tabs wieder. Gespräche werden laut Ankündigung standardmäßig nicht auf den Servern von Mozilla gespeichert. Zuerst startet das in Frankreich und Nordamerika, Deutschland soll später im Jahr 2026 folgen.",
-    "Bei Anthropic haben die Python- und TypeScript-Bibliotheken mit Haiku 5.5 eine Beta für Computer- und Browser-Steuerung bekommen. Damit wird der Browser zur Arbeitsfläche für Agenten, die Formulare ausfüllen und Seiten vergleichen."
+    "Bei Anthropic haben die Python- und TypeScript-Bibliotheken mit Haiku 5.5 eine Beta für Computer- und Browser-Steuerung bekommen. Damit wird der Browser zur Arbeitsfläche für Agenten, die Formulare ausfüllen und Seiten vergleichen. Opera geht am 27. Oktober einen Schritt weiter: Mit WebAI laufen KI-Modelle direkt im Browser, Webseiten und Erweiterungen nutzen sie ohne Server, API-Schlüssel und Kosten pro Anfrage. Die Vorschau startet in Opera One auf Windows und Macs mit Apple-Chip, eingeschaltet wird sie erst auf Wunsch in den Einstellungen."
    ],
    "fuer_dich": "Recherche und Vergleiche werden bequemer. Gleichzeitig liest der Assistent alles, was auf der Seite steht, auch versteckte Anweisungen. Für Kundenportale und Online-Banking gehört er ausgeschaltet.",
    "urteil": "Der Browser wird zum Kollegen. Bring ihm bei, was er nicht lesen soll.",
@@ -264,6 +276,11 @@
      "Anthropic: Introducing Claude Haiku 5.5",
      "https://www.anthropic.com/claude-haiku-5-5",
      "2026-10-07"
+    ],
+    [
+     "Opera: WebAI, local AI for the web, now in Opera",
+     "https://blogs.opera.com/news/2026/10/webai-local-ai-for-the-web-now-in-opera/",
+     "2026-10-27"
     ]
    ],
    "label": "KI im Browser",
@@ -361,7 +378,8 @@
     "service": 3,
     "kreativ": 2,
     "buero": 2
-   }
+   },
+   "ratgeber": "ki-telefonagenten"
   },
   {
    "id": "bild-video",

@@ -31,7 +31,8 @@
     "Schublade",
     "Werkbank",
     "Panzertape-Lösung",
-    "Kurbel"
+    "Kurbel",
+    "Hans Moritz"
   ],
   "dont_say": [
     "revolutionär",
@@ -100,7 +101,8 @@
     "Icons mit 1,75 px Strich, abgerundete Enden, keine Füllungen.",
     "Kategorie-Grafiken: abstrakte Werkzeug-Silhouetten auf Lime-/Schwarz-Verlauf, nummeriert wie Schubladen.",
     "Bewegung nur mit Zweck: Fortschritt, Reveal beim Scrollen, Parallax im Hero. Alles aus bei prefers-reduced-motion.",
-    "Maskottchen Kurbel: Strichzeichnung im Icon-Stil, Lime als einzige Füllfarbe, Antenne mit Funken."
+    "Maskottchen Kurbel: Strichzeichnung im Icon-Stil, Lime als einzige Füllfarbe, Antenne mit Funken.",
+    "Maskottchen Hans Moritz: flache Figur mit Kontur, Glatze mit rotem Kurzhaar-Schimmer, roter Vollbart, Sommersprossen, blaugraue Augen, weiße Earbuds, navyblaue Trainingsjacke mit weißen Biesen, Umhängetasche, Lime-Abzeichen auf der Brust."
   ],
   "target_audiences": [
     "Selbstständige und Freelancer, die ohne IT-Abteilung ein KI-Setup brauchen",
@@ -120,14 +122,15 @@
     "recipient": "jeanmauriceport@gmail.com"
   },
   "tagline": "Weniger Hype, mehr Hebel.",
-  "version": "2.0",
+  "version": "2.1",
   "humor": {
     "ton": "trocken, warm, selbstironisch",
     "running_gags": [
       "Kurbels übrige Schraube",
       "Die Schublade klemmt (Fehler, leere Ergebnisse)",
       "Panzertape-Lösung (Provisorien)",
-      "Erst Kaffee, dann Kabel (Geduld)"
+      "Erst Kaffee, dann Kabel (Geduld)",
+      "Hans Moritz testet zuerst, Kurbel sortiert danach die Schrauben"
     ],
     "no_go": [
       "Witze über Leser oder Zielgruppen",
@@ -136,15 +139,28 @@
       "Roboter-Apokalypse und Sci-Fi-Pathos"
     ]
   },
-  "mascot": {
-    "name": "Kurbel",
-    "rolle": "Werkstatt-Roboter, hilfsbereit, gründlich, leicht schusselig: nach jeder Reparatur bleibt eine Schraube übrig.",
-    "einsatz": [
-      "404-Seite",
-      "Dankeseite",
-      "leere Suchergebnisse und Listen",
-      "Stack-Check"
-    ],
-    "stimme": "kurz, freundlich, nie in Großbuchstaben"
-  }
+  "mascots": [
+    {
+      "name": "Hans Moritz",
+      "rolle": "Werkstattmeister. Probiert jedes Werkzeug aus, bevor es in eine Schublade darf, und sagt in einem Satz, wofür es taugt. Ruhig, trocken, freundlich, ein Schmunzeln im Bart.",
+      "einsatz": [
+        "Hero der Startseite",
+        "Sprechblasen neben Stack-Check und Lead-Formularen",
+        "Ratgeber-, Trend-, Einsatz- und Glossarseiten"
+      ],
+      "stimme": "Du-Form, kurz, norddeutsch-trocken („Moin“), nie marktschreierisch",
+      "aussehen": "Glatze mit rotem Kurzhaar-Schimmer, roter Vollbart, Sommersprossen, blaugraue Augen, weiße Earbuds, navyblaue Trainingsjacke, Umhängetasche"
+    },
+    {
+      "name": "Kurbel",
+      "rolle": "Werkstatt-Roboter und Gehilfe von Hans Moritz, hilfsbereit, gründlich, leicht schusselig: nach jeder Reparatur bleibt eine Schraube übrig.",
+      "einsatz": [
+        "404-Seite",
+        "Dankeseite",
+        "leere Suchergebnisse und Listen",
+        "Werkstatt-Tipps"
+      ],
+      "stimme": "kurz, freundlich, nie in Großbuchstaben"
+    }
+  ]
 }

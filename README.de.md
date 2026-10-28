@@ -105,6 +105,7 @@ Zehn Werkzeuge, die bei uns nie in der Schublade verschwinden. Ein Tool pro typi
 - [Mistral Large 4](https://mistral.ai/news/mistral-large-4/) - 🇪🇺 Großes multimodales Modell von Mistral mit 1 Billion Parametern, davon 52 Milliarden aktiv, in Europa trainiert und betrieben; offene Gewichte sind angekündigt.
 - [LFM3 von Liquid AI](https://www.liquid.ai/blog/lfm3) - Familie offener Kleinmodelle für Text, Bild, Audio und Entscheidungen im 2-Milliarden-Bereich; das Textmodell braucht bei 4 Bit rund 1 GB Speicher.
 - [Nemotron 3.5 Bolt](https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/) - Offenes Kleinmodell von NVIDIA für lokale Sprach- und Geräteassistenten mit Werkzeugaufrufen, läuft laut NVIDIA mit rund 4 GB Grafikspeicher und über Ollama.
+- [Giotto Alto](https://www.giotto.ai/) - Reasoning-Modell aus Lausanne, kostenlos im europäisch gehosteten Chat, dazu dedizierte Cloud in der Schweiz oder EU und Betrieb im eigenen Rechenzentrum.
 
 ### Chatbots und Assistenten
 
