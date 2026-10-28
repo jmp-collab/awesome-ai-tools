@@ -1,7 +1,7 @@
 {
  "stand": "2026-10-28",
  "titel": "KI-Trends Herbst 2026",
- "intro": "Was sich zwischen Juli und Oktober 2026 wirklich bewegt hat, nachgelesen beim Hersteller statt beim Hörensagen. Neun Entwicklungen, jede mit Einordnung für Leute, die damit arbeiten wollen, und mit Quellen zum Selbstprüfen.",
+ "intro": "Was sich zwischen Juli und Oktober 2026 wirklich bewegt hat, nachgelesen beim Hersteller statt beim Hörensagen. Zehn Entwicklungen, jede mit Einordnung für Leute, die damit arbeiten wollen, und mit Quellen zum Selbstprüfen.",
  "methode": "Jede Aussage stammt aus der Ankündigung des Herstellers oder, beim EU AI Act, aus der Meldung zur Veröffentlichung im Amtsblatt. Leistungs- und Benchmarkwerte sind Herstellerangaben. Tracker und Newsblogs haben wir nur genutzt, um Kandidaten zu finden, nie als Beleg.",
  "trends": [
   {
@@ -68,7 +68,7 @@
    "kurz": "Gemini hat einen Aufgaben-Modus, Claude Opus 5.5 hält stundenlange Arbeitsaufträge durch. Der Agent wird vom Chatpartner zum Kollegen mit eigenem Schreibtisch.",
    "text": [
     "Mit Gemini 4 Argon hat Google in der Gemini-App einen Schalter von Chat auf Aufgaben eingeführt. Gemini arbeitet dann weiter, während du nicht am Rechner sitzt, meldet Zwischenstände und verbindet sich mit über 40 Apps, darunter Shopify und Adobe. Zum Start gilt das für Abonnenten von Google AI Pro und Ultra.",
-    "Anthropic beschreibt Claude Opus 5.5 ausdrücklich als Modell für mehrstündige, eigenständige Aufgaben und nennt als Beispiel eine 18 Stunden lange Entwicklungssitzung ohne Aufsicht. Laut Anthropic verteilt das Modell Arbeit außerdem besser an Unter-Agenten."
+    "Anthropic beschreibt Claude Opus 5.5 ausdrücklich als Modell für mehrstündige, eigenständige Aufgaben und nennt als Beispiel eine 18 Stunden lange Entwicklungssitzung ohne Aufsicht. Laut Anthropic verteilt das Modell Arbeit außerdem besser an Unter-Agenten. Ab Ende Oktober stellt Anthropic die Claude-Apps für Pro, Max und Team zudem auf einen automatischen Modus um, in dem ein Prüfmodell riskante Schritte blockiert, statt jeden Schritt abfragen zu lassen."
    ],
    "fuer_dich": "Recherchen, Datenpflege oder Code-Umbauten lassen sich über Nacht erledigen. Dafür brauchst du klare Grenzen: welche Konten der Agent nutzen darf, wann er fragen muss und wo er protokolliert, was er getan hat.",
    "urteil": "Ein Agent am langen Seil ist praktisch. Gib ihm trotzdem ein Seil.",
@@ -88,6 +88,11 @@
      "Anthropic: Introducing Claude Opus 5.5",
      "https://www.anthropic.com/claude-opus-5-5",
      "2026-09-22"
+    ],
+    [
+     "Claude: Auto mode is now the default in Claude Code (Update vom 22.10.)",
+     "https://claude.com/resources/articles/auto-mode-default-in-claude-code",
+     "2026-10-22"
     ]
    ],
    "label": "Agenten im Hintergrund",
@@ -99,7 +104,8 @@
     "service": 1,
     "kreativ": 1,
     "buero": 2
-   }
+   },
+   "ratgeber": "ki-agenten-sicher"
   },
   {
    "id": "offene-standards",
@@ -264,6 +270,52 @@
     "kreativ": 1,
     "buero": 3
    }
+  },
+  {
+   "id": "ki-suche",
+   "label": "Sichtbar in KI-Suchen",
+   "icon": "search",
+   "titel": "Website-Betreiber bekommen Schalter für KI-Suchen",
+   "kurz": "Google lässt Websites seit Ende August selbst entscheiden, ob sie in AI Overviews und AI Mode erscheinen, und liefert Zahlen dazu. Sichtbarkeit in KI-Antworten wird messbar.",
+   "text": [
+    "Seit dem 31. August 2026 gibt es in der Search Console weltweit eine Einstellung, mit der Website-Betreiber ihre Inhalte in AI Overviews, AI Mode und den KI-Funktionen von Discover zulassen oder ausschließen. Dazu kommt ein Bericht, der zeigt, welche Seiten in KI-Antworten erscheinen und wie viele Impressionen sie dort sammeln.",
+    "Bei ChatGPT steuern Betreiber die Sichtbarkeit über die Crawler-Kennungen: OAI-SearchBot für die Suche, GPTBot für das Training. Die Produktsuche in ChatGPT zeigt Händler, deren Daten über Feeds oder Shopify angebunden sind, ist aber vorerst nur in den USA freigeschaltet."
+   ],
+   "fuer_dich": "Wer seine Inhalte in KI-Antworten sehen will, muss nichts Neues bauen, aber bewusst entscheiden und messen. Die robots.txt und der neue Bericht in der Search Console sind die zwei Stellen, an denen das passiert.",
+   "urteil": "Endlich Zahlen statt Bauchgefühl. Schau erst rein, bevor du irgendwas abschaltest.",
+   "erster_schritt": "Öffne in der Search Console den Bericht für generative KI und notiere, welche drei Seiten dort am häufigsten erscheinen.",
+   "radar": {
+    "shop": 3,
+    "marketing": 3,
+    "entwicklung": 1,
+    "service": 0,
+    "kreativ": 2,
+    "buero": 1
+   },
+   "tools": [
+    "Semrush",
+    "Perplexity",
+    "ChatGPT",
+    "Gemini"
+   ],
+   "ratgeber": "sichtbar-in-ki-antworten",
+   "quellen": [
+    [
+     "Search Console-Hilfe: Search generative AI control",
+     "https://support.google.com/webmasters/answer/16908024",
+     ""
+    ],
+    [
+     "Google: New opportunities, control and insights for website owners",
+     "https://blog.google/products-and-platforms/products/search/new-controls-website-owners/",
+     "2026-06-03"
+    ],
+    [
+     "OpenAI: Overview of OpenAI Crawlers",
+     "https://platform.openai.com/docs/bots",
+     ""
+    ]
+   ]
   },
   {
    "id": "sprache",

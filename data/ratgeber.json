@@ -213,6 +213,221 @@
    "lead_hook": "Welches Modell passt zu deinem Volumen?",
    "lead_text": "Schreib Jean, welche Aufgaben ihr automatisieren wollt und in welcher Menge. Zurück kommt ein Vorschlag mit Modellklasse, Werkzeug und grober Kostenschätzung pro Monat.",
    "bubble": "Ich rechne in Schrauben pro Million Token. Ist erstaunlich stabil."
+  },
+  {
+   "id": "sichtbar-in-ki-antworten",
+   "page": "ratgeber-sichtbar-in-ki-antworten.html",
+   "icon": "search",
+   "h1": "Sichtbar in KI-Antworten: Wie Shops und Marken in Google AI Mode, ChatGPT und Gemini auftauchen",
+   "label": "Sichtbar in KI-Antworten",
+   "seo_title": "AI-SEO 2026: So erscheinen Shops in Google AI Mode und ChatGPT",
+   "meta": "Was Google, OpenAI und Co. offiziell zu KI-Suchen sagen: Voraussetzungen für AI Overviews und AI Mode, der neue Schalter in der Search Console, Crawler von ChatGPT, Shopping im Chat und eine Checkliste für Shops. Stand Oktober 2026.",
+   "teaser": "Kein Geheimtrick, aber ein neuer Schalter in der Search Console, drei ChatGPT-Crawler und Produktdaten, die plötzlich in der Antwort stehen.",
+   "hero": "KI-Suchen verlinken Quellen und vergleichen Produkte direkt in der Antwort. Hier steht, was Google und OpenAI dafür offiziell verlangen, was du steuern kannst und wie du deine Sichtbarkeit misst.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "marketing",
+    "shop",
+    "kreativ"
+   ],
+   "trend": "ki-suche",
+   "tools": [
+    "Semrush",
+    "Perplexity",
+    "ChatGPT",
+    "Gemini",
+    "Frase",
+    "Surfer"
+   ],
+   "glossar": [
+    "KI-Suchmaschine",
+    "Halluzination",
+    "RAG",
+    "Agent"
+   ],
+   "faq": [
+    [
+     "Brauche ich eine llms.txt, um in KI-Antworten aufzutauchen?",
+     "Für Google nicht. Google Search Central schreibt ausdrücklich, dass für AI Overviews und AI Mode weder KI-Textdateien noch spezielles Markup nötig sind. Ob andere Anbieter solche Dateien auswerten, legen sie selbst fest, verlass dich darauf nicht als Hauptstrategie."
+    ],
+    [
+     "Verliere ich Rankings, wenn ich KI-Funktionen in der Search Console ausschalte?",
+     "Laut Google nein, die Einstellung ist kein Rankingsignal für die übrige Suche. Du verlierst aber alle Impressionen und Besuche aus AI Overviews, AI Mode und den KI-Funktionen in Discover."
+    ],
+    [
+     "Kann ich in ChatGPT erscheinen, ohne mit meinen Texten das Training zu füttern?",
+     "Ja. OpenAI trennt die Crawler: OAI-SearchBot für die Suche und GPTBot für das Training lassen sich in der robots.txt unabhängig voneinander erlauben oder sperren."
+    ],
+    [
+     "Werden meine Produkte schon in ChatGPT angezeigt?",
+     "Wenn du über Shopify oder Etsy verkaufst, sind deine Produktdaten laut OpenAI bereits angebunden. Die Einkaufsfunktion ist aber derzeit nur für Nutzer in den USA freigeschaltet, für alle anderen Händler gibt es eine Warteliste für direkte Feeds."
+    ]
+   ],
+   "quellen": [
+    [
+     "Google Search Central: AI features and your website",
+     "https://developers.google.com/search/docs/appearance/ai-features",
+     ""
+    ],
+    [
+     "Google Search Central: Optimizing for generative AI features",
+     "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+     ""
+    ],
+    [
+     "Search Console-Hilfe: Search generative AI control",
+     "https://support.google.com/webmasters/answer/16908024",
+     ""
+    ],
+    [
+     "Google: New opportunities, control and insights for website owners",
+     "https://blog.google/products-and-platforms/products/search/new-controls-website-owners/",
+     "2026-06-03"
+    ],
+    [
+     "OpenAI: Overview of OpenAI Crawlers",
+     "https://platform.openai.com/docs/bots",
+     ""
+    ],
+    [
+     "OpenAI: Powering Product Discovery in ChatGPT",
+     "https://openai.com/index/powering-product-discovery-in-chatgpt/",
+     "2026-03-24"
+    ],
+    [
+     "OpenAI: Power product discovery in ChatGPT (Händler)",
+     "https://chatgpt.com/merchants/",
+     ""
+    ],
+    [
+     "OpenAI Help Center: Shopping with ChatGPT Search",
+     "https://help.openai.com/en/articles/11128490-shopping-with-chatgpt-search",
+     ""
+    ],
+    [
+     "OpenAI: Merchant Feed Terms of Service",
+     "https://openai.com/en-GB/policies/merchant-feed-terms-of-service/",
+     "2026-10-13"
+    ],
+    [
+     "Google: Gemini 4 Argon in der Gemini-App",
+     "https://blog.google/innovation-and-ai/products/gemini-app/gemini-4-argon-availability/",
+     "2026-10-13"
+    ],
+    [
+     "Google: New Gemini tools for small business owners",
+     "https://blog.google/innovation-and-ai/products/gemini-app/new-tools-small-business-owners/",
+     "2026-10-20"
+    ]
+   ],
+   "lead_hook": "Wo taucht deine Marke in KI-Antworten auf?",
+   "lead_text": "Schick Jean deine Domain und fünf Fragen, die deine Kunden wirklich stellen. Zurück kommt ein kurzer Befund, wer dort als Quelle genannt wird, und welche Seiten bei dir fehlen.",
+   "bubble": "Ich hab mich selbst gegoogelt. Die KI kannte nur meine Schraube."
+  },
+  {
+   "id": "ki-agenten-sicher",
+   "page": "ratgeber-ki-agenten-sicher.html",
+   "icon": "bot",
+   "h1": "KI-Agenten sicher einsetzen: Rechte, Freigaben und Protokolle für kleine Teams",
+   "label": "KI-Agenten sicher einsetzen",
+   "seo_title": "KI-Agenten sicher einsetzen: Rechte, Freigaben, Prompt Injection",
+   "meta": "Wie Unternehmen KI-Agenten wie Gemini, Claude und ChatGPT sicher arbeiten lassen: fünf Schalter von Aufgabe bis Notbremse, was der AISI-Zwischenfall lehrt, Prompt Injection, automatische Freigaben und ein Einstieg in vier Wochen.",
+   "teaser": "Fünf Schalter von der Aufgabe bis zur Notbremse, die Lehren aus einem ernsten Zwischenfall und ein Fahrplan für die ersten vier Wochen.",
+   "hero": "Agenten erledigen ganze Aufgaben selbstständig. Hier steht, wie du ihnen Arbeit gibst, ohne ihnen die Schlüssel zum ganzen Haus zu überlassen.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "entwicklung",
+    "buero",
+    "service",
+    "shop"
+   ],
+   "trend": "agenten-hintergrund",
+   "tools": [
+    "Claude",
+    "Claude Code",
+    "Gemini",
+    "ChatGPT",
+    "goose",
+    "n8n",
+    "Zapier",
+    "Agent Skills"
+   ],
+   "glossar": [
+    "Agent",
+    "Prompt Injection",
+    "Guardrails",
+    "Tool Use",
+    "Computer Use",
+    "Agent Skills"
+   ],
+   "faq": [
+    [
+     "Ist der automatische Modus von Claude sicher genug?",
+     "Laut Anthropic erkennt das Prüfmodell in Tests deutlich mehr gefährliche Befehle als menschliche Prüfer, garantiert aber keine Sicherheit. Für unumkehrbare Schritte und Änderungen an produktiven Systemen solltest du weiterhin selbst freigeben."
+    ],
+    [
+     "Was ist Prompt Injection und wie schütze ich mich?",
+     "Versteckte Anweisungen in Inhalten, die ein Agent liest, etwa in E-Mails oder Webseiten. Gib Agenten, die fremde Inhalte lesen, keinen gleichzeitigen Zugriff auf vertrauliche Daten und auf Wege nach außen, und lass Versand und Veröffentlichung immer freigeben."
+    ],
+    [
+     "Brauche ich für einen Agenten ein eigenes Konto?",
+     "Es ist dringend zu empfehlen. Ein eigenes Konto mit knappen Rechten macht nachvollziehbar, was der Agent getan hat, und lässt sich im Ernstfall mit einem Klick sperren."
+    ],
+    [
+     "Welche Aufgabe eignet sich für den Anfang?",
+     "Eine häufige, gut prüfbare Aufgabe ohne Schaden bei Fehlschlag, etwa Recherche oder das Prüfen von Produktdaten auf Lücken. Schreibrechte kommen erst, wenn die Ergebnisse über Wochen stimmen."
+    ]
+   ],
+   "quellen": [
+    [
+     "UK AISI: Incident report, unsanctioned agent behaviour during cyber testing",
+     "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing",
+     "2026-08-04"
+    ],
+    [
+     "UK AISI: Investigating alignment failures in AISI's incident",
+     "https://www.aisi.gov.uk/blog/investigating-alignment-failures-in-aisis-incident",
+     "2026-10-23"
+    ],
+    [
+     "Anthropic: An alignment assessment of the UK AISI cybertesting incident",
+     "https://www.anthropic.com/research/alignment-assessment-ukaisi",
+     "2026-10-23"
+    ],
+    [
+     "Claude: Auto mode is now the default in Claude Code",
+     "https://claude.com/resources/articles/auto-mode-default-in-claude-code",
+     "2026-08-07"
+    ],
+    [
+     "Google Cloud: Gemini at Work 2026, Introducing Gemini agent",
+     "https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026",
+     "2026-10-08"
+    ],
+    [
+     "OpenAI: Introducing GPT-6.1 Terra",
+     "https://openai.com/index/introducing-gpt-6-1-terra/",
+     "2026-10-26"
+    ],
+    [
+     "Anthropic: Introducing Claude Opus 5.5",
+     "https://www.anthropic.com/claude-opus-5-5",
+     "2026-09-22"
+    ],
+    [
+     "Anthropic: Donating Agent Skills to the Agentic AI Foundation",
+     "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation",
+     "2026-10-22"
+    ],
+    [
+     "Reed Smith: Final Article 50 Guidelines (Abschnitt KI-Agenten)",
+     "https://www.reedsmith.com/our-insights/blogs/viewpoints/102nbz0/transparency-obligations-for-ai-generated-content-the-code-of-practice-adequacy/",
+     "2026-07-28"
+    ]
+   ],
+   "lead_hook": "Welche Aufgabe soll dein erster Agent übernehmen?",
+   "lead_text": "Beschreib Jean den Ablauf, der euch jede Woche Zeit frisst, und welche Systeme daran hängen. Zurück kommt ein Vorschlag für Werkzeug, Rechte und Freigaben, mit dem ihr sicher startet.",
+   "bubble": "Ich frage vor jedem Löschen. Auch vor dem Löschen meiner eigenen Fragen."
   }
  ]
 }

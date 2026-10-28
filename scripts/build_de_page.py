@@ -1502,7 +1502,7 @@ def build_ratgeber(tools_map):
         body = f"""{topbar(False, "ratgeber")}
 <section class="hero rg-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<a href="./#ratgeber">Ratgeber</a>{icon("arrow")}<span aria-current="page">{html.escape(a["label"])}</span></nav>
-<p class="kicker">{icon(a["icon"])} <b>Ratgeber</b> · Stand {de_date(a["stand"])} · {minutes} Min. Lesezeit</p>
+<p class="kicker" data-chrome>{icon(a["icon"])} <b>Ratgeber</b> · Stand {de_date(a["stand"])} · {minutes} Min. Lesezeit</p>
 <h1>{html.escape(a["h1"])}</h1>
 <p class="sub">{html.escape(a["hero"])}</p>
 <div class="ctas"><a class="btn btn-lime" href="#{toc[0][0] if toc else 'faq'}">{icon("book")}Lesen</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
