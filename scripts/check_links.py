@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "README.de.md"
 OUT = ROOT / "data" / "linkcheck.json"
-DATA_FILES = [ROOT / "data" / "rechner.json", ROOT / "data" / "trends.json"]
+DATA_FILES = [ROOT / "data" / "rechner.json", ROOT / "data" / "trends.json", ROOT / "data" / "ratgeber.json"]
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36"
 OK_CODES = {401, 403, 429}  # Bot-Schutz: Seite existiert, mag nur keine Skripte; 405 ist absichtlich nicht dabei
 DEST = r"((?:[^()\s]|\([^()\s]*\))+)"

@@ -1,0 +1,213 @@
+{
+ "_hinweis": "Long-Form-Ratgeber. Text in content/ratgeber/<id>.md (## für Kapitel, > für Kästen, Tabellen und Listen). Tools, Glossarbegriffe, Rollen und Quellen prüft der Build.",
+ "titel": "Ratgeber aus der Werkstatt",
+ "artikel": [
+  {
+   "id": "ki-inhalte-kennzeichnen",
+   "page": "ratgeber-ki-inhalte-kennzeichnen.html",
+   "icon": "shield",
+   "h1": "KI-Inhalte kennzeichnen: Was Shops, Marketing und Creator seit August 2026 tun müssen",
+   "label": "KI-Inhalte kennzeichnen",
+   "seo_title": "KI-Inhalte kennzeichnen nach AI Act: Leitfaden für Shops und Marketing",
+   "meta": "Artikel 50 AI Act verständlich erklärt: wann Chatbots, KI-Bilder, Deepfakes und KI-Texte ein Label brauchen, was der Verhaltenskodex verlangt und eine Checkliste für dein Team. Stand Oktober 2026.",
+   "teaser": "Chatbot, KI-Model, geschöntes Produktfoto, automatischer Blogtext: Wo seit August ein Label nötig ist und wo nicht, mit Beispielen und Checkliste.",
+   "hero": "Seit dem 2. August 2026 gelten die Transparenzregeln des AI Act. Hier steht, welche KI-Inhalte ein Label brauchen, welche nicht, und wie du das in einem Nachmittag organisierst.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "shop",
+    "marketing",
+    "kreativ",
+    "service"
+   ],
+   "trend": "ai-act",
+   "tools": [
+    "Adobe Firefly",
+    "Canva",
+    "FLUX von Black Forest Labs",
+    "Midjourney",
+    "ElevenLabs",
+    "SiteGPT"
+   ],
+   "glossar": [
+    "EU AI Act",
+    "Deepfake",
+    "C2PA und Wasserzeichen",
+    "Chatbot",
+    "Agent"
+   ],
+   "faq": [
+    [
+     "Muss ich KI-Produkttexte im Shop kennzeichnen?",
+     "In der Regel nicht. Die Kennzeichnungspflicht für Texte betrifft Veröffentlichungen, die über Angelegenheiten von öffentlichem Interesse informieren, und Produktbeschreibungen gehören nach unserem Verständnis nicht dazu. Prüfen solltest du die Texte trotzdem, denn für erfundene Eigenschaften haftest du unabhängig vom AI Act."
+    ],
+    [
+     "Reicht ein allgemeiner Hinweis im Impressum?",
+     "Eher nicht. Die Kommission verlangt, dass Deepfakes und betroffene Texte klar und sichtbar gekennzeichnet werden, und zwar dort, wo Menschen ihnen begegnen. Ein Satz, den niemand liest, erfüllt diesen Zweck kaum."
+    ],
+    [
+     "Muss ich den Verhaltenskodex der EU unterschreiben?",
+     "Nein, die Unterschrift ist freiwillig. Der Kodex ist aber die bequemste Vorlage, um die eigenen Maßnahmen zu begründen, und Unterzeichner müssen laut Kommission mit weniger Nachfragen rechnen."
+    ],
+    [
+     "Was passiert mit KI-Bildern, die ich vor August erstellt habe?",
+     "Bilder, Audio und Video, die vor dem 2. August 2026 erzeugt wurden, musst du nicht nachträglich kennzeichnen. Bei Texten zu öffentlichen Themen zählt dagegen das Veröffentlichungsdatum."
+    ]
+   ],
+   "quellen": [
+    [
+     "EU-Kommission: Code of Practice on Transparency of AI-generated Content",
+     "https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content",
+     ""
+    ],
+    [
+     "EU-Kommission: Signing the Code of Practice (FAQ)",
+     "https://digital-strategy.ec.europa.eu/en/faqs/signing-code-practice-transparency-ai-generated-content",
+     ""
+    ],
+    [
+     "EU-Kommission: AI Act, Überblick und Zeitplan",
+     "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+     ""
+    ],
+    [
+     "Bird & Bird: The Final Transparency Code of Practice",
+     "https://www.twobirds.com/en/insights/2026/taking-the-eu-ai-act-to-practice-the-final-transparency-code-of-practice",
+     "2026-06-22"
+    ],
+    [
+     "Reed Smith: Code of Practice adequacy decision and final Article 50 Guidelines",
+     "https://www.reedsmith.com/our-insights/blogs/viewpoints/102nbz0/transparency-obligations-for-ai-generated-content-the-code-of-practice-adequacy/",
+     "2026-07-28"
+    ],
+    [
+     "EUR-Lex: Verordnung (EU) 2026/1744 (KI-Omnibus)",
+     "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32026R1744",
+     "2026-07-24"
+    ]
+   ],
+   "lead_hook": "Unsicher, welche Inhalte bei dir ein Label brauchen?",
+   "lead_text": "Schick Jean, welche KI-Tools ihr für Bilder, Texte und Kundenkontakt nutzt. Zurück kommt eine Einschätzung, wo ihr kennzeichnen solltet und welche Werkzeuge dabei helfen. Keine Rechtsberatung, aber ein klarer Startpunkt.",
+   "bubble": "Ich trage mein Label mit Stolz. Steht ja auch Roboter drauf."
+  },
+  {
+   "id": "ki-modelle-preise",
+   "page": "ratgeber-ki-modelle-preise.html",
+   "icon": "calc",
+   "h1": "KI-Modelle im Preischeck: Welches Modell für welchen Job im Herbst 2026",
+   "label": "KI-Modelle im Preischeck",
+   "seo_title": "KI-Modelle Preise 2026: GPT-6, Claude 5.5, Gemini 4, Mistral im Vergleich",
+   "meta": "Aktuelle API-Preise von OpenAI, Anthropic, Google und Mistral im Vergleich, ein durchgerechnetes Beispiel mit 2.000 Produkttexten, Spartipps mit Cache und wann sich lokale Modelle lohnen. Stand 28. Oktober 2026.",
+   "teaser": "Zehn Modelle, eine Preistabelle, ein Rechenbeispiel mit 2.000 Produkttexten und die Frage, wann ein lokales Modell die Rechnung schlägt.",
+   "hero": "Zwischen dem günstigsten und dem teuersten Modell liegt Faktor hundert. Hier steht, welches Modell für welche Arbeit reicht und wie du in einer Stunde selbst testest.",
+   "stand": "2026-10-28",
+   "rollen": [
+    "entwicklung",
+    "buero",
+    "shop",
+    "marketing"
+   ],
+   "trend": "preisrutsch",
+   "tools": [
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Mistral Large 4",
+    "Ollama",
+    "LM Studio",
+    "LFM3 von Liquid AI",
+    "Nemotron 3.5 Bolt"
+   ],
+   "glossar": [
+    "Token",
+    "Reasoning-Modell",
+    "Lokales Modell",
+    "Inferenz",
+    "Benchmark",
+    "Quantisierung"
+   ],
+   "faq": [
+    [
+     "Warum ist meine Rechnung höher als die Preisliste vermuten lässt?",
+     "Meist wegen Denk-Token, langer Eingaben und Wiederholungen. Modelle mit Denkphase rechnen ihre internen Überlegungen in der Regel als Ausgabe ab, und jede erneute Anfrage nach einem Fehler kostet noch einmal. Schau in der Konsole nach dem tatsächlichen Verbrauch pro Anfrage."
+    ],
+    [
+     "Sind die Benchmarks der Hersteller vergleichbar?",
+     "Nur eingeschränkt. Jeder Anbieter wählt Tests, Einstellungen und Denktiefe selbst, und Vergleichswerte der Konkurrenz stammen oft aus deren eigenen Veröffentlichungen. Ein eigener Test mit zwanzig echten Aufgaben sagt mehr über deinen Fall."
+    ],
+    [
+     "Welches Modell nehme ich für Kundenservice-Bots?",
+     "Für das Vorsortieren und Standardantworten reicht meist ein Kleinmodell, weil es schnell und günstig ist. Für schwierige Fälle lohnt eine Weiterleitung an ein Modell der Mittelklasse oder direkt an einen Menschen."
+    ],
+    [
+     "Werden die Preise weiter fallen?",
+     "Die Richtung der letzten Monate ist eindeutig: Jede neue Generation liefert mehr Leistung pro Dollar. Einführungspreise wie bei Gemini 4 Argon können aber auch steigen, also plane mit dem regulären Preis."
+    ]
+   ],
+   "quellen": [
+    [
+     "OpenAI: Introducing GPT-6.1 Sol",
+     "https://openai.com/index/introducing-gpt-6-1-sol/",
+     "2026-09-29"
+    ],
+    [
+     "OpenAI: Introducing GPT-6.1 Terra",
+     "https://openai.com/index/introducing-gpt-6-1-terra/",
+     "2026-10-26"
+    ],
+    [
+     "Anthropic: Introducing Claude Opus 5.5",
+     "https://www.anthropic.com/claude-opus-5-5",
+     "2026-09-22"
+    ],
+    [
+     "Anthropic: Introducing Claude Sonnet 5.5",
+     "https://www.anthropic.com/news/claude-sonnet-5-5",
+     "2026-09-28"
+    ],
+    [
+     "Anthropic: Introducing Claude Haiku 5.5",
+     "https://www.anthropic.com/claude-haiku-5-5",
+     "2026-10-07"
+    ],
+    [
+     "Google: Gemini 4 Argon",
+     "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+     "2026-10-13"
+    ],
+    [
+     "Google Cloud: Gemini at Work 2026",
+     "https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026",
+     "2026-10-08"
+    ],
+    [
+     "Mistral: Mistral Large 4, Modellkarte und Preise",
+     "https://docs.mistral.ai/models/mistral-large-4",
+     ""
+    ],
+    [
+     "Mistral: Introducing Mistral Large 4",
+     "https://mistral.ai/news/mistral-large-4/",
+     "2026-10-06"
+    ],
+    [
+     "Liquid AI: Introducing LFM3",
+     "https://www.liquid.ai/blog/lfm3",
+     "2026-10-27"
+    ],
+    [
+     "Hugging Face: LiquidAI/LFM3-1.7B",
+     "https://huggingface.co/LiquidAI/LFM3-1.7B",
+     "2026-10-27"
+    ],
+    [
+     "NVIDIA: Nemotron 3.5 Bolt E4B 4GB",
+     "https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/",
+     "2026-10-23"
+    ]
+   ],
+   "lead_hook": "Welches Modell passt zu deinem Volumen?",
+   "lead_text": "Schreib Jean, welche Aufgaben ihr automatisieren wollt und in welcher Menge. Zurück kommt ein Vorschlag mit Modellklasse, Werkzeug und grober Kostenschätzung pro Monat.",
+   "bubble": "Ich rechne in Schrauben pro Million Token. Ist erstaunlich stabil."
+  }
+ ]
+}

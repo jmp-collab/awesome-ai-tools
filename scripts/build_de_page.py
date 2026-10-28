@@ -38,6 +38,9 @@ KAT = json.loads((ROOT / "data" / "kategorien.json").read_text(encoding="utf-8")
 TRENDS = json.loads((ROOT / "data" / "trends.json").read_text(encoding="utf-8"))
 NEU = json.loads((ROOT / "data" / "neu.json").read_text(encoding="utf-8"))
 EINSATZ = json.loads((ROOT / "data" / "einsatz.json").read_text(encoding="utf-8"))
+RATGEBER = json.loads((ROOT / "data" / "ratgeber.json").read_text(encoding="utf-8"))
+RG_DIR = ROOT / "content" / "ratgeber"
+ZAHLWORT = {2: "Zwei", 3: "Drei", 4: "Vier", 5: "Fünf", 6: "Sechs", 7: "Sieben", 8: "Acht", 9: "Neun", 10: "Zehn", 11: "Elf", 12: "Zwölf"}
 ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8")
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
@@ -120,7 +123,7 @@ def plain(text):
     return re.sub(r"\s+", " ", text.replace("`", "").replace("*", "")).strip()
 
 
-def inline(text):
+def inline(text, site=False):
     out = html.escape(text, quote=False)
     # Code-Spans erst am Ende einsetzen, damit `[Name](https://url)` wörtlich bleibt
     codes = []
@@ -132,7 +135,7 @@ def inline(text):
         label, href = m.group(1), html.unescape(m.group(2))
         if href.startswith("#"):
             pass
-        elif not href.startswith("http"):
+        elif not href.startswith("http") and not site:
             href = REPO_URL + "/blob/main/" + href
         href = retag(href)
         attrs = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
@@ -465,7 +468,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="")
 
 def topbar(with_search=True, here=""):
     home = "" if here == "index" else "./"
-    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("trends", TRENDS_PAGE, "Trends"), ("glossar", GLOSSAR_PAGE, "Glossar")]
+    nav_items = [("kategorien", f"{home}#kategorien", "Schubladen"), ("rechner", f"{home}#rechner", "Rechner"), ("trends", TRENDS_PAGE, "Trends"), ("ratgeber", f"{home}#ratgeber", "Ratgeber"), ("glossar", GLOSSAR_PAGE, "Glossar")]
     cur = ' aria-current="page"'
     nav = '<nav class="mainnav" aria-label="Seiten">' + "".join(
         f'<a href="{href}"{cur if key == here else ""}>{label}</a>' for key, href, label in nav_items) + "</nav>"
@@ -485,7 +488,7 @@ def footer(fab_href="#stack-check"):
 <div class="cols">
 <div><h4>KI-Werkstatt</h4><p style="margin:0">{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>
 <div><h4>Projekt</h4><ul><li><a href="{REPO_URL}">GitHub-Repository</a></li><li><a href="{REPO_URL}/blob/main/README.de.md">Liste als Markdown</a></li><li><a href="{REPO_URL}/blob/main/README.md">About (English)</a></li><li><a href="tools.csv">Liste als CSV</a> · <a href="tools.json">JSON</a></li><li><a href="feed.xml">Trends als Feed (Atom)</a></li></ul></div>
-<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="./#einsatz">KI nach Einsatzgebiet</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
+<div><h4>Werkstatt</h4><ul><li><a href="./#kategorien">Alle Schubladen</a></li><li><a href="./#rechner">Zeitspar-Rechner</a></li><li><a href="./#einsatz">KI nach Einsatzgebiet</a></li><li><a href="./#ratgeber">Ratgeber</a></li><li><a href="{TRENDS_PAGE}">KI-Trends</a></li><li><a href="{GLOSSAR_PAGE}">KI-Glossar</a></li><li><a href="./#finder-band">Stack-Finder</a></li></ul></div>
 <div><h4>Praxis</h4><ul><li><a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT auf Substack</a></li><li><a href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">Newsletter abonnieren</a></li></ul></div>
 <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="{REPO_URL}/blob/main/LICENSE">MIT-Lizenz</a></li></ul></div>
 </div>
@@ -663,6 +666,8 @@ def build_index(sections, head_md):
 {einsatz_band()}
 
 {neu_band(list_secs)}
+
+{ratgeber_band()}
 
 <section class="band" id="so-arbeiten-wir"><div class="wrap">
 <p class="eyebrow">So arbeitet die Werkstatt</p><h2>Sammeln. Prüfen. Sortieren.</h2>
@@ -1061,7 +1066,7 @@ def neu_band(list_secs):
     neu_html = f"""<div class="neu-box reveal"><h3>{icon("plus")}Frisch in den Schubladen</h3><ul class="neu-list">{neu}</ul></div>""" if neu else ""
     return f"""<section class="band" id="neu-und-trends"><div class="wrap">
 <p class="eyebrow">Neu &amp; im Trend · Stand {de_date(TRENDS["stand"])}</p><h2>Was diesen Herbst in der Werkstatt angekommen ist</h2>
-<p class="intro">Acht Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
+<p class="intro">{ZAHLWORT[len(TRENDS["trends"])]} Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
 <div class="trend-cards">{cards}</div>
 {neu_html}
 <p style="margin-top:20px"><a class="btn btn-lime" href="{TRENDS_PAGE}">{icon("chart")}Alle Trends mit Quellen</a></p>
@@ -1125,6 +1130,7 @@ def build_trends(tools_map, list_secs):
 <div class="schritt"><h3>{icon("check")}Erster Schritt</h3><p>{html.escape(t["erster_schritt"])}</p></div>
 <div class="urteil"><h3>{icon("wrench")}Werkstatt-Urteil</h3><p>{html.escape(t["urteil"])}</p></div></div>
 {chips_html}
+{rg_link(t.get("ratgeber"))}
 <details class="quellen" data-chrome><summary>{icon("link")}Quellen ({len(t["quellen"])})</summary><ol>{quellen}</ol></details>
 </article>""")
     ld = {"@context": "https://schema.org", "@graph": [
@@ -1287,6 +1293,7 @@ def build_einsatz(tools_map, list_secs, sections):
 <div><h3>{icon("layers")}Passende Schubladen</h3><div class="chips">{kat_chips}</div></div>
 <div><h3>{icon("abc")}Begriffe zum Nachschlagen</h3><div class="chips">{gl_chips}</div></div>
 {f'<div><h3>{icon("clock")}Zeit nachrechnen</h3>{rechner}</div>' if rechner else ""}
+{rg_more(e["rolle"])}
 </div></div></section>
 
 <section class="band faq" id="faq"><div class="wrap">
@@ -1313,16 +1320,242 @@ def build_einsatz(tools_map, list_secs, sections):
     return pages
 
 
+# --------------------------------------------------------------------------- Ratgeber (Long-Form)
+def rg_by_id():
+    return {a["id"]: a for a in RATGEBER["artikel"]}
+
+
+def rg_link(rid):
+    if not rid:
+        return ""
+    a = rg_by_id().get(rid)
+    if not a:
+        raise SystemExit(f"data/trends.json: Ratgeber '{rid}' fehlt in data/ratgeber.json")
+    return f'<p class="rg-link"><a class="btn btn-sm" href="{a["page"]}">{icon("book")}Ausführlich im Ratgeber: {html.escape(a["label"])}</a></p>'
+
+
+def rg_more(rolle):
+    hits = [a for a in RATGEBER["artikel"] if rolle in a["rollen"]]
+    if not hits:
+        return ""
+    links = "".join(f'<a class="chip cat" href="{a["page"]}">{icon(a["icon"])}{html.escape(a["label"])}</a>' for a in hits)
+    return f'<div data-chrome><h3>{icon("book")}Zum Weiterlesen</h3><div class="chips">{links}</div></div>'
+
+
+def rg_words(md):
+    return len(re.findall(r"\w+", md))
+
+
+def rg_total_words(a):
+    """Wörter aus Text und FAQ; Grundlage für Lesezeit auf Karte und Seite."""
+    md = (RG_DIR / f"{a['id']}.md").read_text(encoding="utf-8")
+    return rg_words(md) + sum(rg_words(q + " " + x) for q, x in a["faq"])
+
+
+def ratgeber_band():
+    cards = "".join(f"""<a class="rg-card reveal" href="{a['page']}"><span class="term-ico">{icon(a["icon"])}</span>
+<span><span class="trend-no">Ratgeber · {max(1, round(rg_total_words(a) / 200))} Min. Lesezeit</span><b>{html.escape(a["h1"])}</b><small>{html.escape(a["teaser"])}</small>
+<span class="drawer-cta">Lesen{icon("arrow")}</span></span></a>""" for a in RATGEBER["artikel"])
+    return f"""<section class="band" id="ratgeber"><div class="wrap">
+<p class="eyebrow">{html.escape(RATGEBER["titel"])}</p><h2>Zum Durchlesen statt Durchscrollen</h2>
+<p class="intro">Ausführliche Anleitungen zu den Fragen, die uns gerade am häufigsten erreichen, mit Beispielen, Checklisten und allen Quellen zum Nachprüfen.</p>
+<div class="rg-cards">{cards}</div>
+</div></section>"""
+
+
+def gl_autolink_html(markup, used):
+    """Glossar-Begriffe im fertigen HTML verlinken, nur in Fließtext (nicht in Links, Code, Überschriften, Tabellenköpfen)."""
+    parts = re.split(r"(<[^>]+>)", markup)
+    skip = 0
+    out = []
+    for part in parts:
+        if part.startswith("<"):
+            m = re.match(r"<(/?)(a|code|h2|h3|th|strong)\b", part)
+            if m:
+                skip += -1 if m.group(1) else 1
+            out.append(part)
+        elif skip or not part.strip():
+            out.append(part)
+        else:
+            out.append(gl_autolink(html.unescape(part), used))
+    return "".join(out)
+
+
+def render_md(md):
+    """Kleines Markdown: ## Kapitel, ### Unterkapitel, > Kasten, - und 1. Listen, | Tabellen, Absätze."""
+    blocks, toc = [], []
+    lines = md.strip().split("\n")
+    i = 0
+
+    def para(buf):
+        if buf:
+            blocks.append(f"<p>{inline(' '.join(buf), site=True)}</p>")
+    buf = []
+    while i < len(lines):
+        ln = lines[i].rstrip()
+        if not ln.strip():
+            para(buf)
+            buf = []
+            i += 1
+            continue
+        if ln.startswith("## "):
+            para(buf)
+            buf = []
+            t = ln[3:].strip()
+            toc.append((slug(t), t))
+            blocks.append(f'<h2 id="{slug(t)}">{html.escape(t)}</h2>')
+        elif ln.startswith("### "):
+            para(buf)
+            buf = []
+            blocks.append(f"<h3>{inline(ln[4:].strip(), site=True)}</h3>")
+        elif ln.startswith("> "):
+            para(buf)
+            buf = []
+            box = []
+            while i < len(lines) and lines[i].startswith("> "):
+                box.append(lines[i][2:])
+                i += 1
+            blocks.append(f'<aside class="rg-box">{icon("spark")}<p>{inline(" ".join(box), site=True)}</p></aside>')
+            continue
+        elif ln.startswith("|"):
+            para(buf)
+            buf = []
+            rows = []
+            while i < len(lines) and lines[i].startswith("|"):
+                cells = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+                if not all(re.fullmatch(r":?-{3,}:?", c) for c in cells):
+                    rows.append(cells)
+                i += 1
+            head, *body = rows
+            t = ['<div class="table"><table><thead><tr>'] + [f"<th>{inline(c, site=True)}</th>" for c in head] + ["</tr></thead><tbody>"]
+            t += ["<tr>" + "".join(f"<td>{inline(c, site=True)}</td>" for c in r) + "</tr>" for r in body]
+            blocks.append("".join(t) + "</tbody></table></div>")
+            continue
+        elif re.match(r"(- |\d+\. )", ln):
+            para(buf)
+            buf = []
+            ordered = bool(re.match(r"\d+\. ", ln))
+            items = []
+            while i < len(lines) and re.match(r"(- |\d+\. )", lines[i]):
+                items.append(re.sub(r"^(- |\d+\. )", "", lines[i]))
+                i += 1
+            tag = "ol" if ordered else "ul"
+            blocks.append(f'<{tag} class="plain">' + "".join(f"<li>{inline(x, site=True)}</li>" for x in items) + f"</{tag}>")
+            continue
+        else:
+            buf.append(ln.strip())
+        i += 1
+    para(buf)
+    return "\n".join(blocks), toc
+
+
+def build_ratgeber(tools_map):
+    terms = {g["t"]: g for g in GLOSSAR["begriffe"]}
+    rollen = {r["id"]: r for r in TRENDS["rollen"]}
+    trend_ids = {t["id"] for t in TRENDS["trends"]}
+    pages = []
+    for a in RATGEBER["artikel"]:
+        where = f"data/ratgeber.json/{a['id']}"
+        for n in a["tools"]:
+            if n not in tools_map:
+                raise SystemExit(f"{where}: Tool '{n}' nicht in README.de.md gefunden")
+        for t in a["glossar"]:
+            if t not in terms:
+                raise SystemExit(f"{where}: Glossarbegriff '{t}' fehlt")
+        for r in a["rollen"]:
+            if r not in rollen:
+                raise SystemExit(f"{where}: Rolle '{r}' fehlt in data/trends.json")
+        if a.get("trend") and a["trend"] not in trend_ids:
+            raise SystemExit(f"{where}: Trend '{a['trend']}' fehlt")
+        if not a["quellen"]:
+            raise SystemExit(f"{where}: keine Quellen")
+        md = (RG_DIR / f"{a['id']}.md").read_text(encoding="utf-8")
+        body_html, toc = render_md(md)
+        body_html = gl_autolink_html(body_html, set())
+        words = rg_total_words(a)
+        minutes = max(1, round(words / 200))
+        url = SITE_URL + a["page"]
+        faq = [tuple(x) for x in a["faq"]]
+        toc_html = "".join(f'<a href="#{i}">{html.escape(t)}</a>' for i, t in toc) + f'<a href="#faq">Fragen</a><a href="#quellen">Quellen</a>'
+        tool_chips = "".join(f'<a class="chip tool" href="{html.escape(tools_map[n]["u"])}" target="_blank" rel="noopener">{favicon(tools_map[n]["u"])}{html.escape(n)}'
+                             f'{NEU_BADGE if n in NEU_NAMES else ""}</a>' for n in a["tools"])
+        gl_chips = "".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(t)}">{icon(terms[t]["icon"])}{html.escape(t)}</a>' for t in a["glossar"])
+        einsatz = [e for e in EINSATZ["seiten"] if e["rolle"] in a["rollen"]]
+        einsatz_chips = "".join(f'<a class="chip cat" href="{e["page"]}">{icon(e["icon"])}{html.escape(e["h1"])}</a>' for e in einsatz)
+        quellen = "".join(f'<li><a href="{html.escape(u)}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
+                          for lbl, u, d in a["quellen"])
+        others = "".join(f'<a class="einsatz-mini" href="{o["page"]}">{icon(o["icon"])}{html.escape(o["label"])}</a>' for o in RATGEBER["artikel"] if o is not a)
+        trend_btn = ""
+        if a.get("trend"):
+            t = next(t for t in TRENDS["trends"] if t["id"] == a["trend"])
+            trend_btn = f'<a class="btn" href="{TRENDS_PAGE}#{t["id"]}">{icon("chart")}Zum Trend: {html.escape(t["label"])}</a>'
+        ld = {"@context": "https://schema.org", "@graph": [
+            {"@type": "Article", "@id": url, "url": url, "headline": a["h1"], "description": a["meta"], "inLanguage": "de-DE",
+             "datePublished": a["stand"], "dateModified": a["stand"], "wordCount": words, "mainEntityOfPage": url,
+             "author": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
+             "publisher": {"@type": "Organization", "name": "KI-Werkstatt", "url": SITE_URL},
+             "citation": [u for _, u, _ in a["quellen"]]},
+            faq_ld(faq),
+            breadcrumb_ld([("KI-Werkstatt", SITE_URL), ("Ratgeber", SITE_URL + "#ratgeber"), (a["label"], url)]),
+        ]}
+        ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+        body = f"""{topbar(False, "ratgeber")}
+<section class="hero rg-hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
+<nav class="crumbs" aria-label="Brotkrümel"><a href="./">KI-Werkstatt</a>{icon("arrow")}<a href="./#ratgeber">Ratgeber</a>{icon("arrow")}<span aria-current="page">{html.escape(a["label"])}</span></nav>
+<p class="kicker">{icon(a["icon"])} <b>Ratgeber</b> · Stand {de_date(a["stand"])} · {minutes} Min. Lesezeit</p>
+<h1>{html.escape(a["h1"])}</h1>
+<p class="sub">{html.escape(a["hero"])}</p>
+<div class="ctas"><a class="btn btn-lime" href="#{toc[0][0] if toc else 'faq'}">{icon("book")}Lesen</a><a class="btn" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+</div></section>
+
+<div class="wrap layout rg-layout">
+<aside class="rail" data-chrome><div class="in"><h4>Inhalt</h4>{toc_html}
+<div class="lead-mini"><b>Stack-Check</b><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></aside>
+<article class="content rg-body">
+{body_html}
+<section class="rg-extras">
+<div><h3>{icon("wrench")}Werkzeug zum Thema</h3><div class="chips">{tool_chips}</div></div>
+<div><h3>{icon("abc")}Begriffe zum Nachschlagen</h3><div class="chips">{gl_chips}</div></div>
+<div><h3>{icon("layers")}Passende Einsatzgebiete</h3><div class="chips">{einsatz_chips}</div></div>
+</section>
+<p class="rg-trend">{trend_btn}</p>
+<section id="faq" class="rg-faq"><h2>Häufige Fragen</h2><div class="faq-list">{faq_html(faq)}</div></section>
+<section id="quellen" class="rg-quellen" data-chrome><h2>Quellen</h2><ol>{quellen}</ol></section>
+</article>
+</div>
+
+<section class="band lead" id="stack-check"><div class="wrap">
+<div class="lead-grid"><div>
+<p class="eyebrow">Stack-Check</p><h2>{html.escape(a["lead_hook"])}</h2>
+<p class="intro">{html.escape(a["lead_text"])}</p>
+<div class="kb-say">{kurbel("kb-md")}<p class="bubble">{html.escape(a["bubble"])}</p></div></div>
+<div>{lead_form("Ratgeber: " + a["label"], "Stack-Check (Ratgeber " + a["label"] + ") – KI-Werkstatt")}</div></div>
+</div></section>
+
+<section class="band" id="weitere"><div class="wrap">
+<p class="eyebrow">Weitere Ratgeber</p><div class="einsatz-minis">{others}</div>
+</div></section>
+{footer()}
+"""
+        (DOCS / a["page"]).write_text(page_shell(f"{a['seo_title']} – KI-Werkstatt", body, a["meta"], url,
+                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+        pages.append(a["page"])
+    return pages
+
+
 def build_feed(list_secs):
     home = tool_home(list_secs)
     # Nur bereits gestartete Neuzugänge; abgelaufene bleiben als Historie im Feed
     neu = [t for t in NEU["tools"] if date.fromisoformat(t["seit"]) <= date.today()]
-    stamp = max([TRENDS["stand"]] + [t["seit"] for t in neu]) + "T00:00:00Z"
+    stamp = max([TRENDS["stand"]] + [t["seit"] for t in neu] + [a["stand"] for a in RATGEBER["artikel"]]) + "T00:00:00Z"
     x = html.escape
     entries = []
     for t in TRENDS["trends"]:
         u = f"{SITE_URL}{TRENDS_PAGE}#{t['id']}"
         entries.append(f'<entry><title>{x(t["titel"])}</title><link href="{x(u)}"/><id>{x(u)}</id><updated>{TRENDS["stand"]}T00:00:00Z</updated><summary>{x(t["kurz"])}</summary></entry>')
+    for a in RATGEBER["artikel"]:
+        u = SITE_URL + a["page"]
+        entries.append(f'<entry><title>{x(a["h1"])}</title><link href="{x(u)}"/><id>{x(u)}</id><updated>{a["stand"]}T00:00:00Z</updated><summary>{x(a["teaser"])}</summary></entry>')
     for t in neu:
         u = SITE_URL + home[t["name"]]
         entries.append(f'<entry><title>Neu in der Liste: {x(t["name"])}</title><link href="{x(u)}"/><id>{x(SITE_URL)}neu/{slug(t["name"])}</id>'
@@ -1410,6 +1643,7 @@ def main():
     pages.append(build_glossar(tools_map, list_secs, sections))
     pages.append(build_trends(tools_map, list_secs))
     pages += build_einsatz(tools_map, list_secs, sections)
+    pages += build_ratgeber(tools_map)
     build_feed(list_secs)
     build_subpages(list_secs)
     build_data(uniq, sections, pages, list_secs)

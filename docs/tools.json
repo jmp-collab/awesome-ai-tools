@@ -1,6 +1,6 @@
 {
- "gebaut": "27.10.2026",
- "link_check": "27.10.2026",
+ "gebaut": "28.10.2026",
+ "link_check": "28.10.2026",
  "quelle": "https://github.com/jmp-collab/awesome-ai-tools",
  "tools": [
   {
@@ -274,6 +274,28 @@
    "kategorie": "Text und Sprache",
    "bereich": "Sprachmodelle und APIs",
    "eu": true,
+   "open_source": false,
+   "neu": true,
+   "seite": "ki-tools-text-und-sprache.html#sprachmodelle-und-apis"
+  },
+  {
+   "name": "LFM3 von Liquid AI",
+   "url": "https://www.liquid.ai/blog/lfm3",
+   "beschreibung": "Familie offener Kleinmodelle für Text, Bild, Audio und Entscheidungen im 2-Milliarden-Bereich; das Textmodell braucht bei 4 Bit rund 1 GB Speicher.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
+   "open_source": false,
+   "neu": true,
+   "seite": "ki-tools-text-und-sprache.html#sprachmodelle-und-apis"
+  },
+  {
+   "name": "Nemotron 3.5 Bolt",
+   "url": "https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/",
+   "beschreibung": "Offenes Kleinmodell von NVIDIA für lokale Sprach- und Geräteassistenten mit Werkzeugaufrufen, läuft laut NVIDIA mit rund 4 GB Grafikspeicher und über Ollama.",
+   "kategorie": "Text und Sprache",
+   "bereich": "Sprachmodelle und APIs",
+   "eu": false,
    "open_source": false,
    "neu": true,
    "seite": "ki-tools-text-und-sprache.html#sprachmodelle-und-apis"
@@ -2889,17 +2911,6 @@
    "name": "Playground AI",
    "url": "https://playgroundai.com/",
    "beschreibung": "Kostenloser Bildgenerator für Social Posts, Poster und Logos.",
-   "kategorie": "Bilder",
-   "bereich": "Bild-Dienste",
-   "eu": false,
-   "open_source": false,
-   "neu": false,
-   "seite": "ki-tools-bilder.html#bild-dienste"
-  },
-  {
-   "name": "PhotoGuruAI",
-   "url": "https://photoguruai.com/",
-   "beschreibung": "Professionelle KI-Bewerbungsfotos in vielen Stilen.",
    "kategorie": "Bilder",
    "bereich": "Bild-Dienste",
    "eu": false,

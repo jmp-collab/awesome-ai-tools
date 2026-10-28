@@ -1,7 +1,7 @@
 {
- "stand": "2026-10-27",
+ "stand": "2026-10-28",
  "titel": "KI-Trends Herbst 2026",
- "intro": "Was sich zwischen Juli und Oktober 2026 wirklich bewegt hat, nachgelesen beim Hersteller statt beim Hörensagen. Acht Entwicklungen, jede mit Einordnung für Leute, die damit arbeiten wollen, und mit Quellen zum Selbstprüfen.",
+ "intro": "Was sich zwischen Juli und Oktober 2026 wirklich bewegt hat, nachgelesen beim Hersteller statt beim Hörensagen. Neun Entwicklungen, jede mit Einordnung für Leute, die damit arbeiten wollen, und mit Quellen zum Selbstprüfen.",
  "methode": "Jede Aussage stammt aus der Ankündigung des Herstellers oder, beim EU AI Act, aus der Meldung zur Veröffentlichung im Amtsblatt. Leistungs- und Benchmarkwerte sind Herstellerangaben. Tracker und Newsblogs haben wir nur genutzt, um Kandidaten zu finden, nie als Beleg.",
  "trends": [
   {
@@ -11,7 +11,7 @@
    "kurz": "Die neue Claude-Generation kostet bei gleicher Leistung deutlich weniger. Projekte, die an den API-Kosten gescheitert sind, gehören neu durchgerechnet.",
    "text": [
     "Anthropic hat im September Claude Opus 5.5 vorgestellt und gibt an, dass es bei typischen Aufgaben rund 40 Prozent weniger kostet als Opus 5. Im Oktober folgte Claude Haiku 5.5 für 0,10 Dollar pro Million Eingabe-Token und 0,50 Dollar pro Million Ausgabe-Token bei Eingaben bis 100.000 Token, laut Anthropic im Schnitt etwa 75 Prozent günstiger als der Vorgänger Haiku 4.5.",
-    "Google hat parallel Gemini 4 Argon in die Gemini-App und für Entwickler gebracht. Unser Eindruck aus der Werkstatt: Die kleinen und mittleren Modelle holen so weit auf, dass sie viele Aufgaben übernehmen, für die man vor einem Jahr noch das teuerste Modell gebucht hätte."
+    "OpenAI zieht mit: GPT-6.1 Sol kostet laut OpenAI 2 Dollar pro Million Eingabe-Token und 10 Dollar pro Million Ausgabe-Token, das am 26. Oktober vorgestellte GPT-6.1 Terra die Hälfte davon. Google verlangt für Gemini 4 Argon bis zum 30. November einen Einführungspreis von 2 und 10 Dollar, danach 4 und 20 Dollar. Die Spitze wird also nicht billiger, aber die Mittelklasse rückt so nah heran, dass sie für die meiste Alltagsarbeit reicht."
    ],
    "fuer_dich": "Produkttexte in drei Sprachen, Support-Vorsortierung oder das Zusammenfassen von Handbüchern kosten bei kleinen Modellen jetzt Cent-Beträge pro Hundert Durchläufe. Rechne mit echten Mengen, bevor du ein Projekt wegen der Kosten beerdigst.",
    "urteil": "Erst das kleine Modell testen. Oft reicht der Haiku, wo du aus Gewohnheit den Opus bestellt hättest.",
@@ -19,7 +19,8 @@
     "Claude",
     "Anthropic API",
     "Google Gemini API",
-    "Mistral AI"
+    "Mistral AI",
+    "ChatGPT"
    ],
    "quellen": [
     [
@@ -33,9 +34,19 @@
      "2026-10-07"
     ],
     [
-     "Google: Gemini 4 Argon for developers",
-     "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-argon/",
-     ""
+     "OpenAI: Introducing GPT-6.1 Sol",
+     "https://openai.com/index/introducing-gpt-6-1-sol/",
+     "2026-09-29"
+    ],
+    [
+     "OpenAI: Introducing GPT-6.1 Terra",
+     "https://openai.com/index/introducing-gpt-6-1-terra/",
+     "2026-10-26"
+    ],
+    [
+     "Google: Gemini 4 Argon",
+     "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+     "2026-10-13"
     ]
    ],
    "label": "Preisrutsch",
@@ -47,7 +58,8 @@
     "service": 2,
     "kreativ": 1,
     "buero": 2
-   }
+   },
+   "ratgeber": "ki-modelle-preise"
   },
   {
    "id": "agenten-hintergrund",
@@ -168,6 +180,51 @@
     "kreativ": 1,
     "buero": 3
    }
+  },
+  {
+   "id": "lokal",
+   "label": "Kleine Modelle lokal",
+   "icon": "cpu",
+   "titel": "Kleine Modelle ziehen auf den eigenen Rechner",
+   "kurz": "Liquid AI und NVIDIA bringen offene Modelle, die mit ein bis vier Gigabyte Speicher auskommen. Vertrauliches muss damit seltener in die Cloud.",
+   "text": [
+    "Liquid AI hat am 27. Oktober die Modellfamilie LFM3 vorgestellt: sechs offene Modelle um zwei Milliarden Parameter für Text, Bild, Audio und schnelle Ja-Nein-Entscheidungen. Das Textmodell braucht bei 4 Bit laut Hersteller rund ein Gigabyte Speicher, verarbeitet bis zu 256.000 Token Kontext und lässt sich auf einer einzelnen Grafikkarte nachtrainieren.",
+    "NVIDIA hat am 23. Oktober Nemotron 3.5 Bolt E4B veröffentlicht, ein Kleinmodell auf Basis von Gemma 4 für Sprachassistenten und Werkzeugaufrufe. In NVIDIAs eigenem Test belegt es auf einer RTX 5070 rund 3,5 Gigabyte Grafikspeicher, Ollama hatte es noch am selben Tag im Angebot."
+   ],
+   "fuer_dich": "Belege vorsortieren, Tickets einordnen oder interne Dokumente durchsuchen geht damit auf einem normalen Bürorechner. Für Fachwissen braucht ein Kleinmodell aber deine Daten oder eine Suche daneben, aus dem Gedächtnis weiß es wenig.",
+   "urteil": "Klein heißt nicht dumm, nur spezialisiert. Gib ihm eine enge Aufgabe und keinen Weltfrieden.",
+   "erster_schritt": "Installiere Ollama, lade ein Kleinmodell und lass es zehn echte Tickets oder Belege einsortieren, bevor du über Cloud-Kosten diskutierst.",
+   "radar": {
+    "shop": 1,
+    "marketing": 0,
+    "entwicklung": 3,
+    "service": 1,
+    "kreativ": 1,
+    "buero": 2
+   },
+   "tools": [
+    "LFM3 von Liquid AI",
+    "Nemotron 3.5 Bolt",
+    "Ollama",
+    "LM Studio"
+   ],
+   "quellen": [
+    [
+     "Liquid AI: Introducing LFM3",
+     "https://www.liquid.ai/blog/lfm3",
+     "2026-10-27"
+    ],
+    [
+     "NVIDIA: Nemotron 3.5 Bolt E4B 4GB",
+     "https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/",
+     "2026-10-23"
+    ],
+    [
+     "Ollama: nemotron-3.5-bolt",
+     "https://ollama.com/library/nemotron-3.5-bolt:e4b",
+     ""
+    ]
+   ]
   },
   {
    "id": "browser",
@@ -321,7 +378,8 @@
     "service": 3,
     "kreativ": 3,
     "buero": 3
-   }
+   },
+   "ratgeber": "ki-inhalte-kennzeichnen"
   }
  ],
  "rollen": [
