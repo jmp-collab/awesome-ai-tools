@@ -1,0 +1,40 @@
+name: Wöchentlicher Link-Check
+
+on:
+  schedule:
+    - cron: "17 5 * * 1"   # montags 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Links prüfen
+        id: check
+        run: |
+          set -o pipefail
+          python3 scripts/check_links.py 2>&1 | tee linkcheck.txt
+          if grep -qE ', [1-9][0-9]* tot' linkcheck.txt; then echo "dead=1" >> "$GITHUB_OUTPUT"; fi
+      - name: Issue bei toten Links
+        if: steps.check.outputs.dead == '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "Der wöchentliche Link-Check hat tote Links gefunden."
+            echo
+            echo '```'
+            tail -n 40 linkcheck.txt
+            echo '```'
+            echo
+            echo "Die Montagsrunde des Autopiloten (Skill werkstatt-news) räumt sie auf."
+          } > body.md
+          gh issue create --title "Tote Links $(date +%F)" --body-file body.md

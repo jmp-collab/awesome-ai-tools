@@ -546,7 +546,8 @@ html:has(.az){scroll-padding-top:calc(var(--top) + 76px)}
 @media (max-width:560px){.rg-done{grid-template-columns:1fr}.rg-done .hans{width:90px;height:103px}}
 
 /* Danke-Seite */
-.duo{display:flex;align-items:flex-end;gap:6px;margin:0 0 18px}
+.duo{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px;margin:0 0 18px}
+@media (max-width:560px){.duo .hans{width:104px;height:119px}.duo .kurbel.kb-md{width:70px;height:67px}.duo .bubble{flex-basis:100%;margin:6px 0 0;max-width:none}}
 .duo .hans{width:150px;height:171px}
 .steps-mini{list-style:none;padding:0;margin:18px 0;display:grid;gap:10px;max-width:620px}
 .steps-mini li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
