@@ -12,16 +12,25 @@ const fs = require("fs"), os = require("os"), path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "kw-smoke-"));
 fs.symlinkSync(path.join(ROOT, "docs"), path.join(tmp, "awesome-ai-tools"));
-const PORT = 8700 + Math.floor(Math.random() * 200);
-const BASE = `http://127.0.0.1:${PORT}/awesome-ai-tools/`;
-const server = spawn("python3", ["-m", "http.server", String(PORT), "--bind", "127.0.0.1", "--directory", tmp], { stdio: "ignore" });
+// Port 0: das Betriebssystem vergibt einen freien Port, der Server nennt ihn in seiner Startzeile
+let BASE = "";
+const server = spawn("python3", ["-u", "-m", "http.server", "0", "--bind", "127.0.0.1", "--directory", tmp], { stdio: ["ignore", "pipe", "pipe"] });
+const ready = new Promise((resolve, reject) => {
+  const t = setTimeout(() => reject(new Error("Testserver nicht gestartet")), 8000);
+  server.stdout.on("data", (d) => {
+    const m = String(d).match(/port (\d+)/);
+    if (m) { clearTimeout(t); BASE = `http://127.0.0.1:${m[1]}/awesome-ai-tools/`; resolve(); }
+  });
+  server.stderr.resume(); // Zugriffsprotokoll verwerfen, sonst läuft die Pipe voll und der Server blockiert
+  server.on("exit", (code) => { clearTimeout(t); reject(new Error("Testserver beendet mit Code " + code)); });
+});
 
 const pages = fs.readdirSync(path.join(ROOT, "docs")).filter((f) => f.endsWith(".html") && f !== "og.html");
 const bad = [];
 function fail(msg) { bad.push(msg); console.log("FEHLER " + msg); }
 
 (async () => {
-  await new Promise((r) => setTimeout(r, 900));
+  await ready;
   const browser = await chromium.launch();
   for (const [w, scheme] of [[390, "light"], [1366, "dark"], [1366, "light"], [390, "dark"]]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 820 }, colorScheme: scheme });
