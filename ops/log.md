@@ -4,5 +4,5 @@ Neueste Einträge oben. Jeder Autopilot-Lauf trägt ein: Datum, Lauf-Art, was er
 
 ## 2026-10-29 · Einrichtung
 
-- Skills, Backlog, Prüfskripte und GitHub Action für den Link-Check angelegt.
-- Geplante Aufgaben: Montagsrunde (News, Trends, Link-Check), Ratgeber-Donnerstag (abwechselnd Ratgeber und Tool-Notizen), SEO-Audit am Monatsersten.
+- Angelegt: Backlog, Prüfskripte (Layer A, Smoke-Test) und GitHub Action für den wöchentlichen Link-Check.
+- Offen: Projekt-Skills und geplante Aufgaben (Montagsrunde, Ratgeber-Donnerstag, SEO-Audit am Monatsersten) sind noch nicht eingerichtet. Sie warten auf Jeans Entscheidung, wie viel der Autopilot selbst darf. Bis dahin gibt es keine Skills wie `werkstatt-news`.

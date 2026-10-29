@@ -8,6 +8,7 @@ Aufruf aus dem Repo-Root:
 Erlaubt ist nur das BOM am Anfang von CSV-Dateien (Excel braucht es für Umlaute).
 PNG-Dateien dürfen nur IHDR, IDAT, IEND und PLTE/tRNS enthalten, keine tEXt/iTXt/eXIf/caBX-Chunks.
 """
+import os
 import re
 import struct
 import subprocess
@@ -33,10 +34,14 @@ def changed_files():
 def versions(f, staged):
     """Arbeitskopie und, falls gestaged, die Fassung im Index (die wird committet)."""
     out = []
-    try:
-        out.append(("Arbeitskopie", open(f, "rb").read()))
-    except (FileNotFoundError, IsADirectoryError):
-        pass
+    if os.path.islink(f):
+        # Symlinks nie auflösen: nur den Linktext prüfen, --fix schreibt hier nichts
+        out.append(("Symlink", os.fsencode(os.readlink(f))))
+    else:
+        try:
+            out.append(("Arbeitskopie", open(f, "rb").read()))
+        except (FileNotFoundError, IsADirectoryError):
+            pass
     if f in staged:
         try:
             out.append(("Index", subprocess.check_output(["git", "show", ":" + f])))

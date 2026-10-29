@@ -37,7 +37,7 @@ jobs:
             tail -n 40 linkcheck.txt
             echo '```'
             echo
-            echo "Die Montagsrunde des Autopiloten (Skill werkstatt-news) räumt sie auf."
+            echo "Bitte die toten Links in README.de.md bzw. data/*.json ersetzen oder entfernen."
           } > body.md
           gh issue create --title "Tote Links $(date +%F)" --body-file body.md
       - name: Lauf als fehlgeschlagen markieren

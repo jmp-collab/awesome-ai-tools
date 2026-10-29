@@ -596,6 +596,7 @@ html:has(.az){scroll-padding-top:calc(var(--top) + 76px)}
   .rg-body ol>li::marker{content:"☐  "}
   .rg-done{border:1px solid #000;background:none;break-inside:avoid}
   h2,h3{break-after:avoid}table,.rg-box{break-inside:avoid}
+  .table{background:#fff!important;border-color:#000!important;box-shadow:none!important;overflow:visible}th,td{color:#000!important;background:#fff!important;border-color:#999!important}
   .print-foot{display:block!important;margin-top:24px;border-top:1px solid #000;padding-top:8px;font-size:9pt}
 }
 .print-head,.print-foot{display:none}

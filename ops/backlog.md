@@ -15,14 +15,14 @@ Status: `[ ]` offen, `[~]` in Arbeit, `[x]` erledigt (mit Datum und PR). Wer: **
 
 ## Phase 2: Substanz (Woche 2–6)
 
-- [ ] **Claude** ✅ Werkstatt-Notizen für die 40 wichtigsten Tools (Skill `werkstatt-tool-notizen`), 10 pro Lauf. Fortschritt: 0 von 40.
+- [ ] **Claude** ✅ Werkstatt-Notizen für die 40 wichtigsten Tools (geplanter Skill `werkstatt-tool-notizen`, noch nicht eingerichtet), 10 pro Lauf. Fortschritt: 0 von 40.
 - [ ] **Claude** ✅ Keine dünnen Einzelseiten pro Tool. Wenn je Einzelseiten entstehen, nur mit eigener Prüfung, sonst `noindex`.
 - [ ] **Claude** ⚠️ Vergleichs- und „Alternative zu“-Ratgeber, je einer pro Ratgeber-Lauf, Reihenfolge siehe Themenliste.
 
 ## Phase 3: Ratgeber-Takt und Distribution (Woche 3–12)
 
-- [ ] **Claude** ✅ Ratgeber im Zwei-Wochen-Takt (Skill `werkstatt-ratgeber`), Primärquellen mit Datum.
-- [ ] **Claude** ✅ Wöchentlich News und Trends (Skill `werkstatt-news`).
+- [ ] **Claude** ✅ Ratgeber im Zwei-Wochen-Takt (geplanter Skill `werkstatt-ratgeber`, noch nicht eingerichtet), Primärquellen mit Datum.
+- [ ] **Claude** ✅ Wöchentlich News und Trends (geplanter Skill `werkstatt-news`, noch nicht eingerichtet).
 - [ ] **Claude** 🟡 Linkaufbau nur sauber: Badges für Hersteller höchstens mit `rel="sponsored"` oder `nofollow`, kein Linktausch.
 - [ ] **Claude** ⚠️ Datenstudie aus dem Link-Check, z. B. „Wie viele KI-Tools haben ihren Sitz in der EU, wie viele Links sind nach einem Jahr tot?“ als Ratgeber mit Grafik.
 - [ ] **Jean** ⚠️ Verbreitung: Hinweis im PROMPTGOTT-Newsletter, in DACH-Communities und Eintrag in passenden GitHub-Awesome-Listen (Beiträge unter Jeans Namen, Claude liefert Texte).
