@@ -20,9 +20,11 @@ jobs:
       - name: Links prüfen
         id: check
         run: |
-          set -o pipefail
-          python3 scripts/check_links.py 2>&1 | tee linkcheck.txt
-          if grep -qE ', [1-9][0-9]* tot' linkcheck.txt; then echo "dead=1" >> "$GITHUB_OUTPUT"; fi
+          # check_links.py endet bei toten Links mit Status 1; erst Ergebnis sichern, dann melden
+          status=0
+          python3 scripts/check_links.py > linkcheck.txt 2>&1 || status=$?
+          cat linkcheck.txt
+          if [ "$status" -ne 0 ] || grep -qE ', [1-9][0-9]* tot' linkcheck.txt; then echo "dead=1" >> "$GITHUB_OUTPUT"; fi
       - name: Issue bei toten Links
         if: steps.check.outputs.dead == '1'
         env:
@@ -38,3 +40,6 @@ jobs:
             echo "Die Montagsrunde des Autopiloten (Skill werkstatt-news) räumt sie auf."
           } > body.md
           gh issue create --title "Tote Links $(date +%F)" --body-file body.md
+      - name: Lauf als fehlgeschlagen markieren
+        if: steps.check.outputs.dead == '1'
+        run: exit 1
