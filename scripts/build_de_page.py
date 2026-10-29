@@ -149,6 +149,24 @@ def icon(name, cls="ico"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#i-{name}"/></svg>'
 
 
+NUM_CELL = re.compile(r"(?:ca\.|rund|~)?\s*\d[\d.,]*\s*(?:%|Dollar|Euro|€|\$)?(?:\s.*)?")
+
+
+def md_table(head, body, site=False):
+    """Markdown-Tabelle als HTML. Spalten, die überwiegend mit einer Zahl beginnen, bekommen class="num"
+    (rechtsbündig, Ziffern gleich breit); "k. A." und Striche zählen nicht mit."""
+    num = set()
+    for j in range(len(head)):
+        vals = [r[j] for r in body if j < len(r) and r[j] not in ("", "k. A.", "–", "-")]
+        if vals and sum(bool(NUM_CELL.fullmatch(v)) and len(v) <= 14 for v in vals) >= 0.7 * len(vals):
+            num.add(j)
+    cls = lambda j: ' class="num"' if j in num else ""
+    t = ['<div class="table"><table><thead><tr>'] + [f"<th{cls(j)}>{inline(c, site)}</th>" for j, c in enumerate(head)]
+    t.append("</tr></thead><tbody>")
+    t += ["<tr>" + "".join(f"<td{cls(j)}>{inline(c, site)}</td>" for j, c in enumerate(r)) + "</tr>" for r in body]
+    return "".join(t) + "</tbody></table></div>"
+
+
 def host(url):
     return urlparse(url).hostname or ""
 
@@ -316,11 +334,7 @@ def render_blocks(blocks, sec_id, sub_id, tools_map):
             out.append(f'<aside class="{cls}">{inline(val)}</aside>')
         elif kind == "table":
             head, *rest = val
-            t = ['<div class="table"><table><thead><tr>'] + [f"<th>{inline(c)}</th>" for c in head] + ["</tr></thead><tbody>"]
-            for r in rest:
-                t.append("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in r) + "</tr>")
-            t.append("</tbody></table></div>")
-            out.append("".join(t))
+            out.append(md_table(head, rest))
         elif kind == "list":
             ordered, buf = val
             tag = "ol" if ordered else "ul"
@@ -518,7 +532,7 @@ def footer(fab_href="#stack-check"):
 def kurbel(cls="", wink=False, label="Kurbel, der Werkstatt-Roboter"):
     eye_r = ('<path d="M68 42h10"/>' if wink else '<circle cx="73" cy="42" r="4.5" fill="currentColor" stroke="none"/>')
     return f"""<svg class="kurbel {cls}" viewBox="0 0 130 124" role="img" aria-label="{html.escape(label)}">
-<g class="kb-ant"><path d="M60 22V11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="8" r="4.5" class="kb-spark"/>
+<g class="kb-ant"><path d="M60 22V11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="8" r="4.5" class="kb-spark"/><circle cx="60" cy="8" r="3" class="kb-spark-hi"/>
 <path d="M50 5l-4-3M70 5l4-3M60-3v0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
 <g class="kb-bob" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 <rect x="30" y="22" width="60" height="44" rx="14" class="kb-head"/>
@@ -1493,9 +1507,7 @@ def render_md(md):
                     rows.append(cells)
                 i += 1
             head, *body = rows
-            t = ['<div class="table"><table><thead><tr>'] + [f"<th>{inline(c, site=True)}</th>" for c in head] + ["</tr></thead><tbody>"]
-            t += ["<tr>" + "".join(f"<td>{inline(c, site=True)}</td>" for c in r) + "</tr>" for r in body]
-            blocks.append("".join(t) + "</tbody></table></div>")
+            blocks.append(md_table(head, body, site=True))
             continue
         elif re.match(r"(- |\d+\. )", ln):
             para(buf)
