@@ -65,10 +65,11 @@ def main():
     problems = []
     for f in files:
         low = f.lower()  # .PNG und .png gleich behandeln
-        if low.endswith((".jpg", ".jpeg", ".webp", ".gif", ".ico", ".woff", ".woff2", ".pdf")):
+        link = os.path.islink(f)  # Linktext ist immer Text, egal welche Endung
+        if not link and low.endswith((".jpg", ".jpeg", ".webp", ".gif", ".ico", ".woff", ".woff2", ".pdf")):
             continue
         for where, data in versions(f, staged):
-            if low.endswith(".png"):
+            if not link and low.endswith(".png"):
                 try:
                     extra = png_chunks(data) - PNG_OK
                 except (struct.error, UnicodeDecodeError):
