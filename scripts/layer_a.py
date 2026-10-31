@@ -32,20 +32,25 @@ def changed_files():
 
 
 def versions(f, staged):
-    """Arbeitskopie und, falls gestaged, die Fassung im Index (die wird committet)."""
+    """Arbeitskopie und, falls gestaged, die Fassung im Index (die wird committet).
+
+    Jede Fassung trägt ihren eigenen Typ: ein gestagter Symlink bleibt Linktext,
+    auch wenn in der Arbeitskopie inzwischen eine normale Datei liegt.
+    """
     out = []
     if os.path.islink(f):
         # Symlinks nie auflösen: nur den Linktext prüfen, --fix schreibt hier nichts
-        out.append(("Symlink", os.fsencode(os.readlink(f))))
+        out.append(("Symlink", os.fsencode(os.readlink(f)), True))
     else:
         try:
-            out.append(("Arbeitskopie", open(f, "rb").read()))
+            out.append(("Arbeitskopie", open(f, "rb").read(), False))
         except (FileNotFoundError, IsADirectoryError):
             pass
     if f in staged:
         try:
-            out.append(("Index", subprocess.check_output(["git", "show", ":" + f])))
-        except subprocess.CalledProcessError:
+            mode = git_paths("ls-files", "-s", "--", f)[0].split()[0]
+            out.append(("Index", subprocess.check_output(["git", "show", ":" + f]), mode == "120000"))
+        except (subprocess.CalledProcessError, IndexError):
             pass
     return out
 
@@ -65,10 +70,10 @@ def main():
     problems = []
     for f in files:
         low = f.lower()  # .PNG und .png gleich behandeln
-        link = os.path.islink(f)  # Linktext ist immer Text, egal welche Endung
-        if not link and low.endswith((".jpg", ".jpeg", ".webp", ".gif", ".ico", ".woff", ".woff2", ".pdf")):
-            continue
-        for where, data in versions(f, staged):
+        for where, data, link in versions(f, staged):
+            # Linktext ist immer Text, egal welche Endung
+            if not link and low.endswith((".jpg", ".jpeg", ".webp", ".gif", ".ico", ".woff", ".woff2", ".pdf")):
+                continue
             if not link and low.endswith(".png"):
                 try:
                     extra = png_chunks(data) - PNG_OK
