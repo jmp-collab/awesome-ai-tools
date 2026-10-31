@@ -21,15 +21,35 @@
     root.setAttribute("data-theme", next); store.set("kw-theme", next);
   });
 
-  /* Suche + Filter über die Tool-Liste */
-  var q = $("#q"), count = $("#count"), items = $$("ul.tools li");
+  /* Basis-URL aus dem eigenen Skript-Pfad: Such-Panel und Links funktionieren so auch auf der 404-Seite in beliebiger Tiefe */
+  var SITE = (document.currentScript && document.currentScript.src || "").replace(/assets\/app\.js.*$/, "") || "./";
+
+  /* Mobil-Menü: unter 1100 px klappt die Hauptnavigation unter der Kopfleiste auf */
+  var menuBtn = $("#menubtn"), nav = $("#nav");
+  if (menuBtn && nav) {
+    var navOpen = function (open, backToBtn) {
+      nav.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) { var first = nav.querySelector("a"); if (first) first.focus(); }
+      else if (backToBtn) menuBtn.focus();
+    };
+    menuBtn.addEventListener("click", function () { navOpen(!nav.classList.contains("open")); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && nav.classList.contains("open")) navOpen(false, true); });
+    document.addEventListener("click", function (e) { if (nav.classList.contains("open") && !nav.contains(e.target) && !menuBtn.contains(e.target)) navOpen(false); });
+    // Fokus verlässt Menü und Knopf (Tab nach dem letzten Punkt): Menü schließt, damit es nichts verdeckt
+    nav.addEventListener("focusout", function (e) { if (nav.classList.contains("open") && e.relatedTarget && !nav.contains(e.relatedTarget) && e.relatedTarget !== menuBtn) navOpen(false); });
+    $$("a", nav).forEach(function (a) { a.addEventListener("click", function () { navOpen(false); }); });
+    var wide = window.matchMedia("(min-width: 1100px)");
+    var onWide = function () { if (wide.matches) navOpen(false); };
+    if (wide.addEventListener) wide.addEventListener("change", onWide); else if (wide.addListener) wide.addListener(onWide);
+  }
+
+  /* Kategorie-Seiten: Filter innerhalb der Schublade (Suchwort, EU, Open Source) */
+  var q = $("#q"), lq = $("#lq"), lcount = $("#lcount"), lqEmpty = $(".lq-empty"), items = $$("ul.tools li");
   var feu = $$("input.f-eu"), foss = $$("input.f-oss");
-  var main = $("main.content");
-  var panelMode = !!$("#searchpanel"); // Startseite: Suche über tools.json statt Filter auf der Seite
   function uniq(list) { var u = {}; list.forEach(function (li) { u[li.querySelector("a.name").href] = 1; }); return Object.keys(u).length; }
   function run() {
-    if (panelMode) { var tot = $(".hero .stat b[data-count]"); if (count && tot) count.textContent = tot.dataset.count + " Tools"; return; }
-    var s = (q ? q.value : "").trim().toLowerCase();
+    if (!lq) return;
+    var s = lq.value.trim().toLowerCase();
     var eu = feu.some(function (c) { return c.checked; }), oss = foss.some(function (c) { return c.checked; }), filtering = !!(s || eu || oss);
     items.forEach(function (li) {
       var ok = (!s || li.dataset.search.indexOf(s) > -1) && (!eu || li.dataset.eu === "1") && (!oss || li.dataset.oss === "1");
@@ -41,24 +61,33 @@
       $$("ul.tools", sec).forEach(function (ul) {
         var has = !!ul.querySelector("li:not(.hidden)");
         ul.classList.toggle("hidden", filtering && !has);
-        var h3 = ul.previousElementSibling;
-        while (h3 && h3.tagName !== "H3" && h3.tagName !== "H2") h3 = h3.previousElementSibling;
-        if (h3 && h3.tagName === "H3") h3.classList.toggle("hidden", filtering && !has);
+        var hd = ul.previousElementSibling; // Fach-Überschrift (h2.sub auf Kategorie-Seiten)
+        while (hd && !hd.classList.contains("sub") && !hd.classList.contains("cat-head")) hd = hd.previousElementSibling;
+        if (hd && hd.classList.contains("sub")) hd.classList.toggle("hidden", filtering && !has);
       });
       $$("aside, p, .table, ul.plain, ol.plain, .cat-art", sec).forEach(function (el) { el.classList.toggle("hidden", filtering); });
     });
-    if (count) count.textContent = filtering ? uniq(items.filter(function (li) { return !li.classList.contains("hidden"); })) + " von " + uniq(items) + " Tools" : uniq(items) + " Tools";
-    if (filtering) {
+    var shown = uniq(items.filter(function (li) { return !li.classList.contains("hidden"); }));
+    if (lcount) lcount.textContent = filtering ? shown + " von " + uniq(items) + " Tools" : uniq(items) + " Tools";
+    // Nichts in dieser Schublade: Angebot, in allen Tools zu suchen (mit Trefferzahl, sobald tools.json da ist)
+    if (lqEmpty) {
+      lqEmpty.hidden = !(s && !shown);
+      var all = $("#lq-all");
+      if (s && !shown && all && window.kwPanelCount) window.kwPanelCount(s).then(function (n) {
+        if (lq.value.trim().toLowerCase() === s) all.lastChild.textContent = n ? "In allen Tools suchen (" + n + " Treffer)" : "In allen Tools suchen";
+      });
+    }
+    if (filtering && shown) {
       // Zum ersten sichtbaren Treffer scrollen, egal in welcher Liste er steht
       var first = items.filter(function (li) { return !li.classList.contains("hidden"); })[0];
-      if (first) {
-        var r = first.getBoundingClientRect();
-        if (r.top < 120 || r.bottom > window.innerHeight) window.scrollTo({ top: r.top + window.scrollY - 140, behavior: reduce ? "auto" : "smooth" });
-      }
+      var r = first.getBoundingClientRect();
+      if (r.top < 120 || r.bottom > window.innerHeight) window.scrollTo({ top: r.top + window.scrollY - 180, behavior: reduce ? "auto" : "smooth" });
     }
   }
-  [q].concat(feu, foss).forEach(function (el) { if (el) el.addEventListener("input", function (e) { if (e.target.type === "checkbox") { (e.target.classList.contains("f-eu") ? feu : foss).forEach(function (c) { c.checked = e.target.checked; }); } run(); }); });
-  var sf = $("#searchform"); if (sf) sf.addEventListener("submit", function (e) { e.preventDefault(); if (panelMode) { if (window.kwPanelRun) window.kwPanelRun(); } else run(); });
+  [lq].concat(feu, foss).forEach(function (el) { if (el) el.addEventListener("input", function (e) { if (e.target.type === "checkbox") { (e.target.classList.contains("f-eu") ? feu : foss).forEach(function (c) { c.checked = e.target.checked; }); } run(); }); });
+  var lqAll = $("#lq-all");
+  if (lqAll && q) lqAll.addEventListener("click", function (e) { e.stopPropagation(); q.value = lq.value; q.focus(); if (window.kwPanelRun) window.kwPanelRun(); });
+  var sf = $("#searchform"); if (sf) sf.addEventListener("submit", function (e) { e.preventDefault(); if (window.kwPanelRun) window.kwPanelRun(); });
   run();
 
   /* Scroll: Fortschritt, Topbutton, Sticky-Leiste, Parallax */
@@ -391,43 +420,62 @@
     $$("article.trend").forEach(function (t) { io5.observe(t); });
   }
 
-  /* Startseite: Suche über alle Tools (tools.json), Treffer mit Link in die passende Schublade */
+  /* Such-Panel auf jeder Seite: alle Tools (tools.json) plus Ratgeber, Einsatzgebiete, Trends und Begriffe (seiten.json) */
   var sp = $("#searchpanel");
   if (sp && q) {
-    var DATA = null, loading = null, spGen = 0, spHits = [], spShown = 0, SP_STEP = 40, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss"), spNeu = $("#sp-neu");
+    var DATA = null, PAGES = [], loading = null, spGen = 0, spHits = [], spShown = 0, SP_STEP = 40, spList = $(".sp-list", sp), spCount = $("#sp-count"), spEmpty = $(".sp-empty", sp), spEu = $("#sp-eu"), spOss = $("#sp-oss"), spNeu = $("#sp-neu");
+    var spPages = $(".sp-pages", sp), spPagesList = $(".sp-pages ul", sp), spToolsLbl = $(".sp-tools-lbl", sp);
     function spLoad() {
       if (DATA) return Promise.resolve(DATA);
-      if (!loading) loading = fetch("tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
-        DATA = j.tools.map(function (t) { t._s = [t.name, t.beschreibung, t.kategorie, t.bereich].join(" ").toLowerCase(); return t; });
+      // Seitenindex ist eine Zugabe: fehlt er, sucht das Panel wie bisher nur in den Tools
+      var pagesP = fetch(SITE + "seiten.json").then(function (r) { return r.ok ? r.json() : { seiten: [] }; }).then(function (j) { PAGES = j.seiten || []; }, function () { PAGES = []; });
+      if (!loading) loading = Promise.all([fetch(SITE + "tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }), pagesP]).then(function (res) {
+        DATA = res[0].tools.map(function (t) { t._s = [t.name, t.beschreibung, t.kategorie, t.bereich].join(" ").toLowerCase(); return t; });
         return DATA;
       });
       return loading;
+    }
+    function spMatch(words) { return function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }); }; }
+    // Trefferzahl für den Knopf "In allen Tools suchen" auf Kategorie-Seiten
+    window.kwPanelCount = function (s) { return spLoad().then(function (rows) { return rows.filter(spMatch(s.split(/\s+/))).length; }, function () { return 0; }); };
+    function spPagesRender(s, filt) {
+      var words = s ? s.split(/\s+/) : [];
+      var hits = (!s || filt) ? [] : PAGES.filter(function (p) { return words.every(function (w) { return p.s.indexOf(w) > -1; }); });
+      hits.sort(function (a, b) { return (b.t.toLowerCase().indexOf(s) > -1) - (a.t.toLowerCase().indexOf(s) > -1); });
+      hits = hits.slice(0, 6);
+      spPagesList.innerHTML = hits.map(function (p) {
+        return '<li><a href="' + escH(SITE + p.u) + '"><i>' + escH(p.k) + "</i><b>" + escH(p.t) + "</b><small>" + escH(p.d) + "</small></a></li>";
+      }).join("");
+      spPages.hidden = !hits.length;
+      return hits.length;
     }
     function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
     function spHide() { spGen++; sp.hidden = true; } // spätere Antworten einer alten Suche verwerfen
     function spRun(keepOpen) {
       var s = q.value.trim().toLowerCase(), my = ++spGen, filt = spEu.checked || spOss.checked || spNeu.checked;
       if (!s && !filt) { // ohne Suchwort reicht ein gesetzter Filter
-        if (keepOpen === true && !sp.hidden) { spCount.textContent = "Tipp ein Suchwort oder wähl einen Filter."; spList.innerHTML = ""; spEmpty.classList.add("hidden"); }
+        if (keepOpen === true && !sp.hidden) { spCount.textContent = "Tipp ein Suchwort oder wähl einen Filter."; spList.innerHTML = ""; spPages.hidden = true; spToolsLbl.hidden = true; spEmpty.classList.add("hidden"); }
         else sp.hidden = true;
         return;
       }
       spLoad().then(function (rows) {
         if (my !== spGen) return;
-        var words = s ? s.split(/\s+/) : [];
-        var hits = rows.filter(function (t) { return words.every(function (w) { return t._s.indexOf(w) > -1; }) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source) && (!spNeu.checked || t.neu); });
+        var words = s ? s.split(/\s+/) : [], m = spMatch(words);
+        var hits = rows.filter(function (t) { return m(t) && (!spEu.checked || t.eu) && (!spOss.checked || t.open_source) && (!spNeu.checked || t.neu); });
         if (s) hits.sort(function (a, b) { return (b.name.toLowerCase().indexOf(s) === 0) - (a.name.toLowerCase().indexOf(s) === 0); });
-        spCount.textContent = hits.length + " von " + rows.length + " Tools";
+        var np = spPagesRender(s, filt);
+        spCount.textContent = (np ? np + (np === 1 ? " Seite, " : " Seiten, ") : "") + hits.length + " von " + rows.length + " Tools";
+        spToolsLbl.hidden = !(np && hits.length);
         spHits = hits; spShown = 0; spList.innerHTML = "";
         spMore();
-        spEmpty.classList.toggle("hidden", hits.length > 0);
+        spEmpty.classList.toggle("hidden", hits.length + np > 0);
         sp.hidden = false;
-      }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; sp.hidden = false; });
+      }).catch(function () { if (my !== spGen) return; spCount.textContent = "Die Suche klemmt gerade. Lade die Seite neu."; spList.innerHTML = ""; spPages.hidden = true; sp.hidden = false; });
     }
     function spRow(t) {
       var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "") + (t.neu ? '<span class="badge neu">NEU</span>' : "");
       return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(t.url) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
-        '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(t.seite) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
+        '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(SITE + t.seite.replace(/^\.\//, "")) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
     }
     // Treffer in Portionen anhängen; der Knopf am Ende holt die nächsten, bis alle sichtbar sind
     function spMore() {
