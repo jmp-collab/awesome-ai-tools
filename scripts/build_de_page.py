@@ -48,7 +48,7 @@ ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8"
 
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
 REPO_URL = "https://github.com/jmp-collab/awesome-ai-tools"
-TITLE = "KI-Werkstatt: KI-Tools auf Deutsch, geprüft und sortiert"
+TITLE = "KI-Werkstatt: KI-Tools auf Deutsch, sortiert und erklärt"
 DESCRIPTION = (  # höchstens 155 Zeichen, das Wichtigste zuerst
     "Über 400 KI-Tools auf Deutsch, jedes in einem Satz erklärt: Chatbots, Texte, Bilder, Video, "
     "Automatisierung, SEO. EU-Anbieter markiert, mit Stack-Finder."
@@ -65,6 +65,14 @@ def utm(placement):
 def pg_sub(placement):
     return f"{SUBSTACK}subscribe?{utm(placement)}"
 LEAD_TO = BRAND["lead_offer"]["recipient"]
+# Sichtbare Adresse zeichenweise als HTML-Entities: Browser zeigen sie normal, einfache Scraper finden sie nicht.
+# Der FormSubmit-Endpunkt im form action trägt sie noch im Klartext, bis Jean den Alias aus FormSubmit liefert.
+LEAD_TO_ENT = "".join(f"&#{ord(c)};" for c in LEAD_TO)
+
+
+def mail_link(subject=""):
+    q = f"?subject={html.escape(subject)}" if subject else ""
+    return f'<a href="mailto:{LEAD_TO_ENT}{q}">{LEAD_TO_ENT}</a>'
 TODAY = date.today().strftime("%d.%m.%Y")  # Build-Datum (Sitemap, Export)
 _LC = json.loads((ROOT / "data" / "linkcheck.json").read_text(encoding="utf-8"))
 LINK_CHECK = date.fromisoformat(_LC["date"]).strftime("%d.%m.%Y")  # setzt nur scripts/check_links.py
@@ -73,6 +81,7 @@ if _LC.get("dead"):
     raise SystemExit(f"Abbruch: data/linkcheck.json meldet {len(_LC['dead'])} tote Links. Erst README.de.md bereinigen und scripts/check_links.py erneut laufen lassen.")
 sys.path.insert(0, str(ROOT / "scripts"))
 from check_links import all_urls, url_hash  # noqa: E402  (gleiche Linkliste wie der Checker)
+from fetch_favicons import local_file as local_fav, write_placeholder as write_fav_placeholder  # noqa: E402
 if _LC.get("urls_sha256") != url_hash(all_urls(SRC.read_text(encoding="utf-8"))):
     raise SystemExit("Abbruch: Die Links in README.de.md, data/rechner.json oder data/trends.json haben sich seit dem letzten Link-Check geändert. Erst scripts/check_links.py laufen lassen.")
 N_STACKS = len(STACKS["stacks"])
@@ -228,9 +237,23 @@ def host(url):
     return urlparse(url).hostname or ""
 
 
+FAV_MISSING = set()
+
+
+def fav_src(url):
+    """Lokales Favicon (docs/img/fav/, geholt von scripts/fetch_favicons.py). Fehlt es, schreibt der Build den
+    Buchstaben-Platzhalter selbst und warnt; kein Besucher-Browser fragt je einen fremden Icon-Dienst an."""
+    h = host(url).lower()
+    src = local_fav(h)
+    if not src:
+        FAV_MISSING.add(h)
+        src = write_fav_placeholder(h)
+    return src
+
+
 def favicon(url):
-    # Kein onerror-Attribut (CSP ohne Inline-Handler): ein einziger Listener in app.js blendet kaputte Icons aus
-    return f'<img loading="lazy" alt="" width="30" height="30" src="https://icons.duckduckgo.com/ip3/{html.escape(host(url))}.ico">'
+    # Kein onerror-Attribut (CSP ohne Inline-Handler): der Listener im Head blendet ein kaputtes Bild aus
+    return f'<img loading="lazy" alt="" width="30" height="30" src="{html.escape(fav_src(url))}">'
 
 
 # --------------------------------------------------------------------------- Parser
@@ -422,7 +445,7 @@ def render_section(sec, idx, tools_map, page_link=False, cat_page_mode=False, le
         title = html.escape(SUB_H2[sub["id"]]) if cat_page_mode and sub["id"] in SUB_H2 else inline(sub["title"])
         body.append(f'<{sub_tag} class="sub" id="{sub["id"]}">{icon(sico) if sico else ""}{title}</{sub_tag}>')
         body.append(render_blocks(sub["blocks"], sec["id"], sub["id"], tools_map, ids))
-    count = f'<span class="count">{n} TOOLS</span>' if n else ""
+    count = f'<span class="count">{n} Tools</span>' if n else ""
     if page_link:
         count += f'<a class="more" href="{cat_page(sec["id"])}" title="Eigene Seite: {html.escape(sec["title"])}">Seite{icon("arrow")}</a>'
     head_tag = "p" if cat_page_mode and sec["subs"] else ("h2" if cat_page_mode else f"h{level}")
@@ -491,6 +514,11 @@ HONEY = '<div class="honey" aria-hidden="true"><label>Bitte leer lassen <input t
 # Seite und vorherige Seite füllt app.js beim Absenden (kein Speicher im Browser, kein Tracking)
 CONTEXT_FIELDS = '<input type="hidden" name="seite" value=""><input type="hidden" name="vorher" value="">'
 REQ = '<span class="req" aria-hidden="true"> *</span>'
+# Einwilligungstext für jedes Formular (Stack-Check und, wortgleich in app.js, Stack-Finder). Rechtsgrundlagen
+# und Empfänger erklärt datenschutz.html; Formulardienst und Postfach legt Jean noch fest (dann hier anpassen).
+CONSENT = ('Ich habe die <a href="datenschutz.html">Datenschutzhinweise</a> gelesen. Meine Angaben gehen über den Formulardienst '
+           'FormSubmit per E-Mail an Jean Maurice Port und werden nur für die Antwort auf diese Anfrage genutzt. Dabei können sie '
+           'in Länder ohne gleichwertigen Datenschutz wie die USA gelangen. Damit bin ich einverstanden; widerrufen kann ich das jederzeit per E-Mail.')
 
 
 def lead_form(source, subject, compact=False, rolle=""):
@@ -512,12 +540,12 @@ def lead_form(source, subject, compact=False, rolle=""):
 <div class="row"><div><label for="l-web">Website oder Shop (optional)</label><input id="l-web" name="website" placeholder="https://" autocomplete="url"></div>
 <div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle">{opts}</select></div></div>
 <label for="l-proj">Was baust du gerade, und wo hakt es?{REQ}</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
-<div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">entfernen</button></div>
-<div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">entfernen</button></div>
-<div class="attach hidden" id="l-attach-radar">{icon("chart")}<span></span><button type="button" data-clear="l-radar">entfernen</button></div>
-<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.{REQ}</span></label>
+<div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">Entfernen</button></div>
+<div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">Entfernen</button></div>
+<div class="attach hidden" id="l-attach-radar">{icon("chart")}<span></span><button type="button" data-clear="l-radar">Entfernen</button></div>
+<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>{CONSENT}{REQ}</span></label>
 <button class="btn" type="submit">{icon("mail")}Stack-Check anfragen</button>
-<p class="hint">Antwort kommt per Mail, meist innerhalb weniger Tage. Oder direkt an <a href="mailto:{LEAD_TO}?subject=Stack-Check">{LEAD_TO}</a>.</p>
+<p class="hint">Die Antwort kommt per E-Mail, meist innerhalb weniger Tage. Oder direkt an {mail_link("Stack-Check")}.</p>
 </form>"""
 
 
@@ -552,10 +580,10 @@ HEAD_JS = ('document.documentElement.classList.add("js");try{var t=localStorage.
            'document.addEventListener("error",function(e){var i=e.target;if(i&&i.tagName==="IMG")i.style.visibility="hidden"},true);')
 HEAD_JS_HASH = base64.b64encode(hashlib.sha256(HEAD_JS.encode("utf-8")).digest()).decode("ascii")
 # Meta-CSP: keine Inline-Handler, Daten nur als <script type="application/json">. frame-ancestors wirkt per Meta nicht.
-# icons.duckduckgo.com bleibt erlaubt, bis die Favicons lokal liegen (Paket E).
+# Bilder nur von der eigenen Seite: die Favicons liegen lokal unter docs/img/fav/.
 CSP = ("default-src 'self'; "
        f"script-src 'self' 'sha256-{HEAD_JS_HASH}'; "
-       "style-src 'self' 'unsafe-inline'; img-src 'self' https://icons.duckduckgo.com data:; font-src 'self'; "
+       "style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
        "connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; "
        "base-uri 'none'; object-src 'none'; upgrade-insecure-requests")
 # Bewusst kein Font-Preload: Chrome hält den ersten Paint für vorgeladene Schriften an, bis sie da sind.
@@ -626,7 +654,7 @@ def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="",
 <meta property="og:type" content="{og_type}"><meta property="og:locale" content="de_DE"><meta property="og:site_name" content="KI-Werkstatt">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{canonical}"><meta property="og:image" content="{SITE_URL}og.png">
-<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="KI-Werkstatt: KI-Tools auf Deutsch, geprüft und sortiert">{og_extra}
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="KI-Werkstatt: KI-Tools auf Deutsch, sortiert, Links geprüft">{og_extra}
 <meta name="twitter:card" content="summary_large_image">{'' if noindex else chr(10) + '<meta name="robots" content="max-image-preview:large">'}
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/atom+xml" title="KI-Werkstatt: Trends und Neuzugänge" href="{SITE_URL}feed.xml">
@@ -669,10 +697,10 @@ def topbar(here=""):
 <div class="tools"><button class="iconbtn" id="theme" type="button" title="Hell/Dunkel umschalten" aria-label="Dunkles Design" aria-pressed="false">{icon("sun")}</button>
 <a class="iconbtn sc-m" href="{sc}" title="Stack-Check" aria-label="Stack-Check: kostenlose Tool-Empfehlung">{icon("mail")}</a>
 <button class="iconbtn menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menü">{icon("menu")}</button>
-<a class="btn btn-lime btn-sm hide-m" href="{sc}">{icon("mail")}Stack-Check</a></div>
+<a class="btn btn-lime btn-sm hide-m" href="{sc}">{icon("mail")}Stack-Check anfragen</a></div>
 </div><div id="progress"></div></header>
 <div class="searchpanel" id="searchpanel" role="dialog" aria-label="Suchergebnisse" hidden><div class="wrap">
-<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><label><input type="checkbox" id="sp-neu"> nur neu</label><button class="close" type="button" title="Suche schließen" aria-label="Suche schließen">{icon("x")}</button></div>
+<div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU-Anbieter</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><label><input type="checkbox" id="sp-neu"> nur neu</label><button class="close" type="button" title="Suche schließen" aria-label="Suche schließen">{icon("x")}</button></div>
 <div class="sp-pages" hidden><p class="sp-lbl">Ratgeber, Einsatzgebiete und Begriffe</p><ul></ul></div>
 <p class="sp-lbl sp-tools-lbl" hidden>Tools</p>
 <ol class="sp-list"></ol>
@@ -688,7 +716,7 @@ def footer(bar=True):
     ext_attr = ' target="_blank" rel="noopener"'
     a = lambda href, label, ext=False: f'<a href="{href}"{ext_attr if ext else ""}>{html.escape(label)}</a>'
     cols = [
-        f'<div class="fcol fbrand"><h2 class="fh">KI-Werkstatt</h2><p>{html.escape(BRAND["claim"])} Geprüft. Sortiert. Auf Deutsch.</p></div>',
+        f'<div class="fcol fbrand"><h2 class="fh">KI-Werkstatt</h2><p>{html.escape(BRAND["claim"])} {html.escape(BRAND["tagline"])}</p></div>',
         col("KI-Tools", [a(cat_page(s["id"]), cat_h1(s)) for s in NAV["secs"]]),
         col("Einsatz", [a(EINSATZ_PAGE, "Alle Einsatzgebiete")] + [a(e["page"], e["h1"]) for e in EINSATZ["seiten"]]),
         col("Ratgeber", [a(RATGEBER_PAGE, "Alle Ratgeber")] + [a(r["page"], r["label"]) for r in RATGEBER["artikel"]]),
@@ -704,7 +732,7 @@ def footer(bar=True):
     out = f"""<footer><div class="wrap">
 <nav class="cols" aria-label="Alle Seiten">{"".join(cols)}</nav>
 <p class="screws" id="screws" hidden></p>
-<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
+<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Keine Affiliate-Links, keine bezahlten Platzierungen. Tool-Namen und -Logos bezeichnen nur das jeweilige Produkt, Marken und Logos gehören ihren Inhabern; die Favicons liegen als Kopie auf dieser Seite. Mit keinem Anbieter besteht eine Verbindung. <a href="impressum.html#werkstatt">So entsteht die KI-Werkstatt</a></p>
 </div>
 <button id="totop" type="button" title="Nach oben" aria-label="Nach oben">{icon("up")}</button></footer>"""
     if not bar:
@@ -724,7 +752,7 @@ def footer(bar=True):
 <div class="merk-head"><h2 id="merk-h">{icon("bookmark")}Deine Merkliste</h2><button class="close" type="button" title="Schließen" aria-label="Merkliste schließen">{icon("x")}</button></div>
 <p class="merk-empty">Noch leer. Klick bei einem Tool auf das Lesezeichen.</p>
 <ol class="merk-list"></ol>
-<div class="merk-actions"><button type="button" class="btn btn-lime btn-sm" id="merk-send">{icon("mail")}Jean drüberschauen lassen</button><button type="button" class="btn btn-sm" id="merk-copy">{icon("copy")}Kopieren</button><button type="button" class="btn btn-sm" id="merk-clear">{icon("trash")}Leeren</button></div>
+<div class="merk-actions"><button type="button" class="btn btn-lime btn-sm" id="merk-send">{icon("mail")}Mit Merkliste zum Stack-Check</button><button type="button" class="btn btn-sm" id="merk-copy">{icon("copy")}Kopieren</button><button type="button" class="btn btn-sm" id="merk-clear">{icon("trash")}Leeren</button></div>
 <p class="merk-note">Die Merkliste liegt nur in deinem Browser. An Jean geht sie erst, wenn du das Stack-Check-Formular abschickst.</p>
 </div></aside>"""
 
@@ -864,6 +892,29 @@ def pg_box(placement):
             f'<a class="btn btn-pg" href="{html.escape(pg_sub(placement))}" target="_blank" rel="noopener">{icon("flame")}PROMPTGOTT abonnieren</a></div>')
 
 
+def legal_note(stand=None):
+    """Einheitlicher Hinweis auf Ratgeber-, Einsatz- und Glossarseiten (Legal B10); auf jeder Seite gleich, daher data-chrome."""
+    st = f"Stand {de_date(stand)}. " if stand else ""
+    return (f'<p class="legal-note" data-chrome>{icon("shield")}<span>{st}Diese Seite ist keine Rechtsberatung, sondern eine Arbeitshilfe. '
+            "Für deinen konkreten Fall frag eine Anwältin, einen Anwalt oder die Person, die bei dir den Datenschutz verantwortet.</span></p>")
+
+
+def quellen_note():
+    """Abrufdatum der Quellen: scripts/check_links.py fragt auch alle Quellen aus data/ ab."""
+    return f'<p class="quellen-note">Alle Quellen-Links zuletzt abgerufen am {LINK_CHECK} (Link-Check).</p>'
+
+
+SPRECHER = {"hans", "kurbel"}
+
+
+def speaker(item):
+    """Sprechblasen-Figur aus dem Datenfeld "sprecher": Roboter-Zeilen und die übrige Schraube gehören Kurbel (Brand-Voice)."""
+    who = item.get("sprecher", "hans")
+    if who not in SPRECHER:
+        raise SystemExit(f"{item.get('id')}: sprecher {who!r} unbekannt (erlaubt: {sorted(SPRECHER)})")
+    return kurbel("kb-md", wink=True) if who == "kurbel" else hans("hm-md")
+
+
 def build_index(sections, head_md):
     by_id = {s["id"]: s for s in sections}
     featured = by_id.pop("empfehlungen-der-redaktion", None)
@@ -920,7 +971,7 @@ def build_index(sections, head_md):
 <span class="drawer-body"><b class="drawer-title">{icon(CAT_ICON.get(s["id"], "box"))}{html.escape(cat_h1(s))}</b><span class="drawer-no">Schublade {i + 1:02d}</span>
 <span class="drawer-teaser">{html.escape(kat_text(s, "teaser"))}</span>
 <ul class="drawer-tools">{tops}</ul>
-<span class="drawer-meta">{len(its)} Tools · {max(1, len(s["subs"]))} {"Bereiche" if len(s["subs"]) > 1 else "Bereich"}{eu_txt}</span><span class="drawer-cta">Schublade aufziehen{icon("arrow")}</span></span></a>""")
+<span class="drawer-meta">{len(its)} Tools · {max(1, len(s["subs"]))} {"Fächer" if len(s["subs"]) > 1 else "Fach"}{eu_txt}</span><span class="drawer-cta">Schublade aufziehen{icon("arrow")}</span></span></a>""")
 
     finder = dict(STACKS["finder"], to=LEAD_TO, next=SITE_URL + "danke.html?typ=finder")
     # Inline nur, was der Finder zeigen kann; die ganze Liste lädt app.js erst bei Bedarf aus tools.json
@@ -928,14 +979,14 @@ def build_index(sections, head_md):
     missing = sorted(n for n in f_names if n not in tools_map)
     if missing:
         raise SystemExit(f"data/stacks.json/finder: Tools fehlen in README.de.md: {missing}")
-    finder_js = json.dumps({"finder": finder, "tools": {n: tools_map[n] for n in sorted(f_names)}},
+    finder_js = json.dumps({"finder": finder, "tools": {n: dict(tools_map[n], i=fav_src(tools_map[n]["u"])) for n in sorted(f_names)}},
                            ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
     faq = [
         ("Was bedeutet das EU-Zeichen bei einem Tool?", "Der Anbieter hat seinen Firmensitz in der EU. Das ist ein Hinweis, keine Datenschutz-Prüfung. Für die DSGVO zählen Auftragsverarbeitungsvertrag, Serverstandort und Einstellungen."),
         ("Wie prüft ihr die Tools?", f"Jeder Link wird per HTTP abgefragt, zuletzt am {LINK_CHECK}. Tote Links, Serverfehler und verschwundene Domains fliegen raus. Bot-Schutz gilt als erreichbar, denn dahinter steckt fast immer eine echte Seite."),
-        ("Was kostet der Stack-Check?", "Nichts. Du schreibst, was du baust, und bekommst einen Vorschlag per Mail. Keine Beratungsstunde, kein Vertrag, kein Newsletter-Abo durch die Hintertür."),
-        ("Wer ist Hans Moritz?", "Der Werkstattmeister der KI-Werkstatt: Glatze, roter Vollbart, Trainingsjacke, Earbuds im Ohr. Hans Moritz probiert jedes Werkzeug aus, bevor es in eine Schublade darf, und sagt dir in einem Satz, wofür es taugt."),
+        ("Was kostet der Stack-Check?", "Nichts. Du schreibst, was du baust, und bekommst einen Vorschlag per E-Mail. Keine Beratungsstunde, kein Vertrag, kein Newsletter-Abo durch die Hintertür."),
+        ("Wer ist Hans Moritz?", "Der Werkstattmeister der KI-Werkstatt: Glatze, roter Vollbart, Trainingsjacke, Earbuds im Ohr. Hans Moritz prüft und sortiert jedes Werkzeug, bevor es in eine Schublade darf, und sagt dir in einem Satz, wofür es taugt. Ausprobiert hat er nicht jedes, und das gibt er offen zu."),
         ("Wer ist Kurbel?", "Der Werkstatt-Roboter von Hans Moritz. Hilfsbereit, gründlich und leicht schusselig, denn nach jeder Reparatur bleibt eine Schraube übrig. Du triffst Kurbel überall dort, wo es sonst leer wäre."),
     ]
     ld = {"@context": "https://schema.org", "@graph": [
@@ -951,13 +1002,13 @@ def build_index(sections, head_md):
     body = f"""{topbar("index")}
 <section class="hero"><div class="hero-art">{hero_floats()}</div><div class="wrap">
 <p class="kicker">{icon("wrench")} <b>KI-Werkstatt</b> · Link-Check {LINK_CHECK}: {LINK_CHECK_N} Links geprüft</p>
-<h1><em>{n_tools} KI-Tools</em> auf Deutsch, geprüft und sortiert</h1>
+<h1><em>{n_tools} KI-Tools</em> auf Deutsch, sortiert und erklärt</h1>
 <p class="slogan">Ohne Zauberstab. Nur gutes Werkzeug.</p>
 <p class="sub">Hier gibt es kein Wundermittel, nur gutes Werkzeug: jedes Tool in einem Satz erklärt, tote Links aussortiert, EU-Anbieter markiert. Dazu Werkzeugkisten für typische Jobs und ein Stack-Finder, der schneller zum Punkt kommt als jedes Beratungsgespräch.</p>
-<div class="ctas"><a class="btn btn-lime" href="#finder-band">{icon("compass")}Stack-Finder starten</a><a class="btn" href="#kategorien">{icon("layers")}Schubladen öffnen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
-<div class="hero-hm"><div class="hm-fig">{pumpkin()}<button class="hm-btn" type="button" id="hm-hero" aria-label="Hans Moritz antippen: eine Werkstatt-Weisheit hören">{hans("hm-xl", label="")}</button></div><p class="bubble" id="hm-say" aria-live="polite">Moin, ich bin Hans Moritz. Erst testen, dann empfehlen.</p></div>
+<div class="ctas"><a class="btn btn-lime" href="#finder-band">{icon("compass")}Stack-Finder starten</a><a class="btn" href="#kategorien">{icon("layers")}Schubladen öffnen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div>
+<div class="hero-hm"><div class="hm-fig">{pumpkin()}<button class="hm-btn" type="button" id="hm-hero" aria-label="Hans Moritz antippen: eine Werkstatt-Weisheit hören">{hans("hm-xl", label="")}</button></div><p class="bubble" id="hm-say" aria-live="polite">Moin, ich bin Hans Moritz. Erst prüfen, dann einsortieren.</p></div>
 <div class="stats">
-<div class="stat reveal"><b data-count="{n_tools}">{n_tools}</b><span>geprüfte Tools</span></div>
+<div class="stat reveal"><b data-count="{n_tools}">{n_tools}</b><span>Tools, Links geprüft</span></div>
 <div class="stat reveal"><b data-count="{n_cats}">{n_cats}</b><span>Schubladen, {n_subs} Fächer</span></div>
 <div class="stat reveal"><b data-count="{n_eu}">{n_eu}</b><span>Anbieter mit EU-Sitz</span></div>
 <div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open-Source-Tools</span></div>
@@ -987,12 +1038,18 @@ def build_index(sections, head_md):
 
 <section class="band" id="so-arbeiten-wir"><div class="wrap">
 <p class="eyebrow">So arbeitet die Werkstatt</p><h2>Sammeln. Prüfen. Sortieren.</h2>
-<p class="intro">Kein Tool kommt auf die Werkbank, ohne dass es jemand in die Hand genommen hat. Tote Links sind keine Tools, sondern Staubfänger.</p>
+<p class="intro">Kein Tool kommt in die Liste ohne funktionierenden Link und ohne eigene Beschreibung. Tote Links sind keine Tools, sondern Staubfänger.</p>
 <div class="steps">
 <div class="step reveal"><span class="n">1</span>{icon("search")}<h3>Sammeln</h3><p>Gesammelt wird, was in Projekten, Fachartikeln und Herstellerankündigungen auftaucht, mit besonderem Blick auf den DACH-Raum. Jeder Eintrag bekommt einen deutschen Satz, der sagt, wofür das Tool taugt. Ohne Werbeprosa.</p></div>
 <div class="step reveal"><span class="n">2</span>{icon("check")}<h3>Prüfen</h3><p>Jeder Link wird per HTTP abgeklopft. 404, Serverfehler oder Domain weg: ab in die Tonne. Affiliate- und Referral-Parameter bei Tool-Links fliegen auch raus. Nur Links zu PROMPTGOTT tragen UTM-Parameter, damit erkennbar ist, dass der Besuch von hier kam.</p></div>
 <div class="step reveal"><span class="n">3</span>{icon("layers")}<h3>Sortieren</h3><p>{n_cats} Schubladen nach Aufgabe, nicht nach Hype. EU-Sitz und Open Source als Badge. Dazu Werkzeugkisten für typische Jobs, damit du nicht alle {n_tools} Tools einzeln anfassen musst.</p></div>
-</div></div></section>
+</div>
+<aside class="method-box reveal" id="methode"><h3>{icon("ruler")}Was „geprüft“ hier heißt</h3><ul>
+<li>{icon("check")}<span><b>Link-Check:</b> Jeder Link wird automatisch abgefragt, zuletzt am {LINK_CHECK}. Ob ein Tool gut ist, sagt das noch nicht.</span></li>
+<li>{icon("check")}<span><b>Beschreibung:</b> Jede ist von Hand auf Deutsch geschrieben und an der Herstellerseite abgeglichen.</span></li>
+<li>{icon("x")}<span><b>Kein Praxistest:</b> Nicht jedes Tool wurde ausprobiert. EU-Sitz und Open Source stehen so da, wie die Anbieter sie angeben.</span></li>
+<li>{icon("user")}<span><b>Entstehung:</b> Recherche und Entwürfe laufen mit KI-Unterstützung, jede Seite prüft und verantwortet ein Mensch. Mehr im <a href="impressum.html#werkstatt">Impressum</a>.</span></li>
+</ul></aside></div></section>
 
 <section class="band" id="werkzeugkisten"><div class="wrap">
 <p class="eyebrow">Werkzeugkisten</p><h2>Fertig gepackte Kisten für typische Jobs</h2>
@@ -1033,9 +1090,9 @@ def build_index(sections, head_md):
 <li>{icon("check")}<span><b>Was du bekommst:</b> 4 bis 6 Tools, die zu deinem Fall passen, mit je einem Satz, warum.</span></li>
 <li>{icon("check")}<span><b>Was es kostet:</b> zwei Minuten fürs Formular. Kein Vertrag, kein Pitch.</span></li>
 <li>{icon("check")}<span><b>Was wir nicht versprechen:</b> Preise oder DSGVO-Freigaben. Die prüfst du beim Anbieter.</span></li>
-<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
+<li>{icon("shield")}<span><b>Deine Daten:</b> gehen über den Formulardienst FormSubmit (speichert Einsendungen 30 Tage) per E-Mail an Jean. Kein CRM, keine Liste. <a href="datenschutz.html">Details</a>.</span></li>
 </ul>
-<div class="kb-say hm-say">{hans("hm-md")}{kurbel("kb-sm", wink=True)}<p class="bubble">Ich such dir das Werkzeug raus. Kurbel hält solange die Schraube fest.</p></div></div>
+<div class="kb-say hm-say">{hans("hm-md")}{kurbel("kb-sm", wink=True)}<p class="bubble">Ich sortier vor, Jean sucht aus. Kurbel hält so lange die Schraube fest.</p></div></div>
 <div>{lead_form("Hauptformular", "Stack-Check – KI-Werkstatt")}</div></div>
 </div></section>
 
@@ -1051,13 +1108,13 @@ def build_index(sections, head_md):
 def build_subpages(list_secs=()):
     # Danke-Seite je Formular: ?typ=check (Stack-Check) oder ?typ=finder (Stack-Finder); app.js blendet die passende Fassung ein
     danke = f"""{topbar("sub")}
-<div class="page page-kb page-danke"><div class="kb-say kb-hero duo">{hans("hm-lg", label="Hans Moritz zeigt den Daumen hoch", thumb=True)}{kurbel("kb-md", wink=True)}<p class="bubble">Angekommen! Kurbel sortiert solange die Schrauben, ich setz schon mal Kaffee auf.</p></div>
+<div class="page page-kb page-danke"><div class="kb-say kb-hero duo">{hans("hm-lg", label="Hans Moritz zeigt den Daumen hoch", thumb=True)}{kurbel("kb-md", wink=True)}<p class="bubble">Angekommen! Kurbel sortiert so lange die Schrauben, ich setz schon mal Kaffee auf.</p></div>
 <p class="eyebrow">Angekommen</p>
 <div data-typ="check"><h1>Danke. Deine Anfrage liegt auf der Werkbank.</h1>
-<ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine Nachricht selbst, kein Bot und kein Callcenter.</span></li><li><b class="n">2</b><span>Danach legt Jean dir die Werkzeuge hin, die zu deinem Fall passen, mit je einem Satz, warum.</span></li><li><b class="n">3</b><span>Die Antwort kommt per Mail, ohne Verkaufsgespräch und ohne Kleingedrucktes.</span></li></ol></div>
+<ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine Nachricht selbst, kein Bot und kein Callcenter.</span></li><li><b class="n">2</b><span>Danach legt Jean dir die Werkzeuge hin, die zu deinem Fall passen, mit je einem Satz, warum.</span></li><li><b class="n">3</b><span>Die Antwort kommt per E-Mail, ohne Verkaufsgespräch und ohne Kleingedrucktes.</span></li></ol></div>
 <div data-typ="finder" hidden><h1>Danke. Jean schaut jetzt über dein Setup.</h1>
 <ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine drei Antworten und die Tools, die der Finder dir vorgeschlagen hat.</span></li><li><b class="n">2</b><span>Was nicht zu deinem Fall passt, fliegt raus, und an seine Stelle kommt etwas Passenderes mit Begründung.</span></li><li><b class="n">3</b><span>Das überarbeitete Setup bekommst du per E-Mail, ohne Pitch und ohne Abo.</span></li></ol></div>
-<p>Meist dauert das nur wenige Tage. Hörst du nichts, wirf einen Blick in den Spam-Ordner, manchmal versteckt sich die Post dort. Oder schreib direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a>.</p>
+<p>Meist dauert das nur wenige Tage. Hörst du nichts, wirf einen Blick in den Spam-Ordner, manchmal versteckt sich die Post dort. Oder schreib direkt an {mail_link()}.</p>
 {pg_box("danke")}
 <p class="danke-more"><a class="btn" href="./#werkzeugkisten">{icon("layers")}Werkzeugkisten ansehen</a> <a class="btn" href="tools.csv" download>{icon("download")}Die Liste als CSV laden</a></p>
 <p><a href="./">Zurück in die Werkstatt</a></p></div>
@@ -1073,35 +1130,76 @@ def build_subpages(list_secs=()):
 <p>Kurbel hat überall nachgesehen, sogar unter der Werkbank und hinter dem Kaffeeautomaten. Vielleicht hat sich die Adresse verschraubt, vielleicht ist die Seite umgezogen.</p>
 <p>Von hier aus kommst du sicher weiter:</p>
 <div class="chips nf-chips" data-chrome><a class="chip cat" href="./">{icon("wrench")}Startseite</a><a class="chip cat" href="{RATGEBER_PAGE}">{icon("book")}Alle Ratgeber</a><a class="chip cat" href="{EINSATZ_PAGE}">{icon("layers")}Alle Einsatzgebiete</a><a class="chip cat" href="{TRENDS_PAGE}">{icon("chart")}KI-Trends</a><a class="chip" href="{GLOSSAR_PAGE}">{icon("abc")}KI-Glossar</a>{chips}</div>
-<p style="margin-top:22px"><a class="btn btn-lime" href="./#stack-check">{icon("mail")}Jean direkt fragen</a> <button type="button" class="btn" id="surprise-btn" hidden>{icon("dice")}Überrasch mich mit einem Tool</button></p>
+<p style="margin-top:22px"><a class="btn btn-lime" href="./#stack-check">{icon("mail")}Stack-Check anfragen</a> <button type="button" class="btn" id="surprise-btn" hidden>{icon("dice")}Überrasch mich mit einem Tool</button></p>
 <div class="surprise wotd" id="surprise" hidden></div></div>
 {footer(bar=False)}"""
     (DOCS / "404.html").write_text(absolutize(page_shell("Schublade nicht gefunden – KI-Werkstatt", nf, "Diese Seite gibt es nicht.", SITE_URL + "404.html",
                                                          '<meta name="robots" content="noindex">'), base), encoding="utf-8")
 
-    needs = '<p class="needs"><b>[NEEDS_REVIEW]</b> Platzhalter: Name und Anschrift fehlen noch. Wer eine Seite mit Kontaktformular und geschäftlichem Zweck betreibt, braucht in Deutschland ein vollständiges Impressum nach § 5 DDG.</p>'
-    needs_ds = '<p class="needs"><b>[NEEDS_REVIEW]</b> Entwurf, vor dem Bewerben der Seite rechtlich prüfen lassen. Die Informationspflichten nach Art. 13 DSGVO gelten ab dem ersten Formular, das Daten einsammelt.</p>'
+    needs = ('<p class="needs"><b>[NEEDS_REVIEW]</b> Platzhalter: Name und Anschrift fehlen noch. Wer eine Seite mit Kontaktformular '
+             'und geschäftlichem Zweck betreibt, braucht in Deutschland ein vollständiges Impressum nach § 5 DDG.</p>')
+    needs_ds = ('<p class="needs"><b>[NEEDS_REVIEW]</b> Entwurf, vor dem Bewerben der Seite rechtlich prüfen lassen. Die Informationspflichten '
+                'nach Art. 13 DSGVO gelten ab dem ersten Formular, das Daten einsammelt.</p>')
     impressum = f"""{topbar("sub")}
-<div class="page"><p class="eyebrow">Rechtliches</p><h1>Impressum</h1>{needs}
+<div class="page legal"><p class="eyebrow">Rechtliches</p><h1>Impressum</h1>{needs}
 <p><b>Angaben gemäß § 5 DDG</b><br>[NAME, VORNAME]<br>[STRASSE, HAUSNUMMER]<br>[PLZ, ORT]<br>Deutschland</p>
-<p><b>Kontakt</b><br>E-Mail: {LEAD_TO}<br>[TELEFON, optional]</p>
+<p id="kontakt"><b>Kontakt</b><br>E-Mail: {mail_link()}<br>[TELEFON, optional]</p>
 <p><b>Verantwortlich für den Inhalt</b> nach § 18 Abs. 2 MStV: [NAME, ANSCHRIFT wie oben]</p>
 <p><b>Umsatzsteuer</b>: [USt-IdNr., falls vorhanden, sonst Zeile löschen]</p>
-<p><b>Haftung für Links:</b> Die Liste enthält Links zu externen Websites, auf deren Inhalte wir keinen Einfluss haben. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Links werden regelmäßig auf Erreichbarkeit geprüft, nicht auf Inhalt.</p>
-<p><b>Schriften und Logos:</b> Die Schriften IBM Plex (IBM Corp.) und Space Grotesk (Florian Karsten) stehen unter der SIL Open Font License 1.1; die Lizenztexte liegen unter <a href="assets/fonts/LICENSE-IBM-Plex.txt">assets/fonts/LICENSE-IBM-Plex.txt</a> und <a href="assets/fonts/LICENSE-Space-Grotesk.txt">assets/fonts/LICENSE-Space-Grotesk.txt</a>. Tool-Logos werden als Favicons vom jeweiligen Anbieter geladen; Marken und Logos gehören den jeweiligen Inhabern.</p>
+<h2 id="werkstatt">So entsteht die KI-Werkstatt</h2>
+<p>Recherche und Textentwürfe entstehen mit KI-Unterstützung. Vor der Veröffentlichung wird jede Seite von einem Menschen geprüft und redaktionell verantwortet.</p>
+<p>„Geprüft“ heißt bei der Tool-Liste: Ein Skript fragt jeden Link regelmäßig ab, zuletzt am {LINK_CHECK}, und jede Beschreibung ist von Hand geschrieben. Ausprobiert wurde nicht jedes Tool. Angaben zu EU-Sitz und Open Source stammen von den Anbietern.</p>
+<h2>Unabhängigkeit und Werbung</h2>
+<p>Die Liste enthält keine Affiliate-Links und keine bezahlten Platzierungen; für eine Nennung fließt kein Geld. Die KI-Werkstatt steht mit keinem der genannten Anbieter in Verbindung. Links zu PROMPTGOTT (Substack) tragen UTM-Parameter, damit dort erkennbar ist, dass der Besuch von hier kam. <b>[NEEDS_REVIEW: Verhältnis zu PROMPTGOTT bestätigen, etwa „PROMPTGOTT ist Jeans eigener Newsletter; Links dorthin sind Eigenwerbung.“]</b> Kommt später ein bezahlter oder Affiliate-Link dazu, wird er einzeln und sichtbar als Anzeige oder Affiliate-Link gekennzeichnet.</p>
+<h2>Haftung für Links</h2>
+<p>Die Liste verlinkt externe Websites, auf deren Inhalte wir keinen Einfluss haben; verantwortlich ist der jeweilige Anbieter. Regelmäßig geprüft wird nur, ob ein Link erreichbar ist, nicht was dahinter steht. Bei der Verlinkung waren keine Rechtsverstöße erkennbar. Wird uns eine Rechtsverletzung bekannt, entfernen wir den Link umgehend. Hinweise bitte an {mail_link("Hinweis auf einen Link")}.</p>
+<h2>Marken, Logos und Schriften</h2>
+<p>Tool-Namen und -Logos dienen nur dazu, das jeweilige Produkt zu bezeichnen. Marken und Logos gehören ihren Inhabern. Die Logos sind die Favicons der Anbieter: einmalig abgerufen, klein skaliert und als Kopie auf dieser Seite abgelegt. Fehlt eines, steht an seiner Stelle der Anfangsbuchstabe. Wer als Inhaber sein Logo hier nicht sehen möchte, schreibt eine E-Mail, dann wird es entfernt.</p>
+<p>Die Schriften IBM Plex (IBM Corp.) und Space Grotesk (Florian Karsten) stehen unter der SIL Open Font License 1.1; die Lizenztexte liegen unter <a href="assets/fonts/LICENSE-IBM-Plex.txt">assets/fonts/LICENSE-IBM-Plex.txt</a> und <a href="assets/fonts/LICENSE-Space-Grotesk.txt">assets/fonts/LICENSE-Space-Grotesk.txt</a>. Die Vorlage der Liste steht unter der <a href="{REPO_URL}/blob/main/LICENSE" target="_blank" rel="noopener">MIT-Lizenz</a>.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
 {footer(bar=False)}"""
     (DOCS / "impressum.html").write_text(page_shell("Impressum – KI-Werkstatt", impressum, "Impressum der KI-Werkstatt.", SITE_URL + "impressum.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
 
+    # Browser-Speicher: vollständige Liste der Schlüssel aus docs/assets/app.js (store.set/get); bei neuen Schlüsseln hier ergänzen
+    speicher = [
+        ("kw-theme", "helles oder dunkles Farbschema, sobald du umschaltest"),
+        ("kw-bar", "dass du die Leiste am unteren Rand geschlossen hast"),
+        ("kw-merk", "deine Merkliste: Name und Link der Tools, die du mit dem Lesezeichen markierst"),
+        ("kw-merk-attach", "ob die Merkliste an das Stack-Check-Formular angehängt werden soll"),
+        ("kw-screws", "welche Schrauben du bei Kurbels Schraubensuche schon gefunden hast"),
+        ("kw-read:<Seite>", "bis zu welchem Kapitel du einen Ratgeber gelesen hast, nur wenn du „Lesefortschritt merken“ einschaltest"),
+        ("kw-hilf:<Seite>", "deine Antwort auf „War das hilfreich?“ unter einem Ratgeber"),
+    ]
+    app_keys = set(re.findall(r'"(kw-[a-z-]+)', (ASSETS / "app.js").read_text(encoding="utf-8"))) - {"kw-finder", "kw-radar", "kw-toast"}
+    listed = {k.split(":")[0].rstrip(":") for k, _ in speicher}
+    if {k.rstrip(":") for k in app_keys} != listed:
+        raise SystemExit(f"datenschutz.html: Speicher-Liste passt nicht zu app.js (app.js: {sorted(app_keys)}, Liste: {sorted(listed)})")
+    speicher_html = "".join(f"<li><code>{html.escape(k)}</code>: {html.escape(t)}.</li>" for k, t in speicher)
+    gh_privacy = "https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement"
     ds = f"""{topbar("sub")}
-<div class="page"><p class="eyebrow">Rechtliches</p><h1>Datenschutz</h1>{needs_ds}
-<p><b>Verantwortlicher:</b> [NAME, ANSCHRIFT wie im Impressum], E-Mail: {LEAD_TO}</p>
-<h2>Hosting</h2><p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse und Zeitpunkt des Zugriffs. Details: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Auslieferung). [NEEDS_REVIEW: Hinweis auf Drittlandübermittlung und Data Privacy Framework ergänzen]</p>
-<h2>Kontaktformulare (Stack-Check, CSV-Anfrage)</h2><p>Wenn du ein Formular absendest, werden deine Angaben (Name, E-Mail, optional Website, Rolle, Projektbeschreibung) über den Dienst FormSubmit (formsubmit.co) per E-Mail an {LEAD_TO} übermittelt. FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>). [NEEDS_REVIEW: Anbieter, Sitz und Datenschutzerklärung von FormSubmit verlinken; prüfen, ob ein AVV nötig ist] Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden erteilst und jederzeit per Mail widerrufen kannst. Die Daten werden nur zur Beantwortung deiner Anfrage genutzt, nicht in ein CRM oder einen Newsletter übernommen. Antwortet FormSubmit nicht oder lehnt die Anfrage ab, bietet das Formular an, sie zusätzlich über dein eigenes E-Mail-Programm zu senden. Deine Angaben sind zu diesem Zeitpunkt bereits an FormSubmit übermittelt worden; mit dem Mail-Weg gehen sie außerdem über deinen Mail-Anbieter.</p>
-<h2>Favicons der Tool-Anbieter</h2><p>Neben jedem Tool wird dessen Favicon über den Dienst icons.duckduckgo.com geladen. Dabei erfährt DuckDuckGo (USA) deine IP-Adresse und den Domainnamen des Tools. Die Icons werden erst geladen, wenn sie in den sichtbaren Bereich scrollen. [NEEDS_REVIEW: alternativ Icons lokal speichern oder nach Einwilligung laden]</p>
-<h2>Schriften, Skripte, Speicher</h2><p>Schriften und Skripte liegen auf dieser Seite selbst; es werden keine Google Fonts von Google-Servern geladen. Im Browser-Speicher (localStorage) liegen nur drei Dinge: dein Farbschema, ob du die untere Hinweisleiste geschlossen hast, und deine Merkliste (Name und Link der Tools, die du markiert hast). Zeitspar-Rechner und Trend-Radar rechnen nur in deinem Browser und speichern nichts. Merkliste, Rechner-Ergebnis und Radar gehen nur dann an Jean, wenn du sie an das Stack-Check-Formular anhängst und es abschickst. Keine Cookies, kein Tracking, keine Analyse-Tools.</p>
-<h2>Externe Links</h2><p>Links zu Tools, zu PROMPTGOTT (Substack) und zu GitHub führen auf fremde Seiten mit eigenen Datenschutzregeln. Links zu PROMPTGOTT enthalten UTM-Parameter, damit erkennbar ist, dass der Besuch von dieser Seite kam; persönliche Daten werden dabei nicht übertragen.</p>
-<h2>Deine Rechte</h2><p>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch und Beschwerde bei einer Aufsichtsbehörde (Art. 15 bis 21, 77 DSGVO). Schreib dafür an {LEAD_TO}.</p>
+<div class="page legal"><p class="eyebrow">Rechtliches</p><h1>Datenschutz</h1>{needs_ds}
+<p><b>Verantwortlicher:</b> [NAME, ANSCHRIFT wie im Impressum], E-Mail: {mail_link("Datenschutz")}</p>
+<p class="ds-kurz">Kurz gesagt: keine Cookies, kein Tracking, keine Analyse-Tools, keine fremden Skripte, Schriften oder Bilder. Persönliche Angaben verlassen deinen Browser nur, wenn du ein Formular abschickst.</p>
+<h2>Hosting (GitHub Pages)</h2>
+<p>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc., USA). Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie IP-Adresse, Zeitpunkt und aufgerufene Adresse, um die Seite auszuliefern und vor Angriffen zu schützen. Wie lange GitHub diese Protokolle aufbewahrt, legt GitHub fest (<a href="{gh_privacy}" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>). Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, das berechtigte Interesse an einer sicheren Auslieferung der Seite.</p>
+<p>GitHub gibt in dieser Datenschutzerklärung an, nach dem EU-US Data Privacy Framework zertifiziert zu sein. Die Übermittlung in die USA stützt sich damit auf den Angemessenheitsbeschluss der EU-Kommission (Art. 45 DSGVO).</p>
+<h2>Stack-Check und Stack-Finder (Formulare)</h2>
+<p>Ob du ein Formular ausfüllst, entscheidest du; ohne E-Mail-Adresse kann Jean allerdings nicht antworten. Schickst du es ab, gehen deine Angaben über den Formulardienst FormSubmit (formsubmit.co) per E-Mail an Jean: deine E-Mail-Adresse und dein Text, dazu Name, Website und Rolle, falls du sie ausfüllst. Hängst du Merkliste, Rechner-Ergebnis oder Trend-Radar an, gehen auch diese mit, beim Stack-Finder außerdem deine drei Antworten und der Vorschlag.</p>
+<p>Automatisch steht in jeder Anfrage, über welches Formular und von welcher Seite der KI-Werkstatt sie kam und welche Seite du davor aufgerufen hattest; kamst du von einer fremden Website, steht dort nur deren Domain. Diese Angabe liest das Formular erst beim Absenden aus deinem Browser (Referrer) und speichert sie nirgends.</p>
+<p>Zweck ist die Antwort auf deine Anfrage, Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO. Die Angaben landen in keinem CRM und keinem Newsletter. Gelöscht wird eine Anfrage, sobald sie erledigt ist und keine gesetzliche Aufbewahrungspflicht entgegensteht. <b>[NEEDS_REVIEW: feste Höchstfrist festlegen, zum Beispiel 12 Monate]</b></p>
+<p>FormSubmit leitet die Daten per E-Mail weiter und speichert Einsendungen nach eigenen Angaben 30 Tage in einem Archiv (<a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">Dokumentation</a>, <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener">Datenschutzhinweise von FormSubmit</a>). Diese Datenschutzhinweise nennen keinen Firmensitz. Dass die Daten dabei in ein Land ohne gleichwertiges Datenschutzniveau wie die USA gelangen, ist deshalb nicht auszuschließen. Dafür holt das Formular mit dem Häkchen deine ausdrückliche Einwilligung ein (Art. 49 Abs. 1 lit. a DSGVO); du kannst sie jederzeit per E-Mail widerrufen. Das Empfangspostfach ist ein Gmail-Konto (Google). <b>[NEEDS_REVIEW: Formulardienst und Postfach festlegen, Auftragsverarbeitungsvertrag klären, dann Empfänger, Sitz und Übermittlungsgrundlage hier eintragen]</b></p>
+<p>Antwortet FormSubmit nicht oder lehnt die Anfrage ab, bietet das Formular an, sie über dein eigenes E-Mail-Programm zu senden. Deine Angaben können zu diesem Zeitpunkt schon bei FormSubmit angekommen sein; auf dem E-Mail-Weg gehen sie außerdem über deinen E-Mail-Anbieter.</p>
+<h2>Tool-Logos</h2>
+<p>Die kleinen Logos neben den Tools sind Favicons der Anbieter. Sie wurden einmalig beim Erstellen der Seite abgerufen und liegen als Kopie auf diesem Server. Dein Browser fragt deshalb beim Besuch weder die Anbieter noch einen Icon-Dienst an.</p>
+<h2>Speicher in deinem Browser</h2>
+<p>Schriften und Skripte liegen auf dieser Seite selbst; Google Fonts oder andere fremde Server werden nicht angefragt. Im Browser-Speicher (localStorage) deines Geräts legt die Seite nur ab, was du selbst auslöst, und zwar unter diesen Schlüsseln:</p>
+<ul class="plain">{speicher_html}</ul>
+<p>Diese Einträge verlassen dein Gerät nicht. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG, weil du die jeweilige Funktion selbst anforderst. Löschen kannst du sie jederzeit über die Website-Daten deines Browsers, Merkliste und Lesestand auch direkt auf der Seite. Zeitspar-Rechner und Trend-Radar rechnen nur in deinem Browser und speichern nichts. Merkliste, Rechner-Ergebnis und Radar bekommt Jean nur, wenn du sie an das Stack-Check-Formular hängst und es abschickst.</p>
+<h2>Externe Links</h2>
+<p>Links zu Tools, zu PROMPTGOTT (Substack) und zu GitHub führen auf fremde Seiten mit eigenen Datenschutzregeln. Links zu PROMPTGOTT enthalten UTM-Parameter, damit erkennbar ist, dass der Besuch von dieser Seite kam; persönliche Daten werden dabei nicht übertragen.</p>
+<h2>Deine Rechte</h2>
+<p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung und Datenübertragbarkeit (Art. 15 bis 20 DSGVO) und kannst dich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Eine Einwilligung kannst du jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Schreib dafür an {mail_link("Datenschutz")}.</p>
+<p class="ds-widerspruch"><b>Widerspruchsrecht nach Art. 21 DSGVO:</b> Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO, hier die Auslieferung der Seite über GitHub, kannst du jederzeit aus Gründen widersprechen, die sich aus deiner besonderen Situation ergeben.</p>
 <p><a href="{SITE_URL}">Zurück zur Werkstatt</a></p></div>
 {footer(bar=False)}"""
     (DOCS / "datenschutz.html").write_text(page_shell("Datenschutz – KI-Werkstatt", ds, "Datenschutzerklärung der KI-Werkstatt.", SITE_URL + "datenschutz.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
@@ -1116,6 +1214,9 @@ def rechner_band():
     rows = []
     for a in RECHNER["aufgaben"]:
         src = (f' <a href="{html.escape(check_url(a["url"], "data/rechner.json"))}" target="_blank" rel="noopener">Quelle: {html.escape(a["quelle"])}</a>' if a["url"] else "")
+        # Weitere Quellen, z. B. ein Gegenbefund: "weitere_quellen": [["Beschriftung", "https://…"], …]
+        src += "".join(f' · <a href="{html.escape(check_url(u, "data/rechner.json/" + a["id"]))}" target="_blank" rel="noopener">{html.escape(lbl)}</a>'
+                       for lbl, u in a.get("weitere_quellen", []))
         cat = (f' <a href="{cat_page(a["kategorie"])}">Passende Tools</a>' if a.get("kategorie") else "")
         rows.append(f"""<div class="calc-row reveal" data-id="{a['id']}" data-label="{html.escape(a['label'])}">
 <div class="calc-head"><span class="calc-ico">{icon(a["icon"])}</span><b>{html.escape(a["label"])}</b></div>
@@ -1280,7 +1381,7 @@ def build_category_pages(list_secs, tools_map):
 <p class="kicker">{icon(CAT_ICON.get(sec["id"], "box"))} <b>Schublade {idx + 1:02d}</b> · Link-Check {LINK_CHECK}</p>
 <h1><em>{html.escape(h1)}</em></h1>
 <p class="sub">{html.escape(kat_text(sec, "hero"))}</p>
-<div class="ctas"><a class="btn btn-lime" href="#{first}">{icon("layers")}Zu den {n} Tools</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<div class="ctas"><a class="btn btn-lime" href="#{first}">{icon("layers")}Zu den {n} Tools</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div>
 </div><div class="cat-hero-art reveal"><img src="img/cat-{sec["id"]}.svg" alt="" width="800" height="300"></div></div>
 <div class="stats">
 <div class="stat reveal"><b data-count="{n}">{n}</b><span>Tools in dieser Schublade</span></div>
@@ -1296,7 +1397,7 @@ def build_category_pages(list_secs, tools_map):
 
 <div class="wrap layout" id="liste">
 <nav class="rail" aria-label="Auf dieser Seite" data-chrome><div class="in"><p class="rail-h">Auf dieser Seite</p>{rail_links}
-<div class="lead-mini"><b>Stack-Check</b><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></nav>
+<div class="lead-mini"><p>Kostet nichts außer zwei Minuten.</p><a class="btn btn-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div></div></nav>
 <div class="content"><div class="filters" role="search" aria-label="In dieser Schublade filtern"><label class="lq"><span class="sr">In dieser Schublade filtern</span><input type="search" id="lq" placeholder="In dieser Schublade filtern …" autocomplete="off"></label>
 <label><input type="checkbox" class="f-eu"> nur EU-Anbieter</label><label><input type="checkbox" class="f-oss"> nur Open Source</label><span id="lcount" aria-live="polite"></span>
 <p class="lq-empty" hidden>{icon("search")}<span>In dieser Schublade passt nichts.</span><button type="button" class="btn btn-sm btn-lime" id="lq-all">{icon("search")}In allen Tools suchen</button></p></div>
@@ -1306,7 +1407,7 @@ def build_category_pages(list_secs, tools_map):
 </div>
 
 <section class="band faq" id="faq"><div class="wrap">
-<p class="eyebrow">Fragen aus der Werkstatt</p><h2>{html.escape(sec["title"])}: kurz beantwortet</h2>
+<p class="eyebrow">Fragen aus der Werkstatt · {html.escape(sec["title"])}</p><h2>Kurz gefragt, kurz beantwortet</h2>
 <div class="faq-list">{faq_html(faq)}</div>
 </div></section>
 
@@ -1410,13 +1511,13 @@ def build_glossar(tools_map, list_secs, sections):
 <h1><em>KI-Glossar:</em> {n} Begriffe auf Deutsch erklärt</h1>
 <p class="slogan">Ernst erklärt. Mit Augenzwinkern übersetzt.</p>
 <p class="sub">{html.escape(GLOSSAR["intro"])}</p>
-<div class="ctas"><a class="btn btn-lime" href="#begriffe">{icon("book")}Zu den Begriffen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<div class="ctas"><a class="btn btn-lime" href="#begriffe">{icon("book")}Zu den Begriffen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div>
 </div></section>
 <nav class="az" aria-label="Buchstaben"><div class="wrap in"><div class="az-letters">{az}</div>
 <label class="sr" for="gq">Begriffe filtern</label><input type="search" id="gq" placeholder="Begriff filtern: Token, RAG, DSGVO …" autocomplete="off"><span id="gcount" aria-live="polite">{n} Begriffe</span></div></nav>
-<div class="wrap gl" id="begriffe">{"".join(cards)}<div class="gl-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Diesen Begriff kennt Kurbel noch nicht. Fehlt einer? Schreib an <a href="mailto:{LEAD_TO}?subject=Glossar">{LEAD_TO}</a>.</p></div></div>
+<div class="wrap gl" id="begriffe">{"".join(cards)}<div class="gl-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Diesen Begriff kennt Kurbel noch nicht. Fehlt einer? Schreib an {mail_link("Glossar")}.</p></div></div>
 {lern_band}
-<div class="wrap">{pg_box("glossar")}</div>
+<div class="wrap">{legal_note()}{pg_box("glossar")}</div>
 
 <section class="band lead" id="stack-check"><div class="wrap">
 <div class="lead-grid"><div>
@@ -1460,7 +1561,7 @@ def neu_band(list_secs):
 <a class="neu-trend" href="{TRENDS_PAGE}#{t['trend']}">{icon("spark")}{html.escape(trend_ids[t["trend"]]["label"])}</a></li>""" for t in NEU_AKTIV[:6])
     neu_html = f"""<div class="neu-box reveal"><h3>{icon("plus")}Frisch in den Schubladen</h3><ul class="neu-list">{neu}</ul></div>""" if neu else ""
     return f"""<section class="band" id="neu-und-trends"><div class="wrap">
-<p class="eyebrow">Neu &amp; im Trend · Stand {de_date(TRENDS["stand"])}</p><h2>Was diesen Herbst in der Werkstatt angekommen ist</h2>
+<p class="eyebrow">Neu &amp; im Trend · Stand {de_date(TRENDS["stand"])}</p><h2>Frisch in der Werkstatt angekommen</h2>
 <p class="intro">{ZAHLWORT.get(len(TRENDS["trends"]), str(len(TRENDS["trends"])))} Entwicklungen, die wir beim Hersteller nachgelesen haben, und die Tools, die deshalb neu in der Liste stehen. Die ausführliche Einordnung mit Quellen liegt auf der Trend-Seite.</p>
 <div class="trend-cards">{cards}</div>
 {neu_html}
@@ -1532,7 +1633,7 @@ def build_trends(tools_map, list_secs):
 <div class="urteil"><h3>{icon("wrench")}Werkstatt-Urteil</h3><p>{html.escape(t["urteil"])}</p></div></div>
 {chips_html}
 {rg_link(t.get("ratgeber"))}
-<details class="quellen" data-chrome><summary>{icon("link")}Quellen ({len(t["quellen"])})</summary><ol>{quellen}</ol></details>
+<details class="quellen" data-chrome><summary>{icon("link")}Quellen ({len(t["quellen"])})</summary><ol>{quellen}</ol>{quellen_note()}</details>
 </article>""")
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "Article", "@id": url, "url": url, "headline": TRENDS["titel"], "description": TRENDS["intro"], "inLanguage": "de-DE",
@@ -1558,7 +1659,7 @@ def build_trends(tools_map, list_secs):
 <p class="kicker">{icon("chart")} <b>{html.escape(TRENDS["titel"])}</b> · Stand {stand}</p>
 <h1><em>{n} KI-Trends.</em><br>Beim Hersteller nachgelesen.<br>Für die Werkbank übersetzt.</h1>
 <p class="sub">{html.escape(TRENDS["intro"])}</p>
-<div class="ctas"><a class="btn btn-lime" href="#radar" data-js-only hidden>{icon("compass")}Trend-Radar starten</a><a class="btn" href="#{ids[0]}">{icon("chart")}Zum ersten Trend</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<div class="ctas"><a class="btn btn-lime" href="#radar" data-js-only hidden>{icon("compass")}Trend-Radar starten</a><a class="btn" href="#{ids[0]}">{icon("chart")}Zum ersten Trend</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div>
 </div></section>
 <nav class="az tr-nav" aria-label="Trends"><div class="wrap in"><div class="tr-links">{"".join(links)}</div></div></nav>
 <div class="wrap tr-wrap">
@@ -1575,7 +1676,7 @@ def build_trends(tools_map, list_secs):
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>Trends gelesen. Welcher davon zahlt bei dir ein?</h2>
 <p class="intro">Nicht jede Neuheit gehört in deinen Werkzeugkasten. Schreib Jean, woran du gerade arbeitest, und du erfährst, welcher dieser Trends dir tatsächlich Arbeit abnimmt und welchen du getrost vorbeiziehen lässt.</p>
-<div class="kb-say">{hans("hm-md")}<p class="bubble">Ich hab alle Quellen gelesen. Zweimal. Eine Schraube ist trotzdem übrig.</p></div></div>
+<div class="kb-say">{hans("hm-md")}<p class="bubble">Ich hab alle Quellen gelesen. Zweimal. Kurbel hatte danach trotzdem eine Schraube übrig.</p></div></div>
 <div>{lead_form("Trends", "Stack-Check (Trends) – KI-Werkstatt")}</div></div>
 </div></section>
 {footer()}
@@ -1602,7 +1703,7 @@ def einsatz_band():
 <span><b>{html.escape(e["h1"])}</b><small>{html.escape(e["teaser"])}</small><span class="drawer-cta">Ansehen{icon("arrow")}</span></span></a>""" for e in EINSATZ["seiten"])
     return f"""<section class="band" id="einsatz"><div class="wrap">
 <p class="eyebrow">{html.escape(EINSATZ["titel"])}</p><h2>Sag, wo du arbeitest. Wir zeigen, wo KI anpackt.</h2>
-<p class="intro">Sechs Arbeitsfelder, jedes mit konkreten Aufgaben, passenden Werkzeugen, den Trends, die dort zählen, und den Fragen, die uns dazu am häufigsten erreichen.</p>
+<p class="intro">{ZAHLWORT.get(len(EINSATZ["seiten"]), str(len(EINSATZ["seiten"])))} Arbeitsfelder, jedes mit konkreten Aufgaben, passenden Werkzeugen, den Trends, die dort zählen, und den Fragen, die uns dazu am häufigsten erreichen.</p>
 <div class="einsatz-grid">{tiles}</div>
 <p style="margin-top:20px"><a class="btn" href="{EINSATZ_PAGE}">{icon("layers")}Alle Einsatzgebiete im Überblick</a></p>
 </div></section>"""
@@ -1640,7 +1741,7 @@ def build_einsatz(tools_map, list_secs, sections):
 
         def chip(name):
             return tool_chip(name, tools_map)
-        auf = "".join(f"""<article class="aufgabe reveal"><span class="n">{i + 1}</span><h3>{html.escape(a["titel"])}</h3><p>{html.escape(a["text"])}</p>
+        auf = "".join(f"""<article class="aufgabe reveal"><span class="n">{i + 1}</span><h3>{html.escape(a["titel"])}</h3><p>{inline(a["text"], site=True)}</p>
 <div class="chips">{"".join(chip(n) for n in a["tools"])}</div></article>""" for i, a in enumerate(e["aufgaben"]))
         ranked = sorted(enumerate(TRENDS["trends"]), key=lambda x: (-x[1]["radar"][e["rolle"]], x[0]))[:3]
         trend_cards = "".join(f"""<a class="trend-card reveal" href="{TRENDS_PAGE}#{t['id']}"><span class="term-ico">{icon(t["icon"])}</span>
@@ -1670,7 +1771,7 @@ def build_einsatz(tools_map, list_secs, sections):
 <p class="kicker">{icon(e["icon"])} <b>Einsatzgebiet</b> · {len(e["aufgaben"])} Aufgaben · {n_tools} Tools</p>
 <h1><em>{html.escape(e["h1"])}</em></h1>
 <p class="sub">{html.escape(e["hero"])}</p>
-<div class="ctas"><a class="btn btn-lime" href="#aufgaben">{icon("wrench")}Zu den Aufgaben</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<div class="ctas"><a class="btn btn-lime" href="#aufgaben">{icon("wrench")}Zu den Aufgaben</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div>
 </div></section>
 
 <section class="band cat-intro"><div class="wrap intro-grid">
@@ -1679,18 +1780,18 @@ def build_einsatz(tools_map, list_secs, sections):
 </div></section>
 
 <section class="band" id="aufgaben"><div class="wrap">
-<p class="eyebrow">Wo KI mit anpackt</p><h2>{len(e["aufgaben"])} Aufgaben, bei denen es sich lohnt: {html.escape(e["h1"])}</h2>
+<p class="eyebrow">Wo KI mit anpackt · {html.escape(e["h1"])}</p><h2 data-chrome>{ZAHLWORT.get(len(e["aufgaben"]), str(len(e["aufgaben"])))} Aufgaben, die du abgeben kannst</h2>
 <div class="aufgaben">{auf}</div>
 </div></section>
 
 <section class="band" id="trends"><div class="wrap">
-<p class="eyebrow">Trend-Radar · {html.escape(label)}</p><h2>Drei Trends mit dem größten Hebel: {html.escape(e["h1"])}</h2>
+<p class="eyebrow">Trend-Radar · {html.escape(label)}</p><h2 data-chrome>Die drei Trends mit dem meisten Hebel für dich</h2>
 <div class="trend-cards">{trend_cards}</div>
 <p style="margin-top:18px"><a class="btn" href="{TRENDS_PAGE}?rolle={e['rolle']}#radar">{icon("compass")}Ganzes Trend-Radar ansehen</a></p>
 </div></section>
 
 <section class="band" id="werkzeug"><div class="wrap">
-<p class="eyebrow">Weiter in der Werkstatt</p><h2>Kisten, Schubladen und Begriffe: {html.escape(e["h1"])}</h2>
+<p class="eyebrow">Weiter in der Werkstatt</p><h2 data-chrome>Was sonst noch in die Kiste gehört</h2>
 <div class="kisten-refs">{kiste_html}</div>
 <div class="einsatz-more">
 <div><h3>{icon("layers")}Passende Schubladen</h3><div class="chips">{kat_chips}</div></div>
@@ -1700,15 +1801,16 @@ def build_einsatz(tools_map, list_secs, sections):
 </div></div></section>
 
 <section class="band faq" id="faq"><div class="wrap">
-<p class="eyebrow">Fragen aus der Werkstatt</p><h2>{html.escape(e["h1"])}: kurz beantwortet</h2>
+<p class="eyebrow">Fragen aus der Werkstatt · {html.escape(e["h1"])}</p><h2>Kurz gefragt, kurz beantwortet</h2>
 <div class="faq-list">{faq_html(faq)}</div>
+{legal_note()}
 </div></section>
 
 <section class="band lead" id="stack-check"><div class="wrap">
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>{html.escape(e["lead_hook"])}</h2>
 <p class="intro">{html.escape(e["lead_text"])}</p>
-<div class="kb-say">{hans("hm-md")}<p class="bubble">{html.escape(e["bubble"])}</p></div></div>
+<div class="kb-say">{speaker(e)}<p class="bubble">{html.escape(e["bubble"])}</p></div></div>
 <div>{lead_form("Einsatz: " + e["h1"], "Stack-Check (" + e["h1"] + ") – KI-Werkstatt", rolle=e["form_rolle"])}</div></div>
 </div></section>
 
@@ -1915,12 +2017,12 @@ def build_ratgeber(tools_map):
 <p class="kicker" data-chrome>{icon(a["icon"])} <b>Ratgeber</b> · Stand {de_date(a["stand"])} · {minutes} Min. Lesezeit</p>
 <h1>{html.escape(a["h1"])}</h1>
 <p class="sub">{html.escape(a["hero"])}</p>
-<div class="ctas"><a class="btn btn-lime" href="#{toc[0][0] if toc else 'faq'}">{icon("book")}Lesen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
+<div class="ctas"><a class="btn btn-lime" href="#{toc[0][0] if toc else 'faq'}">{icon("book")}Lesen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div>
 </div></section>
 
 <div class="wrap layout rg-layout">
 <nav class="rail" aria-label="Inhalt" data-chrome><div class="in"><p class="rail-h">Inhalt</p>{toc_html}
-<div class="lead-mini"><b>Stack-Check</b><a class="btn btn-sm" href="#stack-check">{icon("mail")}Anfragen</a></div></div></nav>
+<div class="lead-mini"><p>Kostet nichts außer zwei Minuten.</p><a class="btn btn-sm" href="#stack-check">{icon("mail")}Stack-Check anfragen</a></div></div></nav>
 <article class="content rg-body">
 <div class="print-head" data-chrome>{hans("hm-sm", label="")}<span>KI-Werkstatt · Ratgeber · Stand {de_date(a["stand"])}</span></div>
 <details class="toc-m" data-chrome><summary>{icon("book")}Inhalt · {len(toc)} Abschnitte</summary><nav aria-label="Inhalt (kompakt)">{toc_html}</nav></details>
@@ -1933,7 +2035,7 @@ def build_ratgeber(tools_map):
 </section>
 <p class="rg-trend">{trend_btn}</p>
 <section id="faq" class="rg-faq"><h2>Häufige Fragen</h2><div class="faq-list">{faq_html(faq)}</div></section>
-<section id="quellen" class="rg-quellen" data-chrome><h2>Quellen</h2><ol>{quellen}</ol></section>
+<section id="quellen" class="rg-quellen" data-chrome><h2>Quellen</h2><ol>{quellen}</ol>{quellen_note()}{legal_note(a["stand"])}</section>
 <section class="rg-done reveal" id="geschafft" data-chrome>{hans("hm-md", label="Hans Moritz zeigt den Daumen hoch", thumb=True)}<div>
 <h2>Geschafft. Respekt.</h2>
 <p>Du hast dich durch {f"{words:,}".replace(",", ".")} Wörter Werkstatt-Wissen gearbeitet. Hol dir einen Kaffee, den hast du dir verdient.</p>
@@ -1949,7 +2051,7 @@ def build_ratgeber(tools_map):
 <div class="lead-grid"><div>
 <p class="eyebrow">Stack-Check</p><h2>{html.escape(a["lead_hook"])}</h2>
 <p class="intro">{html.escape(a["lead_text"])}</p>
-<div class="kb-say">{hans("hm-md")}<p class="bubble">{html.escape(a["bubble"])}</p></div></div>
+<div class="kb-say">{speaker(a)}<p class="bubble">{html.escape(a["bubble"])}</p></div></div>
 <div>{lead_form("Ratgeber: " + a["label"], "Stack-Check (Ratgeber " + a["label"] + ") – KI-Werkstatt")}</div></div>
 </div></section>
 
@@ -2172,10 +2274,10 @@ def build_data(uniq, sections, pages=(), list_secs=()):
         else:
             seite = f"./#{s['id']}"
         rows.append({"name": it["name"], "url": it["url"], "beschreibung": clean, "kategorie": s["title"], "bereich": sub["title"] if sub else "",
-                     "eu": eu, "open_source": oss, "neu": it["name"] in NEU_NAMES, "seite": seite})
+                     "eu": eu, "open_source": oss, "neu": it["name"] in NEU_NAMES, "seite": seite, "icon": fav_src(it["url"])})
     (DOCS / "tools.json").write_text(json.dumps({"gebaut": TODAY, "link_check": LINK_CHECK, "quelle": REPO_URL, "tools": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
-    with (DOCS / "tools.csv").open("w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";")
+    with (DOCS / "tools.csv").open("w", encoding="utf-8-sig", newline="") as f:  # ohne Icon-Pfad: der hilft nur der Seite
+        w = csv.DictWriter(f, fieldnames=[k for k in rows[0] if k != "icon"], delimiter=";", extrasaction="ignore")
         w.writeheader()
         for r in rows:
             w.writerow({k: ("ja" if v is True else "nein" if v is False else csv_safe(v)) for k, v in r.items()})
@@ -2211,8 +2313,8 @@ svg.w{{position:absolute;right:-60px;bottom:-80px;width:520px;height:520px;fill:
 </style></head><body>{ICONS}
 <div class="m"><i><svg width="30" height="30" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wrench"/></svg></i>KI-WERKSTATT</div>
 <div class="s">LINK-CHECK {LINK_CHECK}</div>
-<h1><em>{n_tools} KI-Tools.</em><br>Geprüft. Sortiert.<br>Auf Deutsch.</h1>
-<p>Jedes Tool in einem Satz. Tote Links raus. EU-Anbieter markiert. {n_cats} Kategorien, Werkzeugkisten, Stack-Finder.</p>
+<h1><em>{n_tools} KI-Tools.</em><br>Sortiert. Links geprüft.<br>Auf Deutsch.</h1>
+<p>{html.escape(BRAND["tagline"])} Jedes Tool in einem Satz, EU-Anbieter markiert. {n_cats} Schubladen, Werkzeugkisten, Stack-Finder.</p>
 <svg class="w" viewBox="0 0 24 24">{icon_body("wrench")}</svg>
 </body></html>"""
     # Die Vorlage gehört nicht auf die Website: sie liegt im (ignorierten) Build-Ordner, render_og.js liest sie dort
@@ -2250,6 +2352,9 @@ def main():
             print(f"  doppelt: {sent[:90]!r} in {', '.join(where)}")
         raise SystemExit(f"Abbruch: {len(dups)} Sätze stehen auf mehr als einer Seite (oder doppelt auf einer). Texte umschreiben.")
     print("Uniqueness-Check: kein Satz doppelt")
+    if FAV_MISSING:
+        WARN.append(f"{len(FAV_MISSING)} Hosts ohne lokales Favicon, Platzhalter geschrieben: {', '.join(sorted(FAV_MISSING)[:8])}. "
+                    "Echte Icons holt python3 scripts/fetch_favicons.py --retry")
     for w in WARN:
         print("WARNUNG: " + w)
 

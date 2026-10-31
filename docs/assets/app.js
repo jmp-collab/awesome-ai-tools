@@ -52,6 +52,11 @@
 
   /* Basis-URL aus dem eigenen Skript-Pfad: Such-Panel und Links funktionieren so auch auf der 404-Seite in beliebiger Tiefe */
   var SITE = (document.currentScript && document.currentScript.src || "").replace(/assets\/app\.js.*$/, "") || "./";
+  // Favicons liegen lokal (img/fav/, Pfad aus tools.json bzw. den Finder-Daten); kein fremder Icon-Dienst
+  function favImg(path, size) {
+    if (!/^img\/fav\/[a-z0-9.-]+\.(png|jpg|svg)$/.test(String(path || ""))) return "";
+    return '<img loading="lazy" alt="" width="' + size + '" height="' + size + '" src="' + SITE + path + '">';
+  }
 
   /* Mobil-Menü: unter 1100 px klappt die Hauptnavigation unter der Kopfleiste auf */
   var menuBtn = $("#menubtn"), nav = $("#nav");
@@ -211,7 +216,6 @@
     qEl.setAttribute("tabindex", "-1"); stepLbl.setAttribute("aria-live", "polite");
     function icon(id) { return '<svg class="ico" aria-hidden="true"><use href="#i-' + esc(id) + '"/></svg>'; }
     function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-    function fav(url) { try { var h = new URL(url).hostname; return '<img loading="lazy" alt="" src="https://icons.duckduckgo.com/ip3/' + esc(h) + '.ico">'; } catch (e) { return ""; } }
     // focus: nach einer Antwort springt der Fokus auf die nächste Frage, sonst landet er auf <body>
     function render(focus) {
       var step = F.questions[stepIdx];
@@ -238,7 +242,7 @@
       list = list.filter(function (n, i) { return list.indexOf(n) === i; });
       var cards = list.map(function (n) {
         var t = TOOLS[n]; if (!t) return "";
-        return '<a href="' + esc(safeUrl(t.u)) + '" target="_blank" rel="noopener">' + fav(t.u) + '<span><b>' + esc(n) + (t.eu ? ' <span class="badge eu">EU</span>' : "") + '</b><small>' + esc(t.d) + '</small></span></a>';
+        return '<a href="' + esc(safeUrl(t.u)) + '" target="_blank" rel="noopener">' + favImg(t.i, 28) + '<span><b>' + esc(n) + (t.eu ? ' <span class="badge eu">EU</span>' : "") + '</b><small>' + esc(t.d) + '</small></span></a>';
       }).join("");
       var notes = [F.notes[ans.team], ans.daten === "eu" ? F.notes.eu : ""].filter(Boolean).map(function (n) { return '<p class="note">' + esc(n) + "</p>"; }).join("");
       var stackText = list.join(", "), req = '<span class="req" aria-hidden="true"> *</span>';
@@ -250,12 +254,12 @@
         '<div class="honey" aria-hidden="true"><label>Bitte leer lassen <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>' +
         '<input type="hidden" name="quelle" value="Stack-Finder"><input type="hidden" name="seite" value=""><input type="hidden" name="vorher" value="">' +
         '<input type="hidden" name="antworten" value="' + esc([ans.ziel, ans.daten, ans.team].join(" / ")) + '"><input type="hidden" name="vorschlag" value="' + esc(stackText) + '">' +
-        '<p style="margin:0 0 4px;font:700 18px var(--font-d)">Soll Jean da noch mal drüberschauen?</p><p style="margin:0;color:#5B616B;font-size:14px">Du bekommst das Setup mit Anmerkungen zu deinem Fall per Mail. Kostenlos, ohne Pitch.</p>' +
+        '<p style="margin:0 0 4px;font:700 18px var(--font-d)">Soll Jean da noch mal drüberschauen?</p><p style="margin:0;color:#5B616B;font-size:14px">Du bekommst das Setup mit Anmerkungen zu deinem Fall per E-Mail. Kostenlos, ohne Pitch.</p>' +
         '<p class="req-note" style="margin-top:10px">Felder mit * sind Pflicht.</p>' +
         '<div class="row"><div><label for="f-name">Name (optional, Vorname reicht)</label><input id="f-name" name="name" autocomplete="given-name"></div><div><label for="f-mail">E-Mail' + req + '</label><input id="f-mail" type="email" name="email" required autocomplete="email"></div></div>' +
         '<label for="f-proj">Was baust du gerade? (optional)</label><textarea id="f-proj" name="projekt" rows="3"></textarea>' +
-        '<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.' + req + '</span></label>' +
-        '<button class="btn" type="submit">' + icon("mail") + 'Setup per Mail bekommen</button>' +
+        '<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich habe die <a href="datenschutz.html">Datenschutzhinweise</a> gelesen. Meine Angaben gehen über den Formulardienst FormSubmit per E-Mail an Jean Maurice Port und werden nur für die Antwort auf diese Anfrage genutzt. Dabei können sie in Länder ohne gleichwertigen Datenschutz wie die USA gelangen. Damit bin ich einverstanden; widerrufen kann ich das jederzeit per E-Mail.' + req + '</span></label>' +
+        '<button class="btn" type="submit">' + icon("mail") + 'Stack-Check anfragen</button>' +
         '<p class="hint">Oder direkt: <a href="mailto:' + esc(F.to) + '?subject=Stack-Check">' + esc(F.to) + '</a></p></form>' +
         '<p style="margin-top:14px"><button type="button" class="btn btn-sm restart">' + icon("arrow") + 'Noch mal von vorn</button></p>';
       qEl.classList.add("hidden"); optsEl.classList.add("hidden"); res.classList.remove("hidden");
@@ -350,8 +354,8 @@
     $("#merk-copy").addEventListener("click", function (e) {
       var btn = e.currentTarget, txt = btn.lastChild;
       function done(t) { txt.textContent = t; setTimeout(function () { txt.textContent = "Kopieren"; }, 1600); }
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(mText()).then(function () { done("Kopiert"); }, function () { done("Nicht möglich"); });
-      else done("Nicht möglich");
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(mText()).then(function () { done("Kopiert"); }, function () { done("Ging nicht, bitte von Hand kopieren"); });
+      else done("Ging nicht, bitte von Hand kopieren");
     });
     $("#merk-send").addEventListener("click", function () {
       store.set("kw-merk-attach", "1");
@@ -455,7 +459,7 @@
         var bars = ""; for (var j = 1; j <= 3; j++) bars += "<i" + (j <= x.s ? ' class="on"' : "") + "></i>";
         return '<li class="s' + x.s + (k < top.length ? " top" : "") + '"><a href="#' + escH(x.t.id) + '">' + escH(x.t.label) + '</a><span class="radar-bar" title="' + RD_TXT[x.s] + '">' + bars + "</span><small>" + RD_TXT[x.s] + "</small>" +
           (k < top.length ? '<p class="radar-step">' + svg("check") + "<span>" + escH(x.t.schritt) + "</span></p>" : "") + "</li>";
-      }).join("") + '</ol><p class="radar-cta"><button type="button" class="btn btn-lime btn-sm" id="radar-send">' + svg("mail") + 'Radar an Jean schicken</button><span>Jean schaut, welche Tools zu deinen drei Trends passen.</span></p>' +
+      }).join("") + '</ol><p class="radar-cta"><button type="button" class="btn btn-lime btn-sm" id="radar-send">' + svg("mail") + 'Mit Radar zum Stack-Check</button><span>Jean schaut, welche Tools zu deinen drei Trends passen.</span></p>' +
         (rdRole.page ? '<p class="radar-page"><a href="' + escH(rdRole.page) + '">' + svg("arrow") + escH(rdRole.h1) + ": Aufgaben, Werkzeuge, Fragen</a></p>" : "");
       $("#radar-send").addEventListener("click", function () {
         var names = top.map(function (x) { return x.t.label; });
@@ -527,7 +531,6 @@
       spPages.hidden = !hits.length;
       return hits.length;
     }
-    function favI(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
     function spHide() { spGen++; spOpen(false); } // spätere Antworten einer alten Suche verwerfen
     function spRun(keepOpen) {
       var s = q.value.trim().toLowerCase(), my = ++spGen, filt = spEu.checked || spOss.checked || spNeu.checked;
@@ -561,7 +564,7 @@
     }
     function spRow(t) {
       var badges = (t.eu ? '<span class="badge eu">EU</span>' : "") + (t.open_source ? '<span class="badge oss">OSS</span>' : "") + (t.neu ? '<span class="badge neu">NEU</span>' : "");
-      return '<li>' + favI(t.url) + '<div><a class="name" href="' + escH(safeUrl(t.url)) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
+      return '<li>' + favImg(t.icon, 28) + '<div><a class="name" href="' + escH(safeUrl(t.url)) + '" target="_blank" rel="noopener">' + escH(t.name) + "</a> " + badges +
         '<span class="desc">' + escH(t.beschreibung) + '</span><a class="sp-cat" href="' + escH(SITE + t.seite.replace(/^\.\//, "")) + '">' + svg("layers") + escH(t.kategorie) + (t.bereich ? " · " + escH(t.bereich) : "") + "</a></div></li>";
     }
     // Treffer in Portionen anhängen; der Knopf am Ende holt die nächsten, bis alle sichtbar sind
@@ -676,7 +679,7 @@
     // Keine Antwort: vielleicht angekommen, vielleicht nicht. Mail nur zur Sicherheit, mit Hinweis auf Doppelung
     function unknown(msg) {
       if (done) return;
-      offerMail("unsure", msg, "Zur Sicherheit per Mail senden", "Kann sein, dass Jean die Anfrage dann doppelt bekommt. Das ist kein Problem, eine Antwort kommt trotzdem nur einmal.");
+      offerMail("unsure", msg, "Zur Sicherheit per E-Mail senden", "Kann sein, dass Jean die Anfrage dann doppelt bekommt. Das ist kein Problem, eine Antwort kommt trotzdem nur einmal.");
     }
     form.dataset.busy = "1"; if (btn) btn.disabled = true;
     st.className = "form-status busy"; st.textContent = "Wird gesendet … Kurbel trägt den Zettel rüber.";
@@ -695,8 +698,8 @@
         if (j._ok && (j.success === true || j.success === "true")) {
           done = true; fsMark(form); st.className = "form-status ok"; st.textContent = "Angekommen. Du wirst gleich weitergeleitet."; location.href = next; return;
         }
-        if (/activat/i.test(String(j.message || ""))) return failed("Das Formular ist noch nicht freigeschaltet: FormSubmit hat dafür eine Bestätigungsmail an Jean geschickt. Bis dahin klappt der Weg per Mail.");
-        failed("Der Formulardienst hat die Anfrage gerade nicht angenommen. Per Mail geht es sofort.");
+        if (/activat/i.test(String(j.message || ""))) return failed("Das Formular ist noch nicht freigeschaltet: FormSubmit hat dafür eine Bestätigungs-E-Mail an Jean geschickt. Bis dahin klappt der Weg per E-Mail.");
+        failed("Der Formulardienst hat die Anfrage gerade nicht angenommen. Per E-Mail geht es sofort.");
       })
       .catch(function () {
         clearTimeout(slow); clearTimeout(giveUp);
@@ -713,7 +716,6 @@
     if (!toolsP) toolsP = fetch(BASE + "tools.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) { return j.tools; });
     return toolsP;
   }
-  function hostIcon(url) { try { return '<img loading="lazy" alt="" width="28" height="28" src="https://icons.duckduckgo.com/ip3/' + escH(new URL(url).hostname) + '.ico">'; } catch (e) { return ""; } }
 
   // Hinweis unten am Rand, für Bildschirmleser per aria-live
   var toastEl, toastT;
@@ -801,7 +803,7 @@
       if (!list.length) return;
       var day = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
       var t = list[(day * 37) % list.length];
-      wotd.innerHTML = hostIcon(t.url) + '<div><span class="k">Hans’ Werkzeug des Tages</span><br><b><a href="' + escH(safeUrl(t.url)) + '" target="_blank" rel="noopener">' + escH(t.name) + '</a></b>' +
+      wotd.innerHTML = favImg(t.icon, 28) + '<div><span class="k">Hans’ Werkzeug des Tages</span><br><b><a href="' + escH(safeUrl(t.url)) + '" target="_blank" rel="noopener">' + escH(t.name) + '</a></b>' +
         '<p class="d">' + escH(t.beschreibung) + '</p><p><a href="' + escH(t.seite) + '">Zur Schublade</a> · Morgen liegt ein anderes auf der Werkbank.</p></div>';
     }).catch(function () { wotd.hidden = true; });
   }
@@ -953,7 +955,7 @@
     sBtn.addEventListener("click", function () {
       tools().then(function (list) {
         var t = list[Math.floor(Math.random() * list.length)];
-        sBox.innerHTML = hostIcon(t.url) + '<div><span class="k">Kurbel hat stattdessen das hier gefunden</span><br><b><a href="' + escH(safeUrl(t.url)) + '" target="_blank" rel="noopener">' + escH(t.name) + '</a></b><p>' + escH(t.beschreibung) + ' <a href="' + escH(BASE + t.seite.replace(/^\.\//, "")) + '">Zur Schublade</a></p></div>';
+        sBox.innerHTML = favImg(t.icon, 28) + '<div><span class="k">Kurbel hat stattdessen das hier gefunden</span><br><b><a href="' + escH(safeUrl(t.url)) + '" target="_blank" rel="noopener">' + escH(t.name) + '</a></b><p>' + escH(t.beschreibung) + ' <a href="' + escH(BASE + t.seite.replace(/^\.\//, "")) + '">Zur Schublade</a></p></div>';
         sBox.hidden = false; sBtn.lastChild.textContent = "Noch eins"; sparksAt(sBtn, 12);
       }).catch(function () { toast("Die Schublade klemmt gerade. Versuch es gleich noch mal."); });
     });

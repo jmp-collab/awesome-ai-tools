@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* Browser-Smoke-Test für docs/: jede Seite bei 390 und 1366 px, hell und dunkel, ohne Overflow, ohne JS-Fehler
-   und ohne Verstoß gegen die Content-Security-Policy (jede Verletzung lässt den Test scheitern).
+   ohne Verstoß gegen die Content-Security-Policy und ohne eine einzige Anfrage an einen fremden Server
+   (Favicons liegen lokal; jede externe Anfrage, etwa an icons.duckduckgo.com, lässt den Test scheitern).
    Dazu Stichproben der Kernfunktionen (Hans, Werkzeug des Tages, Ratgeber-Abschluss, 404-Überraschung).
 
    Aufruf aus dem Repo-Root (Playwright global installiert):
@@ -35,9 +36,11 @@ function fail(msg) { bad.push(msg); console.log("FEHLER " + msg); }
   const browser = await chromium.launch();
   for (const [w, scheme] of [[390, "light"], [1366, "dark"], [1366, "light"], [390, "dark"]]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 820 }, colorScheme: scheme });
-    await ctx.route(/icons\.duckduckgo\.com/, (r) => r.abort());
+    // Alles, was nicht vom Testserver kommt, wird abgebrochen und als Fehler gezählt
+    let external = [];
+    await ctx.route((u) => !u.href.startsWith(BASE) && !/^(data|blob|about):/.test(u.protocol), (r) => { external.push(r.request().url()); r.abort(); });
     for (const pg of pages) {
-      const p = await ctx.newPage(); const errs = [];
+      const p = await ctx.newPage(); const errs = []; external = [];
       p.on("pageerror", (e) => errs.push(e.message));
       p.on("console", (m) => { if (m.type() === "error" && !/ERR_FAILED|net::|favicon/.test(m.text())) errs.push(m.text()); });
       await p.addInitScript(() => { window.__csp = []; document.addEventListener("securitypolicyviolation", (e) => window.__csp.push(e.violatedDirective + " " + (e.blockedURI || "inline"))); });
@@ -49,6 +52,9 @@ function fail(msg) { bad.push(msg); console.log("FEHLER " + msg); }
       if (errs.length) fail(`${pg} @${w}${scheme[0]}: ${errs.join(" | ")}`);
       const csp = await p.evaluate(() => window.__csp);
       if (csp.length) fail(`${pg} @${w}${scheme[0]}: CSP-Verstoß ${csp.slice(0, 3).join(" | ")}`);
+      if (external.length) fail(`${pg} @${w}${scheme[0]}: ${external.length} externe Anfragen, z. B. ${external.slice(0, 2).join(" | ")}`);
+      const brokenImg = await p.evaluate(() => [...document.images].filter((i) => i.complete && i.getAttribute("loading") !== "lazy" && !i.naturalWidth).map((i) => i.src));
+      if (brokenImg.length) fail(`${pg} @${w}${scheme[0]}: Bilder nicht geladen ${brokenImg.slice(0, 3).join(" | ")}`);
       await p.close();
     }
     await ctx.close();

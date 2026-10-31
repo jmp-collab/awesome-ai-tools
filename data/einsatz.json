@@ -1,5 +1,5 @@
 {
- "_hinweis": "Einsatz-Landingpages. rolle verweist auf data/trends.json rollen; Tools, Kisten, Kategorien, Glossarbegriffe und Rechner-Aufgaben prüft der Build.",
+ "_hinweis": "Einsatz-Landingpages. rolle verweist auf data/trends.json rollen; Tools, Kisten, Kategorien, Glossarbegriffe und Rechner-Aufgaben prüft der Build. Optional sprecher: kurbel für Roboter- und Schrauben-Zeilen in bubble (sonst spricht Hans). Aufgaben-Texte dürfen Links als [Text](Ziel) enthalten.",
  "titel": "KI nach Einsatzgebiet",
  "seiten": [
   {
@@ -451,6 +451,7 @@
    "lead_hook": "Welcher Teil deiner Produktion frisst die meiste Zeit?",
    "lead_text": "Schreib Plattformen, Formate und Upload-Rhythmus dazu. Jean schickt dir vier bis sechs Tools für Bild, Schnitt und Ton.",
    "bubble": "Ich hab einen Song über die übrige Schraube gemacht. Er ist sehr kurz.",
+   "sprecher": "kurbel",
    "form_rolle": "Content / Social Media"
   },
   {

@@ -874,3 +874,17 @@ html:not(.js) .wotd{display:none}
 /* Ratgeber: Lesefortschritt nur auf Wunsch merken */
 .read-save{display:inline-flex;align-items:center;gap:8px;margin:12px 0 0;padding:7px 12px;font:600 13px var(--font-b);border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;min-height:40px}
 .read-save[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+/* Methodik-Kasten "Was „geprüft“ hier heißt" (Startseite) und Rechtstexte */
+.method-box{margin-top:26px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--lime);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+.method-box h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:19px}.method-box h3 .ico{width:22px;height:22px;color:var(--accent)}
+.method-box ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.method-box li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--muted)}.method-box li b{color:var(--fg)}
+.method-box li .ico{width:18px;height:18px;flex:none;margin-top:3px;color:var(--accent)}
+.legal-note{display:flex;gap:10px;align-items:flex-start;margin:22px 0 0;padding:12px 14px;border:1px dashed var(--line);border-radius:var(--r-s);font-size:14px;color:var(--muted)}
+.legal-note .ico{width:18px;height:18px;flex:none;margin-top:2px;color:var(--accent)}
+.quellen-note{margin:8px 0 0;font-size:13.5px;color:var(--muted)}
+.page.legal h2{font-size:24px;margin:34px 0 8px}
+.page.legal ul.plain{padding-left:20px}.page.legal li{margin:4px 0}.page.legal code{font:500 13.5px var(--font-m);overflow-wrap:anywhere}
+.ds-kurz{background:var(--card);border:1px solid var(--line);border-radius:var(--r-s);padding:12px 14px}
+.ds-widerspruch{border-left:4px solid var(--accent);background:var(--card);padding:12px 14px;border-radius:var(--r-s)}
+@media print{.legal-note{border-style:solid}}

@@ -58,7 +58,7 @@ Die Werkstatt ist nicht PROMPTGOTT. PROMPTGOTT liefert die Praxis mit Haltung un
 
 **Kurbel** ist sein Werkstatt-Roboter. Hilfsbereit, gründlich, leicht schusselig: Nach jeder Reparatur bleibt eine Schraube übrig, und niemand weiß, wohin sie gehört. Kurbel taucht dort auf, wo sonst Leere wäre: auf der 404-Seite, auf der Dankeseite, bei leeren Suchergebnissen und neben dem Stack-Check. Kurbel spricht kurz und freundlich, nie in Großbuchstaben.
 
-**Wer was sagt:** Roboter-Zeilen, Piepen und die übrige Schraube gehören Kurbel. Hans spricht über Werkzeug, Werkstatt und Kunden. Den Stack-Check macht Jean, nicht Hans.
+**Wer was sagt:** Roboter-Zeilen, Piepen und die übrige Schraube gehören Kurbel. Hans spricht über Werkzeug, Werkstatt und Kunden. Den Stack-Check macht Jean, nicht Hans. In `data/einsatz.json` und `data/ratgeber.json` setzt `"sprecher": "kurbel"` die Sprechblase neben Kurbel statt neben Hans.
 
 ## Liebevolle Details
 
