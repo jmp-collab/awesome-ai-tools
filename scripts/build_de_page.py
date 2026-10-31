@@ -15,7 +15,9 @@ Ausgabe:  docs/index.html, docs/ki-tools-*.html (eine Seite je Kategorie), docs/
 README.de.md bleibt die einzige Quelle für die Liste; docs/ nie von Hand bearbeiten.
 Am Ende prüft scripts/check_unique.py, dass kein Satz auf zwei Seiten steht.
 """
+import base64
 import csv
+import hashlib
 import html
 import json
 import os
@@ -47,13 +49,21 @@ ICONS = (ROOT / "scripts" / "template" / "icons.svg").read_text(encoding="utf-8"
 SITE_URL = "https://jmp-collab.github.io/awesome-ai-tools/"
 REPO_URL = "https://github.com/jmp-collab/awesome-ai-tools"
 TITLE = "KI-Werkstatt: KI-Tools auf Deutsch, geprüft und sortiert"
-DESCRIPTION = (
-    "Über 400 geprüfte KI-Tools auf Deutsch, jedes in einem Satz erklärt. Chatbots, Schreiben, "
-    "Übersetzung, Bilder, Video, Automatisierung, SEO. EU-Anbieter markiert, Stack-Finder, "
-    "Werkzeugkisten und PROMPTGOTT-Deep-Dives."
+DESCRIPTION = (  # höchstens 155 Zeichen, das Wichtigste zuerst
+    "Über 400 KI-Tools auf Deutsch, jedes in einem Satz erklärt: Chatbots, Texte, Bilder, Video, "
+    "Automatisierung, SEO. EU-Anbieter markiert, mit Stack-Finder."
 )
 SUBSTACK = "https://promptgott.substack.com/"
 UTM = "utm_source=github-pages&utm_medium=referral&utm_campaign=awesome-ki-tools-de"
+
+
+def utm(placement):
+    """UTM-Parameter mit Platzierung (utm_content), damit Substack Footer, Band, Danke-Seite usw. unterscheiden kann."""
+    return f"{UTM}&utm_content={placement}"
+
+
+def pg_sub(placement):
+    return f"{SUBSTACK}subscribe?{utm(placement)}"
 LEAD_TO = BRAND["lead_offer"]["recipient"]
 TODAY = date.today().strftime("%d.%m.%Y")  # Build-Datum (Sitemap, Export)
 _LC = json.loads((ROOT / "data" / "linkcheck.json").read_text(encoding="utf-8"))
@@ -141,10 +151,25 @@ def slug(text):
     return text.replace(" ", "-")
 
 
-def retag(href):
+def retag(href, placement=None):
     if href.startswith(SUBSTACK):
         href = re.sub(r"utm_source=[^&]+&utm_medium=[^&]+&utm_campaign=[^&#]+", UTM, href)
+        if placement and "utm_content=" not in href and UTM in href:
+            href = href.replace(UTM, utm(placement), 1)
     return href
+
+
+SCHEME = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
+
+
+def check_url(url, where, external=True):
+    """Gespeichertes XSS verhindern: Tool- und Quellen-Links (auch aus PR-Beiträgen) müssen http(s) sein.
+    external=False erlaubt zusätzlich relative Pfade, Anker und mailto: (Fließtext der Ratgeber)."""
+    if re.match(r"https?://", url, re.I):
+        return url
+    if not external and (url.startswith("mailto:") or not SCHEME.match(url)):
+        return url
+    raise SystemExit(f"Abbruch: unsicherer Link {url[:80]!r} in {where}. Erlaubt sind nur http(s)-Adressen.")
 
 
 def plain(text):
@@ -162,6 +187,7 @@ def inline(text, site=False):
 
     def link(m):
         label, href = m.group(1), html.unescape(m.group(2))
+        check_url(href, f"Link „{plain(label)}“", external=False)
         if href.startswith("#"):
             pass
         elif not href.startswith("http") and not site:
@@ -190,7 +216,9 @@ def md_table(head, body, site=False):
         if vals and sum(bool(NUM_CELL.fullmatch(v)) and len(v) <= 14 for v in vals) >= 0.7 * len(vals):
             num.add(j)
     cls = lambda j: ' class="num"' if j in num else ""
-    t = ['<div class="table"><table><thead><tr>'] + [f"<th{cls(j)}>{inline(c, site)}</th>" for j, c in enumerate(head)]
+    # Scrollbarer Bereich: per Tastatur erreichbar und benannt (axe: scrollable-region-focusable)
+    label = "Tabelle: " + ", ".join(plain(c) for c in head[:3]) + (" …" if len(head) > 3 else "")
+    t = [f'<div class="table" tabindex="0" role="region" aria-label="{html.escape(label)}"><table><thead><tr>'] + [f"<th{cls(j)}>{inline(c, site)}</th>" for j, c in enumerate(head)]
     t.append("</tr></thead><tbody>")
     t += ["<tr>" + "".join(f"<td{cls(j)}>{inline(c, site)}</td>" for j, c in enumerate(r)) + "</tr>" for r in body]
     return "".join(t) + "</tbody></table></div>"
@@ -201,8 +229,8 @@ def host(url):
 
 
 def favicon(url):
-    return (f'<img loading="lazy" alt="" width="30" height="30" src="https://icons.duckduckgo.com/ip3/{html.escape(host(url))}.ico" '
-            'onerror="this.style.visibility=\'hidden\'">')
+    # Kein onerror-Attribut (CSP ohne Inline-Handler): ein einziger Listener in app.js blendet kaputte Icons aus
+    return f'<img loading="lazy" alt="" width="30" height="30" src="https://icons.duckduckgo.com/ip3/{html.escape(host(url))}.ico">'
 
 
 # --------------------------------------------------------------------------- Parser
@@ -263,6 +291,7 @@ def parse(md):
             items = []
             while i < len(lines) and ITEM_RE.match(lines[i]):
                 name, url, desc = ITEM_RE.match(lines[i]).groups()
+                check_url(url, f"README.de.md, Tool „{name}“")
                 items.append({"name": name, "url": retag(url), "desc": desc})
                 i += 1
             blocks.append(("items", items))
@@ -346,7 +375,7 @@ def render_blocks(blocks, sec_id, sub_id, tools_map, ids=None):
     out = []
     for kind, val in blocks:
         if kind == "items":
-            out.append('<ul class="tools">')
+            out.append(f'<ul class="tools" style="--n:{len(val)}">')
             for it in val:
                 eu, oss, clean = item_meta(it)
                 badges = (f'<span class="badge eu" title="Anbieter mit Sitz in der EU">EU</span>' if eu else "") + (
@@ -426,7 +455,7 @@ def render_pg(sec):
             m = re.match(r"\[([^\]]+)\]\(" + DEST + r"\)", row[0])
             if not m:
                 continue
-            title, url = m.group(1), retag(m.group(2))
+            title, url = m.group(1), retag(check_url(m.group(2), "PROMPTGOTT-Tabelle"), "pg-band")
             cards.append(f'<a class="pg-card reveal" href="{html.escape(url)}" target="_blank" rel="noopener"><b>{html.escape(title)}</b>'
                          f'<span>{html.escape(plain(row[1]))}</span><small>Passt zu: {html.escape(plain(row[2]))}</small></a>')
     intro = next((v for k, v in sec["blocks"] if k == "p"), "")
@@ -445,7 +474,7 @@ def render_stacks(tools_map, stacks=None):
                        f'<span>{html.escape(why)}</span></div></li>')
         pg = ""
         if st.get("promptgott"):
-            pg = f'<p class="pgline">💡 PROMPTGOTT dazu: <a href="{html.escape(retag(st["promptgott"][1] + "?" + UTM))}" target="_blank" rel="noopener">{html.escape(st["promptgott"][0])}</a></p>'
+            pg = f'<p class="pgline">💡 PROMPTGOTT dazu: <a href="{html.escape(retag(check_url(st["promptgott"][1], "data/stacks.json") + "?" + utm("kiste-" + st["id"])))}" target="_blank" rel="noopener">{html.escape(st["promptgott"][0])}</a></p>'
         if st.get("note"):
             pg = f'<p class="pgline">{html.escape(st["note"])}</p>'
         out.append(f'<article class="stack reveal" id="kiste-{st["id"]}"><div class="head">{icon(st["icon"])}<div><h3>{html.escape(st["title"])}</h3>'
@@ -457,26 +486,36 @@ ROLLEN_FORM = ["Selbstständig / Freelancer", "Marketing / SEO", "Shop-Betreiber
                "Content / Social Media", "Büro / Geschäftsführung", "Agentur", "Anderes"]
 
 
+# Honeypot: für Bots ein normales Feld, für Screenreader und Tastatur unsichtbar (aria-hidden, tabindex=-1, eigenes Label)
+HONEY = '<div class="honey" aria-hidden="true"><label>Bitte leer lassen <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>'
+# Seite und vorherige Seite füllt app.js beim Absenden (kein Speicher im Browser, kein Tracking)
+CONTEXT_FIELDS = '<input type="hidden" name="seite" value=""><input type="hidden" name="vorher" value="">'
+REQ = '<span class="req" aria-hidden="true"> *</span>'
+
+
 def lead_form(source, subject, compact=False, rolle=""):
-    nxt = SITE_URL + "danke.html"
+    nxt = SITE_URL + "danke.html?typ=check"
     if rolle and rolle not in ROLLEN_FORM:
         raise SystemExit(f"lead_form: unbekannte Rolle {rolle!r}")
-    opts = "".join(f"<option{' selected' if r == rolle else ''}>{r}</option>" for r in ROLLEN_FORM)
+    # Leere Erstoption: ohne Auswahl kommt keine Rolle an, statt still "Selbstständig" zu melden
+    opts = f'<option value=""{"" if rolle else " selected"}>Bitte wählen (optional)</option>' + "".join(
+        f"<option{' selected' if r == rolle else ''}>{r}</option>" for r in ROLLEN_FORM)
     return f"""<form class="form" action="https://formsubmit.co/{LEAD_TO}" method="POST">
 <input type="hidden" name="_subject" value="{html.escape(subject)}"><input type="hidden" name="_template" value="table">
 <input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="{nxt}">
-<input type="hidden" name="quelle" value="{html.escape(source)}">
-<input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
+<input type="hidden" name="quelle" value="{html.escape(source)}">{CONTEXT_FIELDS}
+{HONEY}
 <input type="hidden" name="merkliste" id="l-merk" value=""><input type="hidden" name="rechner" id="l-rechner" value=""><input type="hidden" name="radar" id="l-radar" value="">
-<div class="row"><div><label for="l-name">Name</label><input id="l-name" name="name" required autocomplete="name"></div>
-<div><label for="l-mail">E-Mail</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
+<p class="req-note">Felder mit * sind Pflicht.</p>
+<div class="row"><div><label for="l-name">Name (optional, Vorname reicht)</label><input id="l-name" name="name" autocomplete="given-name"></div>
+<div><label for="l-mail">E-Mail{REQ}</label><input id="l-mail" type="email" name="email" required autocomplete="email"></div></div>
 <div class="row"><div><label for="l-web">Website oder Shop (optional)</label><input id="l-web" name="website" placeholder="https://" autocomplete="url"></div>
 <div><label for="l-rolle">Du bist</label><select id="l-rolle" name="rolle">{opts}</select></div></div>
-<label for="l-proj">Was baust du gerade, und wo hakt es?</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
+<label for="l-proj">Was baust du gerade, und wo hakt es?{REQ}</label><textarea id="l-proj" name="projekt" rows="4" required placeholder="Beispiel: Shop mit 2.000 Artikeln, Produkttexte in DE/EN/NL, ein Mensch für alles."></textarea>
 <div class="attach hidden" id="l-attach-merk">{icon("bookmark")}<span></span><button type="button" data-clear="l-merk">entfernen</button></div>
 <div class="attach hidden" id="l-attach-rechner">{icon("clock")}<span></span><button type="button" data-clear="l-rechner">entfernen</button></div>
 <div class="attach hidden" id="l-attach-radar">{icon("chart")}<span></span><button type="button" data-clear="l-radar">entfernen</button></div>
-<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span></label>
+<label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich bin einverstanden, dass meine Angaben per E-Mail an Jean Maurice Port übermittelt werden, um meine Anfrage zu beantworten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.{REQ}</span></label>
 <button class="btn" type="submit">{icon("mail")}Stack-Check anfragen</button>
 <p class="hint">Antwort kommt per Mail, meist innerhalb weniger Tage. Oder direkt an <a href="mailto:{LEAD_TO}?subject=Stack-Check">{LEAD_TO}</a>.</p>
 </form>"""
@@ -505,33 +544,105 @@ def main_landmark(body):
     return f'{head}<main id="werkbank" tabindex="-1">{rest[:i]}</main>\n{rest[i:]}'
 
 
-def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head=""):
-    return f"""<!doctype html>
+# Inline-Snippet im Head: JS-Klasse und gespeichertes Farbschema vor dem ersten Rendern (kein Theme-Flackern),
+# dazu ein einziger Listener, der Bilder ohne Antwort (fehlende Favicons) ausblendet, statt onerror an jedem <img>.
+# Es ist das einzige Inline-Skript; die CSP erlaubt es per Hash, den der Build aus genau diesem Text bildet.
+HEAD_JS = ('document.documentElement.classList.add("js");try{var t=localStorage.getItem("kw-theme");'
+           'if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}'
+           'document.addEventListener("error",function(e){var i=e.target;if(i&&i.tagName==="IMG")i.style.visibility="hidden"},true);')
+HEAD_JS_HASH = base64.b64encode(hashlib.sha256(HEAD_JS.encode("utf-8")).digest()).decode("ascii")
+# Meta-CSP: keine Inline-Handler, Daten nur als <script type="application/json">. frame-ancestors wirkt per Meta nicht.
+# icons.duckduckgo.com bleibt erlaubt, bis die Favicons lokal liegen (Paket E).
+CSP = ("default-src 'self'; "
+       f"script-src 'self' 'sha256-{HEAD_JS_HASH}'; "
+       "style-src 'self' 'unsafe-inline'; img-src 'self' https://icons.duckduckgo.com data:; font-src 'self'; "
+       "connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; "
+       "base-uri 'none'; object-src 'none'; upgrade-insecure-requests")
+# Bewusst kein Font-Preload: Chrome hält den ersten Paint für vorgeladene Schriften an, bis sie da sind.
+# Gemessen (Slow 4G, 4x CPU, 29.10.2026): beide Schriften vorladen kostete 180 bis 360 ms LCP, nur Space Grotesk
+# rund 150 ms auf Ratgebern, ohne messbaren CLS-Gewinn (Swap 0,015). Die @font-face-Regeln stehen jetzt am Anfang
+# von style.css, damit die Schriften ohne extra CSS-Request angefordert werden. Bei Bedarf hier Dateinamen eintragen.
+PRELOAD_FONTS = ()
+ASSETS = DOCS / "assets"
+
+
+def asset_v(name):
+    """?v=<Inhalts-Hash>: neue HTML trifft nach einem Deploy nie auf altes CSS/JS aus dem Cache."""
+    return f"assets/{name}?v=" + hashlib.sha1((ASSETS / name).read_bytes()).hexdigest()[:8]
+
+
+SYMBOLS = {sid: full for full, sid in re.findall(r'(<symbol id="i-([\w-]+)"[^>]*>.*?</symbol>)', ICONS, re.S)}
+APP_ICONS = set(re.findall(r'(?:svg|icon)\("([\w-]+)"\)', (ASSETS / "app.js").read_text(encoding="utf-8")))
+FINDER_ICONS = {o[2] for q in STACKS["finder"]["questions"] for o in q["options"]}
+
+
+def icon_sprite(doc):
+    """Nur die Symbole, die die Seite (oder app.js auf ihr) wirklich benutzt."""
+    used = set(re.findall(r'#i-([\w-]+)', doc)) | APP_ICONS | (FINDER_ICONS if 'id="kw-finder"' in doc else set())
+    missing = sorted(used - set(SYMBOLS))
+    if missing:
+        raise SystemExit(f"Icons fehlen in scripts/template/icons.svg: {missing}")
+    return ('<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">'
+            + "".join(SYMBOLS[i] for i in sorted(used)) + "</svg>")
+
+
+WARN = []  # Build-Warnungen (Title/Description zu lang), am Ende gesammelt ausgegeben
+SUFFIX = " – KI-Werkstatt"
+
+
+def seo_title(t):
+    """Markenzusatz nur, wenn der Title damit höchstens 60 Zeichen hat; sonst schneidet Google ihn ohnehin ab."""
+    return t + SUFFIX if len(t + SUFFIX) <= 60 else t
+
+
+def page_shell(title, body, desc=DESCRIPTION, canonical=SITE_URL, extra_head="", og_type="website", published=None, modified=None):
+    noindex = 'name="robots" content="noindex"' in extra_head
+    if not noindex:
+        if len(title) > 60:
+            WARN.append(f"Title {len(title)} Zeichen (> 60): {canonical.replace(SITE_URL, '') or 'index.html'}")
+        if len(desc) > 160:
+            WARN.append(f"Description {len(desc)} Zeichen (> 160): {canonical.replace(SITE_URL, '') or 'index.html'}")
+    # JSON-LD ans Ende des Body: Google liest es überall, der sichtbare Inhalt kommt so früher
+    ld = "".join(re.findall(r'<script type="application/ld\+json">.*?</script>', extra_head, re.S))
+    extra_head = re.sub(r'<script type="application/ld\+json">.*?</script>', "", extra_head, flags=re.S).strip()
+    og_extra = ""
+    if og_type == "article":
+        og_extra = (f'<meta property="article:published_time" content="{published}">'
+                    f'<meta property="article:modified_time" content="{modified or published}">')
+    main = main_landmark(body)
+    preload = "".join(f'<link rel="preload" href="assets/fonts/{f}" as="font" type="font/woff2" crossorigin>' for f in PRELOAD_FONTS)
+    doc_head = f"""<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="{CSP}">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{canonical}">
-<meta property="og:type" content="website"><meta property="og:locale" content="de_DE">
+<script>{HEAD_JS}</script>
+{preload}<link rel="stylesheet" href="{asset_v("style.css")}">
+<meta property="og:type" content="{og_type}"><meta property="og:locale" content="de_DE"><meta property="og:site_name" content="KI-Werkstatt">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{canonical}"><meta property="og:image" content="{SITE_URL}og.png">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="KI-Werkstatt: KI-Tools auf Deutsch, geprüft und sortiert">{og_extra}
+<meta name="twitter:card" content="summary_large_image">{'' if noindex else chr(10) + '<meta name="robots" content="max-image-preview:large">'}
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/atom+xml" title="KI-Werkstatt: Trends und Neuzugänge" href="{SITE_URL}feed.xml">
-<script>document.documentElement.classList.add("js")</script>
-<link rel="stylesheet" href="assets/fonts.css"><link rel="stylesheet" href="assets/style.css">
 {extra_head}
 </head>
 <body>
 <a class="skip" href="#werkbank" data-chrome>Zum Inhalt springen</a>
-{ICONS}
-{main_landmark(body)}
-<script src="assets/app.js" defer></script>
+"""
+    tail = f"""
+{main}
+{ld}
+<script src="{asset_v("app.js")}" defer></script>
 </body>
 </html>
 """
+    return doc_head + icon_sprite(main) + tail
 
 
 # Seiten mit eigenem Stack-Check-Formular; alle anderen verlinken das Formular der Startseite
@@ -553,14 +664,14 @@ def topbar(here=""):
         f'<a href="{href}"{cur if k == key else ""}>{label}</a>' for k, href, label in nav_items) + "</nav>"
     return f"""<header class="topbar"><div class="wrap in">
 <a class="logo" href="./" aria-label="KI-Werkstatt, zur Startseite"><span class="mark">{icon("wrench")}</span><span>KI-WERKSTATT</span></a>
-<form id="searchform" role="search"><label class="sr" for="q">Tools, Ratgeber und Begriffe durchsuchen</label><input type="search" id="q" placeholder="Suchen: Podcast, DSGVO, Shop …" autocomplete="off"></form>
+<form id="searchform" role="search"><label class="sr" for="q">Tools, Ratgeber und Begriffe durchsuchen</label><input type="search" id="q" placeholder="Suchen: Podcast, DSGVO, Shop …" autocomplete="off" role="combobox" aria-haspopup="dialog" aria-controls="searchpanel" aria-expanded="false"></form>
 {nav}
-<div class="tools"><button class="iconbtn" id="theme" type="button" title="Hell/Dunkel umschalten" aria-label="Hell oder dunkel umschalten">{icon("sun")}</button>
+<div class="tools"><button class="iconbtn" id="theme" type="button" title="Hell/Dunkel umschalten" aria-label="Dunkles Design" aria-pressed="false">{icon("sun")}</button>
 <a class="iconbtn sc-m" href="{sc}" title="Stack-Check" aria-label="Stack-Check: kostenlose Tool-Empfehlung">{icon("mail")}</a>
 <button class="iconbtn menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menü">{icon("menu")}</button>
 <a class="btn btn-lime btn-sm hide-m" href="{sc}">{icon("mail")}Stack-Check</a></div>
 </div><div id="progress"></div></header>
-<div class="searchpanel" id="searchpanel" hidden><div class="wrap">
+<div class="searchpanel" id="searchpanel" role="dialog" aria-label="Suchergebnisse" hidden><div class="wrap">
 <div class="sp-head"><b id="sp-count" aria-live="polite"></b><label><input type="checkbox" id="sp-eu"> nur EU</label><label><input type="checkbox" id="sp-oss"> nur Open Source</label><label><input type="checkbox" id="sp-neu"> nur neu</label><button class="close" type="button" title="Suche schließen" aria-label="Suche schließen">{icon("x")}</button></div>
 <div class="sp-pages" hidden><p class="sp-lbl">Ratgeber, Einsatzgebiete und Begriffe</p><ul></ul></div>
 <p class="sp-lbl sp-tools-lbl" hidden>Tools</p>
@@ -587,24 +698,27 @@ def footer(bar=True):
         col("Projekt", [a(REPO_URL, "GitHub-Repository"), a(REPO_URL + "/blob/main/README.de.md#mitmachen", "Mitmachen: Tool vorschlagen"),
                         a(REPO_URL + "/blob/main/README.de.md", "Liste als Markdown"), f'{a("tools.csv", "Liste als CSV")} · {a("tools.json", "JSON")}',
                         a("feed.xml", "Trends als Feed (Atom)"), a(REPO_URL + "/blob/main/README.md", "About (English)")]),
-        col("Praxis", [a(f"{SUBSTACK}?{UTM}", "PROMPTGOTT auf Substack", True), a(f"{SUBSTACK}subscribe?{UTM}", "Newsletter abonnieren", True)]),
+        col("Praxis", [a(f"{SUBSTACK}?{utm('footer')}", "PROMPTGOTT auf Substack", True), a(pg_sub("footer"), "Newsletter abonnieren", True)]),
         col("Rechtliches", [a("impressum.html", "Impressum"), a("datenschutz.html", "Datenschutz"), a(REPO_URL + "/blob/main/LICENSE", "MIT-Lizenz")]),
     ]
     out = f"""<footer><div class="wrap">
 <nav class="cols" aria-label="Alle Seiten">{"".join(cols)}</nav>
 <p class="screws" id="screws" hidden></p>
-<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Seite gebaut am {TODAY}. Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
-</div></footer>
-<button id="totop" type="button" title="Nach oben" aria-label="Nach oben">{icon("up")}</button>"""
+<p>Letzter Link-Check: {LINK_CHECK} ({LINK_CHECK_N} Links). Tool-Logos werden als Favicons der jeweiligen Anbieter geladen; die Rechte liegen bei den Anbietern.</p>
+</div>
+<button id="totop" type="button" title="Nach oben" aria-label="Nach oben">{icon("up")}</button></footer>"""
     if not bar:
         return out
+    # Sticky-Leiste ohne Formular: CSV direkt laden oder PROMPTGOTT abonnieren. app.js zeigt sie ab 60 % Scrolltiefe,
+    # nie neben einem Lead-Formular oder dem Footer. Eigene Landmarks, damit nichts außerhalb von Regionen steht.
     return out + f"""
-<div class="stickybar" id="stickybar"><div class="wrap in">
-<div><b>Die Liste als CSV per Mail</b><small>Eine Mail mit dem Download und dem Überblick über die {N_STACKS} Werkzeugkisten. Kein Newsletter-Dauerfeuer.</small></div>
-<form action="https://formsubmit.co/{LEAD_TO}" method="POST"><input type="hidden" name="_subject" value="CSV-Anfrage – KI-Werkstatt"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="{SITE_URL}danke.html"><input type="hidden" name="quelle" value="Sticky-Leiste"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">
-<label class="sr" for="sb-mail">E-Mail</label><input id="sb-mail" type="email" name="email" placeholder="deine@mail.de" required><button class="btn btn-lime btn-sm" type="submit">Schicken</button><label class="sb-consent"><input type="checkbox" name="einwilligung" value="ja" required> Einverstanden, dass meine E-Mail über FormSubmit an Jean Maurice Port geht. <a href="datenschutz.html">Datenschutz</a></label></form>
-<button class="close" type="button" title="Schließen" aria-label="Hinweisleiste schließen">{icon("x")}</button>
-</div></div>
+<aside class="stickybar" id="stickybar" aria-label="Liste und Newsletter"><div class="wrap in">
+<p class="sb-txt">Alle Tools zum Mitnehmen</p>
+<a class="btn btn-lime btn-sm" href="tools.csv" download>{icon("download")}<span><span class="sb-long">Liste als </span>CSV laden</span></a>
+<a class="btn btn-pg btn-sm" href="{html.escape(pg_sub("sticky"))}" target="_blank" rel="noopener">{icon("flame")}PROMPTGOTT abonnieren</a>
+<button class="close" type="button" title="Ausblenden" aria-label="Leiste ausblenden">{icon("x")}</button>
+</div></aside>
+<aside class="merk-dock" aria-label="Merkliste">
 <button id="merk-pill" class="merk-pill hidden" type="button" aria-controls="merk" aria-expanded="false">{icon("bookmark")}Merkliste <b id="merk-n">0</b></button>
 <div id="merk" class="merk" role="dialog" aria-labelledby="merk-h" hidden>
 <div class="merk-head"><h2 id="merk-h">{icon("bookmark")}Deine Merkliste</h2><button class="close" type="button" title="Schließen" aria-label="Merkliste schließen">{icon("x")}</button></div>
@@ -612,7 +726,7 @@ def footer(bar=True):
 <ol class="merk-list"></ol>
 <div class="merk-actions"><button type="button" class="btn btn-lime btn-sm" id="merk-send">{icon("mail")}Jean drüberschauen lassen</button><button type="button" class="btn btn-sm" id="merk-copy">{icon("copy")}Kopieren</button><button type="button" class="btn btn-sm" id="merk-clear">{icon("trash")}Leeren</button></div>
 <p class="merk-note">Die Merkliste liegt nur in deinem Browser. An Jean geht sie erst, wenn du das Stack-Check-Formular abschickst.</p>
-</div>"""
+</div></aside>"""
 
 
 # --------------------------------------------------------------------------- Kurbel, der Werkstatt-Roboter
@@ -736,6 +850,20 @@ def faq_ld(items):
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in items]}
 
 
+PG_BOX = {  # ein Satz je Platzierung; Takt und Versprechen des Newsletters legt Jean fest, deshalb hier keins
+    "danke": "Bis Jean antwortet: PROMPTGOTT zeigt in Deep Dives, wie aus einzelnen Tools ein System wird, das im Alltag hält.",
+    "geschafft": "Noch Luft für mehr? PROMPTGOTT geht bei solchen Themen eine Ebene tiefer, mit Praxis statt Produktliste.",
+    "trends": "Wer tiefer als eine Trendkarte einsteigen will: PROMPTGOTT zeigt in Deep Dives, wie aus Neuerungen Arbeitsabläufe werden.",
+    "glossar": "Vokabeln sind der Anfang. Wie daraus Abläufe werden, die jeden Tag laufen, zeigt PROMPTGOTT in Deep Dives.",
+}
+
+
+def pg_box(placement):
+    """Abo-Box für PROMPTGOTT: nur ein Link (kein Substack-Embed, also keine Dritt-Requests), utm_content je Platzierung."""
+    return (f'<div class="pg-box" data-chrome><p>{icon("flame")}<span>{html.escape(PG_BOX[placement])}</span></p>'
+            f'<a class="btn btn-pg" href="{html.escape(pg_sub(placement))}" target="_blank" rel="noopener">{icon("flame")}PROMPTGOTT abonnieren</a></div>')
+
+
 def build_index(sections, head_md):
     by_id = {s["id"]: s for s in sections}
     featured = by_id.pop("empfehlungen-der-redaktion", None)
@@ -772,8 +900,15 @@ def build_index(sections, head_md):
     n_subs = sum(len(s["subs"]) for s in list_secs)
 
     IMG.mkdir(parents=True, exist_ok=True)
+    # Nur Grafiken, die eine Seite zeigt: Schubladen und die Weiterlernen-Bänder im Glossar (mit Tools); Reste löschen
+    art_ids = set()
     for i, s in enumerate(list_secs + tail_secs):
-        (IMG / f"cat-{s['id']}.svg").write_text(cat_art(i + 1, s["title"], CAT_ICON.get(s["id"], "box"), i % 2 == 0), encoding="utf-8")
+        if s in list_secs or (s["id"] in LERNEN_IDS and sec_items(s)):
+            art_ids.add(s["id"])
+            (IMG / f"cat-{s['id']}.svg").write_text(cat_art(i + 1, s["title"], CAT_ICON.get(s["id"], "box"), i % 2 == 0), encoding="utf-8")
+    for f in IMG.glob("cat-*.svg"):
+        if f.stem[4:] not in art_ids:
+            f.unlink()
     drawers = []
     for i, s in enumerate(list_secs):
         its = sec_items(s)
@@ -787,9 +922,14 @@ def build_index(sections, head_md):
 <ul class="drawer-tools">{tops}</ul>
 <span class="drawer-meta">{len(its)} Tools · {max(1, len(s["subs"]))} {"Bereiche" if len(s["subs"]) > 1 else "Bereich"}{eu_txt}</span><span class="drawer-cta">Schublade aufziehen{icon("arrow")}</span></span></a>""")
 
-    finder = dict(STACKS["finder"], to=LEAD_TO, next=SITE_URL + "danke.html")
-    tools_js = json.dumps(tools_map, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    finder_js = json.dumps(finder, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    finder = dict(STACKS["finder"], to=LEAD_TO, next=SITE_URL + "danke.html?typ=finder")
+    # Inline nur, was der Finder zeigen kann; die ganze Liste lädt app.js erst bei Bedarf aus tools.json
+    f_names = {n for v in finder["base"].values() for n in v} | set(finder["eu_swap"].values()) | set(finder["firma_add"])
+    missing = sorted(n for n in f_names if n not in tools_map)
+    if missing:
+        raise SystemExit(f"data/stacks.json/finder: Tools fehlen in README.de.md: {missing}")
+    finder_js = json.dumps({"finder": finder, "tools": {n: tools_map[n] for n in sorted(f_names)}},
+                           ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
     faq = [
         ("Was bedeutet das EU-Zeichen bei einem Tool?", "Der Anbieter hat seinen Firmensitz in der EU. Das ist ein Hinweis, keine Datenschutz-Prüfung. Für die DSGVO zählen Auftragsverarbeitungsvertrag, Serverstandort und Einstellungen."),
@@ -823,7 +963,7 @@ def build_index(sections, head_md):
 <div class="stat reveal"><b data-count="{n_oss}">{n_oss}</b><span>Open-Source-Tools</span></div>
 <div class="stat reveal"><b data-count="{N_STACKS}">{N_STACKS}</b><span>Werkzeugkisten</span></div>
 </div>
-<div class="wotd" id="wotd" hidden></div></div></section>
+<div class="wotd" id="wotd"></div></div></section>
 
 <section class="band" id="finder-band"><div class="wrap">
 <p class="eyebrow">Stack-Finder</p><h2>Drei Fragen. Dann weißt du, womit du anfängst.</h2>
@@ -877,7 +1017,7 @@ def build_index(sections, head_md):
 <p class="eyebrow">PROMPTGOTT Deep Dives</p><h2>Werkzeug ist das eine. Systeme bauen das andere.</h2>
 <p class="intro">{inline(pg_intro)}</p>
 <div class="pg-grid">{pg_cards}</div>
-<p style="margin-top:24px"><a class="btn btn-pg" href="{SUBSTACK}subscribe?{UTM}" target="_blank" rel="noopener">{icon("flame")}PROMPTGOTT abonnieren</a></p>
+<p style="margin-top:24px"><a class="btn btn-pg" href="{html.escape(pg_sub("pg-band"))}" target="_blank" rel="noopener">{icon("flame")}PROMPTGOTT abonnieren</a></p>
 </div></section>
 
 <section class="band faq" id="faq"><div class="wrap">
@@ -900,7 +1040,7 @@ def build_index(sections, head_md):
 </div></section>
 
 {footer()}
-<script>window.KW_TOOLS={tools_js};window.KW_FINDER={finder_js};</script>
+<script type="application/json" id="kw-finder">{finder_js}</script>
 """
     ld_js = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     extra = f'<script type="application/ld+json">{ld_js}</script>'
@@ -909,13 +1049,17 @@ def build_index(sections, head_md):
 
 
 def build_subpages(list_secs=()):
+    # Danke-Seite je Formular: ?typ=check (Stack-Check) oder ?typ=finder (Stack-Finder); app.js blendet die passende Fassung ein
     danke = f"""{topbar("sub")}
 <div class="page page-kb page-danke"><div class="kb-say kb-hero duo">{hans("hm-lg", label="Hans Moritz zeigt den Daumen hoch", thumb=True)}{kurbel("kb-md", wink=True)}<p class="bubble">Angekommen! Kurbel sortiert solange die Schrauben, ich setz schon mal Kaffee auf.</p></div>
-<p class="eyebrow">Angekommen</p><h1>Danke. Deine Anfrage liegt auf der Werkbank.</h1>
-<ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine Nachricht selbst, kein Bot und kein Callcenter.</span></li><li><b class="n">2</b><span>Danach legt Jean dir die Werkzeuge hin, die zu deinem Fall passen, mit je einem Satz, warum.</span></li><li><b class="n">3</b><span>Die Antwort kommt per Mail, ohne Verkaufsgespräch und ohne Kleingedrucktes.</span></li></ol>
+<p class="eyebrow">Angekommen</p>
+<div data-typ="check"><h1>Danke. Deine Anfrage liegt auf der Werkbank.</h1>
+<ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine Nachricht selbst, kein Bot und kein Callcenter.</span></li><li><b class="n">2</b><span>Danach legt Jean dir die Werkzeuge hin, die zu deinem Fall passen, mit je einem Satz, warum.</span></li><li><b class="n">3</b><span>Die Antwort kommt per Mail, ohne Verkaufsgespräch und ohne Kleingedrucktes.</span></li></ol></div>
+<div data-typ="finder" hidden><h1>Danke. Jean schaut jetzt über dein Setup.</h1>
+<ol class="steps-mini"><li><b class="n">1</b><span>Jean liest deine drei Antworten und die Tools, die der Finder dir vorgeschlagen hat.</span></li><li><b class="n">2</b><span>Was nicht zu deinem Fall passt, fliegt raus, und an seine Stelle kommt etwas Passenderes mit Begründung.</span></li><li><b class="n">3</b><span>Das überarbeitete Setup bekommst du per E-Mail, ohne Pitch und ohne Abo.</span></li></ol></div>
 <p>Meist dauert das nur wenige Tage. Hörst du nichts, wirf einen Blick in den Spam-Ordner, manchmal versteckt sich die Post dort. Oder schreib direkt an <a href="mailto:{LEAD_TO}">{LEAD_TO}</a>.</p>
-<p><a class="btn btn-lime" href="tools.csv" download>{icon("download")}Die Liste als CSV laden</a> <a class="btn" href="tools.json" download>{icon("download")}JSON</a></p>
-<p>Zum Überbrücken: <a href="{SUBSTACK}?{UTM}" target="_blank" rel="noopener">PROMPTGOTT</a> zeigt, wie man aus Tools Systeme baut. Und in den <a href="./#werkzeugkisten">Werkzeugkisten</a> liegt schon ein Startpunkt bereit.</p>
+{pg_box("danke")}
+<p class="danke-more"><a class="btn" href="./#werkzeugkisten">{icon("layers")}Werkzeugkisten ansehen</a> <a class="btn" href="tools.csv" download>{icon("download")}Die Liste als CSV laden</a></p>
 <p><a href="./">Zurück in die Werkstatt</a></p></div>
 {footer(bar=False)}"""
     (DOCS / "danke.html").write_text(page_shell("Danke – KI-Werkstatt", danke, "Anfrage angekommen.", SITE_URL + "danke.html", '<meta name="robots" content="noindex">'), encoding="utf-8")
@@ -971,12 +1115,12 @@ def fmt_pct(v):
 def rechner_band():
     rows = []
     for a in RECHNER["aufgaben"]:
-        src = (f' <a href="{html.escape(a["url"])}" target="_blank" rel="noopener">Quelle: {html.escape(a["quelle"])}</a>' if a["url"] else "")
+        src = (f' <a href="{html.escape(check_url(a["url"], "data/rechner.json"))}" target="_blank" rel="noopener">Quelle: {html.escape(a["quelle"])}</a>' if a["url"] else "")
         cat = (f' <a href="{cat_page(a["kategorie"])}">Passende Tools</a>' if a.get("kategorie") else "")
         rows.append(f"""<div class="calc-row reveal" data-id="{a['id']}" data-label="{html.escape(a['label'])}">
 <div class="calc-head"><span class="calc-ico">{icon(a["icon"])}</span><b>{html.escape(a["label"])}</b></div>
-<div class="calc-in"><div><label for="c-h-{a['id']}">Stunden pro Woche</label><input type="number" id="c-h-{a['id']}" class="c-h" min="0" max="60" step="0.5" value="{a['stunden']}" inputmode="decimal"></div>
-<div><label for="c-p-{a['id']}">Ersparnis: <output id="c-po-{a['id']}" for="c-p-{a['id']}">{fmt_pct(a['prozent'])}</output></label><input type="range" id="c-p-{a['id']}" class="c-p" min="0" max="60" step="1" value="{a['prozent']}"></div></div>
+<div class="calc-in"><div><label for="c-h-{a['id']}">Stunden pro Woche<span class="sr"> für {html.escape(a["label"])}</span></label><input type="number" id="c-h-{a['id']}" class="c-h" min="0" max="60" step="0.5" value="{a['stunden']}" inputmode="decimal"></div>
+<div><label for="c-p-{a['id']}">Ersparnis<span class="sr"> bei {html.escape(a["label"])}</span>: <output id="c-po-{a['id']}" for="c-p-{a['id']}">{fmt_pct(a['prozent'])}</output></label><input type="range" id="c-p-{a['id']}" class="c-p" min="0" max="60" step="1" value="{a['prozent']}"></div></div>
 <div class="calc-bar" aria-hidden="true"><div class="track"><i></i></div><span></span></div>
 <p class="calc-src">{html.escape(a["befund"])}{src}{cat}</p></div>""")
     return f"""<section class="band" id="rechner"><div class="wrap">
@@ -988,6 +1132,7 @@ def rechner_band():
 <aside class="calc-out"><div class="in">
 <p class="eyebrow">Dein Ergebnis</p>
 <div class="calc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="bg" cx="60" cy="60" r="50"/><circle class="fg" cx="60" cy="60" r="50" pathLength="100" stroke-dasharray="0 100"/></svg><div><b id="c-share">0 %</b><small>deiner Stunden</small></div></div>
+<p class="sr" id="c-live" aria-live="polite" aria-atomic="true"></p>
 <dl><div><dt>pro Woche</dt><dd id="c-week">0 h</dd></div><div><dt>pro Jahr</dt><dd id="c-year">0 h</dd></div><div><dt>Gegenwert</dt><dd id="c-eur">0 €</dd></div></dl>
 <label for="c-rate">Dein Stundensatz in Euro</label><input type="number" id="c-rate" min="0" max="1000" step="5" value="{RECHNER['stundensatz']}" inputmode="decimal">
 <p class="calc-note">{html.escape(RECHNER["wochen_hinweis"])}</p>
@@ -1182,7 +1327,7 @@ def build_category_pages(list_secs, tools_map):
 </div></section>
 {footer()}
 """
-        title = f"{kat_text(sec, 'seo_title')} – KI-Werkstatt"
+        title = seo_title(kat_text(sec, "seo_title"))
         (DOCS / page).write_text(page_shell(title, body, desc, SITE_URL + page, f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
         pages.append(page)
     return pages
@@ -1268,9 +1413,10 @@ def build_glossar(tools_map, list_secs, sections):
 <div class="ctas"><a class="btn btn-lime" href="#begriffe">{icon("book")}Zu den Begriffen</a><a class="btn hide-sm" href="#stack-check">{icon("mail")}Kostenloser Stack-Check</a></div>
 </div></section>
 <nav class="az" aria-label="Buchstaben"><div class="wrap in"><div class="az-letters">{az}</div>
-<label class="sr" for="gq">Begriffe filtern</label><input type="search" id="gq" placeholder="Begriff filtern: Token, RAG, DSGVO …" autocomplete="off"><span id="gcount" aria-live="polite"></span></div></nav>
+<label class="sr" for="gq">Begriffe filtern</label><input type="search" id="gq" placeholder="Begriff filtern: Token, RAG, DSGVO …" autocomplete="off"><span id="gcount" aria-live="polite">{n} Begriffe</span></div></nav>
 <div class="wrap gl" id="begriffe">{"".join(cards)}<div class="gl-empty hidden">{kurbel("kb-sm", wink=True)}<p><b>Die Schublade klemmt.</b> Diesen Begriff kennt Kurbel noch nicht. Fehlt einer? Schreib an <a href="mailto:{LEAD_TO}?subject=Glossar">{LEAD_TO}</a>.</p></div></div>
 {lern_band}
+<div class="wrap">{pg_box("glossar")}</div>
 
 <section class="band lead" id="stack-check"><div class="wrap">
 <div class="lead-grid"><div>
@@ -1281,8 +1427,8 @@ def build_glossar(tools_map, list_secs, sections):
 </div></section>
 {footer()}
 """
-    desc = f"{n} KI-Begriffe auf Deutsch erklärt, von Agent bis Zero-Shot: Token, RAG, MCP, Halluzination, DSGVO und EU AI Act. Jeder mit Werkstatt-Übersetzung, Querverweisen und passenden Tools."
-    (DOCS / GLOSSAR_PAGE).write_text(page_shell(f"KI-Glossar: {n} Begriffe auf Deutsch erklärt – KI-Werkstatt", body, desc, url,
+    desc = f"{n} KI-Begriffe auf Deutsch erklärt, von Agent bis Zero-Shot: Token, RAG, MCP, DSGVO, AI Act. Jeder mit Werkstatt-Übersetzung und passenden Tools."
+    (DOCS / GLOSSAR_PAGE).write_text(page_shell(seo_title(f"KI-Glossar: {n} Begriffe auf Deutsch erklärt"), body, desc, url,
                                                 f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
     return GLOSSAR_PAGE
 
@@ -1374,7 +1520,7 @@ def build_trends(tools_map, list_secs):
         if betrifft:
             chips_html += ('<p class="tr-betrifft" data-chrome>Betrifft vor allem: '
                            + ", ".join(f'<a href="{e["page"]}">{html.escape(e["h1"])}</a>' for e in betrifft) + "</p>")
-        quellen = "".join(f'<li><a href="{html.escape(u)}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
+        quellen = "".join(f'<li><a href="{html.escape(check_url(u, "data/trends.json/" + t["id"]))}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
                           for lbl, u, d in t["quellen"])
         text = "".join(f"<p>{gl_autolink(x, used)}</p>" for x in t["text"])
         links.append(f'<a href="#{t["id"]}">{icon(t["icon"])}{html.escape(t["label"])}</a>')
@@ -1422,6 +1568,7 @@ def build_trends(tools_map, list_secs):
 <div class="radar-roles" role="group" aria-label="Deine Rolle">{radar_btns}</div>
 <div class="radar-out" aria-live="polite"></div></section>
 {"".join(arts)}
+{pg_box("trends")}
 </div>
 
 <section class="band lead" id="stack-check"><div class="wrap">
@@ -1432,11 +1579,11 @@ def build_trends(tools_map, list_secs):
 <div>{lead_form("Trends", "Stack-Check (Trends) – KI-Werkstatt")}</div></div>
 </div></section>
 {footer()}
-<script>window.KW_RADAR={radar_js};</script>
+<script type="application/json" id="kw-radar">{radar_js}</script>
 """
-    desc = (f"{TRENDS['titel']}: {n} KI-Entwicklungen auf Deutsch eingeordnet, von günstigeren Spitzenmodellen über Agenten-Standards bis zum EU AI Act. "
-            "Mit Quellen beim Hersteller und passenden Tools.")
-    (DOCS / TRENDS_PAGE).write_text(page_shell(f"{TRENDS['titel']}: {n} Entwicklungen eingeordnet – KI-Werkstatt", body, desc, url,
+    desc = (f"{n} KI-Trends auf Deutsch eingeordnet, von günstigeren Spitzenmodellen über Agenten-Standards bis zum AI Act. "
+            "Mit Herstellerquellen und Tools.")
+    (DOCS / TRENDS_PAGE).write_text(page_shell(seo_title(f"{TRENDS['titel']}: {n} Entwicklungen eingeordnet"), body, desc, url,
                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
     return TRENDS_PAGE
 
@@ -1570,7 +1717,7 @@ def build_einsatz(tools_map, list_secs, sections):
 </div></section>
 {footer()}
 """
-        (DOCS / e["page"]).write_text(page_shell(f"{e['seo_title']} – KI-Werkstatt", body, e["meta"], url,
+        (DOCS / e["page"]).write_text(page_shell(seo_title(e["seo_title"]), body, e["meta"], url,
                                                 f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
         pages.append(e["page"])
     return pages
@@ -1739,7 +1886,7 @@ def build_ratgeber(tools_map):
         gl_chips = "".join(f'<a class="chip" href="{GLOSSAR_PAGE}#{slug(t)}">{icon(terms[t]["icon"])}{html.escape(t)}</a>' for t in a["glossar"])
         einsatz = [e for e in EINSATZ["seiten"] if e["rolle"] in a["rollen"]]
         einsatz_chips = "".join(f'<a class="chip cat" href="{e["page"]}">{icon(e["icon"])}{html.escape(e["h1"])}</a>' for e in einsatz)
-        quellen = "".join(f'<li><a href="{html.escape(u)}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
+        quellen = "".join(f'<li><a href="{html.escape(check_url(u, where))}" target="_blank" rel="noopener">{html.escape(lbl)}</a>{f" <small>({de_date(d)})</small>" if d else ""}</li>'
                           for lbl, u, d in a["quellen"])
         # Weitere Ratgeber nach Nähe: gleicher Trend, gemeinsame Rollen, gemeinsame Tools; höchstens vier
         def near(o):
@@ -1792,7 +1939,8 @@ def build_ratgeber(tools_map):
 <p>Du hast dich durch {f"{words:,}".replace(",", ".")} Wörter Werkstatt-Wissen gearbeitet. Hol dir einen Kaffee, den hast du dir verdient.</p>
 <div class="row"><span>War das hilfreich?</span><button type="button" class="btn btn-sm" data-hilf="ja">{icon("heart")}Ja</button><button type="button" class="btn btn-sm" data-hilf="nein">{icon("x")}Eher nicht</button>
 <button type="button" class="btn btn-sm" data-share>{icon("share")}Weitersagen</button><button type="button" class="btn btn-sm" data-print>{icon("print")}Für die Werkstattwand drucken</button></div>
-<p class="hilf-a" aria-live="polite"></p></div></section>
+<p class="hilf-a" aria-live="polite"></p>
+{pg_box("geschafft")}</div></section>
 <p class="print-foot" data-chrome>Ausgedruckt aus der KI-Werkstatt. Die aktuelle Fassung steht unter {url}</p>
 </article>
 </div>
@@ -1810,8 +1958,9 @@ def build_ratgeber(tools_map):
 </div></section>
 {footer()}
 """
-        (DOCS / a["page"]).write_text(page_shell(f"{a['seo_title']} – KI-Werkstatt", body, a["meta"], url,
-                                                f'<script type="application/ld+json">{ld_js}</script>'), encoding="utf-8")
+        (DOCS / a["page"]).write_text(page_shell(seo_title(a["seo_title"]), body, a["meta"], url,
+                                                f'<script type="application/ld+json">{ld_js}</script>', og_type="article",
+                                                published=a["stand"], modified=a["stand"]), encoding="utf-8")
         pages.append(a["page"])
     return pages
 
@@ -1867,7 +2016,7 @@ def build_hubs():
 """
     desc = (f"{n} KI-Ratgeber auf Deutsch: AI Act und Kennzeichnung, Datenschutz, Modellpreise, sichere Agenten, lokale KI. "
             "Mit Stand, Quellen und Filter nach Rolle.")
-    (DOCS / RATGEBER_PAGE).write_text(page_shell("KI-Ratgeber: Recht, Kosten und Praxis – KI-Werkstatt", body, desc, url,
+    (DOCS / RATGEBER_PAGE).write_text(page_shell(seo_title("KI-Ratgeber: Recht, Kosten und Praxis"), body, desc, url,
                                                  f'<script type="application/ld+json">{ld_json(ld)}</script>'), encoding="utf-8")
 
     # Einsatzgebiete
@@ -1910,8 +2059,8 @@ def build_hubs():
 {footer()}
 """
     desc = (f"KI nach Einsatzgebiet: {len(seiten)} Arbeitsfelder von Online-Shop bis Büro, jedes mit Aufgaben, passenden Tools, "
-            "Trends und Ratgebern. Der Einstieg nach Rolle statt nach Produkt.")
-    (DOCS / EINSATZ_PAGE).write_text(page_shell("KI nach Einsatzgebiet: 6 Arbeitsfelder – KI-Werkstatt".replace("6", str(len(seiten))), body, desc, url,
+            "Trends und Ratgebern. Einstieg nach Rolle.")
+    (DOCS / EINSATZ_PAGE).write_text(page_shell(seo_title(f"KI nach Einsatzgebiet: {len(seiten)} Arbeitsfelder"), body, desc, url,
                                                 f'<script type="application/ld+json">{ld_json(ld)}</script>'), encoding="utf-8")
     return [RATGEBER_PAGE, EINSATZ_PAGE]
 
@@ -1972,6 +2121,38 @@ def build_search_index():
     (DOCS / "seiten.json").write_text(json.dumps({"seiten": rows}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
+LASTMOD = ROOT / "data" / "lastmod.json"
+
+
+def page_lastmod(pages):
+    """lastmod je Seite aus einem Hash des Inhalts in <main>: Datum nur fortschreiben, wenn sich der Inhalt geändert hat.
+    Ausgeblendet werden Build- und Link-Check-Datum sowie Asset-Versionen, die sich sonst bei jedem Lauf ändern.
+    Der Stand liegt in data/lastmod.json (vom Build gepflegt, mit committen); neue Ratgeber starten mit ihrem Stand."""
+    try:
+        old = json.loads(LASTMOD.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        old = {}
+    seed = {a["page"]: a["stand"] for a in RATGEBER["artikel"]}
+    seed[TRENDS_PAGE] = TRENDS["stand"]
+    today = date.today().isoformat()
+    out, res = {}, {}
+    for pg in pages:
+        doc = (DOCS / pg).read_text(encoding="utf-8")
+        m = re.search(r"<main\b.*?</main>", doc, re.S)
+        txt = m.group(0) if m else doc
+        for volatile in (LINK_CHECK, TODAY, f"{LINK_CHECK_N} Links"):
+            txt = txt.replace(volatile, "")
+        txt = re.sub(r"\?v=[0-9a-f]{8}", "", txt)
+        h = hashlib.sha1(txt.encode("utf-8")).hexdigest()[:16]
+        prev = old.get(pg, {})
+        day = prev["date"] if prev.get("hash") == h else (today if prev else seed.get(pg, today))
+        out[pg] = {"hash": h, "date": day}
+        res[pg] = day
+    if out != old:
+        LASTMOD.write_text(json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    return res
+
+
 def build_data(uniq, sections, pages=(), list_secs=()):
     page_ids = {s["id"] for s in list_secs}
     first = {}
@@ -1999,8 +2180,8 @@ def build_data(uniq, sections, pages=(), list_secs=()):
         for r in rows:
             w.writerow({k: ("ja" if v is True else "nein" if v is False else csv_safe(v)) for k, v in r.items()})
     build_search_index()
-    lastmod = date.today().isoformat()
-    urls = "".join(f"<url><loc>{SITE_URL}{pg}</loc><lastmod>{lastmod}</lastmod></url>" for pg in ("",) + tuple(pages))
+    lastmod = page_lastmod(("index.html",) + tuple(pages))
+    urls = "".join(f"<url><loc>{SITE_URL}{pg}</loc><lastmod>{lastmod['index.html' if not pg else pg]}</lastmod></url>" for pg in ("",) + tuple(pages))
     (DOCS / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
                                       f"{urls}</urlset>\n", encoding="utf-8")
     (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n", encoding="utf-8")
@@ -2009,8 +2190,15 @@ def build_data(uniq, sections, pages=(), list_secs=()):
                                       + icon_body("wrench") + "</g></svg>", encoding="utf-8")
 
 
+OG_SRC = ROOT / ".build" / "og.html"
+
+
 def build_og(n_tools, n_cats):
-    og = f"""<!doctype html><html lang="de"><head><meta charset="utf-8"><link rel="stylesheet" href="assets/fonts.css"><style>
+    fonts = ASSETS / "fonts"
+    face = "".join(f"@font-face{{font-family:'{fam}';font-weight:{w};src:url({(fonts / f).as_uri()}) format('woff2')}}"
+                   for fam, w, f in (("IBM Plex Sans", "400 600", "IBMPlexSans.woff2"), ("Space Grotesk", "700", "SpaceGrotesk-700.woff2"),
+                                     ("IBM Plex Mono", "500", "IBMPlexMono-500.woff2")))
+    og = f"""<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>og.png</title><style>{face}
 body{{margin:0;width:1200px;height:630px;background:#0E1116;color:#ECEAE3;font-family:'IBM Plex Sans',sans-serif;position:relative;overflow:hidden;
 background-image:linear-gradient(rgba(215,255,60,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(215,255,60,.08) 1px,transparent 1px);background-size:40px 40px}}
 .m{{position:absolute;left:72px;top:64px;display:flex;align-items:center;gap:16px;font:700 26px 'Space Grotesk';letter-spacing:.06em}}
@@ -2027,11 +2215,14 @@ svg.w{{position:absolute;right:-60px;bottom:-80px;width:520px;height:520px;fill:
 <p>Jedes Tool in einem Satz. Tote Links raus. EU-Anbieter markiert. {n_cats} Kategorien, Werkzeugkisten, Stack-Finder.</p>
 <svg class="w" viewBox="0 0 24 24">{icon_body("wrench")}</svg>
 </body></html>"""
-    (DOCS / "og.html").write_text(og, encoding="utf-8")
-    # og.png aus og.html rendern, damit Social-Vorschau und Seite dieselben Zahlen zeigen
+    # Die Vorlage gehört nicht auf die Website: sie liegt im (ignorierten) Build-Ordner, render_og.js liest sie dort
+    OG_SRC.parent.mkdir(exist_ok=True)
+    OG_SRC.write_text(og, encoding="utf-8")
+    (DOCS / "og.html").unlink(missing_ok=True)
+    # og.png aus der Vorlage rendern, damit Social-Vorschau und Seite dieselben Zahlen zeigen
     if shutil.which("node"):
         env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip())
-        r = subprocess.run(["node", str(ROOT / "scripts" / "render_og.js")], env=env, capture_output=True, text=True)
+        r = subprocess.run(["node", str(ROOT / "scripts" / "render_og.js"), str(OG_SRC)], env=env, capture_output=True, text=True)
         if r.returncode:
             print("WARNUNG: og.png nicht aktualisiert (" + r.stderr.strip().splitlines()[-1] + "). Manuell: node scripts/render_og.js")
     else:
@@ -2059,6 +2250,8 @@ def main():
             print(f"  doppelt: {sent[:90]!r} in {', '.join(where)}")
         raise SystemExit(f"Abbruch: {len(dups)} Sätze stehen auf mehr als einer Seite (oder doppelt auf einer). Texte umschreiben.")
     print("Uniqueness-Check: kein Satz doppelt")
+    for w in WARN:
+        print("WARNUNG: " + w)
 
 
 if __name__ == "__main__":

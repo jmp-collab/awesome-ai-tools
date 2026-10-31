@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-/* Browser-Smoke-Test für docs/: jede Seite bei 390 und 1366 px, hell und dunkel, ohne Overflow und ohne JS-Fehler.
+/* Browser-Smoke-Test für docs/: jede Seite bei 390 und 1366 px, hell und dunkel, ohne Overflow, ohne JS-Fehler
+   und ohne Verstoß gegen die Content-Security-Policy (jede Verletzung lässt den Test scheitern).
    Dazu Stichproben der Kernfunktionen (Hans, Werkzeug des Tages, Ratgeber-Abschluss, 404-Überraschung).
 
    Aufruf aus dem Repo-Root (Playwright global installiert):
@@ -39,12 +40,15 @@ function fail(msg) { bad.push(msg); console.log("FEHLER " + msg); }
       const p = await ctx.newPage(); const errs = [];
       p.on("pageerror", (e) => errs.push(e.message));
       p.on("console", (m) => { if (m.type() === "error" && !/ERR_FAILED|net::|favicon/.test(m.text())) errs.push(m.text()); });
+      await p.addInitScript(() => { window.__csp = []; document.addEventListener("securitypolicyviolation", (e) => window.__csp.push(e.violatedDirective + " " + (e.blockedURI || "inline"))); });
       const r = await p.goto(BASE + pg, { waitUntil: "load" });
       if (!r || r.status() !== 200) fail(`${pg}: HTTP ${r && r.status()}`);
       await p.waitForTimeout(150);
       const ov = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
       if (ov > 0) fail(`${pg} @${w}${scheme[0]}: ${ov}px horizontaler Overflow`);
       if (errs.length) fail(`${pg} @${w}${scheme[0]}: ${errs.join(" | ")}`);
+      const csp = await p.evaluate(() => window.__csp);
+      if (csp.length) fail(`${pg} @${w}${scheme[0]}: CSP-Verstoß ${csp.slice(0, 3).join(" | ")}`);
       await p.close();
     }
     await ctx.close();
@@ -53,7 +57,8 @@ function fail(msg) { bad.push(msg); console.log("FEHLER " + msg); }
   const p = await browser.newPage({ viewport: { width: 1366, height: 860 } });
   await p.goto(BASE + "index.html"); await p.waitForTimeout(800);
   if (!(await p.textContent("#hm-say")).trim()) fail("Hans-Gruß leer");
-  if (await p.$eval("#wotd", (e) => e.hidden)) fail("Werkzeug des Tages fehlt");
+  await p.waitForFunction(() => document.querySelector("#wotd a"), null, { timeout: 5000 }).catch(() => {});
+  if (await p.$eval("#wotd", (e) => e.hidden || !e.querySelector("a"))) fail("Werkzeug des Tages fehlt");
   const rg = pages.find((x) => x.startsWith("ratgeber-"));
   if (rg) { await p.goto(BASE + rg); if (!(await p.$("#geschafft"))) fail(`${rg}: Geschafft-Karte fehlt`); }
   await p.goto(BASE + "404.html"); await p.click("#surprise-btn"); await p.waitForTimeout(800);
