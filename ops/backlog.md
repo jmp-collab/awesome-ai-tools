@@ -46,3 +46,21 @@ Status: `[ ]` offen, `[~]` in Arbeit, `[x]` erledigt (mit Datum und PR). Wer: **
 - Deutsche Suchvolumina und Wettbewerber für „KI Tools für …“, „… Alternative“, „kostenlos“, „DSGVO“: mit Semrush klären, sobald verfügbar.
 - Offizielle Aussagen von Perplexity und Google-Extended zu Crawling und Opt-out.
 - Belastbare Fallstudien zu Distributionskanälen für Tool-Verzeichnisse.
+
+## Wiedervorlage
+
+Zeitgebundene Aussagen auf der Seite. Am Stichtag die Primärquelle prüfen, alle genannten Stellen gemeinsam anpassen, Zeile abhaken.
+
+| Stichtag | Wo | Was prüfen |
+|---|---|---|
+| [ ] 01.11.2026 | `data/trends.json` (browser, offene-standards), `content/ratgeber/mcp-agent-skills.md` (Tabelle Keynote/Pages/Numbers) | Firefox Smart Window in Deutschland gestartet? Apple-MCP in Keynote, Pages, Numbers ab November verfügbar? (Mozilla-Blog, Apple Newsroom) |
+| [ ] 01.11.2026 | `data/trends.json` (agenten-hintergrund), `content/ratgeber/ki-agenten-sicher.md` | Automatischer Modus in den Claude-Apps tatsächlich Voreinstellung? „ab Ende Oktober“ in die Vergangenheit setzen (claude.com, Artikel zum Auto-Modus) |
+| [ ] 01.12.2026 | `content/ratgeber/ki-modelle-preise.md` (Preistabelle, Rechenbeispiel), `data/trends.json` (preisrutsch) | Gemini 4 Argon: Einführungspreis endet am 30.11. Zeile streichen, Rechenbeispiel auf 4/20 Dollar umstellen (Preisseite der Gemini API) |
+| [ ] 01.12.2026 | `content/ratgeber/mcp-agent-skills.md` (Abschnitt Stripe) | Nimmt Stripe keine Vollzugriffs-Schlüssel mehr an? Satz in die Vergangenheit setzen (Stripe-Doku zu MCP) |
+| [ ] 03.12.2026 | `data/trends.json` (ai-act), `content/ratgeber/ki-inhalte-kennzeichnen.md`, `content/ratgeber/ki-produktbilder-shops.md`, `data/glossar.json` (EU AI Act) | Übergangsfrist Art. 50 Abs. 2 abgelaufen, neue Verbote seit 2.12.2026: Futur zu Präsens (EUR-Lex, Verordnung (EU) 2026/1744) |
+| [ ] 15.12.2026 | `content/ratgeber/ki-produktbilder-shops.md` (Werkzeuge und Kosten) | OpenAI-Doku nennt inzwischen GPT Image 2.5, der Ratgeber GPT Image 2: Modellname und Preise prüfen (developers.openai.com, Image generation) |
+| [ ] 16.01.2027 | `content/ratgeber/mcp-agent-skills.md` (Shopify) | Alte Knowledge-Base-App nach dem 15.01.2027 eingestellt? Satz anpassen (Shopify Changelog) |
+| [ ] 31.01.2027 | `content/ratgeber/ki-produktbilder-shops.md` (Merchant Center) | Mindestgröße 500 × 500 Pixel gilt jetzt: Futur zu Präsens (Merchant-Center-Hilfe, image_link) |
+| [ ] 02.02.2027 | `content/ratgeber/ki-inhalte-kennzeichnen.md` (Was deine Tools liefern müssen) | Gemeinsame Erkennung von Wasserzeichen verschiedener Hersteller laut Kodex fällig: umgesetzt? (EU-Kommission, Code of Practice) |
+| [ ] 30.04.2027 | `README.de.md` (Amazon Q Developer) | Support für die IDE-Plugins endet: Eintrag streichen oder auf Kiro verweisen (AWS) |
+| [ ] 29.04.2027 | `README.de.md`, `data/trends.json` (europa), `content/ratgeber/ki-modelle-preise.md` | Halbjahres-Check Mistral Large 4: Lizenz, API-Preise (0,70/2,10 Dollar seit 29.10.2026), kleinere Ableger (mistral.ai/news) |
